@@ -6,8 +6,8 @@ import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository repository;
 

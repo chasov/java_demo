@@ -18,7 +18,7 @@ import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.service.MetricService;
 import ru.t1.java.demo.util.ClientMapper;
 
-import java.util.List;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor

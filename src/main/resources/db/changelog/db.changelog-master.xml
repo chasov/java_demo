@@ -15,6 +15,19 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
         <rollback/>
     </changeSet>
+    <changeSet id="1727272690521-1" author="e_cha (generated)">
+        <createSequence incrementBy="50" sequenceName="transaction_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1727272690521-2" author="e_cha (generated)">
+        <createTable tableName="transaction">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_transaction"/>
+            </column>
+            <column name="amount" type="DECIMAL(19, 2)"/>
+            <column name="client_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+
 
     <changeSet id="create_account_table" author="AShev">
         <sqlFile encoding="utf8" path="/db/changelog/2025-01/21-01-changelog-01.sql"/>
