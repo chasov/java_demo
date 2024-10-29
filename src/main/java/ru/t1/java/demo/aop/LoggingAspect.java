@@ -8,17 +8,13 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.Client;
 
-import java.util.List;
-
-import static java.util.Objects.isNull;
-
 @Slf4j
 @Aspect
 @Component
-@Order(0)
+//@Order(0)
 public class LoggingAspect {
 
-    @Pointcut("within(ru.t1.java.demo.*)")
+    @Pointcut("execution(public * ru.t1.java.demo..*.*(..))")
     public void loggingMethods() {
 
     }
@@ -29,13 +25,18 @@ public class LoggingAspect {
 //        log.info("ASPECT BEFORE ANNOTATION: Call method: {}", joinPoint.getSignature().getName());
 //    }
 
-    @Before("@annotation(HandlingResult)")
-    @Order(0)
-    public void logBefore(JoinPoint joinPoint) {
-        log.info("BEFORE: {}", joinPoint.getSignature().getName());
+    @After("loggingMethods()")
+    public void logAfter(JoinPoint joinPoint) {
+        log.error("WITHIN AFTER: {}", joinPoint.getSignature().getName());
     }
 
-    @After("@annotation(HandlingResult)")
+    @Before("@annotation(LogMethod)")
+    @Order(0)
+    public void logBefore(JoinPoint joinPoint) {
+        log.error("BEFORE: {}", joinPoint.getSignature().getName());
+    }
+
+    @After("@annotation(LogMethod)")
     @Order(0)
     public void logExceptionAnnotation(JoinPoint joinPoint) {
         log.error("AFTER: {}", joinPoint.getSignature().getName());
@@ -44,8 +45,10 @@ public class LoggingAspect {
     @AfterReturning(
             pointcut = "@annotation(HandlingResult)",
             returning = "result")
-    public void handleResult(JoinPoint joinPoint, Object result) {
+    public Object handleResult(JoinPoint joinPoint, Object result) {
+        result = new Object();
         log.info("AFTER RETURNING {}", joinPoint.getSignature().toShortString());
+        return result;
     }
 
     @Around("@annotation(ReplaceResult)")
@@ -74,9 +77,9 @@ public class LoggingAspect {
             throwing = "e")
     @Order(0)
     public void handleException(JoinPoint joinPoint, Exception e) {
-        log.info("AFTER EXCEPTION {}",
+        log.error("AFTER EXCEPTION {}",
                 joinPoint.getSignature().toShortString());
-        log.info("Произошла ошибка: ", e);
+        log.error("Произошла ошибка: ", e);
 
     }
 

@@ -1,26 +1,26 @@
 {
   "id": "cb502d8f-f536-4209-bf6e-d9fd379fbbd0",
-  "name": "/api/client/check",
+  "name": "/api/client/check_blocked_false",
   "request": {
     "url": "/api/client/check",
     "method": "ANY"
   },
   "response": {
     "status": 200,
-    "body": "{\n\"block\" : \"false\"\n}",
+    "body": "{\n\"blocked\" : \"false\"\n}",
     "headers": {
       "Content-Type": "application/json"
     }
   },
   "uuid": "cb502d8f-f536-4209-bf6e-d9fd379fbbd0",
   "persistent": true,
-  "priority": 0,
+  "priority": 1,
   "scenarioName": "client",
   "requiredScenarioState": "Started",
   "metadata": {
-    "proxyBaseUrl": "http://",
     "proxyUrlPrefixToRemove": "",
     "proxyEnable": false,
+    "proxyBaseUrl": "http://",
     "proxyResponseHeaders": {
       "Content-Type": "application/json"
     },

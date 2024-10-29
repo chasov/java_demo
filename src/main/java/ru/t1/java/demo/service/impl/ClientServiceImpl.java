@@ -12,8 +12,6 @@ import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.web.CheckWebClient;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -65,8 +63,14 @@ public class ClientServiceImpl implements ClientService {
         ObjectMapper mapper = new ObjectMapper();
         ClientDto[] clients = new ClientDto[0];
         try {
-            clients = mapper.readValue(new File("src/main/resources/MOCK_DATA.json"), ClientDto[].class);
-        } catch (IOException e) {
+//            clients = mapper.readValue(new File("src/main/resources/MOCK_DATA.json"), ClientDto[].class);
+            clients = new ClientDto[]{ClientDto.builder()
+                    .firstName("first_name_1")
+                    .build(),
+                    ClientDto.builder()
+                            .firstName("first_name_2")
+                            .build()};
+        } catch (Exception e) {
 //            throw new RuntimeException(e);
             log.warn("Exception: ", e);
         }

@@ -16,6 +16,9 @@ class ClientMapperTest {
     @Spy
     ClientMapper mapper;
 
+    /**
+     * Плохой тест
+     */
     @Test
     void toEntity() {
 
@@ -39,6 +42,9 @@ class ClientMapperTest {
 
     }
 
+    /**
+     * Хороший тест
+     */
     @Test
     void toEntityWhen() {
 

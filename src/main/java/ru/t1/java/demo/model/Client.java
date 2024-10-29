@@ -4,7 +4,6 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
-import lombok.experimental.SuperBuilder;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 @Getter
@@ -24,6 +23,12 @@ public class Client extends AbstractPersistable<Long> {
 
     @Column(name = "middle_name")
     private String middleName;
+
+    @Column(name = "blocked_for")
+    private Boolean blockedFor;
+
+    @Column(name = "blocked_whom")
+    private String blockedWhom;
 
     @Override
     public Long getId() {

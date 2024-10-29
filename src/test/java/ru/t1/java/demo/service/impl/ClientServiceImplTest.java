@@ -28,8 +28,9 @@ class ClientServiceImplTest {
 
     @Test
     void parseJsonSpy() {
-        when(clientService.parseJson()).thenReturn(List.of(ClientDto.builder()
-                .build()));
+        when(clientService.parseJson())
+                .thenReturn(List.of(ClientDto.builder()
+                        .build()));
 
         assertEquals(List.of(ClientDto.builder().build()), clientService.parseJson());
     }
@@ -37,9 +38,17 @@ class ClientServiceImplTest {
     @Test
     void parseJsonMock() {
 
-        when(clientServiceMock.parseJson()).thenReturn(List.of(ClientDto.builder().build()));
+        List<ClientDto> clients = List.of(ClientDto.builder()
+                .firstName("first_name_1")
+                .build(), ClientDto.builder()
+                .firstName("first_name_2")
+                .build());
 
-        assertEquals(List.of(ClientDto.builder().build()), clientServiceMock.parseJson());
+//        when(clientServiceMock.parseJson())
+//                .thenReturn(List.of(ClientDto.builder().build()));
+
+        assertEquals(clients,
+                clientService.parseJson());
     }
 
 }

@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.t1.java.demo.aop.HandlingResult;
+import ru.t1.java.demo.aop.LogMethod;
 import ru.t1.java.demo.aop.LoggableException;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
-import ru.t1.java.demo.model.enums.Metrics;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.service.MetricService;
@@ -33,15 +33,26 @@ public class ClientController {
     @Value("${t1.kafka.topic.client_registration}")
     private String topic;
 
-    @HandlingResult
+    @LogMethod
     @GetMapping(value = "/parse")
     @LoggableException
     public void parseSource() {
-        clientRepository.save(Client.builder()
-                .firstName("John42")
-                .build());
-        clientRepository.findClientByFirstName("John42");
-        metricService.incrementByName(Metrics.CLIENT_CONTROLLER_REQUEST_COUNT.getValue());
+        throw new IllegalStateException();
+
+//        clientRepository.save(Client.builder()
+//                .firstName("John42")
+//                .build());
+//        clientRepository.findClientByFirstName("John42");
+//        metricService.incrementByName(Metrics.CLIENT_CONTROLLER_REQUEST_COUNT.getValue());
+    }
+
+    @HandlingResult
+    @GetMapping("/client")
+    public ResponseEntity<ClientDto> getClient() {
+        return ResponseEntity.ok()
+                .body(ClientDto.builder()
+                        .firstName("John")
+                        .build());
     }
 
     @GetMapping("/admin")

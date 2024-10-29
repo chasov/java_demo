@@ -4,7 +4,7 @@ services:
   wiremock-demo:
     image: bscmsc/bsc-wire-mock:latest
     ports:
-      - "8088:1398"
+      - "1398:1398"
     volumes:
       - ./wiremock/mappings:/app/mappings
   grafana:

@@ -14,19 +14,22 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CheckWebClientTest {
 
+
     @Mock
     CheckWebClient checkWebClient;
 
     @Test
     void check() {
 
-        when(checkWebClient.check(1L)).thenReturn(Optional.of(CheckResponse.builder()
+        when(checkWebClient.check(1L))
+                .thenReturn(Optional.of(CheckResponse.builder()
                 .blocked(false)
                 .build()));
 
-        assertThat(checkWebClient.check(1L)).get().isEqualTo(CheckResponse.builder()
-                .blocked(false)
-                .build());
+        assertThat(checkWebClient.check(1L).get())
+                .isEqualTo(CheckResponse.builder()
+                        .blocked(false)
+                        .build());
 
     }
 
