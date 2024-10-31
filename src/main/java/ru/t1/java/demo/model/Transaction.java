@@ -16,6 +16,7 @@ import java.util.Date;
 @Table(name = "transaction")
 public class Transaction extends AbstractPersistable<Long> {
 
+    @Column(name = "account_id")
     private Long accountId;
 
     @Column(name = "amount", precision = 19, scale = 2)
