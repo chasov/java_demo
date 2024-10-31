@@ -6,14 +6,13 @@ import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
-//@Async
 @Slf4j
 @Aspect
 @Component
 public class LogDataSourceErrorAspect {
 
-    @Pointcut("within(ru.t1.java.demo.model.*)")
-    public void loggingMethods() {
+    @Pointcut("within(ru.t1.java.demo.controller.*)")
+    public void controllerMethods() {
 
     }
 
