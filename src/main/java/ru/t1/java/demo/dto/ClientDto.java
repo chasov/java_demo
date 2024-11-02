@@ -2,12 +2,10 @@ package ru.t1.java.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Client}
@@ -17,6 +15,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
+@Getter
 public class ClientDto implements Serializable {
     private Long id;
     @JsonProperty("first_name")
@@ -25,4 +24,6 @@ public class ClientDto implements Serializable {
     private String lastName;
     @JsonProperty("middle_name")
     private String middleName;
+    @JsonProperty("accounts")
+    private List<AccountDto> accounts;
 }
