@@ -39,6 +39,8 @@ public class DataLoader {
                 log.error("Load data error", e);
             }
         }
+        IntStream.range(0, countErrorLogs)
+                .forEach(i -> dataSourceErrorLogRepository.save(generateDataSourceErrorLog()));
     }
 
     @Track
@@ -56,8 +58,6 @@ public class DataLoader {
             account.getTransactions().forEach(transaction -> transaction.setAccount(account));
         }));
         clientRepository.saveAll(clients);
-        IntStream.range(0, countErrorLogs)
-                .forEach(i -> dataSourceErrorLogRepository.save(generateDataSourceErrorLog()));
     }
 
     public DataSourceErrorLog generateDataSourceErrorLog() {
