@@ -4,11 +4,11 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
+import org.hibernate.type.descriptor.jdbc.TimestampWithTimeZoneJdbcType;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -25,10 +25,9 @@ public class Transaction extends AbstractPersistable<Long> {
     @Column(name = "amount", precision = 19, scale = 2)
     private BigDecimal amount;
 
-    @Column(name = "timestamp")
-    private Timestamp timestamp;
-
     @Column(name = "client_id")
     private Long clientId;
 
+    @Column(name = "timestamptz")
+    private Timestamp timestamptz;
 }

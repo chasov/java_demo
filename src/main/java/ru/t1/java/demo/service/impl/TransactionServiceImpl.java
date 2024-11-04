@@ -5,14 +5,11 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.LogExecution;
-import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.repository.ClientRepository;
-import ru.t1.java.demo.service.ClientService;
-import ru.t1.java.demo.util.ClientMapper;
+import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.repository.TransactionRepository;
+import ru.t1.java.demo.service.TransactionService;
+import ru.t1.java.demo.util.TransactionMapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,30 +20,30 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ClientServiceImpl implements ClientService {
-    private final ClientRepository repository;
+public class TransactionServiceImpl implements TransactionService {
+    private final TransactionRepository repository;
 
     @PostConstruct
     void init() {
         try {
-            List<Client> clients = parseJson();
+            List<Transaction> transactions = parseJson();
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
-//        repository.saveAll(clients);
+//        repository.saveAll(transactions);
     }
 
     @Override
 //    @LogExecution
 //    @Track
 //    @HandlingResult
-    public List<Client> parseJson() throws IOException {
+    public List<Transaction> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ClientDto[] clients = mapper.readValue(new File("src/main/resources/mock_data/clients.json"), ClientDto[].class);
+        TransactionDto[] transactions = mapper.readValue(new File("src/main/resources/mock_data/tbl_transaction.json"), TransactionDto[].class);
 
-        return Arrays.stream(clients)
-                .map(ClientMapper::toEntity)
+        return Arrays.stream(transactions)
+                .map(TransactionMapper::toEntity)
                 .collect(Collectors.toList());
     }
 }

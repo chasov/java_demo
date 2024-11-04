@@ -4,6 +4,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.util.ClientMapper;
@@ -40,11 +41,10 @@ public class LegacyClientService {
             clientDto = ClientMapper.toDto(entity);
             cache.put(id, entity);
         } catch (Exception e) {
-            log.error("Error: ", e);
-//            throw new ClientException();
+            log.error("LegacyClientService getClient: ", e);
+            throw new ClientException();
         }
-
-//        log.debug("Client info: {}", clientDto.toString());
+        log.debug("Client info: {}", clientDto.toString());
         return clientDto;
     }
 
