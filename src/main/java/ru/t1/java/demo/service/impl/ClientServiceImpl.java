@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,10 +31,11 @@ public class ClientServiceImpl implements ClientService {
     void init() {
         try {
             List<Client> clients = parseJson();
+//            repository.saveAll(clients);
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
-//        repository.saveAll(clients);
+
     }
 
     @Override
@@ -48,5 +50,10 @@ public class ClientServiceImpl implements ClientService {
         return Arrays.stream(clients)
                 .map(ClientMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Client> findById(Long id) {
+        return repository.findById(id);
     }
 }

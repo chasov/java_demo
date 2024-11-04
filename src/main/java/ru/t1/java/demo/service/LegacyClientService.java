@@ -24,7 +24,7 @@ public class LegacyClientService {
 
     @PostConstruct
     void init() {
-        getClient(1L);
+        //getClient(1L);
     }
 
     public ClientDto getClient(Long id) {
