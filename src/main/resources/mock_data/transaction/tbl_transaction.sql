@@ -1,12 +1,4 @@
-create table if not exists transaction (
-	id INT,
-	account_id INT,
-	amount DECIMAL(19,2),
-	timestamptz TIMESTAMPTZ,
-	client_id INT
-);
-
-insert into transaction (id, account_id, amount, timestamptz, client_id) values
+insert into tbl_transaction (id, account_id, amount, timestamptz, client_id) values
     (1, 56, -2008, to_timestamp(1712994501), 566),
     (2, 901, 973, to_timestamp(1717598421), 918),
     (3, 500, -1513, to_timestamp(1720633486), 114),

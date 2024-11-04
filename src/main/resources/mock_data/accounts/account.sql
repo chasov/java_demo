@@ -1,10 +1,3 @@
-create table if not exists account (
-	id INT,
-	client_id INT,
-	account_type VARCHAR(6),
-	balance DECIMAL(19,2)
-);
-
 insert into account (id, client_id, account_type, balance) values
     (1, 670, 'DEBIT', 21261),
     (2, 604, 'DEBIT', 13369),

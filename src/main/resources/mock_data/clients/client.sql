@@ -1,10 +1,3 @@
-create table if not exists client (
-	id INT,
-	first_name VARCHAR(50),
-	last_name VARCHAR(50),
-	middle_name VARCHAR(50)
-);
-
 insert into client (id, first_name, last_name, middle_name) values
     (1, 'Valenka', 'Tharme', 'Oralia'),
     (2, 'Tessie', 'Moring', 'Vidovic'),
