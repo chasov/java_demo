@@ -19,7 +19,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
-    <changeSet id="update-t_transaction" author="MBoychook">
+    <changeSet id="update-tbl_transaction" author="MBoychook">
         <sqlFile encoding="utf8" path="/db/changelog/2024/11/04-01-changelog-04.sql"/>
         <rollback/>
     </changeSet>
