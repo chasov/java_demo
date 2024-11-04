@@ -10,6 +10,9 @@ spring:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
 
+server:
+  port: 8090
+
 logging:
   level:
     ROOT: INFO

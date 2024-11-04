@@ -24,6 +24,6 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name = "account_type")
     private AccountType accountType;
 
-    @Column(name = "balance")
+    @Column(name = "balance", precision = 19, scale = 2)
     private BigDecimal balance;
 }
