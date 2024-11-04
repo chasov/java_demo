@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface DataSourceErrorLogRepository extends JpaRepository<DataSourceErrorLog, Long> {
     @Override
-    Optional<DataSourceErrorLog> findById(Long aLong);
+    public Optional<DataSourceErrorLog> findById(Long aLong);
 }

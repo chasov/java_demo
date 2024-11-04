@@ -5,16 +5,16 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.service.impl.AccountService;
+import ru.t1.java.demo.repository.AccountRepository;
 
 @Component
 @AllArgsConstructor
 public class TransactionMapper {
 
-    private final AccountService accountService;
+    private final AccountRepository accountRepository;
 
     public Transaction toEntity(TransactionDto dto) {
-        Account account = accountService.findById(dto.getAccountId());
+        Account account = accountRepository.findById(dto.getAccountId()).orElse(null);
         return Transaction.builder()
                 .amount(dto.getAmount())
                 .time(dto.getTime())

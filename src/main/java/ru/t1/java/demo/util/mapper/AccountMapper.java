@@ -7,7 +7,7 @@ import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.service.ClientService;
+import ru.t1.java.demo.repository.ClientRepository;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class AccountMapper {
 
-    private final ClientService clientService;
+    private final ClientRepository clientRepository;
     private final TransactionMapper transactionMapper;
 
     public Account toEntity(AccountDto dto) {
-        Client client = clientService.findById(dto.getClientId());
+        Client client = clientRepository.findById(dto.getClientId()).orElse(null);
 
         Account account = Account.builder()
                 .client(client)

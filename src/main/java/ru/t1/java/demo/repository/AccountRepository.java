@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface AccountRepository extends JpaRepository<Account, Long> {
     public List<Account> findAllAccountsByClientId(Long id);
+    @Override
+    public Account save (Account account);
 }
