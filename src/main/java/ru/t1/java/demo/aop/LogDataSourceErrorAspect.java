@@ -2,6 +2,7 @@ package ru.t1.java.demo.aop;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
@@ -17,13 +18,11 @@ import java.util.Arrays;
 @Slf4j
 @Aspect
 @Component
-@NoArgsConstructor
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Order(0)
 public class LogDataSourceErrorAspect {
 
-    @Autowired
-    private DataSourceErrorLogRepository repository;
+    private final DataSourceErrorLogRepository repository;
 
     @Pointcut("within(ru.t1.java.demo.*)")
     public void dataSourceErrorLogMethods() {}
