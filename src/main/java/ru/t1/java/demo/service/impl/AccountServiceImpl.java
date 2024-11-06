@@ -40,7 +40,7 @@ public class AccountServiceImpl implements AccountService {
     public List<Account> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        AccountDto[] accounts = mapper.readValue(new File("src/main/resources/mock_data/account.json"), AccountDto[].class);
+        AccountDto[] accounts = mapper.readValue(new File("src/main/resources/mock_data/account/account.json"), AccountDto[].class);
 
         return Arrays.stream(accounts)
                 .map(AccountMapper::toEntity)

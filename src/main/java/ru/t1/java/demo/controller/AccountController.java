@@ -15,14 +15,13 @@ import ru.t1.java.demo.exception.ClientException;
 @RequiredArgsConstructor
 @Slf4j
 public class AccountController {
-    @LogException
+    //@LogException
     @LogDataSourceError
-    @Track
+    //@Track
     @GetMapping(value = "/account")
-    @HandlingResult
-    public void doSomething() throws AccountException {
-        throw new AccountException();
+    //@HandlingResult
+    public void doSomething() {
+        throw new AccountException("Account error");
     }
-
 
 }

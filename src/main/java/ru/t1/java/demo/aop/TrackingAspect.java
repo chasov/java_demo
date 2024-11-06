@@ -18,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Component
 public class TrackingAspect {
 
-    private static final AtomicLong START_TIME = new AtomicLong();
+    /*private static final AtomicLong START_TIME = new AtomicLong();
 
     @Before("@annotation(ru.t1.java.demo.aop.Track)")
     public void logExecTime(JoinPoint joinPoint) throws Throwable {
@@ -31,7 +31,7 @@ public class TrackingAspect {
         long afterTime = System.currentTimeMillis();
         log.info("Время исполнения: {} ms", (afterTime - START_TIME.get()));
         START_TIME.set(0L);
-    }
+    }*/
 
     @Around("@annotation(ru.t1.java.demo.aop.Track)")
     public Object logExecTime(ProceedingJoinPoint pJoinPoint) {

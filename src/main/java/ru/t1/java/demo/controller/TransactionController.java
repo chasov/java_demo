@@ -16,12 +16,13 @@ import ru.t1.java.demo.exception.TransactionException;
 @RequiredArgsConstructor
 @Slf4j
 public class TransactionController {
-    @LogException
+
+    //@LogException
     @LogDataSourceError
-    @Track
+    //@Track
     @GetMapping(value = "/transaction")
-    @HandlingResult
+    //@HandlingResult
     public void doSomething() throws TransactionException {
-        throw new TransactionException();
+        throw new TransactionException("Transaction error");
     }
 }

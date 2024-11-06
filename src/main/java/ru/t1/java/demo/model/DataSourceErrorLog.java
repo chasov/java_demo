@@ -1,8 +1,6 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -13,7 +11,14 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "data_source_error_log")
-public class DataSourceErrorLog extends AbstractPersistable<Long>  {
+public class DataSourceErrorLog {
+
+    @Id
+    @SequenceGenerator(name = "data_source_error_log_generator", sequenceName = "data_source_error_log_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "data_source_error_log_seq")
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "trace")
     private String trace;
 

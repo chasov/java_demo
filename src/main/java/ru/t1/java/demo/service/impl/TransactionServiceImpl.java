@@ -40,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     public List<Transaction> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        TransactionDto[] transactions = mapper.readValue(new File("src/main/resources/mock_data/tbl_transaction.json"), TransactionDto[].class);
+        TransactionDto[] transactions = mapper.readValue(new File("src/main/resources/mock_data/transaction/tbl_transaction.json"), TransactionDto[].class);
 
         return Arrays.stream(transactions)
                 .map(TransactionMapper::toEntity)

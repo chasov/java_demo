@@ -20,19 +20,18 @@ public class ClientController {
 
     private final ClientService clientService;
 
-    @LogException
+    //@LogException
     @LogDataSourceError
-    @Track
+    //@Track
     @GetMapping(value = "/client")
-    @HandlingResult
+    //@HandlingResult
     public void doSomething() throws IOException, InterruptedException {
         try {
             clientService.parseJson();
-        Thread.sleep(1000L);
-        throw new ClientException();
+            Thread.sleep(1000L);
         } catch (Exception e) {
             log.error("Catching exception from ClientController");
-            throw new ClientException();
+            throw new ClientException("Client error");
         }
     }
 

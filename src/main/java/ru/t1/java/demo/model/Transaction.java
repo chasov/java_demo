@@ -1,11 +1,8 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.type.descriptor.jdbc.TimestampWithTimeZoneJdbcType;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -16,8 +13,14 @@ import java.sql.Timestamp;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "transaction")
-public class Transaction extends AbstractPersistable<Long> {
+@Table(name = "tbl_transaction")
+public class Transaction {
+
+    @Id
+    @SequenceGenerator(name = "tbl_transaction_generator", sequenceName = "tbl_transaction_seq", allocationSize = 50)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tbl_transaction_seq")
+    @Column(name = "id")
+    private Long id;
 
     @Column(name = "account_id")
     private Long accountId;
@@ -30,4 +33,5 @@ public class Transaction extends AbstractPersistable<Long> {
 
     @Column(name = "timestamptz")
     private Timestamp timestamptz;
+
 }

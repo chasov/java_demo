@@ -23,7 +23,7 @@ public class LegacyClientService {
         this.cache = new HashMap<>();
     }
 
-    @PostConstruct
+    /*@PostConstruct
     void init() {
         getClient(1L);
     }
@@ -46,6 +46,6 @@ public class LegacyClientService {
         }
         log.debug("Client info: {}", clientDto.toString());
         return clientDto;
-    }
+    }*/
 
 }
