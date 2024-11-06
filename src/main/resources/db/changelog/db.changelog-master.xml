@@ -9,7 +9,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
-    <changeSet id="update-client" author="MBoychook">
+    <!--<changeSet id="update-client" author="MBoychook">
         <sqlFile encoding="utf8" path="/db/changelog/2024/11/04-01-changelog-02.sql"/>
         <rollback/>
     </changeSet>
@@ -22,5 +22,5 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
     <changeSet id="update-tbl_transaction" author="MBoychook">
         <sqlFile encoding="utf8" path="/db/changelog/2024/11/04-01-changelog-04.sql"/>
         <rollback/>
-    </changeSet>
+    </changeSet>-->
 </databaseChangeLog>

@@ -1,4 +1,5 @@
 -- liquibase formatted sql
+-- changeset update-account
 INSERT INTO account (id, client_id, account_type, balance) VALUES
                                                                (1, 670, 'DEBIT', 21261),
                                                                (2, 604, 'DEBIT', 13369),

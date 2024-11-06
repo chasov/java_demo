@@ -1,5 +1,6 @@
 -- liquibase formatted sql
-CREATE SEQUENCE IF NOT EXISTS client_seq START WITH 1 INCREMENT BY 1;
+-- changeset init
+CREATE SEQUENCE IF NOT EXISTS client_seq START WITH 1 INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS client
 (
@@ -10,7 +11,7 @@ CREATE TABLE IF NOT EXISTS client
     middle_name VARCHAR(50)
 );
 
-CREATE SEQUENCE IF NOT EXISTS account_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS account_seq START WITH 1 INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS account (
    id BIGINT NOT NULL,
@@ -20,7 +21,7 @@ CREATE TABLE IF NOT EXISTS account (
    balance DECIMAL(19,2)
 );
 
-CREATE SEQUENCE IF NOT EXISTS tbl_transaction_seq START WITH 1 INCREMENT BY 1;
+CREATE SEQUENCE IF NOT EXISTS tbl_transaction_seq START WITH 1 INCREMENT BY 50;
 
 CREATE TABLE IF NOT EXISTS tbl_transaction (
    id BIGINT NOT NULL,
@@ -29,4 +30,14 @@ CREATE TABLE IF NOT EXISTS tbl_transaction (
    amount DECIMAL(19,2),
    timestamptz TIMESTAMPTZ,
    client_id BIGINT
+);
+
+CREATE SEQUENCE IF NOT EXISTS data_source_error_log_seq START WITH 1 INCREMENT BY 50;
+
+CREATE TABLE IF NOT EXISTS data_source_error_log (
+   id BIGINT NOT NULL,
+   CONSTRAINT pk_data_source_error_log PRIMARY KEY (id),
+   trace VARCHAR,
+   message VARCHAR,
+   method_signature VARCHAR
 );
