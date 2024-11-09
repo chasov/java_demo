@@ -16,10 +16,29 @@ spring:
     serialization:
       write-dates-as-timestamps: false
 
+
+t1:
+  scan-path: ru.t1.java.demo
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: t1-demo
+      max.poll.records: 10
+    producer:
+      enable: true
+    topic:
+      client_registration: t1_demo_client_registration
+      client_id_registered: t1_demo_client_registered
+      client_transactions: t1_demo_client_transactions
+      account_adding: t1_demo_accounts
+      transactions_adding: t1_demo_transactions
+    listener:
+      poll-timeout: 1000
+
+
 logging:
   level:
     ROOT: INFO
     ru.t1.java.demo.controller.ClientController: DEBUG
 
-t1:
-  scan-path: ru.t1.java.demo
