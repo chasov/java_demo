@@ -14,8 +14,8 @@ import ru.t1.java.demo.dto.MetricLogDto;
 @RequiredArgsConstructor
 public class KafkaMetricProducer {
 
-    private static final String TOPIC_NAME = "t1_demo_metrics"; // Имя вашего топика Kafka
-    private static final String ERROR_TYPE = "METRICS";         // Тип ошибки
+    private static final String TOPIC_NAME = "t1_demo_metrics";
+    private static final String ERROR_TYPE = "METRICS";
 
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
