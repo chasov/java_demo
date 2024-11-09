@@ -27,4 +27,14 @@ public class DataSourceErrorLog {
 
     @Column(name = "method_signature")
     private String methodSignature;
+
+    @Override
+    public String toString() {
+        return "DataSourceErrorLog{" +
+                "id=" + id +
+                ", trace='" + trace + '\'' +
+                ", errorMessage='" + errorMessage + '\'' +
+                ", methodSignature='" + methodSignature + '\'' +
+                '}';
+    }
 }
