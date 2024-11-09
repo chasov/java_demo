@@ -1,0 +1,26 @@
+[
+  {
+    "id": 1,
+    "accountId": 1,
+    "amount": 150.0,
+    "transactionTime": "2024-01-01T12:00:00"
+  },
+  {
+    "id": 2,
+    "accountId": 1,
+    "amount": 300.0,
+    "transactionTime": "2024-01-02T14:30:00"
+  },
+  {
+    "id": 3,
+    "accountId": 2,
+    "amount": 100.0,
+    "transactionTime": "2024-01-03T09:15:00"
+  },
+  {
+    "id": 4,
+    "accountId": 3,
+    "amount": 250.0,
+    "transactionTime": "2024-01-04T11:45:00"
+  }
+]

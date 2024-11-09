@@ -2,7 +2,7 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    jdbcUrl: jdbc:postgresql://${DB_HOST:localhost:5432}/t1_demo
+    jdbcUrl: jdbc:postgresql://${DB_HOST:localhost:5433}/t1_demo
     username: postgres
     password: "0000"
     driverClassName: org.postgresql.Driver
@@ -15,6 +15,13 @@ spring:
     url: jdbc:postgresql://${DB_HOST:localhost:5432}/t1_demo
     user: postgres
     password: "0000"
+  jpa:
+    hibernate:
+      ddl-auto: update
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
 security:
   token: tstrs4g434wyhser5htstrs4g434wyhser5htstrs4g434wyhser5htstrs4g434wyhser5htstrs4g434wyhser5h
   expiration: 86400000
@@ -62,6 +69,9 @@ t1:
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions
+      account_adding: t1_demo_accounts
+      transactions_adding: t1_demo_transactions
+      transactions_result: t1_demo_transaction_result
     listener:
       poll-timeout: 1000
 

@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "clientId": 1,
+    "accountType": "DEBIT",
+    "balance": 1000.0
+  },
+  {
+    "id": 2,
+    "clientId": 1,
+    "accountType": "CREDIT",
+    "balance": 500.0
+  },
+  {
+    "id": 3,
+    "clientId": 2,
+    "accountType": "DEBIT",
+    "balance": 2000.0
+  }
+]

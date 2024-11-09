@@ -27,6 +27,11 @@ public class ClientServiceImpl implements ClientService {
     private final CheckWebClient checkWebClient;
 
     @Override
+    public Optional<Client> findById(Long id) {
+        return repository.findById(id);
+    }
+
+    @Override
     public List<Client> registerClients(List<Client> clients) {
         List<Client> savedClients = new ArrayList<>();
         for (Client client : clients) {
