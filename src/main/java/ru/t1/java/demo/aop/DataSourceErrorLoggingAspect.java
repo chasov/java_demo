@@ -6,35 +6,48 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.dto.DataSourceErrorLogDto;
+import ru.t1.java.demo.kafka.KafkaErrorLogProducer;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 
-import java.time.LocalDateTime;
 
 @Aspect
 @Component
 @Slf4j
 public class DataSourceErrorLoggingAspect {
-
     @Autowired
     private DataSourceErrorLogRepository dataSourceErrorLogRepository;
+
+    @Autowired
+    private KafkaErrorLogProducer kafkaErrorLogProducer;
 
     @AfterThrowing(pointcut = "@annotation(LogDataSourceError)", throwing = "exception")
     public void logDataSourceError(JoinPoint joinPoint, Exception exception) {
         String methodSignature = joinPoint.getSignature().toString();
-
         String message = exception.getMessage();
         String stackTrace = getStackTraceAsString(exception);
 
-        DataSourceErrorLog errorLog = DataSourceErrorLog.builder()
+        DataSourceErrorLogDto errorLogDto = DataSourceErrorLogDto.builder()
                 .stackTrace(stackTrace)
                 .message(message)
                 .methodSignature(methodSignature)
                 .build();
 
-        DataSourceErrorLog save = dataSourceErrorLogRepository.save(errorLog);
+        try {
+            kafkaErrorLogProducer.sendErrorLogToKafka(errorLogDto);
+        } catch (KafkaErrorLogProducer.KafkaSendException kafkaException) {
+            log.error("Failed to send message to Kafka. Logging error to database.");
 
-        log.error("Exception occurred in method: {} with message: {}", methodSignature, message);
+            DataSourceErrorLog errorLog = DataSourceErrorLog.builder()
+                    .stackTrace(stackTrace)
+                    .message(message)
+                    .methodSignature(methodSignature)
+                    .build();
+
+            dataSourceErrorLogRepository.save(errorLog);
+            log.error("Error saved to the database: method: {}, message: {}", methodSignature, message);
+        }
     }
 
     private String getStackTraceAsString(Exception exception) {
