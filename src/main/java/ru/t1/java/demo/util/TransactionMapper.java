@@ -1,7 +1,7 @@
 package ru.t1.java.demo.util;
 
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.model.Transaction;
 
 @Component
