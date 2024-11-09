@@ -21,21 +21,20 @@ logging:
 t1:
   scan-path: ru.t1.java.demo
   kafka:
-    bootstrap:
-      server: ${KAFKA_SERVER:localhost:9092}
-    consumer:
-      group-id: t1-demo
-      max.poll.records: 10
-    producer:
-      enable: true
-    topic:
-      client_registration: t1_demo_client_registration
-      client_id_registered: t1_demo_client_registered
-      client_transactions: t1_demo_client_transactions
-
-    listener:
-      poll-timeout: 1000
-
+    kafka:
+      bootstrap:
+        server: ${KAFKA_SERVER:localhost:9092}
+      consumer:
+        group-id: t1-demo
+        max.poll.records: 10
+      producer:
+        enable: true
+      topic:
+        client_registration: t1_demo_client_registration
+        client_id_registered: t1_demo_client_registered
+        client_transactions: t1_demo_client_transactions
+      listener:
+        poll-timeout: 1000
 
 track:
   errors-to-track: JsonParseException, IOException
