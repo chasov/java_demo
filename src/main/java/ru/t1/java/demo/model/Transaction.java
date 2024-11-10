@@ -7,6 +7,7 @@ import ru.t1.java.demo.model.Account;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Builder
 @AllArgsConstructor
@@ -25,4 +26,22 @@ public class Transaction extends AbstractPersistable<Long> {
 
     @Column(name = "transaction_time", nullable = false)
     private LocalDateTime transactionTime;
+
+    @Column(name = "transaction_id", nullable = false, unique = true)
+    private UUID transactionId;
+
+    @Column(name = "timestamp", nullable = false)
+    private LocalDateTime timestamp;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", nullable = false)
+    private Status status;
+
+    public enum Status {
+        ACCEPTED,
+        REJECTED,
+        BLOCKED,
+        CANCELLED,
+        REQUESTED
+    }
 }

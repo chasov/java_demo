@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.UUID;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Client}
@@ -28,4 +29,5 @@ public class ClientDto {
     @JsonProperty("middle_name")
     private String middleName;
 
+    private UUID clientId;
 }

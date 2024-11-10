@@ -14,4 +14,34 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="2023-10-01-1" author="eda">
+        <addColumn tableName="transaction">
+            <column name="status" type="varchar(255)" />
+            <column name="transaction_id" type="uuid" />
+            <column name="timestamp" type="timestamp" />
+        </addColumn>
+
+        <createIndex tableName="transaction" unique="true" indexName="idx_transaction_transaction_id">
+            <column name="transaction_id"/>
+        </createIndex>
+
+        <addColumn tableName="account">
+            <column name="status" type="varchar(255)" />
+            <column name="account_id" type="uuid" />
+            <column name="frozen_amount" type="decimal(19,2)" defaultValueNumeric="0" />
+        </addColumn>
+
+        <createIndex tableName="account" unique="true" indexName="idx_account_account_id">
+            <column name="account_id"/>
+        </createIndex>
+
+        <addColumn tableName="client">
+            <column name="client_id" type="uuid" />
+        </addColumn>
+
+        <createIndex tableName="client" unique="true" indexName="idx_client_client_id">
+            <column name="client_id"/>
+        </createIndex>
+    </changeSet>
+
 </databaseChangeLog>

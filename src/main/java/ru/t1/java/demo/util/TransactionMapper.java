@@ -7,6 +7,9 @@ import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.service.AccountService;
 
+import java.time.LocalDateTime;
+import java.util.UUID;
+
 @Component
 public class TransactionMapper {
     @Autowired
@@ -19,6 +22,8 @@ public class TransactionMapper {
                 .accountId(transaction.getAccount().getId())
                 .amount(transaction.getAmount())
                 .transactionTime(transaction.getTransactionTime())
+                .status(transaction.getStatus())
+                .timestamp(transaction.getTimestamp())
                 .build();
     }
 
@@ -30,6 +35,9 @@ public class TransactionMapper {
                 .account(account)
                 .amount(transactionDTO.getAmount())
                 .transactionTime(transactionDTO.getTransactionTime())
+                .transactionId(transactionDTO.getTransactionId() != null ? transactionDTO.getTransactionId() : UUID.randomUUID())
+                .timestamp(transactionDTO.getTimestamp() != null ? transactionDTO.getTimestamp() : LocalDateTime.now())
+                .status(transactionDTO.getStatus())
                 .build();
     }
 }
