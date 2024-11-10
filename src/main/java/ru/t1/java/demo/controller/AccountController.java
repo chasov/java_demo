@@ -3,7 +3,9 @@ package ru.t1.java.demo.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
@@ -18,6 +20,12 @@ public class AccountController {
 
     private final AccountService accountService;
     private final AccountMapper accountMapper;
+
+    @LogDataSourceError
+    @GetMapping(value = "/error")
+    public void doException() throws TransactionException {
+        throw new TransactionException("Accaount error");
+    }
 
     @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)
