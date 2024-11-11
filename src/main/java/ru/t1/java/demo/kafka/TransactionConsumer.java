@@ -3,6 +3,8 @@ package ru.t1.java.demo.kafka;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.kafka.support.Acknowledgment;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Account;
@@ -26,7 +28,7 @@ public class TransactionConsumer {
     private final TransactionProducer transactionProducer;
 
     @KafkaListener(topics = "${t1.kafka.topic.transactions_adding}",
-            groupId = "${t1.kafka.consumer.group-id}",
+            groupId = "${t1.kafka.consumer.group-id-transaction}",
             containerFactory = "transactionKafkaListenerContainerFactory")
     public void consumeTransactionMessage(TransactionDto transactionDto) {
         log.info("Received message from t1_demo_transactions: {}", transactionDto);

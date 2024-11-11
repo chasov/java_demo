@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -25,7 +26,8 @@ public class TransactionProducer {
         confirmationData.put("clientId", clientId);
         confirmationData.put("accountId", accountId);
         confirmationData.put("transactionId", transactionId);
-        confirmationData.put("timestamp", timestamp);
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+        confirmationData.put("timestamp", timestamp.format(formatter));
         confirmationData.put("amount", amount);
         confirmationData.put("balance", balance);
 
