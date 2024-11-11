@@ -6,6 +6,8 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.repository.AccountRepository;
 
+import java.util.Optional;
+
 @Service
 public class AccountService {
 
@@ -24,5 +26,10 @@ public class AccountService {
     @Transactional(readOnly = true)
     public Iterable<Account> findAll() {
         return accountRepository.findAll();
+    }
+
+    public Account getById(long id) {
+        Optional<Account> account = accountRepository.findById(id);
+        return account.orElse(null);
     }
 }
