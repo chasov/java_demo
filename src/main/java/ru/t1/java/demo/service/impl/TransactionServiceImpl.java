@@ -30,7 +30,7 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
-//        repository.saveAll(transactions);
+        //repository.saveAll(transactions);
     }
 
     @Override
@@ -45,5 +45,10 @@ public class TransactionServiceImpl implements TransactionService {
         return Arrays.stream(transactions)
                 .map(TransactionMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void registerTransactions(List<Transaction> transactions) {
+        repository.saveAllAndFlush(transactions);
     }
 }

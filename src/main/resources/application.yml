@@ -21,33 +21,36 @@ logging:
 t1:
   scan-path: ru.t1.java.demo
   kafka:
-    kafka:
-      bootstrap:
-        server: ${KAFKA_SERVER:localhost:9092}
-      consumer:
-        group-id: t1-demo
-        max.poll.records: 10
-      producer:
-        enable: true
-      topic:
-        client_registration: t1_demo_client_registration
-        client_id_registered: t1_demo_client_registered
-        client_transactions: t1_demo_client_transactions
-      listener:
-        poll-timeout: 1000
+    enabled: ${TRACK_KAFKA_LOG_ENABLED:true}
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: t1_demo
+      max-poll-records: 10
+    producer:
+      enable: true
+    topic:
+      client-registration: t1_demo_client_registration
+      client-id-registered: t1_demo_client_registered
+      client-transactions: t1_demo_client_transactions
+
+      data-source-errors: t1_demo_data_source_error
+      methods-metric: t1_demo_metrics
+      account-registration: t1_demo_accounts
+      transaction-registration: t1_demo_transactions
+
+      header:
+        data-source-errors-header: DATA_SOURCE
+        methods-metric-header: METRICS
+
+    listener:
+      poll-timeout: 1000
 
 track:
   errors-to-track: JsonParseException, IOException
   method-execution-time-limit-ms: 500
 
-  kafka:
-    enabled: ${TRACK_KAFKA_LOG_ENABLED:true}
-    bootstrap-server: localhost:9092
-    data-source-error-topic: t1_demo_data_source_error
-    data-source-error-header: DATA_SOURCE
-    metrics-topic: t1_demo_metrics
-    metrics-header: METRICS
-    time-limit-exceed: t1_demo_time_limit_exceed
+
   db:
     enabled: false
   time-limit-exceed: 1000

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.kafka.KafkaMetricsProducer;
-import ru.t1.java.demo.model.MetricStatistics;
+import ru.t1.java.demo.model.MetricStatistic;
 import java.util.Arrays;
 
 @Async
@@ -20,11 +20,11 @@ public class MetricAspect {
 
     private final KafkaMetricsProducer kafkaMetricsProducer;
 
-    @Value("${method-execution-time-limit-ms}")
+    @Value("${track.method-execution-time-limit-ms}")
     private Long timeMs;
 
     @Pointcut("within(ru.t1.java.demo.*)")
-    public void MetricAspect() {}
+    public void checkMethodsExecutionTime() {}
 
     @Around("@annotation(ru.t1.java.demo.aop.Metric)")
     public Object trackingExecutionTime(ProceedingJoinPoint pJoinPoint) throws Throwable {
@@ -38,13 +38,13 @@ public class MetricAspect {
             log.info("Время исполнения: {} ms", executionTime);
 
             if(executionTime > timeMs) {
-                MetricStatistics metricStatistics = MetricStatistics.builder()
+                MetricStatistic metricStatistic = MetricStatistic.builder()
                                                                     .methodName(pJoinPoint.getSignature().getName())
                                                                     .methodArgs(Arrays.toString(pJoinPoint.getArgs()))
                                                                     .executionTime(executionTime)
                                                                     .exceededOnTime(executionTime - timeMs)
                                                                     .build();
-                kafkaMetricsProducer.send(metricStatistics);
+                kafkaMetricsProducer.send(metricStatistic);
             }
         }
         return result;

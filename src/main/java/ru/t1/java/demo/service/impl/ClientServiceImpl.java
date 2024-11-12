@@ -50,6 +50,6 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public void registerClients(List<Client> clients) {
-
+        repository.saveAllAndFlush(clients);
     }
 }

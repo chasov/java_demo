@@ -22,8 +22,8 @@ public class KafkaClientConsumer {
 
     private final ClientService clientService;
 
-    @KafkaListener(id = "${t1.kafka.consumer.group-id}",
-                   topics = "${t1.kafka.topic.client_registration}",
+    @KafkaListener(id = "${t1.kafka.topic.client-registration}",
+                   topics = "${t1.kafka.topic.client-registration}",
                    containerFactory = "kafkaListenerContainerFactory")
     public void listener(@Payload List<ClientDto> messageList,
                          Acknowledgment ack,
@@ -42,7 +42,6 @@ public class KafkaClientConsumer {
         } finally {
             ack.acknowledge();
         }
-
 
         log.debug("Client consumer: записи обработаны");
     }

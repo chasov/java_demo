@@ -1,15 +1,10 @@
 package ru.t1.java.demo.aop;
 
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.producer.KafkaProducer;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.kafka.KafkaLogDataSourceErrorProducer;
@@ -21,6 +16,7 @@ import java.util.Arrays;
 @Slf4j
 @Aspect
 @Component
+@Setter
 @RequiredArgsConstructor
 @Order(0)
 public class LogDataSourceErrorAspect {

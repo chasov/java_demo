@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 @Slf4j
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
     private final AccountRepository repository;
 
     @PostConstruct
@@ -45,5 +46,10 @@ public class AccountServiceImpl implements AccountService {
         return Arrays.stream(accounts)
                 .map(AccountMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void registerAccounts(List<Account> accounts) {
+
     }
 }
