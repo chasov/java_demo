@@ -6,6 +6,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.dto.ClientDto;
 
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.UUID;
 
 @Slf4j
@@ -18,6 +20,7 @@ public class KafkaClientProducer<T extends ClientDto> {
     public void send(Long clientId) {
         try {
             template.sendDefault(UUID.randomUUID().toString(), clientId).get();
+
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {
@@ -28,6 +31,12 @@ public class KafkaClientProducer<T extends ClientDto> {
     public void sendTo(String topic, Object o) {
         try {
             template.send(topic, o).get();
+            template.send(topic,
+                            1,
+                            LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
+                            UUID.randomUUID().toString(),
+                            o)
+                    .get();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {

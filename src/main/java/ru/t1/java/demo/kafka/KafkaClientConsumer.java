@@ -8,10 +8,8 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.service.ClientService;
-import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.List;
 
@@ -23,7 +21,7 @@ public class KafkaClientConsumer {
     private final ClientService clientService;
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id}",
-            topics = "${t1.kafka.topic.client_registration}",
+            topics = {"t1_demo_client_registration", "client_topic"},
             containerFactory = "kafkaListenerContainerFactory")
     public void listener(@Payload List<ClientDto> messageList,
                          Acknowledgment ack,
@@ -31,14 +29,19 @@ public class KafkaClientConsumer {
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.debug("Client consumer: Обработка новых сообщений");
 
+
         try {
-            List<Client> clients = messageList.stream()
-                    .map(dto -> {
-                        dto.setFirstName(key + "@" + dto.getFirstName());
-                        return ClientMapper.toEntity(dto);
-                    })
-                    .toList();
-            clientService.registerClients(clients);
+            log.error("Topic: " + topic);
+            log.error("Key: " + key);
+            messageList.stream()
+                    .forEach(System.err::println);
+//            List<Client> clients = messageList.stream()
+//                    .map(dto -> {
+//                        dto.setFirstName(key + "@" + dto.getFirstName());
+//                        return ClientMapper.toEntity(dto);
+//                    })
+//                    .toList();
+//            clientService.registerClients(clients);
         } finally {
             ack.acknowledge();
         }

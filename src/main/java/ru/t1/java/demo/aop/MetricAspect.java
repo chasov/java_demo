@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,7 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 @Aspect
 @Component
+@Order(1)
 public class MetricAspect {
 
     private static final AtomicLong START_TIME = new AtomicLong();

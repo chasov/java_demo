@@ -2,16 +2,14 @@ package ru.t1.java.demo.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.Client;
 
 @Slf4j
 @Aspect
 @Component
-//@Order(0)
+@Order(0)
 public class LoggingAspect {
 
     @Pointcut("execution(public * ru.t1.java.demo..*.*(..))")
@@ -25,9 +23,10 @@ public class LoggingAspect {
 //        log.info("ASPECT BEFORE ANNOTATION: Call method: {}", joinPoint.getSignature().getName());
 //    }
 
-    @After("loggingMethods()")
+    @After("@annotation(LogMethod)")
+    @Order(1)
     public void logAfter(JoinPoint joinPoint) {
-        log.error("WITHIN AFTER: {}", joinPoint.getSignature().getName());
+        log.error("ORDER 1: {}", joinPoint.getSignature().getName());
     }
 
     @Before("@annotation(LogMethod)")
@@ -39,7 +38,7 @@ public class LoggingAspect {
     @After("@annotation(LogMethod)")
     @Order(0)
     public void logExceptionAnnotation(JoinPoint joinPoint) {
-        log.error("AFTER: {}", joinPoint.getSignature().getName());
+        log.error("ORDER 0: {}", joinPoint.getSignature().getName());
     }
 
     @AfterReturning(
@@ -49,27 +48,6 @@ public class LoggingAspect {
         result = new Object();
         log.info("AFTER RETURNING {}", joinPoint.getSignature().toShortString());
         return result;
-    }
-
-    @Around("@annotation(ReplaceResult)")
-    @Order(1)
-    public Object replace(ProceedingJoinPoint joinPoint) throws Throwable {
-        log.info("AROUND ADVICE START");
-
-
-        Client client = Client.builder()
-                .build();
-        client.setId(42L);
-
-        try {
-            Object proceed = joinPoint.proceed();
-        } catch (Throwable throwable) {
-            log.error(throwable.getMessage());
-            throw  throwable;
-        }
-
-        log.info("AROUND ADVICE END");
-        return client;
     }
 
 

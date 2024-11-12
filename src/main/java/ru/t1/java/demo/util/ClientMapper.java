@@ -24,9 +24,9 @@ public class ClientMapper {
     //    @ReplaceResult
     public Client toEntityWithId(ClientDto dto) {
         log.info("Mapping to entity with id if exist");
-        if (dto.getMiddleName() == null) {
-            throw new NullPointerException();
-        }
+//        if (dto.getMiddleName() == null) {
+//            throw new NullPointerException();
+//        }
         return Client.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())

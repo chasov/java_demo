@@ -35,14 +35,16 @@ public class DemoKafkaConfig<T> {
     private String groupId;
     @Value("${t1.kafka.bootstrap.server}")
     private String servers;
-    @Value("${t1.kafka.session.timeout.ms:15000}")
+    @Value("${t1.kafka.session.timeout.ms:45000}")
     private String sessionTimeout;
     @Value("${t1.kafka.max.partition.fetch.bytes:300000}")
     private String maxPartitionFetchBytes;
     @Value("${t1.kafka.max.poll.records:1}")
     private String maxPollRecords;
-    @Value("${t1.kafka.max.poll.interval.ms:3000}")
+    @Value("${t1.kafka.max.poll.interval.ms:300000}")
     private String maxPollIntervalsMs;
+    @Value("${t1.kafka.consumer.heartbeat.interval}")
+    private String heartbeatInterval;
     @Value("${t1.kafka.topic.client_id_registered}")
     private String clientTopic;
 
@@ -63,12 +65,13 @@ public class DemoKafkaConfig<T> {
         props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, maxPollIntervalsMs);
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, Boolean.FALSE);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
+        props.put(ConsumerConfig.HEARTBEAT_INTERVAL_MS_CONFIG, heartbeatInterval);
+
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, MessageDeserializer.class.getName());
         props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, MessageDeserializer.class);
 
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, ClientDto>(props);
         factory.setKeyDeserializer(new StringDeserializer());
-
         return factory;
     }
 
@@ -90,7 +93,8 @@ public class DemoKafkaConfig<T> {
     }
 
     private CommonErrorHandler errorHandler() {
-        DefaultErrorHandler handler = new DefaultErrorHandler(new FixedBackOff(1000, 3));
+        DefaultErrorHandler handler =
+                new DefaultErrorHandler(new FixedBackOff(1000, 3));
         handler.addNotRetryableExceptions(IllegalStateException.class);
         handler.setRetryListeners((record, ex, deliveryAttempt) -> {
             log.error(" RetryListeners message = {}, offset = {} deliveryAttempt = {}", ex.getMessage(), record.offset(), deliveryAttempt);
@@ -110,6 +114,7 @@ public class DemoKafkaConfig<T> {
             matchIfMissing = true)
     public KafkaClientProducer producerClient(@Qualifier("client") KafkaTemplate<String, ClientDto> template) {
         template.setDefaultTopic(clientTopic);
+        // murmur2 - default hash
         return new KafkaClientProducer(template);
     }
 
