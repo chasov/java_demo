@@ -1,0 +1,3 @@
+ALTER TABLE account
+ADD COLUMN status VARCHAR(255);
+

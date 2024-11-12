@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "amount": 150.50,
+    "transaction_date": "2023-10-01T12:34:56",
+    "account_id":  52
+  },
+  {
+    "id": 2,
+    "amount": -50.00,
+    "transaction_date": "2023-10-02T15:20:45",
+    "account_id":  53
+  },
+  {
+    "id": 3,
+    "amount": 200.75,
+    "transaction_date": "2023-10-03T09:15:30",
+    "account_id":  54
+  },
+  {
+    "id": 4,
+    "amount": -30.25,
+    "transaction_date": "2023-10-04T18:05:20",
+    "account_id":  55
+  },
+  {
+    "id": 5,
+    "amount": 1000.00,
+    "transaction_date": "2023-10-05T20:45:10",
+    "account_id": 56
+  },
+  {
+    "id": 6,
+    "amount": -120.00,
+    "transaction_date": "2023-10-06T10:30:00",
+    "account_id":  57
+  },
+  {
+    "id": 7,
+    "amount": 450.00,
+    "transaction_date": "2023-10-07T14:15:25",
+    "account_id":  58
+  },
+  {
+    "id": 8,
+    "amount": -75.50,
+    "transaction_date": "2023-10-08T16:40:15",
+    "account_id":  59
+  },
+  {
+    "id": 9,
+    "amount": 300.25,
+    "transaction_date": "2023-10-09T12:50:55",
+    "account_id":  60
+  },
+  {
+    "id": 10,
+    "amount": -90.00,
+    "transaction_date": "2023-10-10T08:20:45",
+    "account_id": 61
+  }
+]

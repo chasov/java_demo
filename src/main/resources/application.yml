@@ -2,18 +2,38 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    #url: "jdbc:postgresql://localhost:5432/t1_demo"
+    url: "jdbc:postgresql://192.168.43.48:5432/t1_demo"
     username: "postgres"
-    password: "0000"
+    #password: "0000"
+    password: "123"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
+  kafka:
+    #bootstrap-servers: 192.168.3.56:9092
+    bootstrap-servers: 192.168.43.48:9092
+    topic:
+      metrics: t1_demo_metrics
+      transactions: t1_demo_transactions
+      accounts: t1_demo_accounts
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      group-id: t1-demo
 
 logging:
   level:
     ROOT: INFO
-    ru.t1.java.demo.controller.ClientController: DEBUG
+    ru.t1.java.demo.controller.ClientController: INFO
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
+    ru.t1.java.demo.aop.MetricsAspect: DEBUG
+    ru.t1.java.demo.kafka.KafkaMetricsProducer: INFO
+    ru.t1.java.demo.service.impl.AccountServiceImpl: DEBUG
+    ru.t1.java.demo.controller.AccountController: DEBUG
 
 t1:
   scan-path: ru.t1.java.demo

@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "type": "DEBIT",
+    "balance": 1500.75,
+    "client_id":  1
+  },
+  {
+    "id": 2,
+    "type": "CREDIT",
+    "balance": 300.50,
+    "client_id":  2
+  },
+  {
+    "id": 3,
+    "type": "CLOSED",
+    "balance": 2500.00,
+    "client_id":  1
+  },
+  {
+    "id": 4,
+    "type": "DEBIT",
+    "balance": 500.25,
+    "client_id":  3
+  },
+  {
+    "id": 5,
+    "type": "CREDIT",
+    "balance": 10000.00,
+    "client_id":  8
+  },
+  {
+    "id": 6,
+    "type": "CREDIT",
+    "balance": 780.30,
+    "client_id":  6
+  },
+  {
+    "id": 7,
+    "type": "DEBIT",
+    "balance": 0.00,
+    "client_id":  5
+  },
+  {
+    "id": 8,
+    "type": "DEBIT",
+    "balance": 25000.50,
+    "client_id":  3
+  },
+  {
+    "id": 9,
+    "type": "DEBIT",
+    "balance": 1200.75,
+    "client_id":  2
+  },
+  {
+    "id": 10,
+    "type": "CLOSED",
+    "balance": 450.00,
+    "client_id": 7
+  }
+]

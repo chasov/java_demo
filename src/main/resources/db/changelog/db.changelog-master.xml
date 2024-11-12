@@ -13,5 +13,21 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
         <rollback/>
     </changeSet>
+    <changeSet id="add-account-transaction" author="VPostnykh">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/03-11-changelog-03.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add-datasourceLog" author="VPostnykh">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/03-11-changelog-04.sql"/>
+        <rollback/>
+    </changeSet>
+
+
+    <changeSet id="modify-account" author="VPostnykh">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/12-11-changelog-05.sql"/>
+        <rollback/>
+    </changeSet>
+
 
 </databaseChangeLog>
