@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 
 import java.io.Serializable;
@@ -26,9 +27,14 @@ public class AccountDto implements Serializable {
     private Long clientId;
 
     @JsonProperty("account_type")
-    private AccountType accountType; //??? можно ли так делать ???
+    private AccountType accountType;
+
+    @JsonProperty("status")
+    private AccountStatus status;
 
     @JsonProperty("balance")
     private BigDecimal balance;
 
+    @JsonProperty("frozen_amount")
+    private BigDecimal frozenAmount;
 }

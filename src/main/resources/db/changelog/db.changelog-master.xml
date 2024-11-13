@@ -8,6 +8,8 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <sqlFile encoding="utf8" path="/db/changelog/2024/11/04-01-changelog-01.sql"/>
         <rollback/>
     </changeSet>
+    <include file="db/changelog/2024/11/13-01-changelog.xml"/>
+    <include file="db/changelog/2024/11/13-02-changelog.xml"/>
 
     <!--<changeSet id="update-client" author="MBoychook">
         <sqlFile encoding="utf8" path="/db/changelog/2024/11/04-01-changelog-02.sql"/>
