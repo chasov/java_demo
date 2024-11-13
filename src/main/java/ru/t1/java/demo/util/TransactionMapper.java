@@ -13,18 +13,20 @@ public class TransactionMapper {
         }
         return Transaction.builder()
                 .accountId(dto.getAccountId())
+                .status(dto.getStatus())
                 .amount(dto.getAmount())
                 .clientId(dto.getClientId())
-                .timestamptz(dto.getTimestamp())
+                .timestamp(dto.getTimestamp())
                 .build();
     }
 
     public static TransactionDto toDto(Transaction entity) {
         return TransactionDto.builder()
                 .accountId(entity.getAccountId())
+                .status(entity.getStatus())
                 .amount(entity.getAmount())
                 .clientId(entity.getClientId())
-                .timestamp(entity.getTimestamptz())
+                .timestamp(entity.getTimestamp())
                 .build();
     }
 
