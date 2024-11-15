@@ -23,21 +23,22 @@ public class TransactionController {
         this.transactionService = transactionService;
     }
 
-    @PostMapping
-    public ResponseEntity<Long> operation(@RequestBody Transaction transaction) {
+    @GetMapping
+    public ResponseEntity<String> createTransaction() {
 
-        Long confirmOperation = transactionService.operate(transaction);
-        if (confirmOperation == null) {
+        Transaction transaction = transactionService.createTransaction();
+        if (transaction == null) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-       return ResponseEntity.ok(confirmOperation);
+       return ResponseEntity.ok(transaction.getGlobalTransactionId());
     }
 
     @GetMapping("/testTransaction")
-    public ResponseEntity<String> sendTransactionToKafka() {
+    public ResponseEntity<String> sendTransactionToKafka(@RequestBody Transaction transaction, @RequestParam String topic) {
         try {
+
             log.info("Тестовая отсылка транзакции в Kafka");
-            transactionService.sendTransactionToKafka();
+            transactionService.sendTransactionToKafka(topic, transaction);
             return ResponseEntity.status(HttpStatus.OK).body("Сообщение успешно отправлено в Kafka");
         } catch (Exception e) {
             log.error("Ошибка при отправке транзакции в Kafka", e);

@@ -23,11 +23,4 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
-
-    <changeSet id="modify-account" author="VPostnykh">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/12-11-changelog-05.sql"/>
-        <rollback/>
-    </changeSet>
-
-
 </databaseChangeLog>

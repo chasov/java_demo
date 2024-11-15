@@ -15,7 +15,7 @@ public class AccountMapper {
         }
 
         return Account.builder()
-                .id(dto.getId())
+                .globalAccountId(dto.getGlobalId())
                 .type(AccountType.valueOf(dto.getType()))
                 .balance(dto.getBalance())
                 .client(client)

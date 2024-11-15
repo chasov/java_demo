@@ -46,7 +46,7 @@ public class AccountController {
     }
 
     @GetMapping("/{id}/transactions")
-    public ResponseEntity<List<Transaction>> allTransaction(@PathVariable Long id) {
+    public ResponseEntity<List<Transaction>> allTransaction(@PathVariable String id) {
         log.info("Перечень всех транзакций для аккаунта ID: {}", id);
         List<Transaction> transactions = accountService.findAllAccountTransactions(id);
         return ResponseEntity.ok(transactions);

@@ -28,7 +28,7 @@ public class KafkaTransactionConsumer {
     private AccountRepository accountRepository;
 
     @KafkaListener(id = "${spring.kafka.consumer.group-id}-transactions",
-            topics = "${spring.kafka.topic.transactions}",
+            topics =  {"${spring.kafka.topic.transactions}", "${spring.kafka.topic.transactionsAccept}","${spring.kafka.topic.transactionsResult}"},
             containerFactory = "transactionKafkaListenerContainerFactory")
     public void listener(@Payload List<TransactionDTO> messageList,
                          Acknowledgment ack,
@@ -38,12 +38,12 @@ public class KafkaTransactionConsumer {
 
         try {
             for (TransactionDTO transactionDTO : messageList) {
-                     Account account = accountRepository.findById(transactionDTO.getAccountId())
-                        .orElseThrow(() -> new IllegalArgumentException("Аккаунт с id " + transactionDTO.getAccountId() + " не найден"));
+                     Account account = accountRepository.findAccountByGlobalAccountId(transactionDTO.getGlobalAccountId())
+                        .orElseThrow(() -> new IllegalArgumentException("Аккаунт с id " + transactionDTO.getGlobalAccountId() + " не найден"));
 
 
                 Transaction transaction = TransactionMapper.toEntity(transactionDTO, account);
-                 transactionService.operate(transaction);
+                 transactionService.operate(topic, transaction);
             }
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений для транзакций: {}", messageList, e);

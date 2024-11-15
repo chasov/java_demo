@@ -16,6 +16,9 @@ import java.util.Set;
 @Table(name = "client")
 public class Client extends AbstractPersistable<Long> {
 
+    @Column(name = "global_id", unique = true, nullable = false)
+    private String globalId;
+
     @Column(name = "first_name")
     private String firstName;
 

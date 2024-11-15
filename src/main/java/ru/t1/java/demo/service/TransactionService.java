@@ -6,9 +6,10 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TransactionService {
-    Long operate(Transaction transaction);
+    String operate(String topic, Transaction transaction);
 
     List<Transaction> parseJson() throws IOException;
 
-    void sendTransactionToKafka();
+    void sendTransactionToKafka(String topic, Transaction transaction);
+    Transaction createTransaction();
 }

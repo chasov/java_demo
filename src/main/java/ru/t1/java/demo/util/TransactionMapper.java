@@ -16,7 +16,7 @@ public class TransactionMapper {
         }
 
         return Transaction.builder()
-                .id(dto.getId())
+                .globalTransactionId(dto.getGlobalTransactionId())
                 .amount(dto.getAmount())
                 .timestamp(dto.getTimestamp())
                 .account(account)
@@ -29,9 +29,12 @@ public class TransactionMapper {
         }
 
         return TransactionDTO.builder()
-                .id(transaction.getId())
+                .globalTransactionId(transaction.getGlobalTransactionId())
                 .amount(transaction.getAmount())
                 .timestamp(transaction.getTimestamp())
+                .globalAccountId(transaction.getAccount().getGlobalAccountId())
+                .accountBalance(transaction.getAccount().getBalance())
+                .clientId(transaction.getAccount().getClient().getId())
                 .build();
     }
 }

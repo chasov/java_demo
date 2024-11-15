@@ -11,7 +11,7 @@ public interface AccountService {
     Account createAccount(Account account, Long clientId);
     Account updateAccount(Long accountId, Account updatedAccount) ;
     void changeAccountStatus(Long accountId, AccountStatus status);
-    List<Transaction> findAllAccountTransactions(Long accountId);
+    List<Transaction> findAllAccountTransactions(String accountGlobalId);
 
     List<Account> parseJson() throws IOException;
 

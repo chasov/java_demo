@@ -14,10 +14,15 @@ import lombok.NoArgsConstructor;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountDTO {
     private Long id;
+
+    @JsonProperty("global_id")
+    private String globalId;
     @JsonProperty("status")
     private String status;
     @JsonProperty("type")
     private String type;
+    @JsonProperty("frozen_amount")
+    private String frozenAmount;
     @JsonProperty("balance")
     private Double balance;
     @JsonProperty("client_id")

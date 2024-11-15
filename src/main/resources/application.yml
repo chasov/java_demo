@@ -3,7 +3,7 @@ spring:
     name: t1-java-demo
   datasource:
     #url: "jdbc:postgresql://localhost:5432/t1_demo"
-    url: "jdbc:postgresql://192.168.43.48:5432/t1_demo"
+    url: "jdbc:postgresql://192.168.3.155:5432/t1_demo"
     username: "postgres"
     #password: "0000"
     password: "123"
@@ -12,12 +12,16 @@ spring:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
   kafka:
-    #bootstrap-servers: 192.168.3.56:9092
-    bootstrap-servers: 192.168.43.48:9092
+    bootstrap-servers: 192.168.3.155:9092
+    #bootstrap-servers: 192.168.43.48:9092
     topic:
       metrics: t1_demo_metrics
       transactions: t1_demo_transactions
       accounts: t1_demo_accounts
+      transactionsAccept : t1_demo_transaction_accept
+      transactionsResult : t1_demo_transaction_result
+
+
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -37,3 +41,9 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+
+transaction:
+  frequency:
+    limit: 100
+  time:
+    period: 3600

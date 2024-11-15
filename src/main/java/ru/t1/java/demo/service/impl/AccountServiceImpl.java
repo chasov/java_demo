@@ -12,14 +12,12 @@ import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.kafka.KafkaAccountProducer;
-import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.AccountStatus;
-import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.*;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.AccountService;
+import ru.t1.java.demo.service.UniqueIdGeneratorService;
 import ru.t1.java.demo.util.AccountMapper;
 
 import java.io.File;
@@ -40,16 +38,19 @@ public class AccountServiceImpl implements AccountService {
     private final ClientRepository clientRepository;
 
     private final KafkaAccountProducer<AccountDTO> kafkaAccountProducer;
+    private final UniqueIdGeneratorService idGenerator;
 
     private final TransactionRepository transactionRepository;
     public AccountServiceImpl(AccountRepository accountRepository,
                               ClientRepository clientRepository,
                               TransactionRepository transactionRepository,
-                              KafkaAccountProducer<AccountDTO> kafkaAccountProducer) {
+                              KafkaAccountProducer<AccountDTO> kafkaAccountProducer,
+                                UniqueIdGeneratorService idGenerator) {
         this.accountRepository = accountRepository;
         this.clientRepository = clientRepository;
         this.transactionRepository = transactionRepository;
         this.kafkaAccountProducer =kafkaAccountProducer;
+        this.idGenerator = idGenerator;
     }
 
 
@@ -71,6 +72,7 @@ public class AccountServiceImpl implements AccountService {
         if (clientOpt.isPresent()) {
             Client currentClient = clientOpt.get();
             account.setClient(currentClient);
+            account.setGlobalAccountId(idGenerator.generateId(EntityType.ACCOUNT));
             currentClient.getAccounts().add(account);
             return accountRepository.save(account);
         } else {
@@ -119,18 +121,18 @@ public class AccountServiceImpl implements AccountService {
         }
     }
 
-    @Override
+   @Override
     @Metrics(milliseconds = 100)
-    public List<Transaction> findAllAccountTransactions(Long accountId) {
+    public List<Transaction> findAllAccountTransactions(String globalAccountId) {
         try {
-            List<Transaction> transactions = transactionRepository.findAllTransactionByAccountId(accountId);
+            List<Transaction> transactions = transactionRepository.findAllTransactionByGlobalAccountId(globalAccountId);
             if (transactions == null || transactions.isEmpty()) {
-                log.warn("Не найдено транзакций для аккаунта с ID: {}", accountId);
+                log.warn("Не найдено транзакций для аккаунта с ID: {}", globalAccountId);
                 return Collections.emptyList();
             }
             return transactions;
         } catch (DataAccessException e) {
-            log.error("Ошибка обращения к базе данных для : {}", accountId, e);
+            log.error("Ошибка обращения к базе данных для : {}", globalAccountId, e);
             throw new TransactionException("Не получилось выполнить транзакцию.", e);
         }
     }
@@ -155,8 +157,8 @@ public class AccountServiceImpl implements AccountService {
 // Сделано для тестирования producer и consumer Kafka
     public void sendAccountToKafka() {
         // Пример отправки в Kafka
-        AccountDTO accountDTO = new AccountDTO(1710L, "OPEN","DEBIT", 156.0, 2L);
-        kafkaAccountProducer.sendTo(topic, accountDTO);
+     //   AccountDTO accountDTO = new AccountDTO(1710L, "OPEN","DEBIT", 156.0, 2L);
+       // kafkaAccountProducer.sendTo(topic, accountDTO);
         }
     }
 

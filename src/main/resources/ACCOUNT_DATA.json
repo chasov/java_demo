@@ -1,6 +1,7 @@
 [
   {
     "id": 1,
+
     "type": "DEBIT",
     "balance": 1500.75,
     "client_id":  1

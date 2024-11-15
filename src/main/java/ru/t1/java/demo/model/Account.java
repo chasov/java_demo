@@ -20,6 +20,9 @@ public class Account  extends AbstractPersistable<Long> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "global_account_id", unique = true, nullable = false)
+    private String globalAccountId;
+
     @Enumerated(EnumType.STRING)
     private AccountType type;
 
@@ -29,8 +32,11 @@ public class Account  extends AbstractPersistable<Long> {
     @Column(name = "balance")
     private Double balance;
 
+    @Column(name = "frozen_amount")
+    private Double frozenAmount;
+
     @ManyToOne
-    @JoinColumn(name = "client_id")
+    @JoinColumn(name = "global_client_id")
     @JsonBackReference
     private Client client;
 
