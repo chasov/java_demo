@@ -2,18 +2,18 @@ package ru.t1.java.demo.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import jakarta.transaction.Transactional;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.TransactionDTO;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.kafka.KafkaTransactionalProducer;
 import ru.t1.java.demo.model.*;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
-import ru.t1.java.demo.service.TransactionAcceptService;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.service.UniqueIdGeneratorService;
 import ru.t1.java.demo.util.TransactionMapper;
@@ -44,17 +44,17 @@ public class TransactionServiceImpl implements TransactionService {
     private final KafkaTransactionalProducer<TransactionDTO> kafkaTransactionalProducer;
     private final UniqueIdGeneratorService idGenerator;
 
-    private final TransactionAcceptService transactionAcceptService;
+
     public TransactionServiceImpl(AccountRepository accountRepository,
                                   TransactionRepository transactionRepository,
                                   KafkaTransactionalProducer<TransactionDTO> kafkaTransactionalProducer,
-                                  UniqueIdGeneratorService idGenerator,
-                                  TransactionAcceptService transactionAcceptService) {
+                                  UniqueIdGeneratorService idGenerator
+                                  ) {
         this.transactionRepository = transactionRepository;
         this.accountRepository = accountRepository;
         this.kafkaTransactionalProducer = kafkaTransactionalProducer;
         this.idGenerator = idGenerator;
-        this.transactionAcceptService = transactionAcceptService;
+
     }
 
 
@@ -70,21 +70,8 @@ public class TransactionServiceImpl implements TransactionService {
 
 
 
-    public String operate(String topic, Transaction transaction) {
-        if (topic.equals(topicTransactions)) {
-            return operateTransactionMessage(transaction);
-        } else if (topic.equals(topicTransactionsResult)) {
-            return operateTransactionResult(transaction);
-        } else if (topic.equals(topicTransactionsAccept)) {
-            return transactionAcceptService.operateTransactionAccept(transaction);
-        }
-        log.warn("Неизвестный топик: {}, транзакция ID {}", topic, transaction.getGlobalTransactionId());
-        return "Неизвестный топик";
-    }
-
-
 @Transactional
-    private String operateTransactionResult(Transaction transaction) {
+    public String operateTransactionResult(Transaction transaction) {
         // Обработка сообщений из топика t1_demo_transaction_result
         try {
         log.info("Получено сообщение из топика t1_demo_transaction_result для транзакции с ID {}", transaction.getGlobalTransactionId());
@@ -131,7 +118,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Transactional
-    private String operateTransactionMessage(Transaction transaction) {
+    public String operateTransactionMessage(Transaction transaction) {
         // Обработка сообщений из топика t1_demo_transactions
 
             try {

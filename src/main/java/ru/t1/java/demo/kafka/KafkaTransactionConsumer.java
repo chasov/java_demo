@@ -12,6 +12,7 @@ import ru.t1.java.demo.dto.TransactionDTO;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.AccountRepository;
+import ru.t1.java.demo.service.TransactionOperator;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
@@ -22,7 +23,7 @@ import java.util.List;
 public class KafkaTransactionConsumer {
 
     @Autowired
-    private TransactionService transactionService;
+    private TransactionOperator transactionOperator;
 
     @Autowired
     private AccountRepository accountRepository;
@@ -43,7 +44,7 @@ public class KafkaTransactionConsumer {
 
 
                 Transaction transaction = TransactionMapper.toEntity(transactionDTO, account);
-                 transactionService.operate(topic, transaction);
+                 transactionOperator.operate(topic, transaction);
             }
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений для транзакций: {}", messageList, e);

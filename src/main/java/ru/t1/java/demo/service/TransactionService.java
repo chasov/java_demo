@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.util.List;
 
 public interface TransactionService {
-    String operate(String topic, Transaction transaction);
 
     List<Transaction> parseJson() throws IOException;
 
