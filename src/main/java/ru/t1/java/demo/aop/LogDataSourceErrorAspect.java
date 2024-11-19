@@ -47,20 +47,12 @@ public class LogDataSourceErrorAspect {
         errorLog.setStackTraceMessage(exception.getMessage());
         errorLog.setMethodSignature(methodSignature);
 
-        if (!successSendToKafka(errorLog)){
+        try {
+            kafkaErrorLogProducer.send(topic, "DATA_SOURCE", errorLog);
+        } catch (Exception e) {
+            log.error("Отправка в Kafka не удалась, запись в БД:" + errorLog);
             errorLogService.saveErrorLog(errorLog);
         }
 
     }
-
-    public boolean successSendToKafka(DataSourceErrorLog errorLog){
-        try {
-            kafkaErrorLogProducer.send(topic,"DATA_SOURCE",errorLog);
-            return true;
-        } catch (Exception e){
-            log.error("Отправка в Kafka не удалась, запись в БД:" + errorLog);
-            return false;
-        }
-    }
-
 }
