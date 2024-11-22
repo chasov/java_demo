@@ -8,28 +8,29 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.List;
 
 /**
- * DTO for {@link ru.t1.java.demo.model.Client}
+ * DTO for {@link ru.t1.java.demo.model.MetricStatisticDto}
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientDto implements Serializable {
+public class MetricStatisticDto implements Serializable {
+
     private Long id;
 
-    @JsonProperty("first_name")
-    private String firstName;
+    @JsonProperty("execution_time")
+    private Long executionTime;
 
-    @JsonProperty("last_name")
-    private String lastName;
+    @JsonProperty("exceeded_on_time")
+    private Long exceededOnTime;
 
-    @JsonProperty("middle_name")
-    private String middleName;
+    @JsonProperty("method_name")
+    private String methodName;
 
-    @JsonProperty("accounts")
-    private List<AccountDto> accounts;
+    @JsonProperty("method_args")
+    private String methodArgs;
+
 }

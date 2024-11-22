@@ -8,34 +8,36 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.dto.TransactionDto;
-import ru.t1.java.demo.service.TransactionService;
+import ru.t1.java.demo.service.TransactionRegistrarService;
 import ru.t1.java.demo.util.TransactionMapper;
 
 import java.util.List;
+
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
 public class KafkaTransactionConsumer {
 
-    private final TransactionService transactionService;
+    private final TransactionRegistrarService transactionService;
+    private final TransactionMapper transactionMapper;
 
     @KafkaListener(id = "${t1.kafka.topic.transaction-registration}",
                    topics = "${t1.kafka.topic.transaction-registration}",
                    containerFactory = "kafkaListenerContainerFactory")
     public void listener(@Payload List<TransactionDto> messageList,
-                         Acknowledgment ack) {
-        log.debug("Transaction consumer: Обработка новых сообщений");
+                                      Acknowledgment ack) {
 
+        log.debug("Transaction consumer: Обработка новых сообщений");
         try {
             List<Transaction> transactions = messageList.stream()
-                                                        .map(TransactionMapper::toEntity)
+                                                        .map(transactionMapper::toEntity)
                                                         .toList();
-            transactionService.registerTransactions(transactions);
+            transactionService.register(transactions);
         } finally {
             ack.acknowledge();
         }
-
         log.debug("Transaction consumer: записи обработаны");
+
     }
 }

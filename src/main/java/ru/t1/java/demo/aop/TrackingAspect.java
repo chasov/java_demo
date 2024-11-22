@@ -7,6 +7,8 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
+import java.util.concurrent.CompletableFuture;
+
 @Async
 @Slf4j
 @Aspect
@@ -14,17 +16,17 @@ import org.springframework.stereotype.Component;
 public class TrackingAspect {
 
     @Around("@annotation(ru.t1.java.demo.aop.Track)")
-    public Object logExecTime(ProceedingJoinPoint pJoinPoint) {
+    public CompletableFuture<Object> logExecTime(ProceedingJoinPoint pJoinPoint) {
         log.info("Вызов метода: {}", pJoinPoint.getSignature().toShortString());
         long beforeTime = System.currentTimeMillis();
         Object result = null;
         try {
             result = pJoinPoint.proceed();//Important
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            log.error("Method threw exception: {}", throwable.getMessage());
         }
         long afterTime = System.currentTimeMillis();
         log.info("Время исполнения: {} ms", (afterTime - beforeTime));
-        return result;
+        return CompletableFuture.completedFuture(result);
     }
 }

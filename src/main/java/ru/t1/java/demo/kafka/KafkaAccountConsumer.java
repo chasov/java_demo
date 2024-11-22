@@ -19,6 +19,8 @@ import java.util.List;
 public class KafkaAccountConsumer {
 
     private final AccountService accountService;
+    private final AccountMapper accountMapper;
+
 
     @KafkaListener(id = "${t1.kafka.topic.account-registration}",
                    topics = "${t1.kafka.topic.account-registration}",
@@ -29,7 +31,7 @@ public class KafkaAccountConsumer {
 
         try {
             List<Account> accounts = messageList.stream()
-                                                .map(AccountMapper::toEntity)
+                                                .map(accountMapper::toEntity)
                                                 .toList();
             accountService.registerAccounts(accounts);
         } finally {

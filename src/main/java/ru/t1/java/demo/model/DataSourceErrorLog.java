@@ -28,6 +28,14 @@ public class DataSourceErrorLog {
     @Column(name = "method_signature")
     private String methodSignature;
 
+    public void setMessage(String anyTypeError) {
+        this.errorMessage = anyTypeError;
+    }
+
+    public void setStackTrace(String exceptionStackTrace) {
+        this.trace = exceptionStackTrace;
+    }
+
     @Override
     public String toString() {
         return "DataSourceErrorLog{" +

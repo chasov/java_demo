@@ -1,6 +1,6 @@
 -- liquibase formatted sql
 -- changeset update-tbl_transaction
-INSERT INTO tbl_transaction (id, account_id, amount, timestamptz, client_id) VALUES
+INSERT INTO tbl_transaction (id, account_id, amount, transaction_time, client_id) VALUES
                                                                              (1, 56, -2008, to_timestamp(1712994501), 566),
                                                                              (2, 901, 973, to_timestamp(1717598421), 918),
                                                                              (3, 500, -1513, to_timestamp(1720633486), 114),

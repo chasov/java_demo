@@ -7,7 +7,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MetricStatistic {
+public class MetricStatisticDto {
+    private long id;
     private long executionTime;
     private long exceededOnTime;
     private String methodName;

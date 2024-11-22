@@ -38,6 +38,8 @@ t1:
       methods-metric: t1_demo_metrics
       account-registration: t1_demo_accounts
       transaction-registration: t1_demo_transactions
+      transaction-accept: t1_demo_transaction_accept
+      transaction-result: t1_demo_transaction_result
 
       header:
         data-source-errors-header: DATA_SOURCE
@@ -45,6 +47,15 @@ t1:
 
     listener:
       poll-timeout: 1000
+
+  transaction:
+    perform-period-min-ms: 5000
+
+  mock-data:
+    client-file-path: /mock_data/account/client.json
+    account-file-path: /mock_data/account/account.json
+    transaction-file-path: /mock_data/transaction/transaction.json
+    add-objects-counter: 1000
 
 track:
   errors-to-track: JsonParseException, IOException

@@ -1,16 +1,18 @@
 package ru.t1.java.demo.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link ru.t1.java.demo.model.Transaction}
@@ -35,6 +37,8 @@ public class TransactionDto implements Serializable {
     @JsonProperty("client_id")
     private Long clientId;
 
+    @CreatedDate
     @JsonProperty("timestamp")
-    private Timestamp timestamp;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime timestamp;
 }

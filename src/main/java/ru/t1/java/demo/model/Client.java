@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -27,5 +29,18 @@ public class Client {
 
     @Column(name = "middle_name")
     private String middleName;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Account> accounts;
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+        account.setClient(this);
+    }
+
+    public void removeAccount(Account account) {
+        accounts.remove(account);
+        account.setClient(null);
+    }
 
 }

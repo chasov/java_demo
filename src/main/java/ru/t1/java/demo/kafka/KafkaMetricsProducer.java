@@ -8,7 +8,7 @@ import org.apache.kafka.common.header.internals.RecordHeader;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.MetricStatistic;
+import ru.t1.java.demo.model.dto.MetricStatisticDto;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KafkaMetricsProducer<T extends MetricStatistic> {
+public class KafkaMetricsProducer<T extends MetricStatisticDto> {
 
     private final KafkaTemplate template;
 
@@ -27,10 +27,15 @@ public class KafkaMetricsProducer<T extends MetricStatistic> {
     @Value("${t1.kafka.topic.header.methods-metric-header}")
     private String header;
 
-    public void send(MetricStatistic metricStatistic) {
+    public void send(ru.t1.java.demo.model.dto.MetricStatisticDto metricStatisticDto) {
         try {
             List<Header> headers = List.of(new RecordHeader(header, header.getBytes(StandardCharsets.UTF_8)));
-            ProducerRecord<String, MetricStatistic> record = new ProducerRecord<>(topic, null, null, UUID.randomUUID().toString(), metricStatistic, headers);
+            ProducerRecord<String, MetricStatisticDto> record = new ProducerRecord<>(topic,
+                                                                             null,
+                                                                            null,
+                                                                                     UUID.randomUUID().toString(),
+                                                                                     metricStatisticDto,
+                                                                                     headers);
             template.send(topic, record).get();
         } catch (Exception exception) {
             log.error(exception.getMessage(), exception);
