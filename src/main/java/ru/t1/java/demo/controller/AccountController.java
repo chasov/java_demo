@@ -78,9 +78,12 @@ public class AccountController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable Long id) {
-        if (accountService.delete(id)) {
+        try{
+            accountService.delete(id);
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.notFound().build();
+        catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

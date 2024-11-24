@@ -1,6 +1,7 @@
 package ru.t1.java.demo.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,12 +53,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public boolean delete(Long id) {
-        if (transactionRepository.existsById(id)) {
-            transactionRepository.deleteById(id);
-            return true; // Удаление прошло успешно
+    public void delete(Long id) {
+        if (!transactionRepository.existsById(id)) {
+            throw new EntityNotFoundException("Transaction with id = " + id + " not found");
         }
-        return false; // Транзакция не найдена
+        transactionRepository.deleteById(id);
     }
 
 //    @PostConstruct

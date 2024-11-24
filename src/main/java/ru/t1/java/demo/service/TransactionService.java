@@ -9,5 +9,5 @@ public interface TransactionService {
     List<Transaction> findAll();
     Optional<Transaction> findById(Long id);
     Transaction save(Transaction transaction);
-    boolean delete(Long id);
+    void delete(Long id);
 }

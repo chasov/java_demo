@@ -12,7 +12,7 @@ public interface AccountService {
     List<Account> findAll();
     Optional<Account> findById(Long id);
     Account save(Account account);
-    boolean delete(Long id);
+    void delete(Long id);
 
     List<Account> parseAccountJson() throws IOException;
 

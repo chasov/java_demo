@@ -77,10 +77,13 @@ public class TransactionController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTransaction(@PathVariable Long id) {
-        if (transactionService.delete(id)) {
+        try{
+            transactionService.delete(id);
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.notFound().build();
+        catch (Exception e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
 }

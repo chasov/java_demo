@@ -1,6 +1,7 @@
 package ru.t1.java.demo.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,12 +51,11 @@ public class AccountServiceImpl implements AccountService {
 
 
     @LogDataSourceError
-    public boolean delete(Long id) {
-        if (accountRepository.existsById(id)) {
-            accountRepository.deleteById(id);
-            return true;
+    public void delete(Long id) {
+        if (!accountRepository.existsById(id)) {
+            throw new EntityNotFoundException("Account with id " + id + " not found");
         }
-        return false;
+        accountRepository.deleteById(id);
     }
 
     @Override
