@@ -2,19 +2,13 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    jdbcUrl: jdbc:postgresql://${DB_HOST:localhost:5433}/t1_demo
-    username: postgres
+    jdbcUrl: "jdbc:postgresql://localhost:5433/t1_demo"
+    username: "postgres"
     password: "0000"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
-    default-schema: t1_demo
     change-log: db/changelog/db.changelog-master.xml
-    driver-class-name: org.postgresql.Driver
-    driverClassName: org.postgresql.Driver
-    url: jdbc:postgresql://${DB_HOST:localhost:5432}/t1_demo
-    user: postgres
-    password: "0000"
   jpa:
     hibernate:
       ddl-auto: update
@@ -63,6 +57,9 @@ t1:
     consumer:
       group-id: t1-demo
       max.poll.records: 10
+      group-id-transaction: transaction-group-id
+      group-id-result: transaction-result-group
+      group-id-account: account-group-i
     producer:
       enable: true
     topic:

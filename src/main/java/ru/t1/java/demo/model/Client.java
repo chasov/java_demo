@@ -23,12 +23,12 @@ public class Client extends AbstractPersistable<Long> {
 
     @Column(name = "middle_name")
     private String middleName;
-
-    @Column(name = "blocked_for")
-    private Boolean blockedFor;
-
-    @Column(name = "blocked_whom")
-    private String blockedWhom;
+//
+//    @Column(name = "blocked_for")
+//    private Boolean blockedFor;
+//
+//    @Column(name = "blocked_whom")
+//    private String blockedWhom;
 
     @Override
     public Long getId() {

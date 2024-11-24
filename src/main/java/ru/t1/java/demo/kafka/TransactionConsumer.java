@@ -56,7 +56,7 @@ public class TransactionConsumer {
                         savedTransaction.getTransactionId(),
                         LocalDateTime.now(),
                         transactionDto.getAmount(),
-                        account.getBalance()
+                        updatedAccount.getBalance()
                 );
 
                 log.info("Transaction processed successfully, transactionId: {}", savedTransaction.getTransactionId());

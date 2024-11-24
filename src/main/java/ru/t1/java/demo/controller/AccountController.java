@@ -14,6 +14,7 @@ import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 
@@ -42,6 +43,14 @@ public class AccountController {
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getById(@PathVariable Long id) {
         return accountService.findById(id)
+                .map(it -> accountMapper.toDto(it))
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/byAccountId/{id}")
+    public ResponseEntity<AccountDto> getById(@PathVariable UUID id) {
+        return accountService.findByAccountId(id)
                 .map(it -> accountMapper.toDto(it))
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
