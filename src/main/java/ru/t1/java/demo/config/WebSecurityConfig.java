@@ -27,7 +27,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter { // Sp
     private final JwtUtils jwtUtils;
     private final AuthEntryPointJwt unauthorizedHandler;
 
-    // Spring Boot 2
+//     Spring Boot 2
 
 //  @Override
 //  public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -35,7 +35,7 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter { // Sp
 //    .passwordEncoder(passwordEncoder());
 //  }
 
-    //  @Override
+//      @Override
 //  protected void configure(HttpSecurity http) throws Exception {
 //    http.cors().and().csrf().disable()
 //      .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
@@ -86,11 +86,11 @@ public class WebSecurityConfig { // extends WebSecurityConfigurerAdapter { // Sp
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
                                 auth.requestMatchers("/api/auth/**").anonymous()
-                                        .requestMatchers("/parse/**").anonymous()
-                                        .requestMatchers("/parse").anonymous()
+                                        .requestMatchers("/parse/**").permitAll()
+                                        .requestMatchers("/parse").permitAll()
                                         .requestMatchers("/actuator/prometheus").anonymous()
                                         .requestMatchers("/actuator/*").anonymous()
-                                        .anyRequest().anonymous()
+                                        .anyRequest().permitAll()
                 );
 
         http.authenticationProvider(authenticationProvider());

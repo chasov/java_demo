@@ -14,10 +14,13 @@ import ru.t1.java.demo.aop.LoggableException;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.model.enums.Metrics;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.service.MetricService;
 import ru.t1.java.demo.util.ClientMapper;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -62,12 +65,13 @@ public class ClientController {
     }
 
     @GetMapping("/register")
-    public ResponseEntity<Client> register(@RequestBody ClientDto clientDto) {
+    public ResponseEntity<List<Client>> register(@RequestBody ClientDto clientDto) {
         log.info("Registering client: {}", clientDto);
-        Client client = clientService.registerClient(
-                clientMapper.toEntityWithId(clientDto)
+        List<Client> clients = clientService.registerClients(
+                List.of(clientMapper.toEntityWithId(clientDto))
         );
 //        log.info("Client registered: {}", client.getId());
-        return ResponseEntity.ok().body(client);
+        metricService.incrementByName(Metrics.CLIENT_CONTROLLER_REQUEST_COUNT.getValue());
+        return ResponseEntity.ok().body(clients);
     }
 }

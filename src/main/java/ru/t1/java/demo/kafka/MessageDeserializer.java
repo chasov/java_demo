@@ -1,12 +1,10 @@
 package ru.t1.java.demo.kafka;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.dto.ClientDto;
 
 import java.nio.charset.StandardCharsets;
 
@@ -15,7 +13,7 @@ import java.nio.charset.StandardCharsets;
 @RequiredArgsConstructor
 public class MessageDeserializer<T> extends JsonDeserializer<T> {
 
-    private final ObjectMapper objectMapper;
+//    private final ObjectMapper objectMapper;
 
     private static String getMessage(byte[] data) {
         return new String(data, StandardCharsets.UTF_8);
@@ -25,7 +23,7 @@ public class MessageDeserializer<T> extends JsonDeserializer<T> {
     public T deserialize(String topic, Headers headers, byte[] data) {
         try {
 
-            objectMapper.readValue(getMessage(data), ClientDto.class);
+//            objectMapper.readValue(getMessage(data), ClientDto.class);
 
             return super.deserialize(topic, headers, data);
         } catch (Exception e) {

@@ -12,10 +12,7 @@ import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.web.CheckWebClient;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -30,18 +27,21 @@ public class ClientServiceImpl implements ClientService {
     public List<Client> registerClients(List<Client> clients) {
         List<Client> savedClients = new ArrayList<>();
         for (Client client : clients) {
-            Optional<CheckResponse> check = checkWebClient.check(client.getId());
+            Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
             check.ifPresent(checkResponse -> {
                 if (!checkResponse.getBlocked()) {
-                    Client saved = repository.save(client);
-                    kafkaClientProducer.send(saved.getId());
-                    savedClients.add(saved);
+//                    Client saved = repository.save(client);
+                    kafkaClientProducer.send(client.getId());
+                    savedClients.add(client);
                 }
             });
 //            savedClients.add(repository.save(client));
         }
 
-        return savedClients;
+        return savedClients
+                .stream()
+                .sorted(Comparator.comparing(Client::getId))
+                .toList();
     }
 
     @Override

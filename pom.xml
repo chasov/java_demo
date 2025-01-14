@@ -19,7 +19,7 @@
         <dependency>
             <groupId>ru.t1.java.demo</groupId>
             <artifactId>track-starter</artifactId>
-            <version>0.0.27</version>
+            <version>0.0.28</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -158,6 +158,14 @@
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
             <version>33.1.0-jre</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-authorization-server</artifactId>
         </dependency>
         <!--        <dependency>-->
         <!--            <groupId>net.jcip</groupId>-->

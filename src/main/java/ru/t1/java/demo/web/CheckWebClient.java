@@ -19,7 +19,7 @@ public class CheckWebClient extends BaseWebClient {
         super(webClient);
     }
 
-    public Optional<CheckResponse> check(Long id) {
+    public Optional<CheckResponse> check(Integer id) {
         log.debug("Старт запроса с id {}", id);
         ResponseEntity<CheckResponse> post = null;
         try {

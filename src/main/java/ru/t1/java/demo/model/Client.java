@@ -30,6 +30,9 @@ public class Client extends AbstractPersistable<Long> {
     @Column(name = "blocked_whom")
     private String blockedWhom;
 
+    @Column(name = "client_id")
+    private Integer clientId;
+
     @Override
     public Long getId() {
         return super.getId();

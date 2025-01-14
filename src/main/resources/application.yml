@@ -67,7 +67,6 @@ t1:
     listener:
       poll-timeout: 1000
 
-
 track:
   errors-to-track: JsonParseException, IOException
   kafka:

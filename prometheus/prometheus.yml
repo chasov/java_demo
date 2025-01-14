@@ -6,3 +6,9 @@ scrape_configs:
       - targets: [ 'host.docker.internal:8080' ]
         labels:
           alias: "t1_java_demo"
+  - job_name: 'kafka'
+    scrape_interval: 15s # This can be adjusted based on our needs
+    static_configs:
+      - targets: [ 'host.docker.internal:9092' ]
+        labels:
+          alias: "t1_java_demo_kafka"
