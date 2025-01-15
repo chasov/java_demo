@@ -17,7 +17,6 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 public class Account {
 
     @Id
@@ -28,4 +27,9 @@ public class Account {
 
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
+
+    public Account(AccountScoreType accountScoreType, BigDecimal balance) {
+        this.accountScoreType = accountScoreType;
+        this.balance = balance;
+    }
 }
