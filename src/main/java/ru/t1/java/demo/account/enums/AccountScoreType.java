@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model.enums;
+package ru.t1.java.demo.account.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;

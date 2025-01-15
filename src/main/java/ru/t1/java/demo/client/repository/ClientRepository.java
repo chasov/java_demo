@@ -1,7 +1,7 @@
-package ru.t1.java.demo.repository;
+package ru.t1.java.demo.client.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.client.model.Client;
 
 import java.util.Optional;
 

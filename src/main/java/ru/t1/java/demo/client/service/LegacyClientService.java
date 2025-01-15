@@ -1,12 +1,12 @@
-package ru.t1.java.demo.service;
+package ru.t1.java.demo.client.service;
 
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.repository.ClientRepository;
-import ru.t1.java.demo.util.ClientMapper;
+import ru.t1.java.demo.client.model.Client;
+import ru.t1.java.demo.client.dto.ClientDto;
+import ru.t1.java.demo.client.repository.ClientRepository;
+import ru.t1.java.demo.client.util.ClientMapper;
 
 import java.util.HashMap;
 import java.util.Map;

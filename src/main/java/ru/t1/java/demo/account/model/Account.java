@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model;
+package ru.t1.java.demo.account.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.t1.java.demo.model.enums.AccountScoreType;
+import ru.t1.java.demo.account.enums.AccountScoreType;
 
 import java.math.BigDecimal;
 import java.util.UUID;

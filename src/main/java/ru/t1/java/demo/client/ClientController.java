@@ -1,4 +1,4 @@
-package ru.t1.java.demo.controller;
+package ru.t1.java.demo.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +8,7 @@ import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.exception.ClientException;
-import ru.t1.java.demo.service.ClientService;
+import ru.t1.java.demo.client.service.ClientService;
 
 import java.io.IOException;
 

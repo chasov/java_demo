@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model;
+package ru.t1.java.demo.exception;
 
 import lombok.Getter;
 import lombok.Setter;

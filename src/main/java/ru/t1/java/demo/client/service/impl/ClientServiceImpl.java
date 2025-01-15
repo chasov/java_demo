@@ -1,18 +1,15 @@
-package ru.t1.java.demo.service.impl;
+package ru.t1.java.demo.client.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.LogExecution;
-import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.repository.ClientRepository;
-import ru.t1.java.demo.service.ClientService;
-import ru.t1.java.demo.util.ClientMapper;
+import ru.t1.java.demo.client.model.Client;
+import ru.t1.java.demo.client.dto.ClientDto;
+import ru.t1.java.demo.client.service.ClientService;
+import ru.t1.java.demo.client.repository.ClientRepository;
+import ru.t1.java.demo.client.util.ClientMapper;
 
 import java.io.File;
 import java.io.IOException;

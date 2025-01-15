@@ -13,7 +13,7 @@ spring:
 logging:
   level:
     ROOT: INFO
-    ru.t1.java.demo.controller.ClientController: DEBUG
+    ru.t1.java.demo.controller.ru.t1.java.demo.Client.model.ClientController: DEBUG
 
 t1:
   scan-path: ru.t1.java.demo

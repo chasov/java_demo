@@ -1,4 +1,4 @@
-package ru.t1.java.demo.dto;
+package ru.t1.java.demo.client.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -6,11 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.client.model.Client;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link ru.t1.java.demo.model.Client}
+ * DTO for {@link Client}
  */
 @Data
 @AllArgsConstructor
