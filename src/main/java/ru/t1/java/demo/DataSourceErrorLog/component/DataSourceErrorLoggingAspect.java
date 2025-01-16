@@ -19,7 +19,7 @@ public class DataSourceErrorLoggingAspect {
     @Autowired
     private DataSourceErrorLogRepository dataSourceErrorLogRepository;
 
-    @Pointcut("within(ru.t1.java.demo)")
+    @Pointcut("within(ru.t1.java.demo..*)")
     public void logDataSourceErrorPointcut() {
     }
 
