@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model;
+package ru.t1.java.demo.client.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -1,6 +1,6 @@
-package ru.t1.java.demo.service;
+package ru.t1.java.demo.client.service;
 
-import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.client.model.Client;
 
 import java.io.IOException;
 import java.util.List;

@@ -1,8 +1,8 @@
-package ru.t1.java.demo.util;
+package ru.t1.java.demo.client.util;
 
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.client.model.Client;
+import ru.t1.java.demo.client.dto.ClientDto;
 
 @Component
 public class ClientMapper {
