@@ -34,14 +34,7 @@ public class Transaction {
 
 
     public Transaction(BigDecimal amount) {
-        setAmount(amount);
-        this.transactionTime = new Timestamp(new Date().getTime());
-    }
-
-    private void setAmount(BigDecimal amount) {
-        if (amount == null || amount.compareTo(BigDecimal.ZERO) < 0) {
-            throw new IllegalArgumentException("Transaction amount must be greater than 0");
-        }
         this.amount = amount;
+        this.transactionTime = new Timestamp(new Date().getTime());
     }
 }

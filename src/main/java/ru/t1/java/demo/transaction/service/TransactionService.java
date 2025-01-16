@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.transaction.model.Transaction;
 import ru.t1.java.demo.transaction.repository.TransactionRepository;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -14,6 +15,9 @@ public class TransactionService {
     private TransactionRepository transactionRepository;
 
     public Transaction createTransaction(Transaction transaction) {
+        if (transaction.getAmount() == null || transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
+            throw new IllegalArgumentException("Transaction amount must be greater than 0");
+        }
         return transactionRepository.save(transaction);
     }
 
