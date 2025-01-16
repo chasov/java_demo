@@ -1,4 +1,4 @@
-package ru.t1.java.demo.service.mterics;
+package ru.t1.java.demo.service.metrics;
 
 import com.google.common.collect.ImmutableList;
 import io.micrometer.core.instrument.Counter;

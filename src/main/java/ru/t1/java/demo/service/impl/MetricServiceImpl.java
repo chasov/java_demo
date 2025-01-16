@@ -6,7 +6,7 @@ import io.micrometer.core.instrument.MeterRegistry;
 import io.micrometer.core.instrument.Tag;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.service.MetricService;
-import ru.t1.java.demo.service.mterics.MetricCounter;
+import ru.t1.java.demo.service.metrics.MetricCounter;
 
 import java.util.HashMap;
 import java.util.Map;
