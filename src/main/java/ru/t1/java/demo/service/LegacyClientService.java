@@ -3,6 +3,8 @@ package ru.t1.java.demo.service;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.model.Client;
@@ -25,7 +27,7 @@ public class LegacyClientService {
 
     @PostConstruct
     void init() {
-        getClient(1L);
+        getClient(3L);
     }
 
     public ClientDto getClient(Long id) {
@@ -47,6 +49,21 @@ public class LegacyClientService {
 
         log.info("Client info: {}", clientDto.toString());
         return clientDto;
+    }
+
+    @LogDataSourceError
+    @Transactional
+    public void saveClient(Client client) {
+        repository.save(client);
+    }
+
+    @LogDataSourceError
+    @Transactional
+    public void deleteClientById(Long clientId) {
+        if (clientId == null) {
+            throw new IllegalArgumentException("Client ID cannot be null");
+        }
+        repository.deleteById(clientId);
     }
 
 }
