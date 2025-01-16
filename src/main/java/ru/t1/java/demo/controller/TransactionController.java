@@ -35,30 +35,27 @@ public class TransactionController {
     @GetMapping
     public Page<TransactionDto> getList(Pageable pageable) {
         Page<Transaction> transactions = transactionService.getList(pageable);
-        Page<TransactionDto> transactionDtoPage = transactions.map(transactionMapper::toDto);
-        return transactionDtoPage;
+        return transactions.map(transactionMapper::toDto);
     }
 
-    @GetMapping("/{id}")
-    public TransactionDto getOne(@PathVariable UUID id) {
+    @GetMapping("/getById")
+    public TransactionDto getOne(@RequestParam UUID id) {
         Optional<Transaction> transactionOptional = transactionService.getOne(id);
-        TransactionDto transactionDto = transactionMapper.toDto(transactionOptional.orElseThrow(() ->
+        return transactionMapper.toDto(transactionOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
-        return transactionDto;
     }
 
     @GetMapping("/by-ids")
     public List<TransactionDto> getMany(@RequestParam List<UUID> ids) {
         List<Transaction> transactions = transactionService.getMany(ids);
-        List<TransactionDto> transactionDtos = transactions.stream()
+        return transactions.stream()
                 .map(transactionMapper::toDto)
                 .toList();
-        return transactionDtos;
     }
 
-    @PostMapping
+    @PostMapping("/create_transaction")
     public TransactionDto create(@RequestBody TransactionDto dto) {
-        Transaction transaction = transactionMapper.toEntity(dto);
+        Transaction transaction = TransactionMapperImpl.toEntity(dto);
         Transaction resultTransaction = transactionService.create(transaction);
         return transactionMapper.toDto(resultTransaction);
     }

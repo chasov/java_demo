@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.repository.AccountRepository;
@@ -39,8 +40,8 @@ public class AccountController {
         return accountDtoPage;
     }
 
-    @GetMapping("/{id}")
-    public AccountDto getOne(@PathVariable UUID id) {
+    @GetMapping("/getById")
+    public AccountDto getOne(@RequestParam UUID id) {
         Optional<Account> accountOptional = accountService.getOne(id);
         AccountDto accountDto = accountMapper.toDto(accountOptional.orElseThrow(() ->
                 new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id))));
@@ -56,45 +57,15 @@ public class AccountController {
         return accountDtos;
     }
 
-    @PostMapping
+    @PostMapping("/create-account")
     public AccountDto create(@RequestBody AccountDto dto) {
-        Account account = accountMapper.toEntity(dto);
+        Account account = AccountMapperImpl.toEntity(dto);
         Account resultAccount = accountService.create(account);
         return accountMapper.toDto(resultAccount);
     }
 
-    @PatchMapping("/{id}")
-    public AccountDto patch(@PathVariable UUID id, @RequestBody JsonNode patchNode) {
-        Account account = accountRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
-
-        AccountDto accountDto = accountMapper.toDto(account);
-        accountDto = objectPatcher.patchAndValidate(accountDto, patchNode);
-        accountMapper.updateWithNull(accountDto, account);
-
-        Account resultAccount = accountService.patch(account, patchNode);
-        return accountMapper.toDto(resultAccount);
-    }
-
-    @PatchMapping
-    public List<UUID> patchMany(@RequestParam List<UUID> ids, @RequestBody JsonNode patchNode) {
-        Collection<Account> accounts = accountRepository.findAllById(ids);
-
-        for (Account account : accounts) {
-            AccountDto accountDto = accountMapper.toDto(account);
-            accountDto = objectPatcher.patchAndValidate(accountDto, patchNode);
-            accountMapper.updateWithNull(accountDto, account);
-        }
-
-        List<Account> resultAccounts = accountService.patchMany(accounts,patchNode);
-        List<UUID> ids1 = resultAccounts.stream()
-                .map(Account::getId)
-                .toList();
-        return ids1;
-    }
-
-    @DeleteMapping("/{id}")
-    public AccountDto delete(@PathVariable UUID id) {
+    @DeleteMapping("/deleteById")
+    public AccountDto delete(@RequestParam UUID id) {
         Account account = accountRepository.findById(id).orElse(null);
         if (account != null) {
             accountService.delete(account);
