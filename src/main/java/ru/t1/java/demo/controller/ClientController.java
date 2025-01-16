@@ -4,13 +4,11 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.LogMethod;
-import ru.t1.java.demo.aop.LoggableException;
+import ru.t1.java.demo.aop.annotation.LogMethod;
+import ru.t1.java.demo.aop.annotation.LoggableException;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
@@ -40,7 +38,12 @@ public class ClientController {
     @GetMapping(value = "/parse")
     @LoggableException
     public void parseSource() {
+//        try {
+        // ...
         throw new IllegalStateException();
+//        } catch (IllegalStateException e) {
+//            log.warn(e.getMessage());
+//        }
 
 //        clientRepository.save(Client.builder()
 //                .firstName("John42")
@@ -49,9 +52,11 @@ public class ClientController {
 //        metricService.incrementByName(Metrics.CLIENT_CONTROLLER_REQUEST_COUNT.getValue());
     }
 
-    @HandlingResult
+    //    @HandlingResult
+    @LogMethod
     @GetMapping("/client")
     public ResponseEntity<ClientDto> getClient() {
+        log.debug("Getting client with id ");
         return ResponseEntity.ok()
                 .body(ClientDto.builder()
                         .firstName("John")
@@ -59,7 +64,7 @@ public class ClientController {
     }
 
     @GetMapping("/admin")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String adminAccess() {
         return "Admin Board.";
     }

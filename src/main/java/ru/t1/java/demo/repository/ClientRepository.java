@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import ru.t1.java.demo.aop.Transaction;
+import ru.t1.java.demo.aop.annotation.Transaction;
 import ru.t1.java.demo.model.Client;
 
 import java.util.Optional;

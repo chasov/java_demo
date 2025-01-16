@@ -3,13 +3,12 @@ package ru.t1.java.demo.aop;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 @Slf4j
 @Aspect
 @Component
-@Order(0)
+//@Order(0)
 public class LoggingAspect {
 
     @Pointcut("execution(public * ru.t1.java.demo..*.*(..))")
@@ -23,26 +22,26 @@ public class LoggingAspect {
 //        log.info("ASPECT BEFORE ANNOTATION: Call method: {}", joinPoint.getSignature().getName());
 //    }
 
-    @After("@annotation(LogMethod)")
-    @Order(1)
+    @After("@annotation(ru.t1.java.demo.aop.annotation.LogMethod)")
+//    @Order(1)
     public void logAfter(JoinPoint joinPoint) {
-        log.error("ORDER 1: {}", joinPoint.getSignature().getName());
+        log.error("AFTER: {}", joinPoint.getSignature().getName());
     }
 
-    @Before("@annotation(LogMethod)")
-    @Order(0)
+    @Before("@annotation(ru.t1.java.demo.aop.annotation.LogMethod)")
+//    @Order(0)
     public void logBefore(JoinPoint joinPoint) {
         log.error("BEFORE: {}", joinPoint.getSignature().getName());
     }
 
-    @After("@annotation(LogMethod)")
-    @Order(0)
-    public void logExceptionAnnotation(JoinPoint joinPoint) {
-        log.error("ORDER 0: {}", joinPoint.getSignature().getName());
-    }
+//    @After("@annotation(LogMethod)")
+////    @Order(0)
+//    public void logExceptionAnnotation(JoinPoint joinPoint) {
+//        log.error("ORDER 0: {}", joinPoint.getSignature().getName());
+//    }
 
     @AfterReturning(
-            pointcut = "@annotation(HandlingResult)",
+            pointcut = "@annotation(ru.t1.java.demo.aop.annotation.HandlingResult)",
             returning = "result")
     public Object handleResult(JoinPoint joinPoint, Object result) {
         result = new Object();
@@ -51,12 +50,13 @@ public class LoggingAspect {
     }
 
 
-    @AfterThrowing(pointcut = "@annotation(LoggableException)",
+    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.LoggableException)",
             throwing = "e")
-    @Order(0)
+//    @Order(0)
     public void handleException(JoinPoint joinPoint, Exception e) {
         log.error("AFTER EXCEPTION {}",
                 joinPoint.getSignature().toShortString());
+
         log.error("Произошла ошибка: ", e);
 
     }

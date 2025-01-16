@@ -17,7 +17,7 @@ import ru.t1.java.demo.model.dto.ClientDto;
 @Component
 public class ResultAspect {
 
-    @Around("@annotation(ReplaceResult)")
+    @Around("@annotation(ru.t1.java.demo.aop.annotation.ReplaceResult)")
     @Order(0)
     public Object replace(ProceedingJoinPoint joinPoint) throws Throwable {
         log.error("AROUND ADVICE START: Replace");
@@ -39,7 +39,7 @@ public class ResultAspect {
         return client;
     }
 
-    @AfterReturning("@annotation(HandlingResult)")
+    @AfterReturning("@annotation(ru.t1.java.demo.aop.annotation.HandlingResult)")
     @Order(1)
     public Object handleResult(JoinPoint joinPoint) throws Throwable {
 //        joinPoint.proceed();
@@ -49,7 +49,7 @@ public class ResultAspect {
     }
 
 
-    @Around("@annotation(Disable)")
+    @Around("@annotation(ru.t1.java.demo.aop.annotation.Disable)")
     @Order(1)
     public Object disable(ProceedingJoinPoint joinPoint) throws Throwable {
         log.error("AROUND ADVICE START: Disable");
