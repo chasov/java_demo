@@ -24,7 +24,7 @@ public class LogAspect {
 
     }
 
-    @Before("@annotation(LogExecution)")
+    @Before("@annotation(ru.t1.java.demo.aop.annotation.LogExecution)")
     @Order(1)
     public void logAnnotationBefore(JoinPoint joinPoint) {
         log.info("ASPECT BEFORE ANNOTATION: Call method: {}", joinPoint.getSignature().getName());
@@ -35,14 +35,14 @@ public class LogAspect {
 //        log.error("ASPECT BEFORE: Call method: {}", joinPoint.getSignature().getName());
 //    }
 
-    @AfterThrowing(pointcut = "@annotation(LogException)")
+    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.LogException)")
     @Order(0)
     public void logExceptionAnnotation(JoinPoint joinPoint) {
         System.err.println("ASPECT EXCEPTION ANNOTATION: Logging exception: {}" + joinPoint.getSignature().getName());
     }
 
     @AfterReturning(
-            pointcut = "@annotation(HandlingResult)",
+            pointcut = "@annotation(ru.t1.java.demo.aop.annotation.HandlingResult)",
             returning = "result")
     public void handleResult(JoinPoint joinPoint, List<Client> result) {
         log.info("В результате выполнения метода {}", joinPoint.getSignature().toShortString());

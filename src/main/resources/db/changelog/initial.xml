@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.27.xsd"
+        objectQuotingStrategy="QUOTE_ONLY_RESERVED_WORDS">
+    <changeSet id="1737121729316-1" author="kisse (generated)">
+        <createSequence cacheSize="1" cycle="false" dataType="bigint" incrementBy="50" maxValue="9223372036854775807"
+                        minValue="1" sequenceName="client_seq" startValue="1"/>
+    </changeSet>
+    <changeSet id="1737121729316-2" author="kisse (generated)">
+        <createTable tableName="account">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="account_pkey"/>
+            </column>
+            <column name="account_type" type="VARCHAR(24)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="amount" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737121729316-3" author="kisse (generated)">
+        <createTable tableName="client">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_client"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="middle_name" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737121729316-4" author="kisse (generated)">
+        <createTable tableName="data_source_error_log">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_error"/>
+            </column>
+            <column name="exception_stacktrace" type="TEXT"/>
+            <column name="error_message" type="VARCHAR(255)"/>
+            <column name="method_signature" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="1737121729316-5" author="kisse (generated)">
+        <createTable tableName="transaction">
+            <column autoIncrement="true" name="id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="transaction_pkey"/>
+            </column>
+            <column name="amount" type="DECIMAL">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_date" type="TIMESTAMP WITH TIME ZONE">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>
