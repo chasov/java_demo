@@ -1,0 +1,63 @@
+###
+POST http://localhost:8080/account
+Accept: application/json
+Content-Type: application/json
+
+{
+  "clientId": 1235,
+  "accountType": "debit",
+  "balance": 100
+}
+
+<> 2025-01-17T160627.200.json
+<> 2025-01-17T160619.200.json
+<> 2025-01-17T160410.400.json
+<> 2025-01-17T160344.400.json
+<> 2025-01-17T160328.200.json
+<> 2025-01-17T160318.200.json
+<> 2025-01-17T160307.200.json
+<> 2025-01-17T160258.200.json
+<> 2025-01-17T160123.200.json
+
+
+
+
+###
+PATCH http://localhost:8080/account/1
+Accept: application/json
+Content-Type: application/json
+
+{
+  "clientId": 1235,
+  "accountType": "debit",
+  "balance": 100
+}
+
+<> 2025-01-17T161124.200.json
+<> 2025-01-17T161049.200.json
+<> 2025-01-17T160728.200.json
+<> 2025-01-17T160719.415.json
+<> 2025-01-17T150428.400.json
+<> 2025-01-17T150423.400.json
+
+###
+GET http://localhost:8080/account
+Accept: application/json
+
+<> 2025-01-17T161218.200.json
+<> 2025-01-17T161156.200.json
+<> 2025-01-17T150433.200.json
+
+###
+GET http://localhost:8080/account/5
+Accept: application/json
+
+<> 2025-01-17T161224.200.json
+<> 2025-01-17T150438.200.json
+
+###
+DELETE http://localhost:8080/account/5
+Accept: application/json
+
+<> 2025-01-17T161242.200.json
+<> 2025-01-17T150441.200.json
