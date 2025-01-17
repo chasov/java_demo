@@ -27,8 +27,6 @@ public class DataLoadServiceImpl {
 
     private final ClientService clientService;
     private final AccountService accountService;
-    private final AccountRepository accountRepository;
-    private final TransactionRepository transactionRepository;
     private final TransactionService transactionService;
 
     private final ObjectMapper objectMapper = new ObjectMapper();
