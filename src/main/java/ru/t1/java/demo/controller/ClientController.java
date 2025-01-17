@@ -23,11 +23,13 @@ public class ClientController {
     @Track
     @GetMapping(value = "/client")
     @HandlingResult
-    public void doSomething() throws IOException, InterruptedException {
+    public String doSomething() throws IOException, InterruptedException {
 //        try {
 //            clientService.parseJson();
-        Thread.sleep(3000L);
-        throw new ClientException();
+        System.out.println("Do something");
+        return "Im working";
+//        Thread.sleep(3000L);
+//        throw new ClientException();
 //        } catch (Exception e) {
 //            log.info("Catching exception from ClientController");
 //            throw new ClientException();
