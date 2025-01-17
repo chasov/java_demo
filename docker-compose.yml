@@ -3,10 +3,10 @@ version: '1.0'
 services:
 
   postgres:
-    image: postgres:11.13
+    image: postgres:16
     container_name: t1_java_demo
     ports:
-      - "5432:5432"
+      - "5433:5433"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=0000
+      - POSTGRES_PASSWORD=1
