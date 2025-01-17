@@ -1,0 +1,94 @@
+[
+  {
+    "account_id": 1,
+    "amount": -200.00
+  },
+  {
+    "account_id": 1,
+    "amount": 500.00
+  },
+  {
+    "account_id": 2,
+    "amount": -100.00
+  },
+  {
+    "account_id": 3,
+    "amount": -250.00
+  },
+  {
+    "account_id": 4,
+    "amount": 300.00
+  },
+  {
+    "account_id": 5,
+    "amount": 100.00
+  },
+  {
+    "account_id": 6,
+    "amount": 500.00
+  },
+  {
+    "account_id": 7,
+    "amount": 150.00
+  },
+  {
+    "account_id": 7,
+    "amount": -100.00
+  },
+  {
+    "account_id": 8,
+    "amount": 1000.00
+  },
+  {
+    "account_id": 8,
+    "amount": -1000.00
+  },
+  {
+    "account_id": 8,
+    "amount": -100.00
+  },
+  {
+    "account_id": 9,
+    "amount": -300.00
+  },
+  {
+    "account_id": 9,
+    "amount": 500.00
+  },
+  {
+    "account_id": 10,
+    "amount": -40.00
+  },
+  {
+    "account_id": 10,
+    "amount": 50.00
+  },
+  {
+    "account_id": 11,
+    "amount": 120.00
+  },
+  {
+    "account_id": 12,
+    "amount": 230.00
+  },
+  {
+    "account_id": 12,
+    "amount": -50.00
+  },
+  {
+    "account_id": 13,
+    "amount": 60.00
+  },
+  {
+    "account_id": 13,
+    "amount": 120.00
+  },
+  {
+    "account_id": 14,
+    "amount": 230.00
+  },
+  {
+    "account_id": 14,
+    "amount": -23.00
+  }
+]

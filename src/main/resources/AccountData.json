@@ -1,0 +1,72 @@
+[
+  {
+    "client_id": 1,
+    "accountType": "DEBIT",
+    "balance": 1500.50
+  },
+  {
+    "client_id": 1,
+    "accountType": "CREDIT",
+    "balance": 5000.00
+  },
+  {
+    "client_id": 2,
+    "accountType": "DEBIT",
+    "balance": 750.25
+  },
+  {
+    "client_id": 3,
+    "accountType": "DEBIT",
+    "balance": 3000.75
+  },
+  {
+    "client_id": 4,
+    "accountType": "CREDIT",
+    "balance": 10000.00
+  },
+  {
+    "client_id": 5,
+    "accountType": "DEBIT",
+    "balance": 230.00
+  },
+  {
+    "client_id": 6,
+    "accountType": "DEBIT",
+    "balance": 2500.20
+  },
+  {
+    "client_id": 7,
+    "accountType": "CREDIT",
+    "balance": 700.22
+  },
+  {
+    "client_id": 1,
+    "accountType": "DEBIT",
+    "balance": 75000.30
+  },
+  {
+    "client_id": 8,
+    "accountType": "CREDIT",
+    "balance": 250.50
+  },
+  {
+    "client_id": 8,
+    "accountType": "DEBIT",
+    "balance": 200.50
+  },
+  {
+    "client_id": 9,
+    "accountType": "CREDIT",
+    "balance": 10000.00
+  },
+  {
+    "client_id": 9,
+    "accountType": "DEBIT",
+    "balance": 500.12
+  },
+  {
+    "client_id": 10,
+    "accountType": "CREDIT",
+    "balance": 2300.00
+  }
+]

@@ -4,14 +4,14 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="init" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
+    <changeSet id="init" author="makosiale">
+        <sqlFile encoding="utf8" path="db/changelog/2024/09/V1__create.sql"/>
         <rollback/>
     </changeSet>
 
-    <changeSet id="update-client" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
-        <rollback/>
-    </changeSet>
+<!--    <changeSet id="update-client" author="ECHasov">-->
+<!--        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>-->
+<!--        <rollback/>-->
+<!--    </changeSet>-->
 
 </databaseChangeLog>
