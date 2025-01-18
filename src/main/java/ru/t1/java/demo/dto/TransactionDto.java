@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 public class TransactionDto implements Serializable {
 
     @JsonProperty("accountId")
-    BigDecimal accountId;
+    Long accountId;
 
     @JsonProperty("amount")
     BigDecimal amount;
