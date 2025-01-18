@@ -9,11 +9,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.impl.TransactionService;
 import ru.t1.java.demo.util.TransactionMapperImpl;
 
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -29,8 +32,6 @@ public class TransactionController {
     private final TransactionMapperImpl transactionMapper;
 
     private final TransactionRepository transactionRepository;
-
-    private final ObjectPatcher objectPatcher;
 
     @GetMapping
     public Page<TransactionDto> getList(Pageable pageable) {
@@ -59,38 +60,27 @@ public class TransactionController {
         Transaction resultTransaction = transactionService.create(transaction);
         return transactionMapper.toDto(resultTransaction);
     }
+    @PutMapping("/update-transaction")
+    public String updateAccount(
+            @RequestParam UUID id,
+            @RequestParam(required = false) BigDecimal amount,
+            @RequestParam(required = false) String transactionTime
+    ) {
+        try {
+            Transaction transaction = transactionService.getOne(id)
+                    .orElseThrow(() -> new IllegalArgumentException("Transaction not found with id: " + id));
+            if (amount != null) transaction.setAmount(amount);
+            if (transactionTime != null) transaction.setTransactionTime(transactionTime);
 
-    @PatchMapping("/{id}")
-    public TransactionDto patch(@PathVariable UUID id, @RequestBody JsonNode patchNode) {
-        Transaction transaction = transactionRepository.findById(id).orElseThrow(() ->
-                new ResponseStatusException(HttpStatus.NOT_FOUND, "Entity with id `%s` not found".formatted(id)));
-
-        TransactionDto transactionDto = transactionMapper.toDto(transaction);
-        transactionDto = objectPatcher.patchAndValidate(transactionDto, patchNode);
-        transactionMapper.updateWithNull(transactionDto, transaction);
-
-        Transaction resultTransaction = transactionService.patch(transaction,patchNode);
-        return transactionMapper.toDto(resultTransaction);
-    }
-
-    @PatchMapping
-    public List<UUID> patchMany(@RequestParam List<UUID> ids, @RequestBody JsonNode patchNode) {
-        Collection<Transaction> transactions = transactionRepository.findAllById(ids);
-
-        for (Transaction transaction : transactions) {
-            TransactionDto transactionDto = transactionMapper.toDto(transaction);
-            transactionDto = objectPatcher.patchAndValidate(transactionDto, patchNode);
-            transactionMapper.updateWithNull(transactionDto, transaction);
+            // Сохраняем обновленный аккаунт
+            transactionService.saveTransaction(transaction);
+            return "Transaction updated successfully: " + transaction.getId();
+        } catch (Exception e) {
+            return "Failed to update transaction: " + e.getMessage();
         }
-
-        List<Transaction> resultTransactions = transactionService.patchMany(transactions,patchNode);
-        List<UUID> ids1 = resultTransactions.stream()
-                .map(Transaction::getId)
-                .toList();
-        return ids1;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete-transaction")
     public TransactionDto delete(@PathVariable UUID id) {
         Transaction transaction = transactionRepository.findById(id).orElse(null);
         if (transaction != null) {

@@ -13,6 +13,7 @@ import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -65,5 +66,13 @@ public class LegacyClientService {
         }
         repository.deleteById(clientId);
     }
+
+    public Optional<Client> findClientById(Long clientId) {
+        return repository.findById(clientId);
+    }
+
+
+
+
 
 }

@@ -26,7 +26,7 @@ public class LogDataSourceErrorAspect {
         this.errorLogRepository = errorLogRepository;
     }
 
-    @Around("@within(org.springframework.web.bind.annotation.RestController)")
+    @Around("@within(org.springframework.web.bind.annotation.RestController) && @annotation(LogDataSourceError)")
     @Transactional
     public Object logError(ProceedingJoinPoint joinPoint) throws Throwable {
         try {

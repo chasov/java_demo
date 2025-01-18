@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
@@ -29,8 +30,6 @@ import java.util.stream.Collectors;
 public class AccountService {
 
     private final AccountRepository accountRepository;
-
-    private final ObjectPatcher objectPatcher;
 
     @PostConstruct
     void init() {
@@ -68,35 +67,22 @@ public class AccountService {
     public List<Account> getMany(Collection<UUID> ids) {
         return accountRepository.findAllById(ids);
     }
-
+    @Transactional
     public Account create(Account dto) {
         return accountRepository.save(dto);
     }
-
-    public Account patch(Account account, JsonNode patchNode) {
-        // Применяем изменения из patchNode к объекту account
-        objectPatcher.patchAndValidate(account, patchNode);  // Патчим объект
-
-        // Сохраняем обновленный объект в базе данных
-        return accountRepository.save(account);
-    }
-
-    public List<Account> patchMany(Collection<Account> accounts, JsonNode patchNode) {
-        // Применяем изменения из patchNode ко всем аккаунтам
-        for (Account account : accounts) {
-            objectPatcher.patchAndValidate(account, patchNode);  // Патчим каждый аккаунт
-        }
-
-        // Сохраняем все обновленные аккаунты в базе данных
-        return accountRepository.saveAll(accounts);
-    }
-
-
+    @Transactional
     public void delete(Account id) {
         accountRepository.delete(id);
     }
+    @Transactional
 
     public void deleteMany(Collection<UUID> ids) {
         accountRepository.deleteAllById(ids);
     }
+    @Transactional
+    public void saveAccount(Account account){
+        accountRepository.save(account);
+    }
+
 }

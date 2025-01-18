@@ -10,6 +10,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.Transaction;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
 public class TransactionService {
 
     private final TransactionRepository transactionRepository;
-    private final ObjectPatcher objectPatcher;
     private final TransactionRepository repository;
 
 
@@ -55,35 +55,21 @@ public class TransactionService {
     public List<Transaction> getMany(Collection<UUID> ids) {
         return transactionRepository.findAllById(ids);
     }
-
+    @Transactional
     public Transaction create(Transaction dto) {
         return transactionRepository.save(dto);
     }
-
-    public Transaction patch(Transaction id, JsonNode patchNode) {
-        // Применяем изменения из patchNode к объекту account
-        objectPatcher.patchAndValidate(id, patchNode);  // Патчим объект
-
-        // Сохраняем обновленный объект в базе данных
-        return transactionRepository.save(id);
-    }
-
-    public List<Transaction> patchMany(Collection<Transaction> ids, JsonNode patchNode) {
-        // Применяем изменения из patchNode ко всем аккаунтам
-        for (Transaction transaction : ids) {
-            objectPatcher.patchAndValidate(ids, patchNode);  // Патчим каждый аккаунт
-        }
-
-        // Сохраняем все обновленные аккаунты в базе данных
-        return transactionRepository.saveAll(ids);
-    }
-
+    @Transactional
     public void delete(Transaction id) {
         transactionRepository.delete(id);
     }
-
+    @Transactional
     public void deleteMany(Collection<UUID> ids) {
         transactionRepository.deleteAllById(ids);
+    }
+    @Transactional
+    public void saveTransaction(Transaction transaction){
+        transactionRepository.save(transaction);
     }
 
     public List<Transaction> parseJson() throws IOException {

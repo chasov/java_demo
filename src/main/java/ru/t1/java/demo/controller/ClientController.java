@@ -13,6 +13,7 @@ import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.service.LegacyClientService;
 
 import java.io.IOException;
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,8 +21,6 @@ import java.io.IOException;
 public class ClientController {
 
  private final LegacyClientService legacyClientService;
-
- private final ClientService clientService;
 
     @LogException
     @Track
@@ -38,23 +37,19 @@ public class ClientController {
 //        }
     }
 
-    // Эндпоинт для сохранения нового клиента
-    // Эндпоинт для сохранения клиента
     @LogDataSourceError
     @PostMapping("/save")
     public String saveClient(
             @RequestParam(required = false) String first_name,
             @RequestParam String last_name,
-            @RequestParam(required = false) String middle_name // необязательный параметр
+            @RequestParam(required = false) String middle_name
     ) {
         try {
-            // Создаем объект клиента
             Client client = new Client();
             client.setFirstName(first_name);
             client.setLastName(last_name);
             client.setMiddleName(middle_name);
 
-            // Сохраняем клиента
             legacyClientService.saveClient(client);
             return "Client saved successfully: " + client;
         } catch (Exception e) {
@@ -63,7 +58,41 @@ public class ClientController {
         }
     }
 
-    // Эндпоинт для удаления клиента по id
+    @LogDataSourceError
+    @PutMapping("/update-client")
+    public String updateClient(
+            @RequestParam Long clientId,
+            @RequestParam(required = false) String first_name,
+            @RequestParam(required = false) String last_name,
+            @RequestParam(required = false) String middle_name
+    ) {
+        try {
+            Optional<Client> existingClient = legacyClientService.findClientById(clientId);
+            if (existingClient.isEmpty()) {
+                return "Client with ID " + clientId + " not found.";
+            }
+
+            Client client = existingClient.get();
+
+            if (first_name != null) {
+                client.setFirstName(first_name);
+            }
+            if (last_name != null) {
+                client.setLastName(last_name);
+            }
+            if (middle_name != null) {
+                client.setMiddleName(middle_name);
+            }
+            legacyClientService.saveClient(client);
+
+            return "Client updated successfully: " + client;
+        } catch (Exception e) {
+            log.error("Error while updating client: ", e);
+            return "Failed to update client";
+        }
+    }
+
+
     @LogDataSourceError
     @DeleteMapping("/delete")
     public String deleteClient(@RequestParam Long id) {
