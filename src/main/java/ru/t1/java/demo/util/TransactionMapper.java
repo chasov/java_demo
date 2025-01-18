@@ -10,7 +10,8 @@ public class TransactionMapper {
     public static Transaction toEntity(TransactionDto transactionDto) {
         return Transaction.builder()
                 .id(transactionDto.getId())
-                .account(transactionDto.getAccount())
+                .accountFrom(transactionDto.getAccountFrom())
+                .accountTo(transactionDto.getAccountTo())
                 .amount(transactionDto.getAmount())
                 .completedAt(transactionDto.getCompletedAt())
                 .build();
@@ -19,7 +20,8 @@ public class TransactionMapper {
     public static TransactionDto toDto(Transaction transaction) {
         return TransactionDto.builder()
                 .id(transaction.getId())
-                .account(transaction.getAccount())
+                .accountFrom(transaction.getAccountFrom())
+                .accountTo(transaction.getAccountTo())
                 .amount(transaction.getAmount())
                 .completedAt(transaction.getCompletedAt())
                 .build();

@@ -22,9 +22,12 @@ public class Transaction {
     private Long id;
 
     @ManyToOne
-    @Column(name = "account_id", nullable = false)
-    @JoinColumn(name = "account_id", referencedColumnName = "id", nullable = false)
-    Account account;
+    @JoinColumn(name = "account_from_id", referencedColumnName = "id", nullable = false)
+    Account accountFrom;
+
+    @ManyToOne
+    @JoinColumn(name = "account_to_id", referencedColumnName = "id", nullable = false)
+    Account accountTo;
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;

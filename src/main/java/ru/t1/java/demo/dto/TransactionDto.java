@@ -19,7 +19,8 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto implements Serializable {
     private Long id;
-    private Account account;
+    private Account accountFrom;
+    private Account accountTo;
     private BigDecimal amount;
     private LocalDateTime completedAt;
 }
