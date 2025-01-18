@@ -6,11 +6,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.entity.Client;
 
 import java.io.Serializable;
 
 /**
- * DTO for {@link ru.t1.java.demo.model.Client}
+ * DTO for {@link Client}
  */
 @Data
 @AllArgsConstructor

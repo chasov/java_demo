@@ -10,3 +10,9 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
+    networks:
+      - my_network
+
+networks:
+  my_network:
+    driver: bridge
