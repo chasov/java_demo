@@ -21,7 +21,6 @@ public class Account {
     private Long id;
 
     @ManyToOne
-    @Column(name = "client", nullable = false)
     @JoinColumn(name = "client_id", referencedColumnName = "id", nullable = false)
     private Client client;
 

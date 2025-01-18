@@ -1,17 +1,7 @@
-<databaseChangeLog
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
-http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
-
-    <changeSet id="init" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
-        <rollback/>
-    </changeSet>
-
-    <changeSet id="update-client" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
-        <rollback/>
-    </changeSet>
-
-</databaseChangeLog>
+databaseChangeLog:
+  - include:
+      file: db/changelog/changeset/18-01-2025-creating-tables-01.sql
+  - include:
+      file: db/changelog/changeset/18-01-2025-insert-data-to-clients-02.sql
+  - include:
+      file: db/changelog/changeset/18-01-2025-insert-data-to-accounts-03.sql

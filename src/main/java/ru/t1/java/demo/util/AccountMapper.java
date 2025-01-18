@@ -18,6 +18,7 @@ public class AccountMapper {
 
     public static AccountDto toDto(Account account) {
         return AccountDto.builder()
+                .id(account.getId())
                 .client(account.getClient())
                 .accountType(account.getAccountType().toString())
                 .balance(account.getBalance())
