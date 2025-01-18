@@ -1,31 +1,25 @@
 package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.aop.LogException;
+import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ClientException;
-import ru.t1.java.demo.service.ClientService;
+import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.ImplService;
-import ru.t1.java.demo.service.impl.ClientServiceImpl;
+import ru.t1.java.demo.service.impl.AccountServiceImpl;
 
 import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
-@Slf4j
-@RequestMapping(value = "/client")
-public class ClientController {
-
-//    private final ClientServiceImpl clientService;
-    private final ClientService clientService;
+@RequestMapping("/account")
+public class AccountController {
+//    private final AccountServiceImpl accountService;
+    private final AccountService accountService;
 
     @LogException
     @Track
@@ -43,8 +37,13 @@ public class ClientController {
     }
 
     @GetMapping(value = "/get/{id}")
-    public ClientDto getClientById(@PathVariable("id") long id) {
-        return clientService.getClientById(id);
+    public AccountDto getTransactionById(@PathVariable("id") long id) {
+        return accountService.getAccountById(id);
     }
 
+    @DeleteMapping(value = "/deleteById/{id}")
+    public void deleteTransactionById(@PathVariable("id") long id){
+        accountService.deleteAccountById(id);
+    }
 }
+

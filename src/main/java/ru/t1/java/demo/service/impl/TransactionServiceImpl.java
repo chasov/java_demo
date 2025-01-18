@@ -5,11 +5,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.repository.ClientRepository;
+import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.service.ImplService;
-import ru.t1.java.demo.util.ClientMapper;
+import ru.t1.java.demo.util.AccountMapper;
+import ru.t1.java.demo.util.TransactionMapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,11 +22,11 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ClientServiceImpl implements ImplService<Client> {
+public class TransactionServiceImpl implements ImplService<Transaction> {
     @PostConstruct
     void init() {
         try {
-            List<Client> clients = parseJson();
+            List<Transaction> transactions = parseJson();
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
@@ -35,13 +37,14 @@ public class ClientServiceImpl implements ImplService<Client> {
 //    @LogExecution
 //    @Track
 //    @HandlingResult
-    public List<Client> parseJson() throws IOException {
+    public List<Transaction> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ClientDto[] clients = mapper.readValue(new File("src/main/resources/MOCK_CLIENT.json"), ClientDto[].class);
+        TransactionDto[] transactions = mapper.readValue(new File("src/main/resources/MOCK_TRANSACTION.json"),
+                TransactionDto[].class);
 
-        return Arrays.stream(clients)
-                .map(ClientMapper::toEntity)
+        return Arrays.stream(transactions)
+                .map(TransactionMapper::toEntity)
                 .collect(Collectors.toList());
     }
 }

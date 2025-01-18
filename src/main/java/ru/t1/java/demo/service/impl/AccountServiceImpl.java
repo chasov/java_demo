@@ -5,10 +5,14 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ImplService;
+import ru.t1.java.demo.util.AccountMapper;
 import ru.t1.java.demo.util.ClientMapper;
 
 import java.io.File;
@@ -20,11 +24,11 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class ClientServiceImpl implements ImplService<Client> {
+public class AccountServiceImpl implements ImplService<Account> {
     @PostConstruct
     void init() {
         try {
-            List<Client> clients = parseJson();
+            List<Account> accounts = parseJson();
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
@@ -35,13 +39,14 @@ public class ClientServiceImpl implements ImplService<Client> {
 //    @LogExecution
 //    @Track
 //    @HandlingResult
-    public List<Client> parseJson() throws IOException {
+    public List<Account> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ClientDto[] clients = mapper.readValue(new File("src/main/resources/MOCK_CLIENT.json"), ClientDto[].class);
+        AccountDto[] accounts = mapper.readValue(new File("src/main/resources/MOCK_ACCOUNT.json"),
+                AccountDto[].class);
 
-        return Arrays.stream(clients)
-                .map(ClientMapper::toEntity)
+        return Arrays.stream(accounts)
+                .map(AccountMapper::toEntity)
                 .collect(Collectors.toList());
     }
 }

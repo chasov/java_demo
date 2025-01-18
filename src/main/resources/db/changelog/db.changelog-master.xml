@@ -4,14 +4,38 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="init" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
+    <changeSet id="init-client" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/client-create-changelog.sql"/>
         <rollback/>
     </changeSet>
 
-    <changeSet id="update-client" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
+    <changeSet id="update-client" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/client-init-changelog.sql"/>
         <rollback/>
     </changeSet>
 
+    <changeSet id="create-account" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/account-create-changelog.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="init-account" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/account-init-changelog.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="create-transaction" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/transaction-create-changelog.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="init-transaction" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/transaction-init-changelog.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="create-data_source_error_log" author="VVStepanov">
+        <sqlFile encoding="utf8" path="db/changelog/2025.01/data_source_error_log-create-changelog.sql"/>
+        <rollback/>
+    </changeSet>
 </databaseChangeLog>

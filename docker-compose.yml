@@ -8,5 +8,6 @@ services:
     ports:
       - "5432:5432"
     environment:
+      - POSTGRES_DB=t1_demo
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
