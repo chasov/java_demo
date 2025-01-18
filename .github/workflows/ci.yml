@@ -2,9 +2,9 @@ name: CIForJavaDemo
 
 on:
   push:
-    branches: [ "start" ]
+    branches: [ "DShakhaev" ]
   pull_request:
-    branches: [ "start" ]
+    branches: [ "DShakhaev" ]
 
 jobs:
   build_and_run_tests:
