@@ -22,10 +22,8 @@ public class TransactionController {
     @Track
     @PostMapping(value = "/transaction")
     @HandlingResult
-    public void save(@RequestBody TransactionDto dto) {
-
-        transactionService.save(dto);
-
+    public TransactionDto save(@RequestBody TransactionDto dto) {
+        return transactionService.save(dto);
     }
 
     @LogException
@@ -33,7 +31,7 @@ public class TransactionController {
     @PatchMapping("/transaction/{transactionId}")
     @HandlingResult
     public TransactionDto patchById(@PathVariable Long transactionId,
-                                               @RequestBody TransactionDto dto) {
+                                    @RequestBody TransactionDto dto) {
 
         return transactionService.patchById(transactionId, dto);
 
