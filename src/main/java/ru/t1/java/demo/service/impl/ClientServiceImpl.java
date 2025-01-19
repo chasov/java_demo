@@ -3,6 +3,8 @@ package ru.t1.java.demo.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.model.Client;
