@@ -21,7 +21,7 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "client_id")
-    private Client clientId;
+    private Client client;
 
     @Enumerated(EnumType.STRING)
     private AccountType accountType;

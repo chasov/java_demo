@@ -22,7 +22,7 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
-    private Account accountId;
+    private Account account;
 
     private BigDecimal amount;
 

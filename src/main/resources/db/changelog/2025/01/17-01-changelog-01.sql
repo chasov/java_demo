@@ -1,6 +1,6 @@
 CREATE TABLE account (
     id BIGSERIAL PRIMARY KEY,
-    client_id VARCHAR(255) NOT NULL,
+    client_id BIGINT NOT NULL,
     account_type VARCHAR(50) NOT NULL,
     balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
 );

@@ -1,0 +1,72 @@
+GET http://localhost:8080/transactions
+
+####
+
+GET http://localhost:8080/transactions/15
+
+###
+
+POST http://localhost:8080/transactions
+Content-Type: application/json
+
+{
+  "account": {
+    "id": 1
+  },
+  "amount": 500.00
+}
+
+###
+
+PUT http://localhost:8080/transactions/1
+Content-Type: application/json
+
+{
+  "account": {
+    "id": 1
+  },
+  "amount": 1600
+}
+
+###
+
+DELETE http://localhost:8080/transactions/82
+
+###
+
+GET http://localhost:8080/accounts
+
+###
+
+GET http://localhost:8080/accounts/1
+
+###
+
+POST http://localhost:8080/accounts
+Content-Type: application/json
+
+{
+  "accountType": "DEBIT",
+  "client": {
+    "id": 1
+  },
+  "balance": 300
+}
+
+###
+
+PUT http://localhost:8080/accounts/1
+Content-Type: application/json
+
+{
+  "client": {
+    "id": 5
+  },
+  "accountType": "DEBIT",
+  "balance": 100
+}
+
+###
+
+DELETE http://localhost:8080/accounts/27
+
