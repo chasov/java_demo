@@ -10,7 +10,7 @@ public interface TransactionService {
 
     TransactionDto patchById(Long transactionId, TransactionDto dto);
 
-    List<TransactionDto> getAllById(Long transactionId);
+    List<TransactionDto> getAllAccountById(Long transactionId);
 
     TransactionDto getById(Long transactionId);
 

@@ -13,7 +13,6 @@ import ru.t1.java.demo.service.ClientService;
 @RequiredArgsConstructor
 @Slf4j
 public class ClientController {
-
     private final ClientService clientService;
 
     @LogException
@@ -21,7 +20,6 @@ public class ClientController {
     @PostMapping(value = "/client")
     @HandlingResult
     public ClientDto save(@RequestBody ClientDto dto) {
-
         return clientService.save(dto);
 
     }
@@ -32,9 +30,7 @@ public class ClientController {
     @HandlingResult
     public ClientDto patchById(@PathVariable Long clientId,
                                @RequestBody ClientDto dto) {
-
         return clientService.patchById(clientId, dto);
-
     }
 
     @LogException
@@ -42,9 +38,7 @@ public class ClientController {
     @GetMapping(value = "/client/{clientId}")
     @HandlingResult
     public ClientDto getById(@PathVariable Long clientId) {
-
         return clientService.getById(clientId);
-
     }
 
     @LogException
@@ -52,9 +46,6 @@ public class ClientController {
     @DeleteMapping("client/{clientId}")
     @HandlingResult
     public void deleteById(@PathVariable Long clientId) {
-
         clientService.deleteById(clientId);
-
     }
-
 }

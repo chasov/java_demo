@@ -10,7 +10,7 @@ public interface AccountService {
 
     AccountDto patchById(Long accountId, AccountDto dto);
 
-    List<AccountDto> getAllById(Long accountId);
+    List<AccountDto> getAllByClientId(Long clientId);
 
     AccountDto getById(Long accountId);
 

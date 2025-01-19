@@ -1,52 +1,47 @@
 package ru.t1.java.demo.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.LogExecution;
 import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.util.ClientMapper;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
-    private final ClientRepository repository;
+    private final ClientRepository clientRepository;
 
-    @PostConstruct
-    void init() {
-        try {
-            List<Client> clients = parseJson();
-        } catch (IOException e) {
-            log.error("Ошибка во время обработки записей", e);
-        }
-//        repository.saveAll(clients);
+    @Override
+    public ClientDto save(ClientDto dto) {
+        return ClientMapper.toDto(clientRepository.save(ClientMapper.toEntity(dto)));
     }
 
     @Override
-//    @LogExecution
-//    @Track
-//    @HandlingResult
-    public List<Client> parseJson() throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
+    public ClientDto patchById(Long clientId, ClientDto dto) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException("Client not found"));
+        client.setFirstName(dto.getFirstName());
+        client.setLastName(dto.getLastName());
+        client.setMiddleName(dto.getMiddleName());
 
-        ClientDto[] clients = mapper.readValue(new File("src/main/resources/MOCK_DATA.json"), ClientDto[].class);
+        return ClientMapper.toDto(clientRepository.save(client));
+    }
 
-        return Arrays.stream(clients)
-                .map(ClientMapper::toEntity)
-                .collect(Collectors.toList());
+    @Override
+    public ClientDto getById(Long clientId) {
+        return ClientMapper.toDto(clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException("Client not found")));
+    }
+
+    @Override
+    public void deleteById(Long clientId) {
+        clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException("Client not found"));
+        clientRepository.deleteById(clientId);
     }
 }

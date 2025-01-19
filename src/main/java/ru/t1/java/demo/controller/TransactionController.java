@@ -41,11 +41,11 @@ public class TransactionController {
 
     @LogException
     @Track
-    @GetMapping(value = "/transactions/{transactionId}")
+    @GetMapping(value = "/transactions/{accountId}")
     @HandlingResult
-    public List<TransactionDto> getAllById(@PathVariable Long transactionId) {
+    public List<TransactionDto> getAllByAccountId(@PathVariable Long accountId) {
 
-        return transactionService.getAllById(transactionId);
+        return transactionService.getAllAccountById(accountId);
 
     }
 

@@ -4,10 +4,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.exception.AccountException;
+import ru.t1.java.demo.exception.TransactionException;
+import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -16,32 +21,46 @@ import java.util.List;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
 
     @Override
     public TransactionDto save(TransactionDto dto) {
-
-        transactionRepository.save(TransactionMapper.toEntity(dto));
-
-        return dto;
+        return TransactionMapper.toDto(transactionRepository.save(TransactionMapper.toEntity(dto)));
     }
 
     @Override
     public TransactionDto patchById(Long transactionId, TransactionDto dto) {
-        return null;
+        Transaction transaction = transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionException("Transaction not found"));
+        accountRepository.findById(transaction.getAccountId())
+                .orElseThrow(() -> new AccountException("Account not found"));
+
+        transaction.setAmount(dto.getAmount());
+
+        return TransactionMapper.toDto(transactionRepository.save(transaction));
     }
 
     @Override
-    public List<TransactionDto> getAllById(Long transactionId) {
-        return null;
+    public List<TransactionDto> getAllAccountById(Long accountId) {
+        List<Transaction> transactions = transactionRepository.findAllByAccountId(accountId);
+        if (transactions.isEmpty()) return Collections.emptyList();
+
+        return transactions.stream()
+                .map(TransactionMapper::toDto)
+                .toList();
     }
 
     @Override
     public TransactionDto getById(Long transactionId) {
-        return null;
+        return TransactionMapper.toDto(transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionException("Transaction not found")));
     }
 
     @Override
     public void deleteById(Long transactionId) {
+        transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionException("Transaction not found"));
 
+        transactionRepository.deleteById(transactionId);
     }
 }

@@ -41,11 +41,11 @@ public class AccountController {
 
     @LogException
     @Track
-    @GetMapping(value = "/accounts/{accountId}")
+    @GetMapping(value = "/accounts/{clientId}")
     @HandlingResult
-    public List<AccountDto> getAllById(@PathVariable Long accountId) {
+    public List<AccountDto> getAllByClientId(@PathVariable Long clientId) {
 
-        return accountService.getAllById(accountId);
+        return accountService.getAllByClientId(clientId);
 
     }
 
