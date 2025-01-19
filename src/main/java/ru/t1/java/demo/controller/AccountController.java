@@ -2,17 +2,13 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.util.AccountMapper;
+import ru.t1.java.demo.service.AccountService;
 
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -20,13 +16,15 @@ import java.util.List;
 @Slf4j
 public class AccountController {
 
+    private final AccountService accountService;
+
     @LogException
     @Track
     @PostMapping(value = "/account")
     @HandlingResult
-    public Account save(@RequestBody AccountDto dto) {
-        Account account = AccountMapper.toEntity(dto);
-        return account;
+    public AccountDto save(@RequestBody AccountDto dto) {
+
+       return accountService.save(dto);
 
     }
 
@@ -34,20 +32,20 @@ public class AccountController {
     @Track
     @PatchMapping("account/{accountId}")
     @HandlingResult
-    public Account patchByAccountId(@PathVariable Long accountId,
+    public AccountDto patchById(@PathVariable Long accountId,
                                        @RequestBody AccountDto dto) {
-        dto.setClientId(accountId);
-        Account account = AccountMapper.toEntity(dto);
-        return account;
+
+        return accountService.patchById(accountId, dto);
+
     }
 
     @LogException
     @Track
-    @GetMapping(value = "/account")
+    @GetMapping(value = "/accounts/{accountId}")
     @HandlingResult
-    public List<AccountDto> getAccounts() {
+    public List<AccountDto> getAllById(@PathVariable Long accountId) {
 
-        return Collections.emptyList();
+        return accountService.getAllById(accountId);
 
     }
 
@@ -57,7 +55,7 @@ public class AccountController {
     @HandlingResult
     public AccountDto getById(@PathVariable Long accountId) {
 
-        return new AccountDto();
+        return accountService.getById(accountId);
 
     }
 
@@ -65,9 +63,10 @@ public class AccountController {
     @Track
     @DeleteMapping("account/{accountId}")
     @HandlingResult
-    public AccountDto deleteByAccountId(@PathVariable Long accountId) {
+    public void deleteById(@PathVariable Long accountId) {
 
-        return new AccountDto();
+        accountService.deleteById(accountId);
+
     }
 
 }

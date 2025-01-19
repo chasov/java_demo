@@ -6,14 +6,14 @@ import java.util.List;
 
 public interface TransactionService {
 
-    TransactionDto saveTransaction(TransactionDto dto);
+    TransactionDto save(TransactionDto dto);
 
-    TransactionDto updateTransaction(Long transactionId);
+    TransactionDto patchById(Long transactionId, TransactionDto dto);
 
-    List<TransactionDto> getAllTransactions();
+    List<TransactionDto> getAllById(Long transactionId);
 
-    TransactionDto getTransaction(Long transactionId);
+    TransactionDto getById(Long transactionId);
 
-    void deleteTransaction(Long transactionId);
+    void deleteById(Long transactionId);
 
 }

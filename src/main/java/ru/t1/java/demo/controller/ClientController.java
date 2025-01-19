@@ -2,15 +2,12 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.aop.LogException;
-import ru.t1.java.demo.exception.ClientException;
+import ru.t1.java.demo.aop.Track;
+import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.service.ClientService;
-
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,19 +18,43 @@ public class ClientController {
 
     @LogException
     @Track
-    @GetMapping(value = "/client")
+    @PostMapping(value = "/client")
     @HandlingResult
-    public String doSomething() throws IOException, InterruptedException {
-//        try {
-//            clientService.parseJson();
-        System.out.println("Do something");
-        return "Im working";
-//        Thread.sleep(3000L);
-//        throw new ClientException();
-//        } catch (Exception e) {
-//            log.info("Catching exception from ClientController");
-//            throw new ClientException();
-//        }
+    public ClientDto save(@RequestBody ClientDto dto) {
+
+        return clientService.save(dto);
+
+    }
+
+    @LogException
+    @Track
+    @PatchMapping("client/{clientId}")
+    @HandlingResult
+    public ClientDto patchById(@PathVariable Long clientId,
+                               @RequestBody ClientDto dto) {
+
+        return clientService.patchById(clientId, dto);
+
+    }
+
+    @LogException
+    @Track
+    @GetMapping(value = "/client/{clientId}")
+    @HandlingResult
+    public ClientDto getById(@PathVariable Long clientId) {
+
+        return clientService.getById(clientId);
+
+    }
+
+    @LogException
+    @Track
+    @DeleteMapping("client/{clientId}")
+    @HandlingResult
+    public void deleteById(@PathVariable Long clientId) {
+
+        clientService.deleteById(clientId);
+
     }
 
 }

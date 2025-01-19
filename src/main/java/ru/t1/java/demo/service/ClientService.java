@@ -1,10 +1,15 @@
 package ru.t1.java.demo.service;
 
-import ru.t1.java.demo.model.Client;
-
-import java.io.IOException;
-import java.util.List;
+import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.ClientDto;
 
 public interface ClientService {
-    List<Client> parseJson() throws IOException;
+    ClientDto save(ClientDto dto);
+
+    ClientDto patchById(Long clientId, ClientDto dto);
+
+    ClientDto getById(Long clientId);
+
+    void deleteById(Long clientId);
+
 }

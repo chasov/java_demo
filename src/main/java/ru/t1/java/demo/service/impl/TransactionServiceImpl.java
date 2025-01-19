@@ -18,7 +18,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
 
     @Override
-    public TransactionDto saveTransaction(TransactionDto dto) {
+    public TransactionDto save(TransactionDto dto) {
 
         transactionRepository.save(TransactionMapper.toEntity(dto));
 
@@ -26,22 +26,22 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionDto updateTransaction(Long transactionId) {
+    public TransactionDto patchById(Long transactionId, TransactionDto dto) {
         return null;
     }
 
     @Override
-    public List<TransactionDto> getAllTransactions() {
+    public List<TransactionDto> getAllById(Long transactionId) {
         return null;
     }
 
     @Override
-    public TransactionDto getTransaction(Long transactionId) {
+    public TransactionDto getById(Long transactionId) {
         return null;
     }
 
     @Override
-    public void deleteTransaction(Long transactionId) {
+    public void deleteById(Long transactionId) {
 
     }
 }

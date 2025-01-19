@@ -19,7 +19,7 @@ public class AccountServiceImpl implements AccountService {
 
 
     @Override
-    public AccountDto saveAccount(AccountDto dto) {
+    public AccountDto save(AccountDto dto) {
 
         accountRepository.save(AccountMapper.toEntity(dto));
 
@@ -27,22 +27,22 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
-    public AccountDto updateAccount(Long accountId) {
+    public AccountDto patchById(Long accountId, AccountDto dto) {
         return null;
     }
 
     @Override
-    public List<AccountDto> getAllAccounts() {
+    public List<AccountDto> getAllById(Long accountId) {
         return null;
     }
 
     @Override
-    public AccountDto getAccount(Long accountId) {
+    public AccountDto getById(Long accountId) {
         return null;
     }
 
     @Override
-    public void deleteAccount(Long accountId) {
+    public void deleteById(Long accountId) {
 
     }
 }

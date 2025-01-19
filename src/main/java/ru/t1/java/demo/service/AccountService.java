@@ -6,15 +6,15 @@ import java.util.List;
 
 public interface AccountService {
 
-    AccountDto saveAccount(AccountDto dto);
+    AccountDto save(AccountDto dto);
 
-    AccountDto updateAccount(Long accountId);
+    AccountDto patchById(Long accountId, AccountDto dto);
 
-    List<AccountDto> getAllAccounts();
+    List<AccountDto> getAllById(Long accountId);
 
-    AccountDto getAccount(Long accountId);
+    AccountDto getById(Long accountId);
 
-    void deleteAccount(Long accountId);
+    void deleteById(Long accountId);
 
 }
 

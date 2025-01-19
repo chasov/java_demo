@@ -6,12 +6,9 @@ import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.util.TransactionMapper;
+import ru.t1.java.demo.service.TransactionService;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -19,13 +16,15 @@ import java.util.List;
 @Slf4j
 public class TransactionController {
 
+    private final TransactionService transactionService;
+
     @LogException
     @Track
     @PostMapping(value = "/transaction")
     @HandlingResult
-    public Transaction save(@RequestBody TransactionDto dto) {
-        Transaction transaction = TransactionMapper.toEntity(dto);
-        return transaction;
+    public void save(@RequestBody TransactionDto dto) {
+
+        transactionService.save(dto);
 
     }
 
@@ -33,19 +32,20 @@ public class TransactionController {
     @Track
     @PatchMapping("/transaction/{transactionId}")
     @HandlingResult
-    public TransactionDto patchByTransactionId(@PathVariable Long transactionId,
+    public TransactionDto patchById(@PathVariable Long transactionId,
                                                @RequestBody TransactionDto dto) {
 
-        return dto;
+        return transactionService.patchById(transactionId, dto);
+
     }
 
     @LogException
     @Track
-    @GetMapping(value = "/transaction")
+    @GetMapping(value = "/transactions/{transactionId}")
     @HandlingResult
-    public List<TransactionDto> getAccounts() {
+    public List<TransactionDto> getAllById(@PathVariable Long transactionId) {
 
-        return Collections.emptyList();
+        return transactionService.getAllById(transactionId);
 
     }
 
@@ -55,7 +55,7 @@ public class TransactionController {
     @HandlingResult
     public TransactionDto getById(@PathVariable Long transactionId) {
 
-        return new TransactionDto();
+        return transactionService.getById(transactionId);
 
     }
 
@@ -63,9 +63,10 @@ public class TransactionController {
     @Track
     @DeleteMapping("/transaction/{transactionId}")
     @HandlingResult
-    public TransactionDto deleteByTransactionId(@PathVariable Long transactionId) {
+    public void deleteById(@PathVariable Long transactionId) {
 
-        return new TransactionDto();
+        transactionService.deleteById(transactionId);
+
     }
 
 }
