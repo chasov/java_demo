@@ -12,6 +12,8 @@ import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 
@@ -25,6 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionDto save(TransactionDto dto) {
+        dto.setTimestamp(Timestamp.from(Instant.now()));
         return TransactionMapper.toDto(transactionRepository.save(TransactionMapper.toEntity(dto)));
     }
 

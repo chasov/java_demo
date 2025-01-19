@@ -1,0 +1,262 @@
+[
+  {
+    "clientId": 1,
+    "accountType": "DEBIT",
+    "balance": "1000.00"
+  },
+  {
+    "clientId": 1,
+    "accountType": "CREDIT",
+    "balance": "2000.00"
+  },
+  {
+    "clientId": 2,
+    "accountType": "DEBIT",
+    "balance": "500.00"
+  },
+  {
+    "clientId": 3,
+    "accountType": "CREDIT",
+    "balance": "-1000.00"
+  },
+  {
+    "clientId": 3,
+    "accountType": "DEBIT",
+    "balance": "2500.50"
+  },
+  {
+    "clientId": 4,
+    "accountType": "CREDIT",
+    "balance": "3500.00"
+  },
+  {
+    "clientId": 5,
+    "accountType": "DEBIT",
+    "balance": "-1500.00"
+  },
+  {
+    "clientId": 5,
+    "accountType": "CREDIT",
+    "balance": "1000.50"
+  },
+  {
+    "clientId": 6,
+    "accountType": "DEBIT",
+    "balance": "85000.00"
+  },
+  {
+    "clientId": 8,
+    "accountType": "CREDIT",
+    "balance": "-20000.00"
+  },
+  {
+    "clientId": 7,
+    "accountType": "DEBIT",
+    "balance": "5000.25"
+  },
+  {
+    "clientId": 8,
+    "accountType": "CREDIT",
+    "balance": "1500.00"
+  },
+  {
+    "clientId": 9,
+    "accountType": "DEBIT",
+    "balance": "1500.75"
+  },
+  {
+    "clientId": 10,
+    "accountType": "CREDIT",
+    "balance": "-500.00"
+  },
+  {
+    "clientId": 10,
+    "accountType": "DEBIT",
+    "balance": "3000.00"
+  },
+  {
+    "clientId": 11,
+    "accountType": "CREDIT",
+    "balance": "4000.00"
+  },
+  {
+    "clientId": 11,
+    "accountType": "DEBIT",
+    "balance": "-2000.50"
+  },
+  {
+    "clientId": 12,
+    "accountType": "CREDIT",
+    "balance": "1000.00"
+  },
+  {
+    "clientId": 13,
+    "accountType": "DEBIT",
+    "balance": "95000.00"
+  },
+  {
+    "clientId": 14,
+    "accountType": "CREDIT",
+    "balance": "-10000.00"
+  },
+  {
+    "clientId": 14,
+    "accountType": "DEBIT",
+    "balance": "6000.00"
+  },
+  {
+    "clientId": 15,
+    "accountType": "CREDIT",
+    "balance": "1000.00"
+  },
+  {
+    "clientId": 15,
+    "accountType": "DEBIT",
+    "balance": "2000.00"
+  },
+  {
+    "clientId": 17,
+    "accountType": "CREDIT",
+    "balance": "-2000.00"
+  },
+  {
+    "clientId": 18,
+    "accountType": "DEBIT",
+    "balance": "4500.50"
+  },
+  {
+    "clientId": 18,
+    "accountType": "DEBIT",
+    "balance": "1000.00"
+  },
+  {
+    "clientId": 19,
+    "accountType": "CREDIT",
+    "balance": "2000.00"
+  },
+  {
+    "clientId": 20,
+    "accountType": "DEBIT",
+    "balance": "500.00"
+  },
+  {
+    "clientId": 21,
+    "accountType": "CREDIT",
+    "balance": "-1000.00"
+  },
+  {
+    "clientId": 23,
+    "accountType": "DEBIT",
+    "balance": "2500.50"
+  },
+  {
+    "clientId": 24,
+    "accountType": "CREDIT",
+    "balance": "3500.00"
+  },
+  {
+    "clientId": 26,
+    "accountType": "DEBIT",
+    "balance": "-1500.00"
+  },
+  {
+    "clientId": 25,
+    "accountType": "CREDIT",
+    "balance": "1000.50"
+  },
+  {
+    "clientId": 27,
+    "accountType": "DEBIT",
+    "balance": "85000.00"
+  },
+  {
+    "clientId": 28,
+    "accountType": "CREDIT",
+    "balance": "-20000.00"
+  },
+  {
+    "clientId": 28,
+    "accountType": "DEBIT",
+    "balance": "5000.25"
+  },
+  {
+    "clientId": 29,
+    "accountType": "CREDIT",
+    "balance": "1500.00"
+  },
+  {
+    "clientId": 30,
+    "accountType": "DEBIT",
+    "balance": "1500.75"
+  },
+  {
+    "clientId": 30,
+    "accountType": "CREDIT",
+    "balance": "-500.00"
+  },
+  {
+    "clientId": 31,
+    "accountType": "DEBIT",
+    "balance": "3000.00"
+  },
+  {
+    "clientId": 32,
+    "accountType": "CREDIT",
+    "balance": "4000.00"
+  },
+  {
+    "clientId": 33,
+    "accountType": "DEBIT",
+    "balance": "-2000.50"
+  },
+  {
+    "clientId": 35,
+    "accountType": "CREDIT",
+    "balance": "1000.00"
+  },
+  {
+    "clientId": 36,
+    "accountType": "DEBIT",
+    "balance": "95000.00"
+  },
+  {
+    "clientId": 38,
+    "accountType": "CREDIT",
+    "balance": "-10000.00"
+  },
+  {
+    "clientId": 39,
+    "accountType": "DEBIT",
+    "balance": "6000.00"
+  },
+  {
+    "clientId": 39,
+    "accountType": "CREDIT",
+    "balance": "1000.00"
+  },
+  {
+    "clientId": 40,
+    "accountType": "DEBIT",
+    "balance": "2000.00"
+  },
+  {
+    "clientId": 41,
+    "accountType": "CREDIT",
+    "balance": "-2000.00"
+  },
+  {
+    "clientId": 41,
+    "accountType": "DEBIT",
+    "balance": "4500.50"
+  },
+  {
+    "clientId": 42,
+    "accountType": "CREDIT",
+    "balance": "5000.00"
+  },
+  {
+    "clientId": 43,
+    "accountType": "DEBIT",
+    "balance": "-2500.25"
+  }
+]

@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "accountRequest")
+@Table(name = "account")
 public class Account extends AbstractPersistable<Long> {
 
     @Column(name = "client_id")

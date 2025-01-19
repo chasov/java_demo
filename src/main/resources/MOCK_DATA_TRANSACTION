@@ -1,0 +1,154 @@
+[
+ {
+ "accountId": 1,
+ "amount": "1000.00"
+ },
+ {
+ "accountId": 1,
+ "amount": "-500.00"
+ },
+ {
+ "accountId": 2,
+ "amount": "2500.50"
+ },
+ {
+ "accountId": 2,
+ "amount": "-1500.00"
+ },
+ {
+ "accountId": 3,
+ "amount": "85000.00"
+ },
+ {
+ "accountId": 3,
+ "amount": "-20000.00"
+ },
+ {
+ "accountId": 4,
+ "amount": "5000.25"
+ },
+ {
+ "accountId": 4,
+ "amount": "1500.00"
+ },
+ {
+ "accountId": 5,
+ "amount": "1500.75"
+ },
+ {
+ "accountId": 5,
+ "amount": "-500.00"
+ },
+ {
+ "accountId": 6,
+ "amount": "3000.00"
+ },
+ {
+ "accountId": 6,
+ "amount": "4000.00"
+ },
+ {
+ "accountId": 7,
+ "amount": "-2000.50"
+ },
+ {
+ "accountId": 7,
+ "amount": "1000.00"
+ },
+ {
+ "accountId": 8,
+ "amount": "95000.00"
+ },
+ {
+ "accountId": 8,
+ "amount": "-10000.00"
+ },
+ {
+ "accountId": 9,
+ "amount": "6000.00"
+ },
+ {
+ "accountId": 9,
+ "amount": "1000.00"
+ },
+ {
+ "accountId": 10,
+ "amount": "2000.00"
+ },
+ {
+ "accountId": 10,
+ "amount": "-2000.00"
+ },
+ {
+ "accountId": 11,
+ "amount": "4500.50"
+ },
+ {
+ "accountId": 11,
+ "amount": "5000.00"
+ },
+ {
+ "accountId": 12,
+ "amount": "-2500.25"
+ },
+ {
+ "accountId": 12,
+ "amount": "1000.50"
+ },
+ {
+ "accountId": 13,
+ "amount": "12000.00"
+ },
+ {
+ "accountId": 13,
+ "amount": "-4000.00"
+ },
+ {
+ "accountId": 14,
+ "amount": "27000.50"
+ },
+ {
+ "accountId": 14,
+ "amount": "-17000.25"
+ },
+ {
+ "accountId": 15,
+ "amount": "92000.00"
+ },
+ {
+ "accountId": 15,
+ "amount": "63000.25"
+ },
+ {
+ "accountId": 16,
+ "amount": "16000.75"
+ },
+ {
+ "accountId": 16,
+ "amount": "32000.00"
+ },
+ {
+ "accountId": 17,
+ "amount": "-3000.75"
+ },
+ {
+ "accountId": 17,
+ "amount": "10000.00"
+ },
+ {
+ "accountId": 18,
+ "amount": "8000.25"
+ },
+ {
+ "accountId": 18,
+ "amount": "3000.00"
+ },
+ {
+ "accountId": 19,
+ "amount": "5500.50"
+ },
+ {
+ "accountId": 19,
+ "amount": "-3500.25"
+ }
+]
