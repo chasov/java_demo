@@ -7,7 +7,7 @@ import ru.t1.java.demo.model.DataSourceErrorLog;
 @Component
 public class DataSourceErrorLogMapper {
 
-    public static DataSourceErrorLog toEntity(DataSourceErrorLogDto dataSourceErrorLogDto) {
+    public DataSourceErrorLog toEntity(DataSourceErrorLogDto dataSourceErrorLogDto) {
         return DataSourceErrorLog.builder()
                 .id(dataSourceErrorLogDto.getId())
                 .stackTrace(dataSourceErrorLogDto.getStackTrace())
@@ -16,7 +16,7 @@ public class DataSourceErrorLogMapper {
                 .build();
     }
 
-    public static DataSourceErrorLogDto toDto(DataSourceErrorLog dataSourceErrorLog) {
+    public DataSourceErrorLogDto toDto(DataSourceErrorLog dataSourceErrorLog) {
         return DataSourceErrorLogDto.builder()
                 .id(dataSourceErrorLog.getId())
                 .stackTrace(dataSourceErrorLog.getStackTrace())

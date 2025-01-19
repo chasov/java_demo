@@ -2,7 +2,7 @@
 
 -- changeset serge_sh:18012025-1
 create table clients (
-                          id BIGINT,
+                          id BIGSERIAL,
                           first_name VARCHAR(64),
                           middle_name VARCHAR(64),
                           last_name VARCHAR(64),
@@ -10,7 +10,7 @@ create table clients (
 );
 
 create table accounts (
-                          id BIGINT,
+                          id BIGSERIAL,
                           client_id BIGINT,
                           account_type VARCHAR(32),
                           balance BIGINT,
@@ -19,18 +19,18 @@ create table accounts (
 );
 
 create table transactions (
-                          id BIGINT,
+                          id BIGSERIAL,
                           account_from_id BIGINT,
                           account_to_id BIGINT,
                           amount BIGINT,
-                          completed_ad TIMESTAMP,
+                          completed_at TIMESTAMP,
                           CONSTRAINT pk_transactions PRIMARY KEY (id),
                           FOREIGN KEY (account_from_id) REFERENCES accounts(id),
                           FOREIGN KEY (account_to_id) REFERENCES  accounts(id)
 );
 
-create table data_source_error_log (
-                          id BIGINT,
+create table data_source_error_logs (
+                          id BIGSERIAL,
                           stack_trace TEXT,
                           message TEXT,
                           method_signature TEXT,
