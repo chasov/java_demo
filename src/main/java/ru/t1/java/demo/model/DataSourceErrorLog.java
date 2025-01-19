@@ -10,10 +10,10 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "data_source_error_log")
-public class DataSourceErrorLog {
+public class DataSourceErrorLog  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "id")
     private Long id;
     @Column(name = "exception_stacktrace")
     private String exceptionStackTrace;

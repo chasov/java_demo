@@ -27,10 +27,10 @@ public class ClientServiceImpl implements ClientService {
     void init() {
         try {
             List<Client> clients = parseJson();
+            repository.saveAll(clients);
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
-//        repository.saveAll(clients);
     }
 
     @Override

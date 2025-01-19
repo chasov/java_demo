@@ -16,7 +16,7 @@ import static java.util.Objects.isNull;
 @Slf4j
 @Aspect
 @Component
-@Order(0)
+//@Order(0)
 public class LogAspect {
 
     @Pointcut("within(ru.t1.java.demo.*)")
@@ -25,7 +25,7 @@ public class LogAspect {
     }
 
     @Before("@annotation(ru.t1.java.demo.aop.annotation.LogExecution)")
-    @Order(1)
+//    @Order(1)
     public void logAnnotationBefore(JoinPoint joinPoint) {
         log.info("ASPECT BEFORE ANNOTATION: Call method: {}", joinPoint.getSignature().getName());
     }
@@ -35,10 +35,12 @@ public class LogAspect {
 //        log.error("ASPECT BEFORE: Call method: {}", joinPoint.getSignature().getName());
 //    }
 
-    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.LogException)")
-    @Order(0)
-    public void logExceptionAnnotation(JoinPoint joinPoint) {
-        System.err.println("ASPECT EXCEPTION ANNOTATION: Logging exception: {}" + joinPoint.getSignature().getName());
+    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.LogException)",throwing = "e")
+//    @Order(0)
+    public void logExceptionAnnotation(JoinPoint joinPoint,Exception e) {
+        log.error("AFTER EXCEPTION {}",
+                joinPoint.getSignature().toShortString());
+        log.error("Произошла ошибка: {}", e.getMessage());
     }
 
     @AfterReturning(
@@ -50,7 +52,7 @@ public class LogAspect {
         log.info("Подробности: \n");
 
         result = isNull(result) ? List.of() : result;
-
     }
+
 
 }
