@@ -2,7 +2,6 @@ package ru.t1.java.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
-import ru.t1.java.demo.model.Client;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,7 +17,7 @@ import java.math.BigDecimal;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountDto implements Serializable {
     private Long id;
-    private Client client;
+    private Long clientId;
     private String accountType;
     private BigDecimal balance;
 }

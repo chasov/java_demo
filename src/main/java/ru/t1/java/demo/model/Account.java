@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.t1.java.demo.model.enums.AccountType;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Entity
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Account {
+public class Account implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

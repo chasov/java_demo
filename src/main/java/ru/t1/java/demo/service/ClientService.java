@@ -1,9 +1,11 @@
 package ru.t1.java.demo.service;
 
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Client;
@@ -16,38 +18,45 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class ClientService implements CRUDService<ClientDto>{
+public class ClientService implements CRUDService<ClientDto> {
 
     private final ClientRepository clientRepository;
 
+    private final ClientMapper clientMapper;
+
 
     @Override
+    @LogDataSourceError
     public ClientDto getById(Long id) {
-        log.info("Client get by ID: " + id);
+        log.info("Client getting by ID: {}", id);
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Client with given id: " + id + " is not exists"));
-        return ClientMapper.toDto(client);
+        return clientMapper.toDto(client);
     }
 
     @Override
     public Collection<ClientDto> getAll() {
-        log.info("Getting all accounts");
+        log.info("Getting all clients");
         List<Client> clientList = clientRepository.findAll();
-        return clientList.stream().map(ClientMapper::toDto)
+        return clientList.stream().map(clientMapper::toDto)
                 .toList();
     }
 
     @Override
+    @Transactional
+    @LogDataSourceError
     public ClientDto create(ClientDto clientDto) {
         log.info("Creating new client");
-        Client client = ClientMapper.toEntity(clientDto);
+        Client client = clientMapper.toEntity(clientDto);
         Client savedClient = clientRepository.save(client);
-        log.info("Client with ID " + savedClient.getId() + " created successfully!");
-        return ClientMapper.toDto(savedClient);
+        log.info("Client with ID: {} created successfully!", savedClient.getId());
+        return clientMapper.toDto(savedClient);
     }
 
     @Override
+    @Transactional
+    @LogDataSourceError
     public ClientDto update(Long clientId, ClientDto updatedClientDto) {
         Client client = clientRepository.findById(clientId).orElseThrow(
                 () -> new ResourceNotFoundException("Client with given id " + clientId + " is not exists")
@@ -65,19 +74,20 @@ public class ClientService implements CRUDService<ClientDto>{
 
         Client updatedClient = clientRepository.save(client);
 
-        log.info("Client with ID " + clientId + " updated successfully");
-        return ClientMapper.toDto(updatedClient);
+        log.info("Client with ID: {} updated successfully", clientId);
+        return clientMapper.toDto(updatedClient);
     }
 
     @Override
+    @Transactional
+    @LogDataSourceError
     public void delete(Long clientId) {
-        log.info("Deleting client with ID: " + clientId);
+        log.info("Deleting client with ID: {}", clientId);
         Client client = clientRepository.findById(clientId).orElseThrow(
                 () -> new ResourceNotFoundException((
                         "Client with given id: " + clientId + "is not exists"))
         );
-
         clientRepository.deleteById(clientId);
-        log.info("Client with ID " + clientId + "deleted successfully!");
+        log.info("Client with ID: {} deleted successfully!", clientId);
     }
 }

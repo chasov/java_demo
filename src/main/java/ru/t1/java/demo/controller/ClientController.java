@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.service.ClientService;
+
 import java.util.Collection;
 
 @RestController
@@ -39,13 +40,15 @@ public class ClientController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") Long id, @RequestBody
-                                                    ClientDto updatedClientDto){
+    public ResponseEntity<ClientDto> updateClient(@PathVariable("id") Long id
+            , @RequestBody ClientDto updatedClientDto) {
         ClientDto clientDto = clientService.update(id, updatedClientDto);
         return ResponseEntity.ok(clientDto);
     }
 
     @DeleteMapping("/{id}")
+    @Deprecated
+    //deprecated by FK in related entity Account
     public ResponseEntity<String> deleteClient(@PathVariable("id") Long clientId) {
         clientService.delete(clientId);
         return ResponseEntity.ok("Client with id " + clientId + " deleted successfully");
