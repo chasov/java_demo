@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ClientService {
     List<Client> parseJson() throws IOException;
+
+    Client getClient(Long id);
 }

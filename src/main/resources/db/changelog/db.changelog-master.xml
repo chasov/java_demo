@@ -14,4 +14,39 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="init-table-accounts" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/CreateTableAccount.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="init-table-transactions" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/CreateTableTransaction.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="init-table-log-error" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/CreateTableLogError.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="init-sequences" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/CreateSequences.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="insert-client" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/InsertClient.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="insert-accounts" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/InsertAccounts.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="insert-transactions" author="DSmirnov">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/InsertTransaction.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>
