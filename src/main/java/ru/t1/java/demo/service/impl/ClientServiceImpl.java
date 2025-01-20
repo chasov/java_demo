@@ -5,9 +5,6 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.LogExecution;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
@@ -18,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,10 +28,11 @@ public class ClientServiceImpl implements ClientService {
     void init() {
         try {
             List<Client> clients = parseJson();
+            repository.saveAll(clients);
         } catch (IOException e) {
             log.error("Ошибка во время обработки записей", e);
         }
-//        repository.saveAll(clients);
+
     }
 
     @Override
@@ -48,5 +47,10 @@ public class ClientServiceImpl implements ClientService {
         return Arrays.stream(clients)
                 .map(ClientMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public Optional<Client> findById(Long id) {
+        return repository.findById(id);
     }
 }

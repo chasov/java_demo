@@ -8,22 +8,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.UUID;
 
-/**
- * DTO for {@link ru.t1.java.demo.model.Client}
- */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientDto implements Serializable {
+public class AccountDto implements Serializable {
 
-    private Long id;
-    @JsonProperty("first_name")
-    private String firstName;
-    @JsonProperty("last_name")
-    private String lastName;
-    @JsonProperty("middle_name")
-    private String middleName;
+    private UUID id;
+    @JsonProperty("account_type")
+    private String accountType;
+    @JsonProperty("balance")
+    private BigDecimal balance;
+
 }
+//
+
+
