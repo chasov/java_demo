@@ -4,10 +4,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.DataSourceErrorLog;
 
 import java.util.List;
 
@@ -53,11 +55,50 @@ public class LogAspect {
 
     }
 
+//    @AfterThrowing(pointcut = "@annotation(LogDataSourceError)")
+//    @Order(0)
+//    public void logExceptionDataSource(JoinPoint joinPoint) {
+//
+//        DataSourceErrorLog dataSourceErrorLog = new DataSourceErrorLog();
+//
+//        try {
+//            System.err.println("ASPECT EXCEPTION ANNOTATION: DataSource exception: {}" + joinPoint.getSignature().getName());
+//            log.info("В результате выполнения метода {}", joinPoint.getSignature().toShortString());
+//
+//            dataSourceErrorLog.setMethodSignature(joinPoint.getSignature().toString());
+//
+//        } catch (Exception e) {
+//            dataSourceErrorLog.setMessage(e.getMessage());
+//            dataSourceErrorLog.setStackTrace(String.valueOf(e.getStackTrace()));
+//        }
+//        finally {
+//
+//        }
+//}
     @AfterThrowing(pointcut = "@annotation(LogDataSourceError)")
     @Order(0)
-    public void logExceptionDataSource(JoinPoint joinPoint) {
-        System.err.println("ASPECT EXCEPTION ANNOTATION: DataSource exception: {}" + joinPoint.getSignature().getName());
+    public void logExceptionDataSource(JoinPoint joinPoint, Exception e) {
+        DataSourceErrorLog dataSourceErrorLog = new DataSourceErrorLog();
 
+        try {
+            System.out.println(joinPoint.getArgs());
+            System.out.println(joinPoint.toLongString());
+
+            System.err.println("ASPECT EXCEPTION ANNOTATION: DataSource exception: " + joinPoint.getSignature().getName());
+            log.info("В результате выполнения метода {}", joinPoint.getSignature().toShortString());
+
+            dataSourceErrorLog.setMethodSignature(joinPoint.getSignature().toString());
+//            dataSourceErrorLog.setMessage(throwable.getMessage());
+//            dataSourceErrorLog.setStackTrace(throwable.getStackTrace().toString());
+
+            // Optionally, you can log the exception details here
+         //   log.error("Exception caught during method execution: ", throwable);
+
+        } catch (Exception e) {
+            // Avoid catching Exception if possible; rethrow if necessary
+        //    throwable.printStackTrace();
+            throw new IllegalStateException("Unexpected error occurred while logging exception", e);
+        }
     }
 
 }

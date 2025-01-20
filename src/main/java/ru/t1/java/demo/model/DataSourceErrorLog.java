@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Setter
 @Entity
 @Builder
+@ToString
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "datasourceerrorlog")
@@ -22,7 +23,7 @@ public class DataSourceErrorLog extends AbstractPersistable<Long> {
     @Column(name = "message")
     private String message;
 
-    @Column(name = "method_singature")
+    @Column(name = "method_signature")
     private String methodSignature;
 
 }
