@@ -3,6 +3,7 @@ package ru.t1.java.demo.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.exception.AccountException;
@@ -24,11 +25,13 @@ public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
 
+    @LogDataSourceError
     @Override
     public AccountDto save(AccountDto dto) {
         return AccountMapper.toDto(accountRepository.save(AccountMapper.toEntity(dto)));
     }
 
+    @LogDataSourceError
     @Override
     public AccountDto patchById(Long accountId, AccountDto dto) {
         Account account = accountRepository.findById(accountId)
@@ -42,6 +45,7 @@ public class AccountServiceImpl implements AccountService {
         return AccountMapper.toDto(accountRepository.save(account));
     }
 
+    @LogDataSourceError
     @Override
     public List<AccountDto> getAllByClientId(Long clientId) {
         List<Account> accounts = accountRepository.findAllByClientId(clientId);
@@ -52,12 +56,14 @@ public class AccountServiceImpl implements AccountService {
                 .toList();
     }
 
+    @LogDataSourceError
     @Override
     public AccountDto getById(Long accountId) {
         return AccountMapper.toDto(accountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountException("Account not found")));
     }
 
+    @LogDataSourceError
     @Override
     public void deleteById(Long accountId) {
         accountRepository.findById(accountId)

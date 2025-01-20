@@ -4,10 +4,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.DataSourceErrorLog;
 
 import java.util.List;
 
@@ -54,3 +57,6 @@ public class LogAspect {
     }
 
 }
+
+
+
