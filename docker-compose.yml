@@ -6,7 +6,8 @@ services:
     image: postgres:11.13
     container_name: t1_java_demo
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=0000
+      - POSTGRES_DB=t1_demo

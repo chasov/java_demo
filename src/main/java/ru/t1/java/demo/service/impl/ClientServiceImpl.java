@@ -5,10 +5,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.t1.java.demo.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogExecution;
 import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.exception.EntityNotFoundException;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
@@ -26,15 +29,7 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
 
-    @PostConstruct
-    void init() {
-        try {
-            List<Client> clients = parseJson();
-        } catch (IOException e) {
-            log.error("Ошибка во время обработки записей", e);
-        }
-//        repository.saveAll(clients);
-    }
+
 
     @Override
 //    @LogExecution
@@ -48,5 +43,13 @@ public class ClientServiceImpl implements ClientService {
         return Arrays.stream(clients)
                 .map(ClientMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Transactional(readOnly = true)
+    @LogDataSourceError
+    @Override
+    public Client getClient(Long id){
+        return repository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException(Client.class, id));
     }
 }

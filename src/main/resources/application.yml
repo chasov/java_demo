@@ -2,13 +2,20 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    url: "jdbc:postgresql://localhost:5433/t1_demo"
     username: "postgres"
     password: "0000"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
 
 logging:
   level:
