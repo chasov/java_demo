@@ -53,4 +53,11 @@ public class LogAspect {
 
     }
 
+    @AfterThrowing(pointcut = "@annotation(LogDataSourceError)")
+    @Order(0)
+    public void logExceptionDataSource(JoinPoint joinPoint) {
+        System.err.println("ASPECT EXCEPTION ANNOTATION: DataSource exception: {}" + joinPoint.getSignature().getName());
+
+    }
+
 }
