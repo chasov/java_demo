@@ -8,6 +8,7 @@ import ru.t1.java.demo.model.entity.Transaction;
 import ru.t1.java.demo.repository.AccountRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -16,11 +17,13 @@ public class TransactionMapper {
     private final AccountRepository accountRepository;
 
     public Transaction toEntity(TransactionDto transactionDto) {
-        Account account = accountRepository.findById(transactionDto.getAccountId())
-                .orElseThrow(() -> new RuntimeException("Account not found with id " + transactionDto.getAccountId()));
+        Optional<Account> optAccount = accountRepository.findById(transactionDto.getAccountId());
+        if (optAccount.isEmpty()) {
+            throw new RuntimeException("Account not found with id: " + transactionDto.getAccountId());
+        }
         return Transaction.builder()
                 .id(transactionDto.getId())
-                .account(account)
+                .account(optAccount.get())
                 .amount(transactionDto.getAmount())
                 .transactionTime(
                         (transactionDto.getTransactionTime() == null

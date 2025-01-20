@@ -3,6 +3,7 @@ package ru.t1.java.demo.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.LogAfterThrowing;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.entity.Account;
 import ru.t1.java.demo.model.entity.Client;
@@ -13,11 +14,13 @@ import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@LogAfterThrowing
 public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
@@ -31,9 +34,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public AccountDto getAccountById(Long id) {
-        return accountRepository.findById(id)
-                .map(accountMapper::toDto)
-                .orElseThrow(() -> new RuntimeException("Account not found with id: " + id));
+        Optional<Account> optAccount = accountRepository.findById(id);
+        if (optAccount.isEmpty()) {
+            throw new RuntimeException("Account not found with id: " + id);
+        }
+        return accountMapper.toDto(optAccount.get());
     }
 
     public AccountDto createAccount(AccountDto accountDto) {
@@ -42,11 +47,16 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public AccountDto updateAccount(Long id, AccountDto accountDto) {
-        Account existingAccount = accountRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found with id: " + id));
-        Client client = clientRepository.findById(accountDto.getClientId())
-                .orElseThrow(() -> new RuntimeException("Client not found with id: " + accountDto.getClientId()));
-        existingAccount.setClient(client);
+        Optional<Account> optExistingAccount = accountRepository.findById(id);
+        if (optExistingAccount.isEmpty()) {
+            throw new RuntimeException("Account not found with id: " + id);
+        }
+        Optional<Client> optClient = clientRepository.findById(accountDto.getClientId());
+        if (optClient.isEmpty()) {
+            throw new RuntimeException("Client not found with id: " + accountDto.getClientId());
+        }
+        Account existingAccount = optExistingAccount.get();
+        existingAccount.setClient(optClient.get());
         existingAccount.setAccountType(AccountType.valueOf(accountDto.getAccountType()));
         existingAccount.setBalance(accountDto.getBalance());
         return accountMapper.toDto(accountRepository.save(existingAccount));

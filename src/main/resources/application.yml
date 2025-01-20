@@ -13,7 +13,9 @@ spring:
 logging:
   level:
     ROOT: ${LOG_LEVEL:INFO}
+    ru.t1.java.demo: INFO
     ru.t1.java.demo.controller.ClientController: DEBUG
-
+  file:
+    name: logs/application.log
 t1:
   scan-path: ru.t1.java.demo

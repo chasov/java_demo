@@ -16,7 +16,7 @@ public class DataSourceErrorLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
+    @Column(nullable = false, columnDefinition = "TEXT")
     private String stackTrace;
 
     @Column(length = 500)
