@@ -10,9 +10,7 @@ POST http://localhost:8080/transactions
 Content-Type: application/json
 
 {
-  "account": {
-    "id": 1
-  },
+  "account_id": 1,
   "amount": 500.00
 }
 
@@ -22,9 +20,7 @@ PUT http://localhost:8080/transactions/1
 Content-Type: application/json
 
 {
-  "account": {
-    "id": 1
-  },
+  "account_id": 1,
   "amount": 1600
 }
 
@@ -46,10 +42,8 @@ POST http://localhost:8080/accounts
 Content-Type: application/json
 
 {
-  "accountType": "DEBIT",
-  "client": {
-    "id": 1
-  },
+  "account_type": "DEBIT",
+  "client_id": 1,
   "balance": 300
 }
 
@@ -59,10 +53,8 @@ PUT http://localhost:8080/accounts/1
 Content-Type: application/json
 
 {
-  "client": {
-    "id": 5
-  },
-  "accountType": "DEBIT",
+  "client_id": 5,
+  "account_type": "DEBIT",
   "balance": 100
 }
 

@@ -1,18 +1,18 @@
 package ru.t1.java.demo.service;
 
-import ru.t1.java.demo.model.entity.Account;
+import ru.t1.java.demo.dto.AccountDto;
 
 import java.util.List;
 
 public interface AccountService {
 
-    List<Account> getAllAccounts();
+    List<AccountDto> getAllAccounts();
 
-    Account getAccountById(Long id);
+    AccountDto getAccountById(Long id);
 
-    Account createAccount(Account account);
+    AccountDto createAccount(AccountDto accountDto);
 
-    Account updateAccount(Long id, Account account);
+    AccountDto updateAccount(Long id, AccountDto accountDto);
 
     void deleteAccount(Long id);
 }

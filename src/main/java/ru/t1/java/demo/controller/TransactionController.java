@@ -2,7 +2,7 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.t1.java.demo.model.entity.Transaction;
+import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.service.TransactionService;
 
 import java.util.List;
@@ -15,23 +15,23 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @GetMapping
-    public List<Transaction> getAllTransactions() {
+    public List<TransactionDto> getAllTransactions() {
         return transactionService.getAllTransactions();
     }
 
     @GetMapping("/{id}")
-    public Transaction getTransactionById(@PathVariable Long id) {
+    public TransactionDto getTransactionById(@PathVariable Long id) {
         return transactionService.getTransactionById(id);
     }
 
     @PostMapping
-    public Transaction createTransaction(@RequestBody Transaction transaction) {
-        return transactionService.createTransaction(transaction);
+    public TransactionDto createTransaction(@RequestBody TransactionDto transactionDto) {
+        return transactionService.createTransaction(transactionDto);
     }
 
     @PutMapping("/{id}")
-    public Transaction updateTransaction(@PathVariable Long id, @RequestBody Transaction transaction) {
-        return transactionService.updateTransaction(id, transaction);
+    public TransactionDto updateTransaction(@PathVariable Long id, @RequestBody TransactionDto transactionDto) {
+        return transactionService.updateTransaction(id, transactionDto);
     }
 
     @DeleteMapping("/{id}")

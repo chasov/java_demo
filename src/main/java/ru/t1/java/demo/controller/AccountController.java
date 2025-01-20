@@ -2,7 +2,7 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.t1.java.demo.model.entity.Account;
+import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.List;
@@ -15,23 +15,23 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping
-    public List<Account> getAllAccounts() {
+    public List<AccountDto> getAllAccounts() {
         return accountService.getAllAccounts();
     }
 
     @GetMapping("/{id}")
-    public Account getAccountById(@PathVariable Long id) {
+    public AccountDto getAccountById(@PathVariable Long id) {
         return accountService.getAccountById(id);
     }
 
     @PostMapping
-    public Account createAccount(@RequestBody Account account) {
-        return accountService.createAccount(account);
+    public AccountDto createAccount(@RequestBody AccountDto accountDto) {
+        return accountService.createAccount(accountDto);
     }
 
     @PutMapping("/{id}")
-    public Account updateAccount(@PathVariable Long id, @RequestBody Account account) {
-        return accountService.updateAccount(id, account);
+    public AccountDto updateAccount(@PathVariable Long id, @RequestBody AccountDto accountDto) {
+        return accountService.updateAccount(id, accountDto);
     }
 
     @DeleteMapping("/{id}")

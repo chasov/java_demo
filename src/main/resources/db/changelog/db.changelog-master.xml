@@ -14,11 +14,6 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
-    <changeSet id="load-client-data" author="SShushakov">
-        <sqlFile encoding="utf8" path="/db/changelog/data/clients.sql"/>
-        <rollback/>
-    </changeSet>
-
     <changeSet id="create-other-tables" author="SShushakov">
         <sqlFile path="/db/changelog/2025/01/17-01-changelog-01.sql"/>
         <rollback/>

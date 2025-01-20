@@ -1,18 +1,18 @@
 package ru.t1.java.demo.service;
 
-import ru.t1.java.demo.model.entity.Transaction;
+import ru.t1.java.demo.dto.TransactionDto;
 
 import java.util.List;
 
 public interface TransactionService {
 
-    List<Transaction> getAllTransactions();
+    List<TransactionDto> getAllTransactions();
 
-    Transaction getTransactionById(Long id);
+    TransactionDto getTransactionById(Long id);
 
-    Transaction createTransaction(Transaction transaction);
+    TransactionDto createTransaction(TransactionDto transactionDto);
 
-    Transaction updateTransaction(Long id, Transaction transaction);
+    TransactionDto updateTransaction(Long id, TransactionDto transactionDto);
 
     void deleteTransaction(Long id);
 }

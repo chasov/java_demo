@@ -3,11 +3,16 @@ package ru.t1.java.demo.service.impl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.model.entity.Account;
 import ru.t1.java.demo.model.entity.Transaction;
+import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
+import ru.t1.java.demo.util.TransactionMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -15,26 +20,35 @@ import java.util.List;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
+    private final AccountRepository accountRepository;
+    private final TransactionMapper transactionMapper;
 
-    public List<Transaction> getAllTransactions() {
-        return transactionRepository.findAll();
+    public List<TransactionDto> getAllTransactions() {
+        return transactionRepository.findAll().stream()
+                .map(transactionMapper::toDto)
+                .collect(Collectors.toList());
     }
 
-    public Transaction getTransactionById(Long id) {
+    public TransactionDto getTransactionById(Long id) {
         return transactionRepository.findById(id)
+                .map(transactionMapper::toDto)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
     }
 
-    public Transaction createTransaction(Transaction transaction) {
-        return transactionRepository.save(transaction);
+    public TransactionDto createTransaction(TransactionDto transactionDto) {
+        Transaction transaction = transactionMapper.toEntity(transactionDto);
+        return transactionMapper.toDto(transactionRepository.save(transaction));
     }
 
-    public Transaction updateTransaction(Long id, Transaction transaction) {
-        Transaction existingTransaction = getTransactionById(id);
-        existingTransaction.setAccount(transaction.getAccount());
-        existingTransaction.setAmount(transaction.getAmount());
-        existingTransaction.setTransactionTime(transaction.getTransactionTime());
-        return transactionRepository.save(existingTransaction);
+    public TransactionDto updateTransaction(Long id, TransactionDto transactionDto) {
+        Transaction existingTransaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction not found with id:" + id));
+        Account account = accountRepository.findById(transactionDto.getAccountId())
+                .orElseThrow(() -> new RuntimeException("Account not found with id:" + transactionDto.getAccountId()));
+        existingTransaction.setAccount(account);
+        existingTransaction.setAmount(transactionDto.getAmount());
+        existingTransaction.setTransactionTime(transactionDto.getTransactionTime());    //TODO: здесь возможна передача значения null при незаполненном поле в запросе
+        return transactionMapper.toDto(transactionRepository.save(existingTransaction));
     }
 
     public void deleteTransaction(Long id) {
