@@ -2,6 +2,8 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
@@ -14,6 +16,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class AccountController {
 
     private final AccountService accountService;
@@ -22,7 +25,7 @@ public class AccountController {
     @Track
     @PostMapping(value = "/account")
     @HandlingResult
-    public AccountDto save(@RequestBody AccountDto dto) {
+    public AccountDto save(@RequestBody @NonNull AccountDto dto) {
 
        return accountService.save(dto);
 
@@ -32,8 +35,8 @@ public class AccountController {
     @Track
     @PatchMapping("account/{accountId}")
     @HandlingResult
-    public AccountDto patchById(@PathVariable Long accountId,
-                                       @RequestBody AccountDto dto) {
+    public AccountDto patchById(@PathVariable @NonNull Long accountId,
+                                       @RequestBody @NonNull AccountDto dto) {
 
         return accountService.patchById(accountId, dto);
 
@@ -43,7 +46,7 @@ public class AccountController {
     @Track
     @GetMapping(value = "/accounts/{clientId}")
     @HandlingResult
-    public List<AccountDto> getAllByClientId(@PathVariable Long clientId) {
+    public List<AccountDto> getAllByClientId(@PathVariable @NonNull Long clientId) {
 
         return accountService.getAllByClientId(clientId);
 
@@ -53,7 +56,7 @@ public class AccountController {
     @Track
     @GetMapping(value = "/account/{accountId}")
     @HandlingResult
-    public AccountDto getById(@PathVariable Long accountId) {
+    public AccountDto getById(@PathVariable @NonNull Long accountId) {
 
         return accountService.getById(accountId);
 
@@ -63,7 +66,7 @@ public class AccountController {
     @Track
     @DeleteMapping("account/{accountId}")
     @HandlingResult
-    public void deleteById(@PathVariable Long accountId) {
+    public void deleteById(@PathVariable @NonNull Long accountId) {
 
         accountService.deleteById(accountId);
 

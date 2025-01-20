@@ -2,6 +2,8 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
@@ -22,7 +24,8 @@ public class TransactionController {
     @Track
     @PostMapping(value = "/transaction")
     @HandlingResult
-    public TransactionDto save(@RequestBody TransactionDto dto) {
+    @Validated
+    public TransactionDto save(@RequestBody @NonNull TransactionDto dto) {
         return transactionService.save(dto);
     }
 
@@ -30,8 +33,8 @@ public class TransactionController {
     @Track
     @PatchMapping("/transaction/{transactionId}")
     @HandlingResult
-    public TransactionDto patchById(@PathVariable Long transactionId,
-                                    @RequestBody TransactionDto dto) {
+    public TransactionDto patchById(@PathVariable @NonNull Long transactionId,
+                                    @RequestBody @NonNull TransactionDto dto) {
 
         return transactionService.patchById(transactionId, dto);
 
@@ -41,7 +44,7 @@ public class TransactionController {
     @Track
     @GetMapping(value = "/transactions/{accountId}")
     @HandlingResult
-    public List<TransactionDto> getAllByAccountId(@PathVariable Long accountId) {
+    public List<TransactionDto> getAllByAccountId(@PathVariable @NonNull Long accountId) {
 
         return transactionService.getAllAccountById(accountId);
 
@@ -51,7 +54,7 @@ public class TransactionController {
     @Track
     @GetMapping(value = "/transaction/{transactionId}")
     @HandlingResult
-    public TransactionDto getById(@PathVariable Long transactionId) {
+    public TransactionDto getById(@PathVariable @NonNull Long transactionId) {
 
         return transactionService.getById(transactionId);
 
@@ -61,7 +64,7 @@ public class TransactionController {
     @Track
     @DeleteMapping("/transaction/{transactionId}")
     @HandlingResult
-    public void deleteById(@PathVariable Long transactionId) {
+    public void deleteById(@PathVariable @NonNull Long transactionId) {
 
         transactionService.deleteById(transactionId);
 
