@@ -14,7 +14,6 @@ import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,11 +33,9 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public AccountDto getAccountById(Long id) {
-        Optional<Account> optAccount = accountRepository.findById(id);
-        if (optAccount.isEmpty()) {
-            throw new RuntimeException("Account not found with id: " + id);
-        }
-        return accountMapper.toDto(optAccount.get());
+        return accountRepository.findById(id)
+                .map(accountMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Account not found with id: " + id));
     }
 
     public AccountDto createAccount(AccountDto accountDto) {
@@ -47,16 +44,11 @@ public class AccountServiceImpl implements AccountService {
     }
 
     public AccountDto updateAccount(Long id, AccountDto accountDto) {
-        Optional<Account> optExistingAccount = accountRepository.findById(id);
-        if (optExistingAccount.isEmpty()) {
-            throw new RuntimeException("Account not found with id: " + id);
-        }
-        Optional<Client> optClient = clientRepository.findById(accountDto.getClientId());
-        if (optClient.isEmpty()) {
-            throw new RuntimeException("Client not found with id: " + accountDto.getClientId());
-        }
-        Account existingAccount = optExistingAccount.get();
-        existingAccount.setClient(optClient.get());
+        Account existingAccount = accountRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found with id: " + id));
+        Client client = clientRepository.findById(accountDto.getClientId())
+                .orElseThrow(() -> new RuntimeException("Client not found with id: " + accountDto.getClientId()));
+        existingAccount.setClient(client);
         existingAccount.setAccountType(AccountType.valueOf(accountDto.getAccountType()));
         existingAccount.setBalance(accountDto.getBalance());
         return accountMapper.toDto(accountRepository.save(existingAccount));

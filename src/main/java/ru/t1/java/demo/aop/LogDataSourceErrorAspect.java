@@ -23,13 +23,19 @@ public class LogDataSourceErrorAspect {
     @Pointcut("@within(LogAfterThrowing)") // На уровне класса
     public void classLevelAnnotated() {}
 
+    @Pointcut("execution(* ru.t1.java.demo.repository.*.*(..))")
+    public void repositoryLevel() {}
+
     // Логирование при возникновении исключений
-    @AfterThrowing(pointcut = "classLevelAnnotated()", throwing = "exception")
+    @AfterThrowing(
+            pointcut = "classLevelAnnotated() /*|| repositoryLevel()*/",
+            throwing = "exception"
+    ) //поставил аннотации только над классами сервисов, так как в них больше логики, а ошибки возникающие в репозитории и так до классов доходят
     public void logError(JoinPoint joinPoint, Exception exception) {
-        
+
         // Создаём запись о логировании
         DataSourceErrorLog dataSourceErrorLog = DataSourceErrorLog.builder()
-                .stackTrace(Arrays.stream(Thread.currentThread().getStackTrace())
+                .stackTrace(Arrays.stream(exception.getStackTrace())
                         .map(StackTraceElement::toString)
                         .collect(Collectors.joining("\n"))
                 )

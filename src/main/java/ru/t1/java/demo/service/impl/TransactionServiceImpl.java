@@ -13,7 +13,6 @@ import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,13 +32,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     public TransactionDto getTransactionById(Long id) {
-        Optional<Transaction> optTransaction = transactionRepository.findById(id);
-        if (optTransaction.isEmpty()) {
-            throw new RuntimeException("Transaction not found with id: " + id);
-        }
-        return transactionMapper.toDto(optTransaction.get());
-
-
+        return transactionRepository.findById(id)
+                .map(transactionMapper::toDto)
+                .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + id));
     }
 
     public TransactionDto createTransaction(TransactionDto transactionDto) {

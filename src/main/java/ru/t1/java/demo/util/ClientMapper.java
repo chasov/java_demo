@@ -12,6 +12,7 @@ public class ClientMapper {
 //            throw new NullPointerException();
         }
         return Client.builder()
+                .id(dto.getId())    //что бы при перезапуске перезаписывались существующие записи, а не добавлялись новые
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .middleName(dto.getMiddleName())
