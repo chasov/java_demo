@@ -21,9 +21,9 @@ public class DataSourceErrorServiceImpl implements DataSourceErrorService {
     public void saveDataSourceErrorLog(JoinPoint joinPoint, Exception e) {
 
         DataSourceErrorLog dataSourceErrorLog = new DataSourceErrorLog(
-                joinPoint.getSignature().toString(),
+                stackTraceToString(e),
                 e.getMessage(),
-                stackTraceToString(e));
+                joinPoint.getSignature().toString());
 
         repository.save(dataSourceErrorLog);
     }
