@@ -12,8 +12,24 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
-    public Transaction getTransaction(Long accountId) {
+    public Transaction get(Long accountId) {
         return repository.findByAccountId(accountId)
                 .orElseThrow(() -> new RuntimeException("Transaction with accountId = " + accountId + " is not found"));
+    }
+
+    @Override
+    public Transaction create(Transaction transaction) {
+        return repository.save(transaction);
+    }
+
+    @Override
+    public Transaction update(Transaction oldTransaction, Transaction newTransaction) {
+        delete(oldTransaction);
+        return create(newTransaction);
+    }
+
+    @Override
+    public void delete(Transaction transaction) {
+        repository.delete(transaction);
     }
 }

@@ -1,10 +1,12 @@
 package ru.t1.java.demo.service;
 
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
 
 import java.util.List;
 
+@LogDataSourceError
 public interface ClientService {
     List<Client> registerClients(List<Client> clients);
 
