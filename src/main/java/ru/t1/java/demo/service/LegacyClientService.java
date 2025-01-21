@@ -2,6 +2,7 @@ package ru.t1.java.demo.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
