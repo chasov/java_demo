@@ -2,6 +2,7 @@ package ru.t1.java.demo.service;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
@@ -9,6 +10,7 @@ import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -45,6 +47,21 @@ public class LegacyClientService {
 
 //        log.debug("Client info: {}", clientDto.toString());
         return clientDto;
+    }
+    @LogDataSourceError
+    public void saveClient(Client client){
+        repository.save(client);
+    }
+    @LogDataSourceError
+    public void deleteClientById(Long id){
+        if(id == null || id < 0){
+            throw new IllegalArgumentException("ID must be over zero and cannot be null");
+        }
+        repository.deleteById(id);
+    }
+
+    public Optional<Client> findClientById(Long id){
+        return repository.findById(id);
     }
 
 }
