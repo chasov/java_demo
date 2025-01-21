@@ -1,0 +1,27 @@
+[
+  {
+    "id": "55dc4d80-58fe-4d90-99f2-257a44ce86bd",
+    "account_type": "DEBIT",
+    "balance": 660.23
+  },
+  {
+    "id": "4bfc09b4-89a3-4b68-bbe3-9f416f55b3db",
+    "account_type": "CREDIT",
+    "balance": 1200.45
+  },
+  {
+    "id": "e6a4f2ed-6f58-4a67-96e4-bcd767c2e0f7",
+    "account_type": "DEBIT",
+    "balance": 450.89
+  },
+  {
+    "id": "79c54835-7343-4271-899d-5173d09f22c1",
+    "account_type": "CREDIT",
+    "balance": 2750.76
+  },
+  {
+    "id": "14c2db88-bb90-4843-9b75-7fbe813ab8c3",
+    "account_type": "DEBIT",
+    "balance": 1985.00
+  }
+]
