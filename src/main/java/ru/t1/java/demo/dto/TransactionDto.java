@@ -10,9 +10,6 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.sql.Date;
 
 @Data
 @AllArgsConstructor
@@ -30,5 +27,4 @@ public class TransactionDto implements Serializable {
     @NotNull
     @JsonProperty("transaction_time")
     private String transactionTime;
-//    private Date transactionTime;
 }

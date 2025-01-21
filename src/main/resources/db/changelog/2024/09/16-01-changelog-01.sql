@@ -1,6 +1,7 @@
 CREATE SEQUENCE IF NOT EXISTS client_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS account_seq START WITH 1 INCREMENT BY 50;
 CREATE SEQUENCE IF NOT EXISTS transactions_seq START WITH 1 INCREMENT BY 50;
+CREATE SEQUENCE IF NOT EXISTS data_source_error_log_seq START WITH 1 INCREMENT BY 50;
 
 CREATE TABLE client
 (
@@ -32,7 +33,7 @@ CREATE TABLE transactions
 CREATE TABLE data_source_error_log
 (
     id SERIAL PRIMARY KEY,
-    stack_trace VARCHAR(1000),
+    stack_trace VARCHAR(10000),
     message VARCHAR(255),
     method_signature VARCHAR(255)
 );

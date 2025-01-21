@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
@@ -36,9 +37,6 @@ public class TransactionService {
 
     }
 
-    //    @LogExecution
-//    @Track
-//    @HandlingResult
     public List<Transaction> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         TransactionDto[] transactions;
@@ -75,6 +73,7 @@ public class TransactionService {
                 .build();
     }
 
+    @LogDataSourceError
     public Optional<Transaction> getTransactionById(Long id) {
         return transactionRepository.findById(id);
     }
@@ -82,14 +81,17 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
+    @LogDataSourceError
     public Transaction createTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
     }
 
+    @LogDataSourceError
     public Transaction updateTransaction(Transaction transaction) {
         return transactionRepository.save(transaction);
     }
 
+    @LogDataSourceError
     public void deleteTransactionById(Long transactionId) {
         transactionRepository.deleteById(transactionId);
     }

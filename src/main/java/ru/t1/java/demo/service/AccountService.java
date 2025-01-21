@@ -6,6 +6,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
@@ -34,9 +35,6 @@ public class AccountService {
         }
     }
 
-    //    @LogExecution
-//    @Track
-//    @HandlingResult
     public List<Account> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         AccountDto[] accounts;
@@ -73,22 +71,27 @@ public class AccountService {
                 .build();
     }
 
+    @LogDataSourceError
     public Optional<Account> getAccountById(Long id) {
         return accountRepository.findById(id);
     }
 
+    @LogDataSourceError
     public List<Account> getAllAccounts() {
         return accountRepository.findAll();
     }
 
+    @LogDataSourceError
     public Account createAccount(Account account) {
         return accountRepository.save(account);
     }
 
+    @LogDataSourceError
     public Account updateAccount(Account account) {
         return accountRepository.save(account);
     }
 
+    @LogDataSourceError
     public void deleteAccountById(Long accountId) {
         accountRepository.deleteById(accountId);
     }
