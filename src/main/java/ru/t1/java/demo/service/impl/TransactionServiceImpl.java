@@ -45,6 +45,7 @@ public class TransactionServiceImpl implements TransactionService {
 
         return TransactionMapper.toDto(transactionRepository.save(transaction));
     }
+
     @LogDataSourceError
     @Override
     public List<TransactionDto> getAllAccountById(Long accountId) {
@@ -55,12 +56,14 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(TransactionMapper::toDto)
                 .toList();
     }
+
     @LogDataSourceError
     @Override
     public TransactionDto getById(Long transactionId) {
         return TransactionMapper.toDto(transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionException("Transaction not found")));
     }
+
     @LogDataSourceError
     @Override
     public void deleteById(Long transactionId) {
@@ -69,4 +72,5 @@ public class TransactionServiceImpl implements TransactionService {
 
         transactionRepository.deleteById(transactionId);
     }
+
 }

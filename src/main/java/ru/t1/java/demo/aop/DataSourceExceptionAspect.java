@@ -7,7 +7,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.DataSourceErrorLog;
+
 import ru.t1.java.demo.service.DataSourceErrorService;
 
 @Slf4j
@@ -16,7 +16,6 @@ import ru.t1.java.demo.service.DataSourceErrorService;
 @Order(0)
 @RequiredArgsConstructor
 public class DataSourceExceptionAspect {
-
     private final DataSourceErrorService dataSourceErrorService;
 
     @AfterThrowing(pointcut = "@annotation(LogDataSourceError)", throwing = "e")
@@ -27,8 +26,8 @@ public class DataSourceExceptionAspect {
             log.info("В результате выполнения метода {}", joinPoint.getSignature().toShortString());
 
             dataSourceErrorService.saveDataSourceErrorLog(joinPoint, e);
-        } catch (Exception ex) {
-            log.error("Ошибка при логировании исключения DataSource", ex);
+        } finally {
+            log.error("Ошибка при логировании исключения DataSource");
         }
     }
 }

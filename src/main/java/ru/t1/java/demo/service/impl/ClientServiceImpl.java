@@ -28,6 +28,7 @@ public class ClientServiceImpl implements ClientService {
     public ClientDto patchById(Long clientId, ClientDto dto) {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientException("Client not found"));
+
         client.setFirstName(dto.getFirstName());
         client.setLastName(dto.getLastName());
         client.setMiddleName(dto.getMiddleName());
@@ -49,4 +50,5 @@ public class ClientServiceImpl implements ClientService {
                 .orElseThrow(() -> new ClientException("Client not found"));
         clientRepository.deleteById(clientId);
     }
+
 }

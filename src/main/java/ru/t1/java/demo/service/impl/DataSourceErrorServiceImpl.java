@@ -16,15 +16,14 @@ import java.io.StringWriter;
 @RequiredArgsConstructor
 public class DataSourceErrorServiceImpl implements DataSourceErrorService {
     private final DataSourceErrorLogRepository repository;
-    DataSourceErrorLog dataSourceErrorLog;
+
     @Override
     public void saveDataSourceErrorLog(JoinPoint joinPoint, Exception e) {
 
-        dataSourceErrorLog = new DataSourceErrorLog();
-
-        dataSourceErrorLog.setMethodSignature(joinPoint.getSignature().toString());
-        dataSourceErrorLog.setMessage(e.getMessage());
-        dataSourceErrorLog.setStackTrace(stackTraceToString(e));
+        DataSourceErrorLog dataSourceErrorLog = new DataSourceErrorLog(
+                joinPoint.getSignature().toString(),
+                e.getMessage(),
+                stackTraceToString(e));
 
         repository.save(dataSourceErrorLog);
     }
@@ -35,4 +34,5 @@ public class DataSourceErrorServiceImpl implements DataSourceErrorService {
         e.printStackTrace(pw);
         return sw.toString();
     }
+
 }

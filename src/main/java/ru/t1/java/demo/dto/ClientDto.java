@@ -21,8 +21,11 @@ public class ClientDto implements Serializable {
     private Long id;
     @JsonProperty("first_name")
     private String firstName;
+
     @JsonProperty("last_name")
     private String lastName;
+
     @JsonProperty("middle_name")
     private String middleName;
+
 }

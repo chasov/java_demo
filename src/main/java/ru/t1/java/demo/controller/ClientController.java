@@ -2,8 +2,6 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.lang.NonNull;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
@@ -14,7 +12,6 @@ import ru.t1.java.demo.service.ClientService;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@Validated
 public class ClientController {
     private final ClientService clientService;
 
@@ -22,17 +19,16 @@ public class ClientController {
     @Track
     @PostMapping(value = "/client")
     @HandlingResult
-    public ClientDto save(@RequestBody @NonNull ClientDto dto) {
+    public ClientDto save(@RequestBody ClientDto dto) {
         return clientService.save(dto);
-
     }
 
     @LogException
     @Track
     @PatchMapping("client/{clientId}")
     @HandlingResult
-    public ClientDto patchById(@PathVariable @NonNull Long clientId,
-                               @RequestBody @NonNull ClientDto dto) {
+    public ClientDto patchById(@PathVariable Long clientId,
+                               @RequestBody ClientDto dto) {
         return clientService.patchById(clientId, dto);
     }
 
@@ -40,7 +36,7 @@ public class ClientController {
     @Track
     @GetMapping(value = "/client/{clientId}")
     @HandlingResult
-    public ClientDto getById(@PathVariable @NonNull Long clientId) {
+    public ClientDto getById(@PathVariable Long clientId) {
         return clientService.getById(clientId);
     }
 
@@ -48,7 +44,8 @@ public class ClientController {
     @Track
     @DeleteMapping("client/{clientId}")
     @HandlingResult
-    public void deleteById(@PathVariable @NonNull Long clientId) {
+    public void deleteById(@PathVariable Long clientId) {
         clientService.deleteById(clientId);
     }
+
 }
