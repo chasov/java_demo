@@ -12,9 +12,9 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository repository;
 
     @Override
-    public Transaction get(Long accountId) {
-        return repository.findByAccountId(accountId)
-                .orElseThrow(() -> new RuntimeException("Transaction with accountId = " + accountId + " is not found"));
+    public Transaction get(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Transaction with id = " + id + " is not found"));
     }
 
     @Override

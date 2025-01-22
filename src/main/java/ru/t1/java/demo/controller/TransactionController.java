@@ -2,6 +2,7 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.service.TransactionService;
@@ -9,6 +10,7 @@ import ru.t1.java.demo.util.TransactionMapper;
 
 @RestController
 @RequiredArgsConstructor
+@LogDataSourceError
 public class TransactionController {
     private final TransactionService service;
 

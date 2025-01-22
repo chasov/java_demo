@@ -15,11 +15,11 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @Table(name = "data_source_error_log")
 public class DataSourceErrorLog extends AbstractPersistable<Long> {
     @Column(name = "exception_stack_trace")
-    String exceptionStackTrace;
+    private String exceptionStackTrace;
 
     @Column(name = "message")
-    String message;
+    private String message;
 
     @Column(name = "method_signature")
-    String methodSignature;
+    private String methodSignature;
 }

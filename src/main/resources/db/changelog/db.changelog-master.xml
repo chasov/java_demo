@@ -36,4 +36,14 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="create_data_source_error_log_table" author="AShev">
+        <sqlFile encoding="utf8" path="/db/changelog/2025-01/22-01-changelog-05.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add_columns_to_data_source_error_log" author="AShev">
+        <sqlFile encoding="utf8" path="/db/changelog/2025-01/22-01-changelog-06.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

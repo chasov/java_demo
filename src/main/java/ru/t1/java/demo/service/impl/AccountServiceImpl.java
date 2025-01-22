@@ -12,12 +12,6 @@ import ru.t1.java.demo.service.AccountService;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository repository;
 
-//    @Override
-//    public Account getAccount(Long clientId) {
-//        return repository.findByClientId(clientId)
-//                .orElseThrow(() -> new RuntimeException("Account with clientId = " + clientId + " is not found"));
-//    }
-
     @Override
     public Account get(Long id) {
         return repository.findById(id)
@@ -26,8 +20,8 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public Account create(Account account) {
-//        throw new AccountException("something went wrong");
-        return repository.save(account);
+        throw new AccountException("something went wrong");
+//        return repository.save(account);
     }
 
     @Override
@@ -40,6 +34,4 @@ public class AccountServiceImpl implements AccountService {
     public void delete(Account account) {
         repository.delete(account);
     }
-
-
 }
