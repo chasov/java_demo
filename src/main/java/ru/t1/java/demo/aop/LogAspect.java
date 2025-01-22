@@ -28,7 +28,7 @@ public class LogAspect {
         log.info("ASPECT BEFORE ANNOTATION: Call method: {}", joinPoint.getSignature().getName());
     }
 
-//    @Before("execution(public * ru.t1.java.demo.service.ClientService.*(..))")
+//    @Before("execution(public * ru.t1.java.demo.service.client.ClientService.*(..))")
 //    public void logBefore(JoinPoint joinPoint) {
 //        log.error("ASPECT BEFORE: Call method: {}", joinPoint.getSignature().getName());
 //    }

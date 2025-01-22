@@ -9,22 +9,20 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionDto implements Serializable {
+public class DataSourceErrorLogDto implements Serializable {
     private Long id;
     @NotNull
-    @JsonProperty("account_id")
-    private Long accountId;
+    @JsonProperty("stack_trace")
+    private String stackTrace;
     @NotNull
-    @JsonProperty("amount")
-    private BigDecimal amount;
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    @JsonProperty("error_message")
+    private String message;
+    @JsonProperty("method_signature")
+    private String methodSignature;
 }

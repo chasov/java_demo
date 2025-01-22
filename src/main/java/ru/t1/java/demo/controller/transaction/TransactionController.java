@@ -1,6 +1,7 @@
 package ru.t1.java.demo.controller.transaction;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,29 +10,39 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.t1.java.demo.aop.annotation.Metric;
+import ru.t1.java.demo.kafka.producer.KafkaTransactionProducer;
 import ru.t1.java.demo.model.dto.TransactionDto;
-import ru.t1.java.demo.service.impl.transaction.TransactionServiceImpl;
+import ru.t1.java.demo.service.transaction.TransactionService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping
+@RequestMapping("/transaction")
 public class TransactionController {
 
-    private final TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
+    private final KafkaTransactionProducer<TransactionDto> kafkaTransactionProducer;
 
-    @PostMapping("/transaction")
-    public TransactionDto conductTransaction(@RequestBody TransactionDto transactionDto) {
-        return transactionService.conductTransaction(transactionDto);
+    @Metric
+    @PostMapping
+    public ResponseEntity<String> conductTransaction(@RequestBody TransactionDto transaction) {
+        try {
+            kafkaTransactionProducer.send(transaction);
+            return ResponseEntity.ok("Transaction completion message sent successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending transaction: " + e.getMessage());
+        }
     }
 
-    @GetMapping("/transaction/{transactionId}")
+    @Metric
+    @GetMapping("/{transactionId}")
     public TransactionDto getTransaction(@PathVariable Long transactionId) {
         return transactionService.getTransaction(transactionId);
     }
 
-    @DeleteMapping("/transaction/{transactionId}")
-    public ResponseEntity<Void> cancelTransaction(@PathVariable Long transactionId) {
+    @Metric
+    @DeleteMapping("/{transactionId}")
+    public void cancelTransaction(@PathVariable Long transactionId) {
         transactionService.cancelTransaction(transactionId);
-        return ResponseEntity.ok().build();
     }
 }

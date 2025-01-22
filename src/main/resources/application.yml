@@ -10,10 +10,43 @@ spring:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
 
+  t1:
+    kafka:
+      bootstrap-servers: localhost:9092
+      consumer:
+        client-group-id: client-group
+        account-group-id: account-group
+        transaction-group-id: transaction-group
+        group-id: t1-demo
+        session-timeout-ms: 45000
+        max-partition-fetch-bytes: 300000
+        max-poll-records: 1
+        max-poll-interval-ms: 300000
+        heartbeat-interval: 3000
+        enable-auto-commit: false
+      producer:
+        enable: true
+      topic:
+        client_registration: t1_demo_client_registration
+        client_id_registered: t1_demo_client_registered
+        client_transactions: t1_demo_transactions
+        client_accounts: t1_demo_accounts
+        error_metric: t1_demo_metrics
+      listener:
+        poll-timeout: 1000
+
 logging:
   level:
-    ROOT: INFO
+    ROOT: DEBUG
     ru.t1.java.demo.controller.ClientController: DEBUG
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
 
 t1:
   scan-path: ru.t1.java.demo
+
+integration:
+  url: http://localhost:1398
+  resource: /bsc-wire-mock/api/client/check
+  retry-count: 3
+  retry-backoff: 1000

@@ -7,24 +7,26 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.entity.Client;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
 
+/**
+ * DTO for {@link Client}
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionDto implements Serializable {
+public class ClientDto implements Serializable {
     private Long id;
     @NotNull
-    @JsonProperty("account_id")
-    private Long accountId;
+    @JsonProperty("first_name")
+    private String firstName;
     @NotNull
-    @JsonProperty("amount")
-    private BigDecimal amount;
-    @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    @JsonProperty("last_name")
+    private String lastName;
+    @JsonProperty("middle_name")
+    private String middleName;
 }
