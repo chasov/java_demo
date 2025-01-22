@@ -26,15 +26,15 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
 
-    @PostConstruct
-    void init() {
-        try {
-            List<Client> clients = parseJson();
-        } catch (IOException e) {
-            log.error("Ошибка во время обработки записей", e);
-        }
+//    @PostConstruct
+//    void init() {
+//        try {
+//            List<Client> clients = parseJson();
+//        } catch (IOException e) {
+//            log.error("Ошибка во время обработки записей", e);
+//        }
 //        repository.saveAll(clients);
-    }
+//    }
 
     @Override
 //    @LogExecution
