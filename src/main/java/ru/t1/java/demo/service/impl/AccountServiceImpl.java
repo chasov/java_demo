@@ -73,9 +73,7 @@ public class AccountServiceImpl implements AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountException("Not found. Account id: " + id));
 
-        account.setClient(null);
         accountRepository.delete(account);
-
         return accountMapper.toDto(account);
     }
 }

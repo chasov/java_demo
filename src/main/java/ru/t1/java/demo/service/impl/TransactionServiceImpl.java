@@ -6,13 +6,10 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 import ru.t1.java.demo.aop.WriteLogException;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.TransactionException;
@@ -86,7 +83,6 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new TransactionException("Not found. Transaction id: " + id));
 
-        transaction.setAccount(null);
         transactionRepository.delete(transaction);
         return transactionMapper.toDto(transaction);
     }
