@@ -16,8 +16,8 @@ import java.math.BigDecimal;
 @Table(name = "account")
 public class Account extends AbstractPersistable<Long> {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "client_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "client_id", nullable = true)
     private Client client;
 
     @Enumerated(EnumType.STRING)

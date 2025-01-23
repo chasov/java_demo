@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
 @Table(name = "transactions")
 public class Transaction extends AbstractPersistable<Long> {
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "account_id", nullable = false)
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id", nullable = true)
     private Account account;
 
     @Column(name = "amount", precision = 18, scale = 2)

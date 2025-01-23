@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.t1.java.demo.aop.WriteLogException;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.model.account.Account;
@@ -47,6 +48,13 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @WriteLogException
+    public Optional<AccountDto> getAccountById(Long id) {
+        return accountRepository.findById(id)
+                .map(accountMapper::toDto);
+    }
+
+    @Override
     @Transactional()
     public AccountDto updateAccount(Long id, AccountDto dto) {
         Account existingAccount = accountRepository.findById(id)
@@ -57,12 +65,6 @@ public class AccountServiceImpl implements AccountService {
 
         Account updatedAccount = accountRepository.save(existingAccount);
         return accountMapper.toDto(updatedAccount);
-    }
-
-    @Override
-    public Optional<AccountDto> getAccountById(Long id) {
-        return accountRepository.findById(id)
-                .map(accountMapper::toDto);
     }
 
     @Override

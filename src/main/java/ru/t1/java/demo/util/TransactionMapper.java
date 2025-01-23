@@ -16,7 +16,7 @@ public class TransactionMapper {
 
     public Transaction toEntity(TransactionDto dto) {
         return Transaction.builder()
-                .account(accountMapper.toEntity(dto.getAccount()))
+                .account(dto.getAccount() != null ? accountMapper.toEntity(dto.getAccount()) : null)
                 .amount(dto.getAmount())
                 .dateTime(dto.getDateTime())
                 .build();
@@ -25,7 +25,7 @@ public class TransactionMapper {
     public TransactionDto toDto(Transaction entity) {
         return TransactionDto.builder()
                 .id(entity.getId())
-                .account(accountMapper.toDto(entity.getAccount()))
+                .account(entity.getAccount() != null ? accountMapper.toDto(entity.getAccount()) : null)
                 .amount(entity.getAmount())
                 .dateTime(entity.getDateTime())
                 .build();

@@ -21,4 +21,5 @@ public interface TransactionService {
     TransactionDto deleteTransactionById(Long id);
 
     List<Transaction> parseJson() throws IOException;
+
 }

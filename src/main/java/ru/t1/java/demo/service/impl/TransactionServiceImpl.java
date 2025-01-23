@@ -6,13 +6,16 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.server.ResponseStatusException;
 import ru.t1.java.demo.aop.WriteLogException;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.exception.TransctionException;
+import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
@@ -58,20 +61,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    @Transactional()
-    public TransactionDto updateTransaction(Long id, TransactionDto dto) {
-        Transaction existingTransaction = transactionRepository.findById(id)
-                .orElseThrow(() -> new TransctionException("Not found. Transaction id: " + id));
-
-        existingTransaction.setAccount(accountMapper.toEntity(dto.getAccount()));
-        existingTransaction.setAmount(dto.getAmount());
-        existingTransaction.setDateTime(dto.getDateTime());
-
-        Transaction updatedTransaction = transactionRepository.save(existingTransaction);
-        return transactionMapper.toDto(updatedTransaction);
-    }
-
-    @Override
+    @WriteLogException
     public Optional<TransactionDto> getTransactionById(Long id) {
         return transactionRepository.findById(id)
                 .map(transactionMapper::toDto);
@@ -79,15 +69,27 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional()
+    public TransactionDto updateTransaction(Long id, TransactionDto dto) {
+        Transaction transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new TransactionException("Not found. Transaction id: " + id));
+        transaction.setAccount(accountMapper.toEntity(dto.getAccount()));
+        transaction.setAmount(dto.getAmount());
+        transaction.setDateTime(dto.getDateTime());
+
+        Transaction updatedTransaction = transactionRepository.save(transaction);
+        return transactionMapper.toDto(updatedTransaction);
+    }
+
+    @Override
+    @Transactional()
     public TransactionDto deleteTransactionById(Long id) {
         Transaction transaction = transactionRepository.findById(id)
-                .orElseThrow(() -> new TransctionException("Not found. Transaction id: " + id));
+                .orElseThrow(() -> new TransactionException("Not found. Transaction id: " + id));
 
         transaction.setAccount(null);
         transactionRepository.delete(transaction);
         return transactionMapper.toDto(transaction);
     }
-
 
     @PostConstruct
     @WriteLogException
@@ -96,12 +98,11 @@ public class TransactionServiceImpl implements TransactionService {
             List<Transaction> transactions = parseJson();
             transactionRepository.saveAll(transactions);
         } catch (IOException e) {
-            throw new TransctionException("Can't parse json");
+            throw new TransactionException("Can't parse json");
         }
     }
 
     @Override
-    @WriteLogException
     public List<Transaction> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
