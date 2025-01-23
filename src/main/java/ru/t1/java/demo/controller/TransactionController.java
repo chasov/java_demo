@@ -2,22 +2,22 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
 @RestController
 @RequiredArgsConstructor
-@LogDataSourceError
 public class TransactionController {
     private final TransactionService service;
 
     @PostMapping(value = "/transaction/create")
     public void create(@RequestBody TransactionDto dto) {
-        Transaction transaction = TransactionMapper.toEntity(dto);
-        service.create(transaction);
+        throw new AccountException("Can't save the transaction");
+//        Transaction transaction = TransactionMapper.toEntity(dto);
+//        service.create(transaction);
     }
 
     @PostMapping(value = "/transaction/delete")

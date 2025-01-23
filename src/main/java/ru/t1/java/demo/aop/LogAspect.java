@@ -2,11 +2,9 @@ package ru.t1.java.demo.aop;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import ru.t1.java.demo.model.Client;
 
 import java.util.List;
