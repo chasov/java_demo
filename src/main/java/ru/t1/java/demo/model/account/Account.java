@@ -13,10 +13,11 @@ import java.math.BigDecimal;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "account")
 public class Account extends AbstractPersistable<Long> {
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "client_id", nullable = false)
     private Client client;
 
     @Enumerated(EnumType.STRING)

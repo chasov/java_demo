@@ -36,7 +36,7 @@ public class AccountController {
         return ResponseEntity.ok(accountDtoList);
     }
 
-    @WriteLogException
+
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getAccount(@PathVariable Long id) {
         return accountService.getAccountById(id)

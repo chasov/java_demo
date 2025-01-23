@@ -1,8 +1,6 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 import ru.t1.java.demo.model.account.Account;
@@ -16,13 +14,16 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "transactions")
 public class Transaction extends AbstractPersistable<Long> {
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "account_id", nullable = false)
     private Account account;
 
+    @Column(name = "amount", precision = 18, scale = 2)
     private BigDecimal amount;
 
-    private LocalDateTime date;
+    @Column(name = "date")
+    private LocalDateTime dateTime;
 }

@@ -7,13 +7,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.t1.java.demo.model.account.AccountType;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
- * DTO for {@link ru.t1.java.demo.model.account.Account}
+ * DTO for {@link ru.t1.java.demo.model.Transaction}
  */
 
 @Data
@@ -21,13 +21,14 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountDto implements Serializable {
+public class TransactionDto implements Serializable {
     private Long id;
-    @JsonProperty("client")
-    private ClientDto client;
-    @JsonProperty("account_type")
-    private AccountType accountType;
+    @JsonProperty("account")
+    private AccountDto account;
     @JsonFormat(shape = JsonFormat.Shape.STRING)
-    @JsonProperty("balance")
-    private BigDecimal balance;
+    @JsonProperty("amount")
+    private BigDecimal amount;
+    @JsonProperty("date")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime dateTime;
 }

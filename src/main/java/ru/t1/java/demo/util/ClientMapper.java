@@ -7,10 +7,7 @@ import ru.t1.java.demo.model.Client;
 @Component
 public class ClientMapper {
 
-    public static Client toEntity(ClientDto dto) {
-        if (dto.getMiddleName() == null) {
-//            throw new NullPointerException();
-        }
+    public Client toEntity(ClientDto dto) {
         return Client.builder()
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
@@ -18,7 +15,7 @@ public class ClientMapper {
                 .build();
     }
 
-    public static ClientDto toDto(Client entity) {
+    public ClientDto toDto(Client entity) {
         return ClientDto.builder()
                 .id(entity.getId())
                 .firstName(entity.getFirstName())

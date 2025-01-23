@@ -16,6 +16,7 @@ public class LogDataSourceError {
 
     @AfterThrowing(pointcut = "@annotation(WriteLogException)", throwing = "ex")
     public void logError(Exception ex) {
+        System.out.println("HERE");
         DataSourceErrorLog errorLog = new DataSourceErrorLog();
         errorLog.setExceptionStackTrace(ex.toString());
         errorLog.setMessage(ex.getMessage());

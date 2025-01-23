@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.model.account.Account;
@@ -14,54 +15,58 @@ import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
+@Transactional(readOnly = true)
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
+    private final AccountMapper accountMapper;
 
     @Override
     public List<AccountDto> getAllAccounts(Integer limit, Integer page) {
         Pageable pageable = PageRequest.of(page, limit);
         return accountRepository.findAll(pageable).getContent().stream()
-                .map(AccountMapper::toDto)
-                .collect(Collectors.toList());
+                .map(accountMapper::toDto)
+                .toList();
     }
 
     @Override
     public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll().stream()
-                .map(AccountMapper::toDto)
-                .collect(Collectors.toList());
+                .map(accountMapper::toDto)
+                .toList();
     }
 
     @Override
-    public AccountDto createAccount(AccountDto accountDto) {
-        Account account = AccountMapper.toEntity(accountDto);
+    @Transactional()
+    public AccountDto createAccount(AccountDto dto) {
+        Account account = accountMapper.toEntity(dto);
         Account savedAccount = accountRepository.save(account);
-        return AccountMapper.toDto(savedAccount);
+        return accountMapper.toDto(savedAccount);
     }
 
     @Override
-    public AccountDto updateAccount(Long id, AccountDto accountDto) {
+    @Transactional()
+    public AccountDto updateAccount(Long id, AccountDto dto) {
         Account existingAccount = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountException("Not found. Account id: " + id));
 
-        existingAccount.setBalance(accountDto.getBalance());
-        existingAccount.setAccountType(accountDto.getAccountType());
+        existingAccount.setBalance(dto.getBalance());
+        existingAccount.setAccountType(dto.getAccountType());
 
         Account updatedAccount = accountRepository.save(existingAccount);
-        return AccountMapper.toDto(updatedAccount);
+        return accountMapper.toDto(updatedAccount);
     }
 
     @Override
     public Optional<AccountDto> getAccountById(Long id) {
         return accountRepository.findById(id)
-                .map(AccountMapper::toDto);
+                .map(accountMapper::toDto);
     }
 
     @Override
+    @Transactional()
     public AccountDto deleteAccountById(Long id) {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountException("Not found. Account id: " + id));
@@ -69,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
         account.setClient(null);
         accountRepository.delete(account);
 
-        return AccountMapper.toDto(account);
+        return accountMapper.toDto(account);
     }
 }
 
