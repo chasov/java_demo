@@ -23,6 +23,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
+@LogDataSourceError
 public class ClientController {
 
     private final ClientService clientService;
