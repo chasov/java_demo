@@ -5,6 +5,7 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.aop.logdatasource.LogDataSourceError;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.entity.Client;
 import ru.t1.java.demo.repository.ClientRepository;
@@ -24,6 +25,7 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
 
     @PostConstruct
+    @LogDataSourceError
     void init() {
         List<Client> clients = null;
         try {
@@ -35,9 +37,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-//    @LogExecution
-//    @Track
-//    @HandlingResult
+    @LogDataSourceError
     public List<Client> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 

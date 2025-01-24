@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.t1.java.demo.model.dto.TransactionDto;
-import ru.t1.java.demo.service.impl.transaction.TransactionServiceImpl;
+import ru.t1.java.demo.service.impl.transaction.TransactionService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
 public class TransactionController {
 
-    private final TransactionServiceImpl transactionService;
+    private final TransactionService transactionService;
 
     @PostMapping("/transaction")
     public TransactionDto conductTransaction(@RequestBody TransactionDto transactionDto) {

@@ -10,14 +10,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.t1.java.demo.model.dto.AccountDto;
-import ru.t1.java.demo.service.impl.account.AccountServiceImpl;
+import ru.t1.java.demo.service.impl.account.AccountService;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping
 public class AccountController {
 
-    private final AccountServiceImpl accountService;
+    private final AccountService accountService;
 
     @PostMapping("/account")
     public AccountDto createAccount(@RequestBody AccountDto accountDto) {
