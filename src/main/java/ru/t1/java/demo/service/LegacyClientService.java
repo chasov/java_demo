@@ -3,7 +3,7 @@ package ru.t1.java.demo.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.entity.Client;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.util.ClientMapper;
 
@@ -16,7 +16,7 @@ public class LegacyClientService {
     private final ClientRepository repository;
     private final Map<Long, Client> cache;
 
-    public LegacyClientService(ClientRepository repository) {
+    public LegacyClientService(ClientRepository repository, ClientMapper clientMapper) {
         this.repository = repository;
         this.cache = new HashMap<>();
     }

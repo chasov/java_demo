@@ -1,4 +1,4 @@
-package ru.t1.java.demo.controller;
+package ru.t1.java.demo.controller.client;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

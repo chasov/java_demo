@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model;
+package ru.t1.java.demo.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,5 +23,4 @@ public class Client extends AbstractPersistable<Long> {
 
     @Column(name = "middle_name")
     private String middleName;
-
 }
