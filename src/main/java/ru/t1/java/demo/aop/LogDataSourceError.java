@@ -7,8 +7,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.ErrorLogRepository;
 
@@ -24,7 +22,6 @@ public class LogDataSourceError {
         saveErrorLog(ex);
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void saveErrorLog(Throwable ex) {
         DataSourceErrorLog errorLog = new DataSourceErrorLog();
         errorLog.setExceptionStackTrace(ex.toString());
@@ -33,9 +30,9 @@ public class LogDataSourceError {
         try {
             errorLogRepository.save(errorLog);
         } catch (DataAccessException dae) {
-            log.error("Can't save error log", dae.getMessage());
+            log.error("Can't save error log: {}", dae.getMessage());
         } catch (Exception e) {
-            log.error("Unknown error", e);
+            log.error("Unknown error: {}", e.getMessage());
         }
     }
 }
