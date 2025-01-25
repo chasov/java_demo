@@ -1,10 +1,12 @@
 package ru.t1.java.demo.client.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.t1.java.demo.account.model.Account;
+import ru.t1.java.demo.transaction.model.Transaction;
+
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -24,4 +26,11 @@ public class Client extends AbstractPersistable<Long> {
     @Column(name = "middle_name")
     private String middleName;
 
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "transaction_id", referencedColumnName = "id")
+    private Transaction transaction;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+    private Account account;
 }

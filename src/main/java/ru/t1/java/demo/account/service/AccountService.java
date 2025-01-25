@@ -6,7 +6,10 @@ import ru.t1.java.demo.account.model.Account;
 import ru.t1.java.demo.account.repository.AccountRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class AccountService {
@@ -38,6 +41,14 @@ public class AccountService {
         Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Account with uuid: " + id + " not found"));
         accountRepository.deleteById(account.getId());
+    }
+
+    public void save(List<Account> accounts) {
+        Objects.requireNonNull(accounts, "The accounts list must not be null");
+        List<Account> nonNullAccounts = accounts.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        accountRepository.saveAll(nonNullAccounts);
     }
 
 }

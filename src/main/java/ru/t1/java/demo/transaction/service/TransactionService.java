@@ -6,7 +6,10 @@ import ru.t1.java.demo.transaction.model.Transaction;
 import ru.t1.java.demo.transaction.repository.TransactionRepository;
 
 import java.math.BigDecimal;
+import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -30,5 +33,14 @@ public class TransactionService {
         Transaction transaction = transactionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Transaction with uuid: " + id + " not found"));
         transactionRepository.deleteById(transaction.getId());
+    }
+
+    public void save(List<Transaction> accounts) {
+        Objects.requireNonNull(accounts, "The transaction list must not be null");
+
+        List<Transaction> nonNullAccounts = accounts.stream()
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+        transactionRepository.saveAll(nonNullAccounts);
     }
 }

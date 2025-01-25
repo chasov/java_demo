@@ -6,7 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.account.model.Account;
 import ru.t1.java.demo.client.model.Client;
+import ru.t1.java.demo.transaction.model.Transaction;
 
 import java.io.Serializable;
 
@@ -26,4 +28,6 @@ public class ClientDto implements Serializable {
     private String lastName;
     @JsonProperty("middle_name")
     private String middleName;
+    private Transaction transaction;
+    private Account account;
 }
