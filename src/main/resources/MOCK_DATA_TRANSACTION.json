@@ -1,0 +1,502 @@
+[
+  {
+    "id": "8a08f95e-b678-4b3c-b160-9d46083ac110",
+    "transaction_amount": 10404,
+    "transaction_time": "13.07.2024"
+  },
+  {
+    "id": "c789af5f-d341-4460-9e20-cbf6cefadd06",
+    "transaction_amount": 31729,
+    "transaction_time": "20.07.2024"
+  },
+  {
+    "id": "7eafd691-4772-4ed4-a2b1-1a91e21cd7fb",
+    "transaction_amount": 25384,
+    "transaction_time": "25.07.2024"
+  },
+  {
+    "id": "11d14a79-6e67-4ca2-a55c-2d2fec2f7ed5",
+    "transaction_amount": 24313,
+    "transaction_time": "21.01.2024"
+  },
+  {
+    "id": "3aba7c2b-ff25-47b0-9ffa-26e1ef60b165",
+    "transaction_amount": 22960,
+    "transaction_time": "10.09.2024"
+  },
+  {
+    "id": "0041516d-13ad-4359-81ec-2110d574a23d",
+    "transaction_amount": 29828,
+    "transaction_time": "20.09.2024"
+  },
+  {
+    "id": "a7e5480f-6c09-40b5-9f29-c0ec159bac25",
+    "transaction_amount": 26733,
+    "transaction_time": "11.07.2024"
+  },
+  {
+    "id": "f4774234-db05-43b4-a968-10cdffe230ae",
+    "transaction_amount": 4960,
+    "transaction_time": "03.09.2024"
+  },
+  {
+    "id": "65a28190-7771-49f0-b6bd-781d482f9026",
+    "transaction_amount": 2012,
+    "transaction_time": "22.09.2024"
+  },
+  {
+    "id": "6f9035a8-0bc3-4ac7-8cc1-c39530dfc67c",
+    "transaction_amount": 21054,
+    "transaction_time": "01.10.2024"
+  },
+  {
+    "id": "26c01b00-c2f7-40f7-b9ae-a6932980e1ec",
+    "transaction_amount": 28285,
+    "transaction_time": "09.02.2024"
+  },
+  {
+    "id": "b06151f2-84df-4b3b-8039-1d83c09e4e6b",
+    "transaction_amount": 12979,
+    "transaction_time": "14.02.2024"
+  },
+  {
+    "id": "7340bdeb-2418-4675-85a3-b022a8336c52",
+    "transaction_amount": 26005,
+    "transaction_time": "19.01.2024"
+  },
+  {
+    "id": "ef14f905-3410-4768-80a8-fef3786e0b1a",
+    "transaction_amount": 20560,
+    "transaction_time": "29.07.2024"
+  },
+  {
+    "id": "6479b4bd-e610-4e2a-9368-5e68d264f22e",
+    "transaction_amount": 29640,
+    "transaction_time": "08.12.2024"
+  },
+  {
+    "id": "162710c8-ba37-4583-9ba2-44d5f40f0d14",
+    "transaction_amount": 48111,
+    "transaction_time": "31.03.2024"
+  },
+  {
+    "id": "d8632f7d-4173-4a10-a129-9b457a92c4e7",
+    "transaction_amount": 21713,
+    "transaction_time": "26.10.2024"
+  },
+  {
+    "id": "3911ce6e-737a-4270-97e7-1757bf6153b2",
+    "transaction_amount": 44575,
+    "transaction_time": "27.05.2024"
+  },
+  {
+    "id": "780d40ff-3bfc-432c-af67-a0897ed1ee9a",
+    "transaction_amount": 416,
+    "transaction_time": "26.04.2024"
+  },
+  {
+    "id": "84d63479-a6d0-4ad7-9c66-f6eb3164d657",
+    "transaction_amount": 40802,
+    "transaction_time": "06.12.2024"
+  },
+  {
+    "id": "56012e3d-bc42-4919-a872-d8e723cf0264",
+    "transaction_amount": 19181,
+    "transaction_time": "02.10.2024"
+  },
+  {
+    "id": "56410816-334c-4e1f-86aa-8d6343ecb318",
+    "transaction_amount": 19395,
+    "transaction_time": "07.10.2024"
+  },
+  {
+    "id": "c2972a9c-9ac6-4843-b856-ce11e46954c3",
+    "transaction_amount": 34008,
+    "transaction_time": "15.09.2024"
+  },
+  {
+    "id": "b34866e5-e20f-4c7b-81d2-e6f706cc3a8e",
+    "transaction_amount": 29522,
+    "transaction_time": "17.09.2024"
+  },
+  {
+    "id": "2f3aba97-4a8b-4fc6-ae59-1a493cb605fa",
+    "transaction_amount": 17501,
+    "transaction_time": "01.11.2024"
+  },
+  {
+    "id": "d513c59d-b1f0-4740-9a80-b4426d0d21c4",
+    "transaction_amount": 13783,
+    "transaction_time": "22.10.2024"
+  },
+  {
+    "id": "37aacc61-1b65-441f-bc77-ec6f8b26252f",
+    "transaction_amount": 35008,
+    "transaction_time": "26.09.2024"
+  },
+  {
+    "id": "0a10dbee-213e-4abe-a4d2-e4d04f79d117",
+    "transaction_amount": 5328,
+    "transaction_time": "26.01.2024"
+  },
+  {
+    "id": "2c50aaaf-4965-4b1b-a48a-741b4ed3679a",
+    "transaction_amount": 11821,
+    "transaction_time": "01.05.2024"
+  },
+  {
+    "id": "7074fb84-f515-49f2-bc0a-e12cfdc567aa",
+    "transaction_amount": 44225,
+    "transaction_time": "10.07.2024"
+  },
+  {
+    "id": "6cc78ab4-2afe-428f-abd6-b3c39ee204ce",
+    "transaction_amount": 38807,
+    "transaction_time": "03.04.2024"
+  },
+  {
+    "id": "26914b21-52d0-4ca3-a976-bcbfa4016e41",
+    "transaction_amount": 27066,
+    "transaction_time": "19.09.2024"
+  },
+  {
+    "id": "0c7ed778-0c2e-4963-a5ef-69b5cccb4d4b",
+    "transaction_amount": 22756,
+    "transaction_time": "02.07.2024"
+  },
+  {
+    "id": "751e20f9-68a3-44e9-a74e-357a029dcd3e",
+    "transaction_amount": 6447,
+    "transaction_time": "15.04.2024"
+  },
+  {
+    "id": "cb70756b-8689-4c83-8561-b588d0b40988",
+    "transaction_amount": 34109,
+    "transaction_time": "15.10.2024"
+  },
+  {
+    "id": "35c77569-11a4-41af-9eca-0c33c6c6a1ed",
+    "transaction_amount": 24386,
+    "transaction_time": "27.04.2024"
+  },
+  {
+    "id": "125cedac-07fa-4d9d-8357-8e0a5ca5b8d8",
+    "transaction_amount": 27928,
+    "transaction_time": "22.11.2024"
+  },
+  {
+    "id": "b3f5bc2b-4ddb-412c-a54b-5cbff861388f",
+    "transaction_amount": 32893,
+    "transaction_time": "22.04.2024"
+  },
+  {
+    "id": "79a1ec24-9122-4b4f-b667-b4696c470830",
+    "transaction_amount": 19590,
+    "transaction_time": "24.09.2024"
+  },
+  {
+    "id": "30f8a06d-2097-4f9e-8cd6-32dc1707dc68",
+    "transaction_amount": 869,
+    "transaction_time": "09.05.2024"
+  },
+  {
+    "id": "908fd8d5-7dfc-4637-a7a5-a2893f6f1e23",
+    "transaction_amount": 310,
+    "transaction_time": "18.03.2024"
+  },
+  {
+    "id": "8f656ff0-1c3f-4506-8404-571ec5ae0426",
+    "transaction_amount": 7063,
+    "transaction_time": "11.02.2024"
+  },
+  {
+    "id": "eea58406-5699-4f62-81c2-af26f2b18e60",
+    "transaction_amount": 35766,
+    "transaction_time": "14.09.2024"
+  },
+  {
+    "id": "80fe9790-d9fd-485e-b352-f1c790357157",
+    "transaction_amount": 25494,
+    "transaction_time": "09.11.2024"
+  },
+  {
+    "id": "3980a1e7-edef-437c-82cf-3e1ba352de56",
+    "transaction_amount": 29918,
+    "transaction_time": "13.02.2024"
+  },
+  {
+    "id": "984a7de7-1a3d-4b1f-8e21-b3c25308bb43",
+    "transaction_amount": 45743,
+    "transaction_time": "16.02.2024"
+  },
+  {
+    "id": "5d43cb3b-fb81-43c1-900f-e62690dd9e3a",
+    "transaction_amount": 25669,
+    "transaction_time": "13.02.2024"
+  },
+  {
+    "id": "8bae31ee-0c35-4bab-9aed-995bb44e7915",
+    "transaction_amount": 28832,
+    "transaction_time": "06.01.2025"
+  },
+  {
+    "id": "c2b85f70-5b6e-40ec-b8ce-97616d9a03a0",
+    "transaction_amount": 20981,
+    "transaction_time": "27.04.2024"
+  },
+  {
+    "id": "61010d23-a772-4a96-a1f5-5aff7cd9c02f",
+    "transaction_amount": 15142,
+    "transaction_time": "29.04.2024"
+  },
+  {
+    "id": "8e9735ca-c2c1-4486-b85a-67aefcdc87da",
+    "transaction_amount": 6434,
+    "transaction_time": "16.06.2024"
+  },
+  {
+    "id": "46f5b546-7bde-4dc2-8294-8c9d2fd8ba84",
+    "transaction_amount": 15318,
+    "transaction_time": "04.04.2024"
+  },
+  {
+    "id": "d3267db7-fe95-4a17-8fa4-06455905a09d",
+    "transaction_amount": 1319,
+    "transaction_time": "16.07.2024"
+  },
+  {
+    "id": "093d60dc-9c3f-4e89-bf6a-d5ae4db389ac",
+    "transaction_amount": 37593,
+    "transaction_time": "13.07.2024"
+  },
+  {
+    "id": "04f66a30-41f2-4571-8b1f-54c84547b7a3",
+    "transaction_amount": 22674,
+    "transaction_time": "10.02.2024"
+  },
+  {
+    "id": "96ac92c0-998d-4690-bd95-4d9df3476a8c",
+    "transaction_amount": 27870,
+    "transaction_time": "15.07.2024"
+  },
+  {
+    "id": "ce93a48b-edd1-4d4b-a2b3-1e7c18b1b94f",
+    "transaction_amount": 4308,
+    "transaction_time": "17.02.2024"
+  },
+  {
+    "id": "2dc84208-7842-4e15-a16e-d6863834c49f",
+    "transaction_amount": 44202,
+    "transaction_time": "12.07.2024"
+  },
+  {
+    "id": "252d2d3b-5067-46b1-be8f-ad71f921060c",
+    "transaction_amount": 12444,
+    "transaction_time": "13.11.2024"
+  },
+  {
+    "id": "a2a33664-ede0-46c2-9634-c9ac39500128",
+    "transaction_amount": 14159,
+    "transaction_time": "18.08.2024"
+  },
+  {
+    "id": "d6d9d7de-247c-405b-bd43-369477b00844",
+    "transaction_amount": 15010,
+    "transaction_time": "25.08.2024"
+  },
+  {
+    "id": "b091711d-a3a3-4cc0-a13a-cd8039babedf",
+    "transaction_amount": 29970,
+    "transaction_time": "13.11.2024"
+  },
+  {
+    "id": "4bfdbc87-8d28-41ec-a025-2969011b521a",
+    "transaction_amount": 21007,
+    "transaction_time": "07.09.2024"
+  },
+  {
+    "id": "d5884f0e-66da-4112-a9a3-d6c2674f6922",
+    "transaction_amount": 36087,
+    "transaction_time": "16.05.2024"
+  },
+  {
+    "id": "51afe885-62e9-4ac3-be8f-347bd81a17aa",
+    "transaction_amount": 26751,
+    "transaction_time": "26.12.2024"
+  },
+  {
+    "id": "7194577a-eee6-4a05-97b8-a9d5ac148273",
+    "transaction_amount": 47656,
+    "transaction_time": "09.06.2024"
+  },
+  {
+    "id": "5c5cb527-a9e8-4208-8192-f5338bc6d9c7",
+    "transaction_amount": 37674,
+    "transaction_time": "06.07.2024"
+  },
+  {
+    "id": "02c640b0-b72d-4da8-a4b2-a925fdb38735",
+    "transaction_amount": 28673,
+    "transaction_time": "08.04.2024"
+  },
+  {
+    "id": "4cdd1c3b-20d4-4a5c-9dd4-c7a246ba2aa1",
+    "transaction_amount": 8399,
+    "transaction_time": "03.05.2024"
+  },
+  {
+    "id": "90c59670-a752-410e-bd95-e6e096a4d475",
+    "transaction_amount": 49771,
+    "transaction_time": "05.01.2025"
+  },
+  {
+    "id": "479ea9e4-f68a-4710-bdd5-55659cf04dca",
+    "transaction_amount": 29152,
+    "transaction_time": "13.09.2024"
+  },
+  {
+    "id": "f0a61ad8-66bc-4de3-9e3d-70d398c9885c",
+    "transaction_amount": 7236,
+    "transaction_time": "27.05.2024"
+  },
+  {
+    "id": "328483e7-6bd3-4df2-8458-b44d61063d70",
+    "transaction_amount": 46692,
+    "transaction_time": "05.05.2024"
+  },
+  {
+    "id": "79e41523-1a4e-483b-b69a-e55f66ace4e6",
+    "transaction_amount": 41244,
+    "transaction_time": "23.06.2024"
+  },
+  {
+    "id": "7d22e0a9-46e4-4f13-8ae5-0f9bb059cfc5",
+    "transaction_amount": 42011,
+    "transaction_time": "02.09.2024"
+  },
+  {
+    "id": "8d7fa569-7543-4fd1-86da-2ec0858f0238",
+    "transaction_amount": 33858,
+    "transaction_time": "21.11.2024"
+  },
+  {
+    "id": "df44aaac-1f0c-4824-9076-df0cf2756d65",
+    "transaction_amount": 20316,
+    "transaction_time": "04.12.2024"
+  },
+  {
+    "id": "8337710c-93dd-461e-8df9-83980396b65a",
+    "transaction_amount": 26634,
+    "transaction_time": "15.06.2024"
+  },
+  {
+    "id": "ecb8f557-5181-4f63-8228-2b549121194d",
+    "transaction_amount": 48571,
+    "transaction_time": "27.04.2024"
+  },
+  {
+    "id": "18d0f124-2afc-4f51-b908-d36ac5480de2",
+    "transaction_amount": 1816,
+    "transaction_time": "18.07.2024"
+  },
+  {
+    "id": "951f5d0e-fda7-47e6-8ba6-5b75458076fc",
+    "transaction_amount": 4167,
+    "transaction_time": "04.08.2024"
+  },
+  {
+    "id": "09ddaaf5-b36e-47f6-9ed6-8b283a6b6c2b",
+    "transaction_amount": 47064,
+    "transaction_time": "01.03.2024"
+  },
+  {
+    "id": "3d94955c-d885-4dc8-88e7-1a89149cf339",
+    "transaction_amount": 3329,
+    "transaction_time": "17.05.2024"
+  },
+  {
+    "id": "6ea94637-f82f-43c4-b00b-65cc11fd6d23",
+    "transaction_amount": 5300,
+    "transaction_time": "14.12.2024"
+  },
+  {
+    "id": "0a5a20f2-6fa0-4205-b45e-b4db9685e6f9",
+    "transaction_amount": 19548,
+    "transaction_time": "03.04.2024"
+  },
+  {
+    "id": "6a299305-a156-4f0d-b363-896228ef2a4d",
+    "transaction_amount": 39707,
+    "transaction_time": "23.07.2024"
+  },
+  {
+    "id": "3ced8200-8866-4369-a07c-2847fd94fa2b",
+    "transaction_amount": 34130,
+    "transaction_time": "04.05.2024"
+  },
+  {
+    "id": "d5fdd664-690a-4e77-bb36-5ce86512ed4b",
+    "transaction_amount": 46680,
+    "transaction_time": "02.09.2024"
+  },
+  {
+    "id": "31f7c422-713b-41ef-ba21-6d150bf1e211",
+    "transaction_amount": 5427,
+    "transaction_time": "08.06.2024"
+  },
+  {
+    "id": "cf0de5e8-b5c7-423b-b4be-a50299d034d0",
+    "transaction_amount": 34545,
+    "transaction_time": "12.07.2024"
+  },
+  {
+    "id": "413a64e3-5bce-407f-a7f8-c10b7467ff18",
+    "transaction_amount": 4742,
+    "transaction_time": "03.06.2024"
+  },
+  {
+    "id": "03801fd4-3c4d-4b85-8ed1-c8f1cc59f756",
+    "transaction_amount": 29059,
+    "transaction_time": "08.03.2024"
+  },
+  {
+    "id": "358bb60f-d48c-4ce5-b2db-09202d58ee66",
+    "transaction_amount": 14189,
+    "transaction_time": "05.06.2024"
+  },
+  {
+    "id": "a5fa9a39-7598-465f-9dbf-76f2a54a34cd",
+    "transaction_amount": 12328,
+    "transaction_time": "16.11.2024"
+  },
+  {
+    "id": "f2a838b1-02d2-461d-9646-2bb065a54216",
+    "transaction_amount": 22523,
+    "transaction_time": "31.05.2024"
+  },
+  {
+    "id": "f4a0d726-0b66-4b07-9fa2-c15081d0e388",
+    "transaction_amount": 47927,
+    "transaction_time": "05.10.2024"
+  },
+  {
+    "id": "4c439122-717e-493b-aa8a-026f5974b3a2",
+    "transaction_amount": 5944,
+    "transaction_time": "24.11.2024"
+  },
+  {
+    "id": "2e10f1d6-d4e5-4b70-9a66-eefc2aa0e0c9",
+    "transaction_amount": 45549,
+    "transaction_time": "26.01.2024"
+  },
+  {
+    "id": "2020c08f-e276-4abb-b5eb-8266c416211e",
+    "transaction_amount": 49281,
+    "transaction_time": "02.04.2024"
+  },
+  {
+    "id": "6573be65-7775-4bc0-859c-bf97419275fe",
+    "transaction_amount": 47521,
+    "transaction_time": "15.05.2024"
+  }
+]

@@ -8,8 +8,8 @@ import ru.t1.java.demo.model.Client;
 public class ClientMapper {
 
     public static Client toEntity(ClientDto dto) {
-        if (dto.getMiddleName() == null) {
-//            throw new NullPointerException();
+        if (dto == null) {
+            throw new NullPointerException();
         }
         return Client.builder()
                 .firstName(dto.getFirstName())

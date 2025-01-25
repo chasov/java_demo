@@ -1,5 +1,6 @@
 package ru.t1.java.demo.service;
 
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.ClientDto;
@@ -21,10 +22,10 @@ public class LegacyClientService {
         this.cache = new HashMap<>();
     }
 
-//    @PostConstruct
-//    void init() {
-//        getClient(1L);
-//    }
+    @PostConstruct
+    void init() {
+        getClient(1L);
+    }
 
     public ClientDto getClient(Long id) {
         log.debug("Call method getClient with id {}", id);
