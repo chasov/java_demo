@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
-import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.exception.ClientException;

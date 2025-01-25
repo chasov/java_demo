@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.List;

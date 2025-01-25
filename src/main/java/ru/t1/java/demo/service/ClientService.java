@@ -1,6 +1,6 @@
 package ru.t1.java.demo.service;
 
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.model.dto.ClientDto;
 
 public interface ClientService {
 

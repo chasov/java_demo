@@ -1,6 +1,6 @@
 package ru.t1.java.demo.service;
 
-import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.model.dto.TransactionDto;
 
 import java.util.List;
 

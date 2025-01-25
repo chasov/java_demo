@@ -1,7 +1,7 @@
 package ru.t1.java.demo.util;
 
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.model.Account;
 

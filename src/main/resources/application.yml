@@ -9,11 +9,36 @@ spring:
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
+    driver-class-name: org.postgresql.Driver
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://${DB_HOST:localhost:5432}/t1_demo
+    user: postgres
+    password: "0000"
 
 logging:
   level:
     ROOT: ${LOG_LEVEL:INFO}
     ru.t1.java.demo.controller.ClientController: DEBUG
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
 
-t1:
-  scan-path: ru.t1.java.demo
+  t1:
+    scan-path: ru.t1.java.demo
+    kafka:
+      bootstrap:
+        server: ${KAFKA_SERVER:localhost:9092}
+      consumer:
+        group-id: t1-demo
+        max.poll.records: 10
+        session-timeout: 10000
+        heartbeat.interval: 3000
+      producer:
+        enable: true
+      topic:
+        client_registration: t1_demo_client_registration
+        client_id_registered: t1_demo_client_registered
+        client_transactions: t1_demo_client_transactions
+      listener:
+        poll-timeout: 1000
+
+
