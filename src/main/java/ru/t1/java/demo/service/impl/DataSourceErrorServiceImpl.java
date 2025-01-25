@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.DataSourceErrorLog;
-import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 import ru.t1.java.demo.service.DataSourceErrorService;
 
 import java.io.PrintWriter;
@@ -15,17 +15,19 @@ import java.io.StringWriter;
 @Slf4j
 @RequiredArgsConstructor
 public class DataSourceErrorServiceImpl implements DataSourceErrorService {
-    private final DataSourceErrorLogRepository repository;
+    private final KafkaClientProducer producer;
 
     @Override
-    public void saveDataSourceErrorLog(JoinPoint joinPoint, Exception e) {
+    public void sendDataSourceErrorLog(JoinPoint joinPoint, Exception e) {
+
+        String topic = "t1_demo_metrics";
 
         DataSourceErrorLog dataSourceErrorLog = new DataSourceErrorLog(
                 stackTraceToString(e),
                 e.getMessage(),
                 joinPoint.getSignature().toString());
 
-        repository.save(dataSourceErrorLog);
+        producer.sendDataSourceErrorMessage(topic, dataSourceErrorLog);
     }
 
     private String stackTraceToString(Exception e) {

@@ -56,7 +56,7 @@ public class DemoKafkaConfig<T> {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.model.dto.ClientDto");
+       // props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.model.dto.ClientDto");
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);
@@ -104,22 +104,22 @@ public class DemoKafkaConfig<T> {
 
     @Bean("client")
     @Primary
-    public KafkaTemplate<String, T> kafkaClientTemplate(@Qualifier("producerClientFactory") ProducerFactory<String, T> producerPatFactory) {
+    public KafkaTemplate<String, T> kafkaClientTemplate(@Qualifier("producerFactory") ProducerFactory<String, T> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }
 
-    @Bean
-    @ConditionalOnProperty(value = "t1.kafka.producer.enable",
-            havingValue = "true",
-            matchIfMissing = true)
-    public KafkaClientProducer producerClient(@Qualifier("client") KafkaTemplate<String, ClientDto> template) {
-        template.setDefaultTopic(clientTopic);
-        // murmur2 - default hash
-        return new KafkaClientProducer(template);
-    }
+//    @Bean
+//    @ConditionalOnProperty(value = "t1.kafka.producer.enable",
+//            havingValue = "true",
+//            matchIfMissing = true)
+//    public KafkaClientProducer producerClient(@Qualifier("client") KafkaTemplate<String, T> template) {
+//        template.setDefaultTopic(clientTopic);
+  //       murmur2 - default hash
+//        return new KafkaClientProducer(template);
+//    }
 
-    @Bean("producerClientFactory")
-    public ProducerFactory<String, T> producerClientFactory() {
+    @Bean("producerFactory")
+    public ProducerFactory<String, T> producerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

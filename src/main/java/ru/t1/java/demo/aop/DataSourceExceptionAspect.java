@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.service.DataSourceErrorService;
 
 @Slf4j
@@ -25,7 +26,7 @@ public class DataSourceExceptionAspect {
             System.err.println("ASPECT EXCEPTION ANNOTATION: DataSource exception: " + joinPoint.getSignature().getName());
             log.info("В результате выполнения метода {}", joinPoint.getSignature().toShortString());
 
-            dataSourceErrorService.saveDataSourceErrorLog(joinPoint, e);
+            dataSourceErrorService.sendDataSourceErrorLog(joinPoint, e);
         } finally {
             log.error("Ошибка при логировании исключения DataSource");
         }
