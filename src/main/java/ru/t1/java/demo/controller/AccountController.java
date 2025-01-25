@@ -2,11 +2,13 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.aop.Metric;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.List;
 
+@Metric
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor

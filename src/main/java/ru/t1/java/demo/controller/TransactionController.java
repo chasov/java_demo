@@ -2,6 +2,7 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.aop.Metric;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.service.TransactionService;
 
@@ -14,6 +15,7 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
+    @Metric
     @GetMapping
     public List<TransactionDto> getAllTransactions() {
         return transactionService.getAllTransactions();

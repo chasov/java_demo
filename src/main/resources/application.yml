@@ -10,6 +10,17 @@ spring:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
 
+app:
+  kafka:
+    producer:
+      enable: true
+    bootstrap-server: ${KAFKA_SERVER:localhost:9092}
+    topics:
+      t1DemoMetrics: "t1_demo_metrics"
+  metrics:
+    threshold-ms: 2
+
+
 logging:
   level:
     ROOT: ${LOG_LEVEL:INFO}
