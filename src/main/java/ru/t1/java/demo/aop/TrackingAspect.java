@@ -1,5 +1,6 @@
 package ru.t1.java.demo.aop;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -9,16 +10,20 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.service.ErrorService;
 
 import java.util.concurrent.atomic.AtomicLong;
 
 @Async
 @Slf4j
 @Aspect
+@RequiredArgsConstructor
 @Component
 public class TrackingAspect {
 
     private static final AtomicLong START_TIME = new AtomicLong();
+
+    private final ErrorService errorService;
 
     @Before("@annotation(ru.t1.java.demo.aop.Track)")
     public void logExecTime(JoinPoint joinPoint) throws Throwable {
@@ -47,5 +52,4 @@ public class TrackingAspect {
         log.info("Время исполнения: {} ms", (afterTime - beforeTime));
         return result;
     }
-
 }

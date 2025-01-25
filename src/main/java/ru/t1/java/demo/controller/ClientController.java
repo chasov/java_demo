@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
+import ru.t1.java.demo.aop.Metric;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.service.ClientService;
@@ -16,7 +17,8 @@ public class ClientController {
     private final ClientService clientService;
 
     @LogException
-    @Track
+    //@Track
+    @Metric(maxExecutionTime = 1)
     @PostMapping(value = "/client")
     @HandlingResult
     public ClientDto save(@RequestBody ClientDto dto) {

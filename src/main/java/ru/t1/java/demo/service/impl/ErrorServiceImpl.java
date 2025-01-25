@@ -6,7 +6,7 @@ import org.aspectj.lang.JoinPoint;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.DataSourceErrorLog;
-import ru.t1.java.demo.service.DataSourceErrorService;
+import ru.t1.java.demo.service.ErrorService;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -14,7 +14,7 @@ import java.io.StringWriter;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-public class DataSourceErrorServiceImpl implements DataSourceErrorService {
+public class ErrorServiceImpl implements ErrorService {
     private final KafkaClientProducer producer;
 
     @Override
