@@ -10,17 +10,12 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.service.ErrorService;
 
-import java.util.concurrent.atomic.AtomicLong;
-
 @Async
 @Slf4j
 @Aspect
 @RequiredArgsConstructor
 @Component
 public class MetricAspect {
-
-    private static final AtomicLong START_TIME = new AtomicLong();
-
     private final ErrorService errorService;
 
     @Pointcut("@annotation(metric)")
@@ -45,6 +40,7 @@ public class MetricAspect {
         if (executionTime > metric.maxExecutionTime()) {
             log.warn("Время исполнения превышает максимальное: {} ms (максимум: {} ms)",
                     executionTime, metric.maxExecutionTime());
+            errorService.sendMetricErrorLog(executionTime, pJoinPoint);
         }
         return result;
     }
