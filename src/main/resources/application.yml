@@ -46,4 +46,11 @@ t1:
     listener:
       poll-timeout: 1000
 
+integration:
+  url: http://localhost:1398
+  resource: /bsc-wire-mock/api/client/check
+  retry-count: 3
+  retry-backoff: 1000
+
+
 

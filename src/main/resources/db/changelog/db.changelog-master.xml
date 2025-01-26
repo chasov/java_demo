@@ -49,4 +49,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="update-client-add-colum" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/26-01-changelog-10.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

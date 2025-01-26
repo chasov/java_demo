@@ -18,7 +18,7 @@ import java.io.Serializable;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ClientDto implements Serializable {
-    private Long id;
+
     @JsonProperty("first_name")
     private String firstName;
 
