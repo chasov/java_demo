@@ -17,3 +17,22 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: t1-demo
+      max-poll-records: 10
+      session-timeout: 10000
+      heartbeat-interval: 3000
+    producer:
+      enable: true
+    topic:
+      metrics: t1_demo_metrics
+      accounts: t1_demo_accounts
+      transactions: t1_demo_transactions
+    listener:
+      poll-timeout: 1000
+  metric:
+    execution-time-limit: 10
+
