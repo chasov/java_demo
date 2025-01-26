@@ -57,4 +57,9 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Long id) {
         accountRepository.deleteById(id);
     }
+
+    @Override
+    public void saveAccount(AccountDto accountDto) {
+        accountRepository.save(accountMapper.toEntity(accountDto));
+    }
 }

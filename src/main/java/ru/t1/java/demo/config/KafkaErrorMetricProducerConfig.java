@@ -1,7 +1,6 @@
 package ru.t1.java.demo.config;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -22,17 +21,17 @@ import java.util.Map;
 
 @Slf4j
 @Configuration
-public class KafkaConfig<T> {
+public class KafkaErrorMetricProducerConfig<T> {
 
-    @Value("${app.kafka.topics.t1DemoMetrics}")
-    private String t1DemoMetricsTopic;
+    @Value("${app.kafka.topics.metrics}")
+    private String metricsTopic;
     @Value("${app.kafka.bootstrap-server}")
     private String servers;
 
-    @Bean
-    NewTopic t1DemoMetrics() {
-        return new NewTopic(t1DemoMetricsTopic, 1, (short) 1);
-    }
+//    @Bean
+//    NewTopic t1DemoMetrics() {
+//        return new NewTopic(metricsTopic, 1, (short) 1);
+//    }
 
     @Bean("client")
     @Primary
@@ -45,7 +44,7 @@ public class KafkaConfig<T> {
             havingValue = "true",
             matchIfMissing = true)
     public KafkaErrorProducer producerDemoError(KafkaTemplate<String, ProducerRecord> template) {
-        template.setDefaultTopic(t1DemoMetricsTopic);
+        template.setDefaultTopic(metricsTopic);
         // murmur2 - default hash
         return new KafkaErrorProducer(template);
     }

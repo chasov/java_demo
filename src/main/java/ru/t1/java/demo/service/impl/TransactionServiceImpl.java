@@ -56,4 +56,9 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
+
+    @Override
+    public void saveTransaction(TransactionDto transactionDto) {
+        transactionRepository.save(transactionMapper.toEntity(transactionDto));
+    }
 }

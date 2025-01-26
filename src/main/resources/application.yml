@@ -15,8 +15,12 @@ app:
     producer:
       enable: true
     bootstrap-server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: t1-demo-group
     topics:
-      t1DemoMetrics: "t1_demo_metrics"
+      metrics: t1_demo_metrics
+      accounts: t1_demo_accounts
+      transactions: t1_demo_transactions
   metrics:
     threshold-ms: 2
 

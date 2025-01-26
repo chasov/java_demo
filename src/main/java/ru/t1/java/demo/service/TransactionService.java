@@ -15,4 +15,6 @@ public interface TransactionService {
     TransactionDto updateTransaction(Long id, TransactionDto transactionDto) throws Exception;
 
     void deleteTransaction(Long id);
+
+    void saveTransaction(TransactionDto transactionDto);
 }
