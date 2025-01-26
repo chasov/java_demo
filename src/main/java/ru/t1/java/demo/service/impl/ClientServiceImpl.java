@@ -18,6 +18,7 @@ import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.util.ClientMapper;
 import ru.t1.java.demo.web.CheckWebClient;
 
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 @Service
@@ -104,7 +105,7 @@ public class ClientServiceImpl implements ClientService {
 
         Message<ClientDto> message = MessageBuilder.withPayload(dto)
                 .setHeader(KafkaHeaders.TOPIC, topic)
-                .setHeader(KafkaHeaders.KEY, null)
+                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
                 .setHeader("uuid", UUID.randomUUID().toString())
                 .build();
 
