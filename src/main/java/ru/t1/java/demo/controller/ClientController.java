@@ -17,7 +17,6 @@ public class ClientController {
     private final ClientService clientService;
 
     @LogException
-    //@Track
     @Metric(maxExecutionTime = 1)
     @PostMapping(value = "/client")
     @HandlingResult
@@ -26,7 +25,7 @@ public class ClientController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @PatchMapping("client/{clientId}")
     @HandlingResult
     public ClientDto patchById(@PathVariable Long clientId,
@@ -35,7 +34,7 @@ public class ClientController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/client/{clientId}")
     @HandlingResult
     public ClientDto getById(@PathVariable Long clientId) {
@@ -43,7 +42,7 @@ public class ClientController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @DeleteMapping("client/{clientId}")
     @HandlingResult
     public void deleteById(@PathVariable Long clientId) {

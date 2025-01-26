@@ -6,6 +6,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
+import ru.t1.java.demo.aop.Metric;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.service.TransactionService;
@@ -20,7 +21,7 @@ public class TransactionController {
     private final TransactionService transactionService;
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @PostMapping(value = "/transaction")
     @HandlingResult
     public TransactionDto save(@RequestBody @NonNull TransactionDto dto) {
@@ -28,7 +29,7 @@ public class TransactionController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @PatchMapping("/transaction/{transactionId}")
     @HandlingResult
     public TransactionDto patchById(@PathVariable Long transactionId,
@@ -38,7 +39,7 @@ public class TransactionController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/transactions/{accountId}")
     @HandlingResult
     public List<TransactionDto> getAllByAccountId(@PathVariable Long accountId) {
@@ -47,7 +48,7 @@ public class TransactionController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/transaction/{transactionId}")
     @HandlingResult
     public TransactionDto getById(@PathVariable Long transactionId) {
@@ -56,7 +57,7 @@ public class TransactionController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @DeleteMapping("/transaction/{transactionId}")
     @HandlingResult
     public void deleteById(@PathVariable Long transactionId) {

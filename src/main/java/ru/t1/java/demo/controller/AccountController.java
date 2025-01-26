@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
+import ru.t1.java.demo.aop.Metric;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.service.AccountService;
@@ -19,7 +20,7 @@ public class AccountController {
     private final AccountService accountService;
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @PostMapping(value = "/account")
     @HandlingResult
     public AccountDto save(@RequestBody AccountDto dto) {
@@ -28,7 +29,7 @@ public class AccountController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @PatchMapping("account/{accountId}")
     @HandlingResult
     public AccountDto patchById(@PathVariable Long accountId,
@@ -38,7 +39,7 @@ public class AccountController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/accounts/{clientId}")
     @HandlingResult
     public List<AccountDto> getAllByClientId(@PathVariable Long clientId) {
@@ -47,7 +48,7 @@ public class AccountController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/account/{accountId}")
     @HandlingResult
     public AccountDto getById(@PathVariable Long accountId) {
@@ -56,7 +57,7 @@ public class AccountController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @DeleteMapping("account/{accountId}")
     @HandlingResult
     public void deleteById(@PathVariable Long accountId) {
