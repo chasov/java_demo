@@ -5,7 +5,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
-import ru.t1.java.demo.aop.LogDataSourceError;
+import ru.t1.java.demo.aop.annotation.LogDataSourceError;
+import ru.t1.java.demo.aop.annotation.Track;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
@@ -20,6 +21,7 @@ public class AccountController {
 
     private final AccountService accountService;
 
+    @Track
     @LogDataSourceError
     @GetMapping("/getAll")
     public ResponseEntity<List<Account>> getAllAccounts() {
@@ -27,6 +29,7 @@ public class AccountController {
         return new ResponseEntity<>(accounts, HttpStatus.OK);
     }
 
+    @Track
     @LogDataSourceError
     @PostMapping
     public ResponseEntity<Account> createAccount(@RequestBody AccountDto dto) {
@@ -37,6 +40,7 @@ public class AccountController {
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
+    @Track
     @LogDataSourceError
     @GetMapping("/{id}")
     public ResponseEntity<Account> getAccount(@PathVariable UUID id) {
@@ -44,6 +48,7 @@ public class AccountController {
         return new ResponseEntity<>(account, HttpStatus.OK);
     }
 
+    @Track
     @LogDataSourceError
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAccount(@PathVariable UUID id) {
