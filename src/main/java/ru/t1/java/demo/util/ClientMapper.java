@@ -4,6 +4,8 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.entity.Client;
 
+import java.util.UUID;
+
 @Component
 public class ClientMapper {
 
@@ -11,12 +13,16 @@ public class ClientMapper {
         if (dto.getMiddleName() == null) {
 //            throw new NullPointerException();
         }
-        return Client.builder()
+        Client client = Client.builder()
                 .id(dto.getId())    //что бы при перезапуске перезаписывались существующие записи, а не добавлялись новые
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .middleName(dto.getMiddleName())
                 .build();
+        if (client.getClientId() == null) {
+            client.setClientId(UUID.randomUUID());
+        }
+        return client;
     }
 
     public static ClientDto toDto(Client entity) {

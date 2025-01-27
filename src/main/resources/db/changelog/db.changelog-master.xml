@@ -23,5 +23,10 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <sqlFile path="/db/changelog/data/accounts_and_transactions.sql"/>
         <rollback/>
     </changeSet>
+    
+    <changeSet id="adding-unique-ids-and-state-fields" author="SShushakov">
+        <sqlFile path="db/changelog/2025/01/27-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
 
 </databaseChangeLog>

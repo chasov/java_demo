@@ -9,6 +9,7 @@ import ru.t1.java.demo.repository.AccountRepository;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -21,7 +22,7 @@ public class TransactionMapper {
         if (optAccount.isEmpty()) {
             throw new RuntimeException("Account not found with id: " + transactionDto.getAccountId());
         }
-        return Transaction.builder()
+        Transaction transaction = Transaction.builder()
                 .id(transactionDto.getId())
                 .account(optAccount.get())
                 .amount(transactionDto.getAmount())
@@ -31,6 +32,10 @@ public class TransactionMapper {
                                 : transactionDto.getTransactionTime()
                         ))
                 .build();
+        if (transaction.getTransactionId() == null) {
+            transaction.setTransactionId(UUID.randomUUID());
+        }
+        return transaction;
     }
 
     public TransactionDto toDto(Transaction transaction) {

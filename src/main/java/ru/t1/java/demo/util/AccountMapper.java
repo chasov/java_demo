@@ -9,6 +9,7 @@ import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.repository.ClientRepository;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Component
 @RequiredArgsConstructor
@@ -21,12 +22,16 @@ public class AccountMapper {
         if (optClient.isEmpty()) {
             throw new RuntimeException("Client not found with id: " + accountDto.getClientId());
         }
-        return Account.builder()
+        Account account = Account.builder()
                 .id(accountDto.getId())
                 .client(optClient.get())
                 .accountType(AccountType.valueOf(accountDto.getAccountType()))
                 .balance(accountDto.getBalance())
                 .build();
+        if (account.getAccountId() == null) {
+            account.setAccountId(UUID.randomUUID());
+        }
+        return account;
     }
     public AccountDto toDto(Account account) {
         return AccountDto.builder()
