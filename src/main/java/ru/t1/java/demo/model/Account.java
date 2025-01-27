@@ -26,4 +26,18 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Column(name = "account_id")
+    private Integer accountId;
+
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
+    }
 }
+
+

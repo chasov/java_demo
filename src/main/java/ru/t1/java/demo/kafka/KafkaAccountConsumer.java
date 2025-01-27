@@ -8,26 +8,27 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.exception.AccountException;
+import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.repository.ClientRepository;
+import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.ClientService;
-import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KafkaClientConsumer {
+public class KafkaAccountConsumer {
 
-    private final ClientService clientService;
+    private final AccountService accountService;
     private final ClientRepository clientRepository;
 
-    @KafkaListener(id = "${t1.kafka.consumer.group-id}",
-            topics = {"t1_demo_client_registration"},
+    @KafkaListener(id = "accountListener",
+            topics = {"t1_demo_accounts"},
             containerFactory = "kafkaListenerContainerFactory")
-    public void ClientListener(@Payload List<Client> messageList,
+    public void AccountListener(@Payload List<Account> messageList,
                                Acknowledgment ack,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                                @Header(KafkaHeaders.RECEIVED_KEY) String key) {
@@ -39,13 +40,8 @@ public class KafkaClientConsumer {
             log.error("Key: " + key);
             messageList.stream()
                     .forEach(System.err::println);
-            List<Client> clients = messageList.stream()
-                    .map(dto -> {
-                        dto.setFirstName(key + "@" + dto.getFirstName());
-                        return dto;
-                    })
-                    .toList();
-                    clientService.registerClients(clients);
+
+                    accountService.registerAccounts(messageList);
         } finally {
             ack.acknowledge();
         }

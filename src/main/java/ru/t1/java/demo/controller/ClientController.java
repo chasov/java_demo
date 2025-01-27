@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.aop.Metric;
+import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
@@ -78,14 +79,37 @@ public class ClientController {
     @Metric(maxExecutionTime = 1)
     @HandlingResult
     @PostMapping("/register")
-    public ResponseEntity<List<Client>> register(@RequestBody ClientDto clientDto) {
+    public ResponseEntity<Client> register(@RequestBody ClientDto clientDto) {
         log.info("Registering client: {}", clientDto);
-        List<Client> clients = clientService.registerClients(
-                List.of(clientMapper.toEntityWithId(clientDto))
-        );
-        //  log.info("Client registered: {}", client.getId());
+        Client client = clientService.registerClient(clientMapper.toEntityWithId(clientDto));
+        log.info("Client registered: {}", client.getId());
         //      metricService.incrementByName(Metrics.CLIENT_CONTROLLER_REQUEST_COUNT.getValue());
-        return ResponseEntity.ok().body(clients);
+        return ResponseEntity.ok().body(client);
+    }
+
+    @LogException
+    @Track
+    @PatchMapping("client/{clientId}")
+    @HandlingResult
+    public ClientDto patchById(@PathVariable Long clientId,
+                               @RequestBody ClientDto dto) {
+        return clientService.patchById(clientId, dto);
+    }
+
+    @LogException
+    @Track
+    @GetMapping(value = "/client/{clientId}")
+    @HandlingResult
+    public ClientDto getById(@PathVariable Long clientId) {
+        return clientService.getById(clientId);
+    }
+
+    @LogException
+    @Track
+    @DeleteMapping("client/{clientId}")
+    @HandlingResult
+    public void deleteById(@PathVariable Long clientId) {
+        clientService.deleteById(clientId);
     }
 }
 

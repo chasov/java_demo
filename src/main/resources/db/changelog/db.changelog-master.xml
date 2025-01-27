@@ -54,4 +54,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="update-account-transaction-add-colum" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/01/27-01-changelog-11.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

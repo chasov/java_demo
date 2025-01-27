@@ -2,8 +2,13 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
+import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.exception.AccountException;
@@ -14,9 +19,7 @@ import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 
 @Service
 @Slf4j
@@ -24,12 +27,59 @@ import java.util.Locale;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
+    private final KafkaClientProducer kafkaClientProducer;
+
+    @Value("${t1.kafka.topic.account_registration}")
+    private String topic;
 
     @LogDataSourceError
     @Override
-    public AccountDto save(AccountDto dto) {
-        return AccountMapper.toDto(accountRepository.save(AccountMapper.toEntity(dto)));
+    public List<Account> registerAccounts(List<Account> accounts) {
+        List<Account> savedAccounts = new ArrayList<>();
+
+        for (Account account : accounts) {
+//            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
+//            check.ifPresent(checkResponse -> {
+//                if (!checkResponse.getBlocked()) {
+            accountRepository.save(account);
+
+            savedAccounts.add(account);
+//                }
+//            });
+        }
+//
+        return savedAccounts
+                .stream()
+                .sorted(Comparator.comparing(Account::getId))
+                .toList();
     }
+    @LogDataSourceError
+    @Override
+    public Account registerAccount(Account account) {
+        Account saved = null;
+//        Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
+//        if (check.isPresent()) {
+//            if (!check.get().getBlocked()) {
+//                saved = repository.save(client);
+
+        Message<Account> message = MessageBuilder.withPayload(account)
+                .setHeader(KafkaHeaders.TOPIC, topic)
+                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
+                .build();
+
+        kafkaClientProducer.sendMessage(message);
+//            }
+//        }
+
+        return account;
+    }
+
+
+//    @LogDataSourceError
+//    @Override
+//    public AccountDto save(AccountDto dto) {
+//        return AccountMapper.toDto(accountRepository.save(AccountMapper.toEntity(dto)));
+//    }
 
     @LogDataSourceError
     @Override

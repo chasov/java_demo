@@ -2,13 +2,18 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.aop.Metric;
 import ru.t1.java.demo.aop.Track;
+import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.AccountDto;
+import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.service.AccountService;
+import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
 
@@ -21,12 +26,23 @@ public class AccountController {
 
     @LogException
     @Metric(maxExecutionTime = 1)
-    @PostMapping(value = "/account")
     @HandlingResult
-    public AccountDto save(@RequestBody AccountDto dto) {
-
-        return accountService.save(dto);
+    @PostMapping("account/register")
+    public ResponseEntity<Account> register(@RequestBody AccountDto dto) {
+        log.info("Registering client: {}", dto);
+        Account account = accountService.registerAccount(AccountMapper.toEntityWithId(dto));
+//        log.info("Client registered: {}", client.getId());
+//              metricService.incrementByName(Metrics.CLIENT_CONTROLLER_REQUEST_COUNT.getValue());
+        return ResponseEntity.ok().body(account);
     }
+//    @LogException
+//    @Metric(maxExecutionTime = 1)
+//    @PostMapping(value = "/account")
+//    @HandlingResult
+//    public AccountDto save(@RequestBody AccountDto dto) {
+//
+//        return accountService.save(dto);
+//    }
 
     @LogException
     @Metric(maxExecutionTime = 1)

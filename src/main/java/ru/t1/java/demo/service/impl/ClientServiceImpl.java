@@ -42,18 +42,13 @@ public class ClientServiceImpl implements ClientService {
 //            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
 //            check.ifPresent(checkResponse -> {
 //                if (!checkResponse.getBlocked()) {
-            client.setClientId(Integer.valueOf(UUID.randomUUID().toString()));
-            Message<Client> message = MessageBuilder.withPayload(client)
-                    .setHeader(KafkaHeaders.TOPIC, topic)
-                    .setHeader(KafkaHeaders.KEY, client.getClientId())
-                    .build();
+            repository.save(client);
 
-            kafkaClientProducer.sendMessage(message);
             savedClients.add(client);
 //                }
 //            });
         }
-
+//
         return savedClients
                 .stream()
                 .sorted(Comparator.comparing(Client::getId))
@@ -63,16 +58,23 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client registerClient(Client client) {
         Client saved = null;
-        Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
-        if (check.isPresent()) {
-            if (!check.get().getBlocked()) {
-                saved = repository.save(client);
-                kafkaClientProducer.send(client.getId());
-            }
-        }
-        client.setId(Long.valueOf(222));
+//        Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
+//        if (check.isPresent()) {
+//            if (!check.get().getBlocked()) {
+//                saved = repository.save(client);
+
+        Message<Client> message = MessageBuilder.withPayload(client)
+                .setHeader(KafkaHeaders.TOPIC, topic)
+                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
+                .build();
+
+        kafkaClientProducer.sendMessage(message);
+//            }
+//        }
+
         return client;
     }
+
 
     @Override
     public List<ClientDto> parseJson() {
@@ -105,50 +107,32 @@ public class ClientServiceImpl implements ClientService {
     private final KafkaClientProducer producer;
     private final ClientRepository clientRepository;
 
-//    @LogDataSourceError
-//    @Override
-//    public ClientDto save(ClientDto dto) {
-//
-//
-//        String topic = "t1_demo_client_registration";
-//
-//        Message<ClientDto> message = MessageBuilder.withPayload(dto)
-//                .setHeader(KafkaHeaders.TOPIC, topic)
-//                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
-//                .setHeader("uuid", UUID.randomUUID().toString())
-//                .build();
-//
-//        producer.sendMessage(message);
-//
-//        return ClientMapper.toDto(clientRepository.save(ClientMapper.toEntity(dto)));
-//    }
-//
-//    @LogDataSourceError
-//    @Override
-//    public ClientDto patchById(Long clientId, ClientDto dto) {
-//        Client client = clientRepository.findById(clientId)
-//                .orElseThrow(() -> new ClientException("Client not found"));
-//
-//        client.setFirstName(dto.getFirstName());
-//        client.setLastName(dto.getLastName());
-//        client.setMiddleName(dto.getMiddleName());
-//
-//        return ClientMapper.toDto(clientRepository.save(client));
-//    }
-//
-//    @LogDataSourceError
-//    @Override
-//    public ClientDto getById(Long clientId) {
-//        return ClientMapper.toDto(clientRepository.findById(clientId)
-//                .orElseThrow(() -> new ClientException("Client not found")));
-//    }
-//
-//    @LogDataSourceError
-//    @Override
-//    public void deleteById(Long clientId) {
-//        clientRepository.findById(clientId)
-//                .orElseThrow(() -> new ClientException("Client not found"));
-//        clientRepository.deleteById(clientId);
-//    }
+    @LogDataSourceError
+    @Override
+    public ClientDto patchById(Long clientId, ClientDto dto) {
+        Client client = clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException("Client not found"));
+
+        client.setFirstName(dto.getFirstName());
+        client.setLastName(dto.getLastName());
+        client.setMiddleName(dto.getMiddleName());
+
+        return ClientMapper.toDto(clientRepository.save(client));
+    }
+
+    @LogDataSourceError
+    @Override
+    public ClientDto getById(Long clientId) {
+        return ClientMapper.toDto(clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException("Client not found")));
+    }
+
+    @LogDataSourceError
+    @Override
+    public void deleteById(Long clientId) {
+        clientRepository.findById(clientId)
+                .orElseThrow(() -> new ClientException("Client not found"));
+        clientRepository.deleteById(clientId);
+    }
 
 }

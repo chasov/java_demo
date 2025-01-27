@@ -27,4 +27,17 @@ public class Transaction extends AbstractPersistable<Long> {
     @Column(name = "timestamp")
     Timestamp timestamp;
 
+    @Column(name = "transaction_id")
+    private Integer transactionId;
+
+    @Override
+    public Long getId() {
+        return super.getId();
+    }
+
+    @Override
+    public void setId(Long id) {
+        super.setId(id);
+    }
+
 }
