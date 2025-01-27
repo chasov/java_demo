@@ -3,6 +3,7 @@ package ru.t1.java.demo.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
@@ -30,19 +31,27 @@ public class ClientServiceImpl implements ClientService {
     private final KafkaClientProducer kafkaClientProducer;
     private final CheckWebClient checkWebClient;
 
+    @Value("${t1.kafka.topic.client_registration}")
+    private String topic;
+
     @Override
     public List<Client> registerClients(List<Client> clients) {
         List<Client> savedClients = new ArrayList<>();
+
         for (Client client : clients) {
-            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
-            check.ifPresent(checkResponse -> {
-                if (!checkResponse.getBlocked()) {
-//                    Client saved = repository.save(client);
-                    kafkaClientProducer.send(client.getId());
-                    savedClients.add(client);
-                }
-            });
-            savedClients.add(repository.save(client));
+//            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
+//            check.ifPresent(checkResponse -> {
+//                if (!checkResponse.getBlocked()) {
+            client.setClientId(Integer.valueOf(UUID.randomUUID().toString()));
+            Message<Client> message = MessageBuilder.withPayload(client)
+                    .setHeader(KafkaHeaders.TOPIC, topic)
+                    .setHeader(KafkaHeaders.KEY, client.getClientId())
+                    .build();
+
+            kafkaClientProducer.sendMessage(message);
+            savedClients.add(client);
+//                }
+//            });
         }
 
         return savedClients
@@ -61,7 +70,7 @@ public class ClientServiceImpl implements ClientService {
                 kafkaClientProducer.send(client.getId());
             }
         }
-          client.setId(Long.valueOf(222));
+        client.setId(Long.valueOf(222));
         return client;
     }
 
@@ -96,50 +105,50 @@ public class ClientServiceImpl implements ClientService {
     private final KafkaClientProducer producer;
     private final ClientRepository clientRepository;
 
-    @LogDataSourceError
-    @Override
-    public ClientDto save(ClientDto dto) {
-
-
-        String topic = "t1_demo_client_registration";
-
-        Message<ClientDto> message = MessageBuilder.withPayload(dto)
-                .setHeader(KafkaHeaders.TOPIC, topic)
-                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
-                .setHeader("uuid", UUID.randomUUID().toString())
-                .build();
-
-        producer.sendMessage(message);
-
-        return ClientMapper.toDto(clientRepository.save(ClientMapper.toEntity(dto)));
-    }
-
-    @LogDataSourceError
-    @Override
-    public ClientDto patchById(Long clientId, ClientDto dto) {
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientException("Client not found"));
-
-        client.setFirstName(dto.getFirstName());
-        client.setLastName(dto.getLastName());
-        client.setMiddleName(dto.getMiddleName());
-
-        return ClientMapper.toDto(clientRepository.save(client));
-    }
-
-    @LogDataSourceError
-    @Override
-    public ClientDto getById(Long clientId) {
-        return ClientMapper.toDto(clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientException("Client not found")));
-    }
-
-    @LogDataSourceError
-    @Override
-    public void deleteById(Long clientId) {
-        clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientException("Client not found"));
-        clientRepository.deleteById(clientId);
-    }
+//    @LogDataSourceError
+//    @Override
+//    public ClientDto save(ClientDto dto) {
+//
+//
+//        String topic = "t1_demo_client_registration";
+//
+//        Message<ClientDto> message = MessageBuilder.withPayload(dto)
+//                .setHeader(KafkaHeaders.TOPIC, topic)
+//                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
+//                .setHeader("uuid", UUID.randomUUID().toString())
+//                .build();
+//
+//        producer.sendMessage(message);
+//
+//        return ClientMapper.toDto(clientRepository.save(ClientMapper.toEntity(dto)));
+//    }
+//
+//    @LogDataSourceError
+//    @Override
+//    public ClientDto patchById(Long clientId, ClientDto dto) {
+//        Client client = clientRepository.findById(clientId)
+//                .orElseThrow(() -> new ClientException("Client not found"));
+//
+//        client.setFirstName(dto.getFirstName());
+//        client.setLastName(dto.getLastName());
+//        client.setMiddleName(dto.getMiddleName());
+//
+//        return ClientMapper.toDto(clientRepository.save(client));
+//    }
+//
+//    @LogDataSourceError
+//    @Override
+//    public ClientDto getById(Long clientId) {
+//        return ClientMapper.toDto(clientRepository.findById(clientId)
+//                .orElseThrow(() -> new ClientException("Client not found")));
+//    }
+//
+//    @LogDataSourceError
+//    @Override
+//    public void deleteById(Long clientId) {
+//        clientRepository.findById(clientId)
+//                .orElseThrow(() -> new ClientException("Client not found"));
+//        clientRepository.deleteById(clientId);
+//    }
 
 }

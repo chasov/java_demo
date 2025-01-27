@@ -10,9 +10,9 @@ public interface ClientService {
     Client registerClient(Client client);
     List<ClientDto> parseJson();
     void clearMiddleName(List<ClientDto> dtos);
-    ClientDto save(ClientDto dto);
-    ClientDto patchById(Long clientId, ClientDto dto);
-    ClientDto getById(Long clientId);
-    void deleteById(Long clientId);
-
+//    ClientDto save(ClientDto dto);
+//    ClientDto patchById(Long clientId, ClientDto dto);
+//    ClientDto getById(Long clientId);
+//    void deleteById(Long clientId);
+//
 }

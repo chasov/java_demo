@@ -21,16 +21,17 @@ public class Client extends AbstractPersistable<Long> {
     private String lastName;
     @Column(name = "middle_name")
     private String middleName;
-//    @Column(name = "blocked_for")
-//    private Boolean blockedFor;
-//    @Column(name = "blocked_whom")
-//    private String blockedWhom;
-   @Column(name = "client_id")
+    //    @Column(name = "blocked_for")
+    //    private Boolean blockedFor;
+    //    @Column(name = "blocked_whom")
+    //    private String blockedWhom;
+    @Column(name = "client_id")
     private Integer clientId;
 
-   public Integer getClientId() {
-       return clientId;
+    public Integer getClientId() {
+        return clientId;
     }
+
     @Override
     public Long getId() {
         return super.getId();
