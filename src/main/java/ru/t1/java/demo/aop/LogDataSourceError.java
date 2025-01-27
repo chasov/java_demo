@@ -6,6 +6,9 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.ErrorLogRepository;
@@ -16,13 +19,36 @@ import ru.t1.java.demo.repository.ErrorLogRepository;
 @RequiredArgsConstructor(onConstructor_ = {@Autowired})
 public class LogDataSourceError {
     private final ErrorLogRepository errorLogRepository;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @AfterThrowing(pointcut = "@annotation(WriteLogException)", throwing = "ex")
     public void logError(Throwable ex) {
-        saveErrorLog(ex);
+        sendErrorToKafka(ex);
     }
 
-    public void saveErrorLog(Throwable ex) {
+    private void sendErrorToKafka(Throwable ex) {
+        String topic = "t1_demo_metrics";
+        String message = ex.getMessage();
+        String exceptionStackTrace = ex.toString();
+        String methodSignature = ex.getStackTrace()[0].toString();
+
+        String sendingMessage = String.format("Error: %s%nStackTrace: %s%nMethod: %s",
+                message, exceptionStackTrace, methodSignature);
+
+        try {
+            Message<String> kafkaMessage = MessageBuilder
+                    .withPayload(sendingMessage)
+                    .setHeader("errorType", "DATA_SOURCE")
+                    .build();
+            kafkaTemplate.send(topic, kafkaMessage.toString());
+        } catch (Exception e) {
+            log.error("Failed to send error to Kafka: {}", e.getMessage());
+            saveErrorLog(ex);
+        }
+    }
+
+
+    private void saveErrorLog(Throwable ex) {
         DataSourceErrorLog errorLog = new DataSourceErrorLog();
         errorLog.setExceptionStackTrace(ex.toString());
         errorLog.setMessage(ex.getMessage());
