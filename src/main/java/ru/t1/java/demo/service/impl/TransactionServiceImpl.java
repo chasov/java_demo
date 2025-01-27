@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
@@ -75,5 +76,14 @@ public class TransactionServiceImpl implements TransactionService {
     public void create(TransactionDto dto) {
         Transaction transaction = TransactionMapper.toEntity(dto);
         repository.save(transaction);
+    }
+
+    @Override
+    public void registerTransactions(List<Transaction> transactions) {
+        List<Transaction> savedTransactions = new ArrayList<>();
+        for (Transaction transaction : transactions) {
+            repository.save(transaction);
+        }
+
     }
 }

@@ -18,4 +18,18 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id: t1-demo
+      group-id-account: t1-demo-account
+      group-id-transaction: t1-demo-transaction
+    producer:
+      enable: true
+    topic:
+      metrics: t1_demo_metrics
+      accounts: t1_demo_accounts
+      transactions: t1_demo_transactions
+
 
