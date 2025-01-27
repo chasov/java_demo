@@ -16,7 +16,9 @@ app:
       enable: true
     bootstrap-server: ${KAFKA_SERVER:localhost:9092}
     consumer:
-      group-id: t1-demo-group
+      group-id:
+        accounts: accounts-group
+        transactions: transactions-group
     topics:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts

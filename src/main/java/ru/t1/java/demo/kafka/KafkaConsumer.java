@@ -1,10 +1,7 @@
 package ru.t1.java.demo.kafka;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.kafka.support.KafkaHeaders;
@@ -16,6 +13,8 @@ import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 
+import java.util.List;
+
 @Slf4j
 @RequiredArgsConstructor
 @Component
@@ -23,38 +22,40 @@ public class KafkaConsumer {
 
     private final AccountService accountService;
     private final TransactionService transactionService;
-    private final ObjectMapper objectMapper;
 
-    @Value("${app.kafka.topics.accounts}")
-    private String accountsTopic;
-
-    @Value("${app.kafka.topics.transactions}")
-    private String transactionsTopic;
-
-    @KafkaListener(id = "${app.kafka.consumer.group-id}",
-            topics = {"${app.kafka.topics.accounts}", "${app.kafka.topics.transactions}"},
-            containerFactory = "kafkaListenerContainerFactory"
+    @KafkaListener(
+            id = "${app.kafka.consumer.group-id.accounts}",
+            topics = "${app.kafka.topics.accounts}",
+            containerFactory = "accountKafkaListenerContainerFactory"
     )
-    public void listener(@Payload String message,
-                                Acknowledgment ack,
-                                @Header(KafkaHeaders.RECEIVED_TOPIC) String topic) throws JsonProcessingException {
+    public void listenAccounts(@Payload List<AccountDto> accounts,
+                               Acknowledgment ack,
+                               @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                               @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
-            log.info("Получено сообщение из топика {}: {}", topic, message);
-            if (topic.equals(accountsTopic)) {
-                // Обработка сообщения для топика accounts
-                AccountDto accountDto = objectMapper.readValue(message, AccountDto.class);
-                accountService.saveAccount(accountDto);
-            }
-            else if (topic.equals(transactionsTopic)) {
-                // Обработка сообщения для топика transactions
-                TransactionDto transactionDto = objectMapper.readValue(message, TransactionDto.class);
-                transactionService.saveTransaction(transactionDto);
-            }
-            else {
-                log.warn("Неизвестный топик: {}", topic);
-            }
+            log.info("Получено {} запись из топика аккаунтов", accounts.size());
+            accounts.forEach(accountService::saveAccount);
         } catch (Exception e) {
-            log.error("Ошибка обработки сообщения из топика {}: {}", topic, e.getMessage(), e);
+            log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);
+        } finally {
+            ack.acknowledge();
+        }
+    }
+
+    @KafkaListener(
+            id = "${app.kafka.consumer.group-id.transactions}",
+            topics = "${app.kafka.topics.transactions}",
+            containerFactory = "transactionKafkaListenerContainerFactory"
+    )
+    public void listenTransactions(@Payload List<TransactionDto> transactions,
+                                   Acknowledgment ack,
+                                   @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                                   @Header(KafkaHeaders.RECEIVED_KEY) String key) {
+        try {
+            log.info("Получено {} записей из топика транзакций", transactions.size());
+            transactions.forEach(transactionService::saveTransaction);
+        } catch (Exception e) {
+            log.error("Ошибка обработки сообщений из топика транзакций: {}", e.getMessage(), e);
         } finally {
             ack.acknowledge();
         }
