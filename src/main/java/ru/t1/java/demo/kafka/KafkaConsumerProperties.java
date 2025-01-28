@@ -16,10 +16,10 @@ public class KafkaConsumerProperties {
     @Value("${t1.kafka.bootstrap.server}")
     private String servers;
 
-    @Value("${t1.kafka.consumer.session-timeout:45000}")
+    @Value("${t1.kafka.consumer.session-timeout}")
     private String sessionTimeout;
 
-    @Value("${t1.kafka.consumer.max-partition-fetch-bytes:300000}")
+    @Value("${t1.kafka.consumer.max-partition-fetch-bytes}")
     private String maxPartitionFetchBytes;
 
     @Value("${t1.kafka.consumer.max-poll-records:1}")
@@ -28,7 +28,7 @@ public class KafkaConsumerProperties {
     @Value("${t1.kafka.consumer.max-poll-interval:300000}")
     private String maxPollIntervalsMs;
 
-    @Value("${t1.kafka.consumer.heartbeat-interval:3000}")
+    @Value("${t1.kafka.consumer.heartbeat-interval}")
     private String heartbeatInterval;
 
     @Value("${t1.kafka.consumer.trusted-packages:*}")

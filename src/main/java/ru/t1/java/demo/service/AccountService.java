@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
+import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Account;
@@ -30,6 +31,7 @@ public class AccountService implements CRUDService<AccountDto> {
 
     @Override
     @LogDataSourceError
+    @Metric
     public AccountDto getById(Long id) {
         log.info("Account getting by ID: {} ", id);
         Account account = accountRepository.findById(id)

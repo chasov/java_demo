@@ -44,8 +44,8 @@ public class KafkaConsumerConfig<T> {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, consumerProperties.getKeySerializer());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, consumerProperties.getValueSerializer());
 
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.dto.*");
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.t1.java.demo.*");
+        //props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "*");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, consumerProperties.getTrustedPackages());
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
 
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, MessageDeserializer.class.getClasses());
@@ -56,7 +56,7 @@ public class KafkaConsumerConfig<T> {
 
     @Bean
     ConsumerFactory<String, Object> consumerFactory() {
-        DefaultKafkaConsumerFactory<String, Object> factory = new DefaultKafkaConsumerFactory<String, Object>(
+        DefaultKafkaConsumerFactory<String, Object> factory = new DefaultKafkaConsumerFactory<>(
                 consumerProperties()
         );
         factory.setKeyDeserializer(new StringDeserializer());

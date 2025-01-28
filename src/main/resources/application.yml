@@ -23,10 +23,22 @@ t1:
     consumer:
       group-id: t1-demo
       max-poll-records: 10
-      session-timeout: 10000
+      max-poll-interval: 30000
+      session-timeout: 30000
       heartbeat-interval: 3000
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      trusted-packages: "ru.t1.java.demo.*"
+      enable-auto-commit: false
+      auto-offset-reset: "earliest"
+      max-partition-fetch-bytes: 300000
     producer:
       enable: true
+      retries: 3
+      enable-idempotence: false
+      retry-backoff-ms: 3000
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     topic:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts
@@ -34,5 +46,5 @@ t1:
     listener:
       poll-timeout: 1000
   metric:
-    execution-time-limit: 10
+    execution-time-limit: 50
 

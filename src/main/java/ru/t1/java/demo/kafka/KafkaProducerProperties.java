@@ -20,7 +20,7 @@ public class KafkaProducerProperties {
     private String retryBackoffMs;
 
     @Value("${t1.kafka.producer.enable-idempotence}")
-    private String enableIdempotence;
+    private boolean enableIdempotence;
 
     @Value("${t1.kafka.producer.key-serializer}")
     private String keySerializer;
