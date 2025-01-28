@@ -8,5 +8,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.METHOD)
 public @interface Track {
-    long timeThreshold() default 5L; // По умолчанию пороговое значение -  миллисекунд
+
 }

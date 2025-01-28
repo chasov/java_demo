@@ -1,6 +1,6 @@
 package ru.t1.java.demo.aop;
 
-import lombok.extern.slf4j.Slf4j;  // Импортируем аннотацию Lombok
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,28 +26,26 @@ public class DataSourceErrorAspect {
     @Around("@annotation(ru.t1.java.demo.aop.annotation.LogDataSourceError)")
     public Object logDataSourceError(ProceedingJoinPoint joinPoint) throws Throwable {
         try {
-            // Выполнение метода
             return joinPoint.proceed();
         } catch (Exception e) {
-            // Формируем сообщение об ошибке
+
             String errorMessage = e.getMessage();
             String errorType = "DATA_SOURCE";
 
-            // Пытаемся отправить сообщение в Kafka
+
             try {
                 kafkaErrorProducer.sendErrorMessage(errorMessage, errorType);
+                log.info("Отправлено сообщение в Kafka: {}", errorMessage);
+
             } catch (Exception kafkaException) {
                 log.error("Ошибка при отправке в Kafka: {}", kafkaException.getMessage(), kafkaException);
-                // Если отправка в Kafka не удалась, сохраняем ошибку в БД
                 logToDatabase(e, joinPoint, errorMessage);
             }
 
-            // Пробрасываем исключение дальше
             throw e;
         }
     }
 
-    // Метод для записи ошибки в базу данных
     private void logToDatabase(Exception e, ProceedingJoinPoint joinPoint, String errorMessage) {
         try {
             DataSourceErrorLog errorLog = new DataSourceErrorLog();
@@ -62,7 +60,6 @@ public class DataSourceErrorAspect {
         }
     }
 
-    // Метод для построения строки стека вызовов
     private String buildStackTrace(Exception e) {
         StringBuilder stackTraceBuilder = new StringBuilder();
         for (StackTraceElement element : e.getStackTrace()) {

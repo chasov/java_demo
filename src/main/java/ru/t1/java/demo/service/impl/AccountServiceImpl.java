@@ -74,8 +74,14 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public void create(AccountDto dto) {
+    public Account create(AccountDto dto) {
         Account account = AccountMapper.toEntity(dto);
-        repository.save(account);
+        return repository.save(account);
+    }
+
+    @Override
+    @Transactional
+    public void registerAccount(List<Account> accounts) {
+        repository.saveAll(accounts);
     }
 }

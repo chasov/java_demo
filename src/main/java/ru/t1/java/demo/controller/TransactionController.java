@@ -20,7 +20,7 @@ public class TransactionController {
 
     private final TransactionService transactionService;
 
-
+    @LogDataSourceError
     @GetMapping("/getAll")
     public ResponseEntity<List<Transaction>> getAllTransactions() {
         List<Transaction> transactions = transactionService.getAll();
@@ -33,8 +33,9 @@ public class TransactionController {
         if (dto == null) {
             throw new HttpMessageNotReadableException("Invalid JSON");
         }
-        transactionService.create(dto);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        Transaction transaction = transactionService.create(dto);
+        return new ResponseEntity<>(transaction, HttpStatus.CREATED);
+
     }
 
     @LogDataSourceError

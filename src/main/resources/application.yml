@@ -10,6 +10,9 @@ spring:
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
+  jpa:
+    hibernate:
+      ddl-auto: update
 
 logging:
   level:
@@ -23,13 +26,15 @@ t1:
       server: ${KAFKA_SERVER:localhost:9092}
     consumer:
       group-id: t1-demo
-      group-id-account: t1-demo-account
-      group-id-transaction: t1-demo-transaction
+      group-id-account: account-group
+      group-id-transaction: transaction-group
     producer:
       enable: true
     topic:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
+
+
 
 

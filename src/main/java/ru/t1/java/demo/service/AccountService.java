@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface AccountService {
+
     List<Account> parseJson() throws IOException;
 
     List<Account> getAll();
@@ -16,5 +17,7 @@ public interface AccountService {
 
     void delete(UUID id);
 
-    void create(AccountDto dto);
+    Account create(AccountDto dto);
+
+    void registerAccount(List<Account> accounts);
 }

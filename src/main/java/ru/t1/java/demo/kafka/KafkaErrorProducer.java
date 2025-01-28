@@ -18,7 +18,7 @@ public class KafkaErrorProducer {
         try {
             kafkaTemplate.send("t1_demo_metrics", message);
         } catch (Exception e) {
-            // Если отправка не удалась, пробрасываем исключение
+
             throw new RuntimeException("Ошибка при отправке сообщения в Kafka", e);
         }
     }
