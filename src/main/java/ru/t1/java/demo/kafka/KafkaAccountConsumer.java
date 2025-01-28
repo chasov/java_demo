@@ -8,12 +8,8 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.AccountService;
-import ru.t1.java.demo.service.ClientService;
 
 import java.util.List;
 
@@ -21,9 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class KafkaAccountConsumer {
-
     private final AccountService accountService;
-    private final ClientRepository clientRepository;
 
     @KafkaListener(id = "accountListener",
             topics = {"t1_demo_accounts"},
@@ -45,7 +39,6 @@ public class KafkaAccountConsumer {
         } finally {
             ack.acknowledge();
         }
-
 
         log.debug("Client consumer: записи обработаны");
     }

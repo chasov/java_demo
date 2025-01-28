@@ -9,10 +9,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.dto.ClientDto;
-import ru.t1.java.demo.repository.ClientRepository;
+
 import ru.t1.java.demo.service.ClientService;
-import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.List;
 
@@ -20,9 +18,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class KafkaClientConsumer {
-
     private final ClientService clientService;
-    private final ClientRepository clientRepository;
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id}",
             topics = {"t1_demo_client_registration"},
@@ -40,16 +36,12 @@ public class KafkaClientConsumer {
             messageList.stream()
                     .forEach(System.err::println);
             List<Client> clients = messageList.stream()
-                    .map(dto -> {
-                        dto.setFirstName(key + "@" + dto.getFirstName());
-                        return dto;
-                    })
+                    .peek(dto -> dto.setFirstName(key + "@" + dto.getFirstName()))
                     .toList();
                     clientService.registerClients(clients);
         } finally {
             ack.acknowledge();
         }
-
 
         log.debug("Client consumer: записи обработаны");
     }

@@ -29,7 +29,6 @@ public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository repository;
     private final KafkaClientProducer kafkaClientProducer;
-    private final CheckWebClient checkWebClient;
 
     @Value("${t1.kafka.topic.client_registration}")
     private String topic;
@@ -39,16 +38,12 @@ public class ClientServiceImpl implements ClientService {
         List<Client> savedClients = new ArrayList<>();
 
         for (Client client : clients) {
-//            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
-//            check.ifPresent(checkResponse -> {
-//                if (!checkResponse.getBlocked()) {
+
             repository.save(client);
 
             savedClients.add(client);
-//                }
-//            });
+
         }
-//
         return savedClients
                 .stream()
                 .sorted(Comparator.comparing(Client::getId))

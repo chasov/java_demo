@@ -10,7 +10,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.service.ErrorService;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -22,8 +21,6 @@ import java.util.concurrent.atomic.AtomicLong;
 public class TrackingAspect {
 
     private static final AtomicLong START_TIME = new AtomicLong();
-
-    private final ErrorService errorService;
 
     @Before("@annotation(ru.t1.java.demo.aop.Track)")
     public void logExecTime(JoinPoint joinPoint) throws Throwable {

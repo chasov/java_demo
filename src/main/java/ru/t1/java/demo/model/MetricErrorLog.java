@@ -9,8 +9,11 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MetricErrorLog {
+
     private long executionTime;
+
     private String methodName;
+
     private String methodParameters;
 
 }

@@ -5,8 +5,6 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
 
-import java.util.UUID;
-
 @Component
 @Slf4j
 public class ClientMapper {
@@ -37,7 +35,7 @@ public class ClientMapper {
 //        if (dto.getMiddleName() == null) {
 //            throw new NullPointerException();
 //        }
-        int randomInt = (int)(Math.random() * 100000000);
+        int randomInt = (int) (Math.random() * 100000000);
         return Client.builder()
                 .clientId(randomInt)
                 .firstName(dto.getFirstName())

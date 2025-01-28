@@ -8,10 +8,15 @@ import java.util.List;
 
 public interface AccountService {
     List<Account> registerAccounts(List<Account> accounts);
+
     Account registerAccount(Account account);
+
     AccountDto patchById(Long accountId, AccountDto dto);
+
     List<AccountDto> getAllByClientId(Long clientId);
+
     AccountDto getById(Long accountId);
+
     void deleteById(Long accountId);
 
 }

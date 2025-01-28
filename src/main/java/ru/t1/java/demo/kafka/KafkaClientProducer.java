@@ -16,7 +16,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Component
 public class KafkaClientProducer {
-
     private final KafkaTemplate template;
 
     public void send(Long clientId) {

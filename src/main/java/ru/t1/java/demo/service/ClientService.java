@@ -7,11 +7,17 @@ import java.util.List;
 
 public interface ClientService {
     List<Client> registerClients(List<Client> clients);
+
     Client registerClient(Client client);
+
     List<ClientDto> parseJson();
+
     void clearMiddleName(List<ClientDto> dtos);
+
     ClientDto patchById(Long clientId, ClientDto dto);
+
     ClientDto getById(Long clientId);
+
     void deleteById(Long clientId);
 
 }

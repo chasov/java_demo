@@ -9,7 +9,6 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
-import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.exception.TransactionException;
@@ -18,7 +17,6 @@ import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
-import ru.t1.java.demo.web.CheckWebClient;
 
 import java.sql.Timestamp;
 import java.time.Instant;
@@ -33,18 +31,10 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountRepository accountRepository;
 
     private final KafkaClientProducer kafkaClientProducer;
-    private final CheckWebClient checkWebClient;
 
     @Value("${t1.kafka.topic.client_transaction}")
     private String topic;
 
-
-    //    @LogDataSourceError
-//    @Override
-//    public TransactionDto save(TransactionDto dto) {
-//        dto.setTimestamp(Timestamp.from(Instant.now()));
-//        return TransactionMapper.toDto(transactionRepository.save(TransactionMapper.toEntity(dto)));
-//    }
     @LogDataSourceError
     @Override
     public List<Transaction> registerTransactions(List<Transaction> transactions) {
@@ -52,21 +42,15 @@ public class TransactionServiceImpl implements TransactionService {
         List<Transaction> savedTransactions = new ArrayList<>();
 
         for (Transaction transaction : transactions) {
-//            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
-//            check.ifPresent(checkResponse -> {
-//                if (!checkResponse.getBlocked()) {
+
             transactionRepository.save(transaction);
 
             savedTransactions.add(transaction);
-//                }
-//            });
         }
-//
         return savedTransactions
                 .stream()
                 .sorted(Comparator.comparing(Transaction::getId))
                 .toList();
-
     }
 
     @LogDataSourceError
@@ -74,10 +58,6 @@ public class TransactionServiceImpl implements TransactionService {
     public Transaction registerTransaction(Transaction transaction) {
         Transaction saved = null;
         transaction.setTimestamp(Timestamp.from(Instant.now()));
-//        Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
-//        if (check.isPresent()) {
-//            if (!check.get().getBlocked()) {
-//                saved = repository.save(client);
 
         Message<Transaction> message = MessageBuilder.withPayload(transaction)
                 .setHeader(KafkaHeaders.TOPIC, topic)
@@ -85,8 +65,6 @@ public class TransactionServiceImpl implements TransactionService {
                 .build();
 
         kafkaClientProducer.sendMessage(message);
-//            }
-//        }
 
         return transaction;
     }

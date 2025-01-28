@@ -38,29 +38,20 @@ public class AccountServiceImpl implements AccountService {
         List<Account> savedAccounts = new ArrayList<>();
 
         for (Account account : accounts) {
-//            Optional<CheckResponse> check = checkWebClient.check((client.getClientId()));
-//            check.ifPresent(checkResponse -> {
-//                if (!checkResponse.getBlocked()) {
             accountRepository.save(account);
 
             savedAccounts.add(account);
-//                }
-//            });
         }
-//
         return savedAccounts
                 .stream()
                 .sorted(Comparator.comparing(Account::getId))
                 .toList();
     }
+
     @LogDataSourceError
     @Override
     public Account registerAccount(Account account) {
         Account saved = null;
-//        Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
-//        if (check.isPresent()) {
-//            if (!check.get().getBlocked()) {
-//                saved = repository.save(client);
 
         Message<Account> message = MessageBuilder.withPayload(account)
                 .setHeader(KafkaHeaders.TOPIC, topic)
@@ -68,18 +59,9 @@ public class AccountServiceImpl implements AccountService {
                 .build();
 
         kafkaClientProducer.sendMessage(message);
-//            }
-//        }
 
         return account;
     }
-
-
-//    @LogDataSourceError
-//    @Override
-//    public AccountDto save(AccountDto dto) {
-//        return AccountMapper.toDto(accountRepository.save(AccountMapper.toEntity(dto)));
-//    }
 
     @LogDataSourceError
     @Override

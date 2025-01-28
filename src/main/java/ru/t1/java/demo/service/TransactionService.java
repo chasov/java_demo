@@ -8,10 +8,15 @@ import java.util.List;
 
 public interface TransactionService {
     List<Transaction> registerTransactions(List<Transaction> transactions);
+
     Transaction registerTransaction(Transaction transaction);
+
     TransactionDto patchById(Long transactionId, TransactionDto dto);
+
     List<TransactionDto> getAllAccountById(Long transactionId);
+
     TransactionDto getById(Long transactionId);
+
     void deleteById(Long transactionId);
 
 }

@@ -4,7 +4,8 @@ import org.aspectj.lang.JoinPoint;
 
 public interface ErrorService {
 
-        void sendMetricErrorLog(long executionTime, JoinPoint joinPoint);
-        void sendDataSourceErrorLog(JoinPoint joinPoint, Exception e);
+    void sendMetricErrorLog(long executionTime, JoinPoint joinPoint);
+
+    void sendDataSourceErrorLog(JoinPoint joinPoint, Exception e);
 
 }

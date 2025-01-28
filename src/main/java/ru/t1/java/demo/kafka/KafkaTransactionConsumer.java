@@ -19,17 +19,15 @@ import java.util.List;
 @RequiredArgsConstructor
 @Component
 public class KafkaTransactionConsumer {
-
     private final TransactionService transactionService;
-    private final ClientRepository clientRepository;
 
     @KafkaListener(id = "transactionListener",
             topics = {"t1_demo_transactions"},
             containerFactory = "kafkaListenerContainerFactory")
     public void AccountListener(@Payload List<Transaction> messageList,
-                               Acknowledgment ack,
-                               @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                               @Header(KafkaHeaders.RECEIVED_KEY) String key) {
+                                Acknowledgment ack,
+                                @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                                @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.debug("Client consumer: Обработка новых сообщений");
 
         System.out.println(messageList);
@@ -39,12 +37,10 @@ public class KafkaTransactionConsumer {
             messageList.stream()
                     .forEach(System.err::println);
 
-                    transactionService.registerTransactions(messageList);
+            transactionService.registerTransactions(messageList);
         } finally {
             ack.acknowledge();
         }
-
-
         log.debug("Client consumer: записи обработаны");
     }
 }
