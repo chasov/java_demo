@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
+import ru.t1.java.demo.service.KafkaProducerService;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -15,7 +16,8 @@ import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 @Component
 public class DataSourceErrorLogAspect {
     private final DataSourceErrorLogRepository errorLogRepository;
-    @Pointcut("within(@org.springframework.stereotype.Service *) || within(@org.springframework.web.bind.annotation.RestController *)")
+    private final KafkaProducerService kafkaProducerService;
+    @Pointcut("@annotation(ru.t1.java.demo.annotation.LogDataSourceError)")
     public void dataSourceErrorLogPointcut() {}
 
     @AfterThrowing(value = "dataSourceErrorLogPointcut()", throwing = "exception")
@@ -30,8 +32,8 @@ public class DataSourceErrorLogAspect {
             errorLog.setStackTrace(getStackTraceAsString(exception));
             errorLog.setMessage(exception.getMessage());
             errorLog.setMethodSignature(methodSignature);
+            kafkaProducerService.send("t1_demo_metrics", "DATA_SOURCE", errorLog);
 
-            errorLogRepository.save(errorLog);
         } catch (Exception e) {
             log.error("Failed to log error to DataSourceErrorLog: {}", e.getMessage(), e);
         }
@@ -40,13 +42,11 @@ public class DataSourceErrorLogAspect {
     private String getMethodSignature(JoinPoint joinPoint) {
         StringBuilder signature = new StringBuilder();
 
-        // Имя класса и метода
         signature.append(joinPoint.getTarget().getClass().getName())
                 .append(".")
                 .append(joinPoint.getSignature().getName())
                 .append("(");
 
-        // Аргументы метода
         Object[] args = joinPoint.getArgs();
         for (int i = 0; i < args.length; i++) {
             signature.append(args[i].getClass().getSimpleName());

@@ -23,20 +23,20 @@ public class TransactionService {
         return transactionRepository.findAll();
     }
 
-    @PostConstruct
-    public void initMockData() {
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            InputStream inputStream = getClass().getResourceAsStream("/MOCK_TRANSACTIONS.json");
-            if (inputStream == null) {
-                throw new IllegalStateException("MOCK_TRANSACTIONS.json not found");
-            }
-            List<TransactionDto> transactions = mapper.readValue(inputStream, new TypeReference<>() {});
-            transactions.forEach(transactionsDto -> transactionRepository.save(TransactionMapper.toEntity(transactionsDto)));
-            System.out.println("Mock data initialized successfully.");
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.err.println("Failed to initialize mock data: " + e.getMessage());
-        }
-    }
+//    @PostConstruct
+//    public void initMockData() {
+//        try {
+//            ObjectMapper mapper = new ObjectMapper();
+//            InputStream inputStream = getClass().getResourceAsStream("/MOCK_TRANSACTIONS.json");
+//            if (inputStream == null) {
+//                throw new IllegalStateException("MOCK_TRANSACTIONS.json not found");
+//            }
+//            List<TransactionDto> transactions = mapper.readValue(inputStream, new TypeReference<>() {});
+//            transactions.forEach(transactionsDto -> transactionRepository.save(TransactionMapper.toEntity(transactionsDto)));
+//            System.out.println("Mock data initialized successfully.");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            System.err.println("Failed to initialize mock data: " + e.getMessage());
+//        }
+//    }
 }
