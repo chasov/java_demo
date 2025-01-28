@@ -3,24 +3,24 @@ package ru.t1.java.demo.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.exception.ClientException;
-import ru.t1.java.demo.kafka.KafkaClientProducer;
+import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.dto.CheckResponse;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.util.ClientMapper;
-import ru.t1.java.demo.web.CheckWebClient;
 
-import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -28,7 +28,7 @@ import java.util.*;
 public class ClientServiceImpl implements ClientService {
 
     private final ClientRepository repository;
-    private final KafkaClientProducer kafkaClientProducer;
+    private final KafkaProducer kafkaProducer;
 
     @Value("${t1.kafka.topic.client_registration}")
     private String topic;
@@ -53,19 +53,27 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client registerClient(Client client) {
         Client saved = null;
-//        Optional<CheckResponse> check = checkWebClient.check(client.getClientId());
-//        if (check.isPresent()) {
-//            if (!check.get().getBlocked()) {
-//                saved = repository.save(client);
 
         Message<Client> message = MessageBuilder.withPayload(client)
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
                 .build();
 
-        kafkaClientProducer.sendMessage(message);
-//            }
-//        }
+
+        CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
+        future.thenAccept(sendResult -> {
+
+            log.info("Client sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
+            ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
+            log.info("Message key: {}", record.key());
+            log.info("Message value: {}", record.value());
+
+        }).exceptionally(ex -> {
+
+            log.error("Failed to send client: {}", ex.getMessage(), ex);
+            return null;
+        });
+
 
         return client;
     }
@@ -99,7 +107,7 @@ public class ClientServiceImpl implements ClientService {
         log.info("Done clearing middle name");
     }
 
-    private final KafkaClientProducer producer;
+    private final KafkaProducer producer;
     private final ClientRepository clientRepository;
 
     @LogDataSourceError

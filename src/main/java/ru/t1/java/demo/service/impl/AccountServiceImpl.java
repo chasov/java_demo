@@ -2,13 +2,15 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.kafka.support.SendResult;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
-import ru.t1.java.demo.kafka.KafkaClientProducer;
+import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.exception.AccountException;
@@ -20,6 +22,7 @@ import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @Service
 @Slf4j
@@ -27,7 +30,7 @@ import java.util.*;
 public class AccountServiceImpl implements AccountService {
     private final AccountRepository accountRepository;
     private final ClientRepository clientRepository;
-    private final KafkaClientProducer kafkaClientProducer;
+    private final KafkaProducer kafkaProducer;
 
     @Value("${t1.kafka.topic.account_registration}")
     private String topic;
@@ -51,14 +54,25 @@ public class AccountServiceImpl implements AccountService {
     @LogDataSourceError
     @Override
     public Account registerAccount(Account account) {
-        Account saved = null;
 
         Message<Account> message = MessageBuilder.withPayload(account)
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
                 .build();
 
-        kafkaClientProducer.sendMessage(message);
+        CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
+        future.thenAccept(sendResult -> {
+
+            log.info("Account sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
+            ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
+            log.info("Message key: {}", record.key());
+            log.info("Message value: {}", record.value());
+
+        }).exceptionally(ex -> {
+
+            log.error("Failed to send account: {}", ex.getMessage(), ex);
+            return null;
+        });
 
         return account;
     }

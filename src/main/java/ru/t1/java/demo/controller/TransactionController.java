@@ -26,7 +26,7 @@ public class TransactionController {
     @HandlingResult
     @PostMapping("transaction/register")
     public ResponseEntity<Transaction> register(@RequestBody TransactionDto dto) {
-        log.info("Registering client: {}", dto);
+        log.info("Registering transaction: {}", dto);
         Transaction transaction = transactionService.registerTransaction(TransactionMapper.toEntityWithId(dto));
         return ResponseEntity.ok().body(transaction);
     }

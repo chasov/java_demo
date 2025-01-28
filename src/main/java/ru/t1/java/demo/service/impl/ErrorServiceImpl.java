@@ -66,6 +66,7 @@ public class ErrorServiceImpl implements ErrorService {
                 .build();
 
         producer.sendMessage(dataSourceErrorLog, message);
+
     }
 
     private String stackTraceToString(Exception e) {

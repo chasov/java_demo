@@ -26,7 +26,7 @@ public class AccountController {
     @HandlingResult
     @PostMapping("account/register")
     public ResponseEntity<Account> register(@RequestBody AccountDto dto) {
-        log.info("Registering client: {}", dto);
+        log.info("Registering account: {}", dto);
         Account account = accountService.registerAccount(AccountMapper.toEntityWithId(dto));
         return ResponseEntity.ok().body(account);
     }
