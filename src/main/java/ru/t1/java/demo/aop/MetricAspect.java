@@ -38,7 +38,7 @@ public class MetricAspect {
         String methodName = joinPoint.getSignature().getName();
         String methodParams = Arrays.toString(joinPoint.getArgs());
 
-        String message = String.format("Method: %s, Execution Time: %d ms, Params: %s",
+        String message = String.format("Method: %s%n Execution Time: %d ms%n Params: %s",
                 methodName, executionTime, methodParams);
 
         try {
