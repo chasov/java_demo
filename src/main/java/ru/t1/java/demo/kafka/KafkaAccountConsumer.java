@@ -24,7 +24,7 @@ public class KafkaAccountConsumer {
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-account}",
             topics = "${t1.kafka.topic.accounts}",
-            containerFactory = "kafkaListenerContainerFactory")
+            containerFactory = "kafkaAccountListenerContainerFactory")
     public void listener(@Payload
                          List<AccountDto> messageList,
                          Acknowledgment ack,
@@ -36,8 +36,8 @@ public class KafkaAccountConsumer {
         try {
             log.info("Topic: {}Key: {}", topic, key);
 
-            messageList.stream()
-                    .forEach(System.err::println);
+            messageList.forEach(msg -> log.info("Received message: {}", msg));
+
             List<Account> accounts = messageList.stream()
                     .map(AccountMapper::toEntity)
                     .toList();
@@ -48,9 +48,10 @@ public class KafkaAccountConsumer {
             log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);
         } finally {
             ack.acknowledge();
+            log.info("Account consumer: записи обработаны");
         }
 
-        log.info("Account consumer: записи обработаны");
+
     }
 }
 

@@ -24,13 +24,12 @@ public class KafkaTransactionConsumer {
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction}",
             topics = "${t1.kafka.topic.transactions}",
-            containerFactory = "kafkaListenerContainerFactory")
+            containerFactory = "kafkaTransactionListenerContainerFactory")
     public void listener(@Payload
                          List<TransactionDto> messageList,
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-
         log.info("Transaction consumer: Обработка новых сообщений");
 
         try {
@@ -48,9 +47,10 @@ public class KafkaTransactionConsumer {
             log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);
         } finally {
             ack.acknowledge();
+            log.info("Transaction consumer: записи обработаны");
         }
 
-        log.info("Transaction consumer: записи обработаны");
+
     }
 }
 

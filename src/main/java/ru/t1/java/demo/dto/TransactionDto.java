@@ -16,7 +16,6 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto {
 
-    @JsonProperty("id")
     private UUID id;
     @JsonProperty("transaction_amount")
     private Long amount;

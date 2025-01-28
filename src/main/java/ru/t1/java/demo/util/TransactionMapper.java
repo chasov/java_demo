@@ -12,7 +12,6 @@ public class TransactionMapper {
             throw new NullPointerException();
         }
         return Transaction.builder()
-                .id(dto.getId())
                 .amount(dto.getAmount())
                 .transactionTime(dto.getTransactionTime())
                 .build();

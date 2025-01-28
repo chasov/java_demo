@@ -17,18 +17,9 @@ import java.util.UUID;
 @Table(name = "transaction")
 public class Transaction extends AbstractPersistable<UUID> {
 
-    private UUID id;
     @Column(name = "transaction_amount", nullable = false)
     private Long amount;
     @Column(name = "transaction_time", nullable = false)
     private String transactionTime;
 
-    @Override
-    public String toString() {
-        return "Transaction{" +
-               "id=" + id +
-               ", amount=" + amount +
-               ", transactionTime='" + transactionTime + '\'' +
-               '}';
-    }
 }
