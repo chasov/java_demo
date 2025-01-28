@@ -24,3 +24,7 @@ logging:
 
 t1:
   scan-path: ru.t1.java.demo
+execution:
+  time:
+      ms:
+        threshold: 200
