@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.entity.Account;
 import ru.t1.java.demo.model.entity.Transaction;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 
 import java.time.LocalDateTime;
@@ -31,6 +32,10 @@ public class TransactionMapper {
                                 ? LocalDateTime.now()
                                 : transactionDto.getTransactionTime()
                         ))
+                .status(transactionDto.getStatus() == null
+                        ? TransactionStatus.REQUESTED
+                        : transactionDto.getStatus())
+                .timestamp(LocalDateTime.now())
                 .build();
         if (transaction.getTransactionId() == null) {
             transaction.setTransactionId(UUID.randomUUID());

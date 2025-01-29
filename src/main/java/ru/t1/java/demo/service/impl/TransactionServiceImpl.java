@@ -1,12 +1,18 @@
 package ru.t1.java.demo.service.impl;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogAfterThrowing;
+import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.model.entity.Account;
 import ru.t1.java.demo.model.entity.Transaction;
+import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
@@ -24,6 +30,10 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
     private final AccountRepository accountRepository;
     private final TransactionMapper transactionMapper;
+    private final KafkaTemplate<String, TransactionAcceptDto> kafkaTemplate;
+
+    @Value("${app.kafka.topics.transaction-accept}")
+    private String transactionAcceptTopic;
 
     public List<TransactionDto> getAllTransactions() {
         return transactionRepository.findAll().stream()
@@ -57,8 +67,32 @@ public class TransactionServiceImpl implements TransactionService {
         transactionRepository.deleteById(id);
     }
 
-    @Override
     public void saveTransaction(TransactionDto transactionDto) {
         transactionRepository.save(transactionMapper.toEntity(transactionDto));
+    }
+
+    @Transactional
+    public void processTransaction(TransactionDto transactionDto) {
+        Account account = accountRepository.findByIdAndStatus(transactionDto.getAccountId(), AccountStatus.OPEN)
+                .orElseThrow(() -> new IllegalArgumentException("Account is not OPEN or does not exist"));
+
+        Transaction transaction = transactionMapper.toEntity(transactionDto);
+        transactionRepository.save(transaction);
+
+        account.setBalance( account.getAccountType() == AccountType.CREDIT
+                ? account.getBalance().subtract(transactionDto.getAmount())
+                : account.getBalance().add(transactionDto.getAmount()));
+        accountRepository.save(account);
+
+        // Отправляем сообщение в топик t1_demo_transaction_accept
+        TransactionAcceptDto acceptDto = new TransactionAcceptDto(
+                account.getClient().getClientId(),
+                account.getAccountId(),
+                transaction.getTransactionId(),
+                transaction.getTimestamp(),
+                transactionDto.getAmount(),
+                account.getBalance()
+        );
+        kafkaTemplate.send(transactionAcceptTopic, acceptDto);
     }
 }

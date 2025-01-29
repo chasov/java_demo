@@ -17,4 +17,6 @@ public interface TransactionService {
     void deleteTransaction(Long id);
 
     void saveTransaction(TransactionDto transactionDto);
+
+    void processTransaction(TransactionDto transactionDto);
 }

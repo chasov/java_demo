@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -22,4 +23,5 @@ public class TransactionDto {
     private BigDecimal amount;
     @JsonProperty("transaction_time")
     private LocalDateTime transactionTime;
+    private TransactionStatus status;
 }

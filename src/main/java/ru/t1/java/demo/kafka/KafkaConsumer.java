@@ -53,7 +53,8 @@ public class KafkaConsumer {
                                    @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             log.info("Получено {} записей из топика транзакций", transactions.size());
-            transactions.forEach(transactionService::saveTransaction);
+            //transactions.forEach(transactionService::saveTransaction);
+            transactions.forEach(transactionService::processTransaction);
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений из топика транзакций: {}", e.getMessage(), e);
         } finally {

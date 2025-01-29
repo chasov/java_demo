@@ -23,6 +23,7 @@ app:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
+      transaction-accept: t1_demo_transaction_accept
   metrics:
     threshold-ms: 2
 
