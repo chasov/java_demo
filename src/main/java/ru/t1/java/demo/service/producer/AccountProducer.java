@@ -15,7 +15,8 @@ public class AccountProducer {
     private final KafkaTemplate<String, AccountDto> kafkaTemplate;
 
     public void send(AccountDto account) {
+        String key = UUID.randomUUID().toString();
         log.info("Sending account {}", account.toString());
-        kafkaTemplate.send("t1_demo_accounts", account);
+        kafkaTemplate.send("t1_demo_accounts", key, account);
     }
 }
