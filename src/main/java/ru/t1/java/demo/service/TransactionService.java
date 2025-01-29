@@ -14,6 +14,7 @@ import ru.t1.java.demo.util.TransactionMapper;
 
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -21,6 +22,12 @@ public class TransactionService {
     private final TransactionRepository transactionRepository;
     public List<Transaction> findAllTransactions() {
         return transactionRepository.findAll();
+    }
+    public Optional<Transaction> findTransactionById(Long id) {
+        return transactionRepository.findById(id);
+    }
+    public Transaction saveTransaction(TransactionDto transactionDto) {
+        return transactionRepository.save(TransactionMapper.toEntity(transactionDto));
     }
 
 //    @PostConstruct

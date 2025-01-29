@@ -10,12 +10,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
 import org.springframework.kafka.config.TopicBuilder;
 import org.springframework.kafka.core.*;
+import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.util.AccountDtoDeserializer;
+import ru.t1.java.demo.service.event.AccountEvent;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -66,38 +66,42 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    ConsumerFactory<String, TransactionDto> transactionConsumerFactory(){
+    ConsumerFactory<String, Object> transactionConsumerFactory(){
         Map<String, Object> properties = new HashMap<>();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
         properties.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         properties.put(ProducerConfig.ACKS_CONFIG, "1");
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "transaction-consumer");
         return new DefaultKafkaConsumerFactory<>(properties);
     }
     @Bean
-    ConcurrentKafkaListenerContainerFactory<String, TransactionDto> transactionKafkaListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<String, TransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+    ConcurrentKafkaListenerContainerFactory<String, Object> transactionKafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(transactionConsumerFactory());
         return factory;
     }
 
     @Bean
-    ConsumerFactory<String, AccountDto> accountConsumerFactory(){
+    ConsumerFactory<String, Object> accountConsumerFactory(){
         Map<String, Object> properties = new HashMap<>();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
-        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AccountDtoDeserializer.class);
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        properties.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, ErrorHandlingDeserializer.class);
         properties.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         properties.put(ProducerConfig.ACKS_CONFIG, "1");
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "account-consumer");
+        properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, AccountEvent.class);
         return new DefaultKafkaConsumerFactory<>(properties);
     }
     @Bean
-    ConcurrentKafkaListenerContainerFactory<String, TransactionDto> accountKafkaListenerContainerFactory(){
-        ConcurrentKafkaListenerContainerFactory<String, TransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(transactionConsumerFactory());
+    ConcurrentKafkaListenerContainerFactory<String, Object> accountKafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(accountConsumerFactory());
         return factory;
     }
 
