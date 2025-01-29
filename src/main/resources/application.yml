@@ -2,9 +2,9 @@ spring:
   application:
     name: t1-java-demo
   datasource:
-    url: jdbc:postgresql://localhost:5432/t1_demo
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: password
+    password: bestuser
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
@@ -15,4 +15,20 @@ logging:
     ru.t1.java.demo.controller.ClientController: DEBUG
 
 t1:
-  scan-path: ru.t1.java.demo
+  kafka:
+    bootstrap-server: ${KAFKA_SERVER:localhost:29092}
+    consumer:
+      group-id:
+         accounts-group-id: t1_demo1
+         transactions-group-id: t1_demo2
+      max-poll-records: 10
+      session-timeout-ms: 10000
+      heartbeat-interval-ms: 3000
+    topic:
+      create_new_accounts: t1_demo_accounts
+      create_new_transactions: t1_demo_transactions
+    producer:
+      topic:
+        metrics: t1_demo_metrics
+
+

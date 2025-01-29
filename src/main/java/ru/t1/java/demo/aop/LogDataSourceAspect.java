@@ -10,14 +10,14 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.DataSourceErrorLog;
-import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
+import ru.t1.java.demo.service.ErrorService;
 
 @Aspect
 @Component
 @Slf4j
 @RequiredArgsConstructor
 public class LogDataSourceAspect {
-    private final DataSourceErrorLogRepository dataSourceErrorLogRepository;
+    private final ErrorService errorService;
 
     @AfterThrowing(pointcut = "within(@ru.t1.java.demo.aop.LogDataSourceError *)" +
             " && execution(* *(..))", throwing = "exception")
@@ -27,7 +27,7 @@ public class LogDataSourceAspect {
                 .message(exception.getMessage())
                 .methodSignature(joinPoint.getSignature()
                         .toString()).build();
-        dataSourceErrorLogRepository.save(dataSourceErrorLog);
+        errorService.logDataSourceExceptionProcessing(dataSourceErrorLog);
 
         log.error("Ошибка в методе {}: {}", joinPoint.getSignature(), exception.getMessage(), exception);
     }

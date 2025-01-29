@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -19,7 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionalRequestDTO {
+public class TransactionalRequestDTO implements Serializable {
 
     @JsonProperty("price_transactional")
     @NotNull

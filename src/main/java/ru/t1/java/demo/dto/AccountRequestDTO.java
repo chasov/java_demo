@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.t1.java.demo.model.AccountType;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Getter
@@ -18,7 +19,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AccountRequestDTO {
+public class AccountRequestDTO implements Serializable {
     @JsonProperty("account_type")
     @NotNull
     AccountType accountType;
