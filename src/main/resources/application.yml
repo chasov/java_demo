@@ -12,7 +12,7 @@ spring:
 
 logging:
   level:
-    ROOT: INFO
+    ROOT: ${LOG_LEVEL:INFO}
     ru.t1.java.demo.controller.ClientController: DEBUG
 
 t1:
