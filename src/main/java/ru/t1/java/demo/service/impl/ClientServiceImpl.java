@@ -21,6 +21,7 @@ import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -52,7 +53,7 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client registerClient(Client client) {
-        Client saved = null;
+        AtomicReference<Client> saved = null;
 
         Message<Client> message = MessageBuilder.withPayload(client)
                 .setHeader(KafkaHeaders.TOPIC, topic)
@@ -67,15 +68,15 @@ public class ClientServiceImpl implements ClientService {
             ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
             log.info("Message key: {}", record.key());
             log.info("Message value: {}", record.value());
+            saved.set(client);
 
         }).exceptionally(ex -> {
 
             log.error("Failed to send client: {}", ex.getMessage(), ex);
+
             return null;
         });
-
-
-        return client;
+        return saved.get();
     }
 
 

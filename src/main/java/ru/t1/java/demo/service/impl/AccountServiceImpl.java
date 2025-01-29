@@ -23,6 +23,7 @@ import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -54,6 +55,7 @@ public class AccountServiceImpl implements AccountService {
     @LogDataSourceError
     @Override
     public Account registerAccount(Account account) {
+        AtomicReference<Account> saved = null;
 
         Message<Account> message = MessageBuilder.withPayload(account)
                 .setHeader(KafkaHeaders.TOPIC, topic)
@@ -67,14 +69,13 @@ public class AccountServiceImpl implements AccountService {
             ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
             log.info("Message key: {}", record.key());
             log.info("Message value: {}", record.value());
-
+            saved.set(account);
         }).exceptionally(ex -> {
 
             log.error("Failed to send account: {}", ex.getMessage(), ex);
             return null;
         });
-
-        return account;
+        return saved.get();
     }
 
     @LogDataSourceError

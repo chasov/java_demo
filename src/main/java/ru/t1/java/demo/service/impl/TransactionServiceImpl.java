@@ -24,6 +24,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
@@ -59,6 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
     @LogDataSourceError
     @Override
     public Transaction registerTransaction(Transaction transaction) {
+        AtomicReference<Transaction> saved = null;
 
         transaction.setTimestamp(Timestamp.from(Instant.now()));
 
@@ -74,6 +76,7 @@ public class TransactionServiceImpl implements TransactionService {
             ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
             log.info("Message key: {}", record.key());
             log.info("Message value: {}", record.value());
+            saved.set(transaction);
 
         }).exceptionally(ex -> {
             log.error("Failed to send transaction: {}", ex.getMessage(), ex);
@@ -81,7 +84,7 @@ public class TransactionServiceImpl implements TransactionService {
         });
         kafkaProducer.sendMessage(message);
 
-        return transaction;
+        return saved.get();
     }
 
     @LogDataSourceError
