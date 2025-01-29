@@ -55,7 +55,7 @@ public class AccountServiceImpl implements AccountService {
     @LogDataSourceError
     @Override
     public Account registerAccount(Account account) {
-        AtomicReference<Account> saved = null;
+        AtomicReference<Account> saved = new AtomicReference<>();
 
         Message<Account> message = MessageBuilder.withPayload(account)
                 .setHeader(KafkaHeaders.TOPIC, topic)
@@ -63,18 +63,18 @@ public class AccountServiceImpl implements AccountService {
                 .build();
 
         CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
-        future.thenAccept(sendResult -> {
 
+        future.thenAccept(sendResult -> {
             log.info("Account sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
             ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
             log.info("Message key: {}", record.key());
             log.info("Message value: {}", record.value());
             saved.set(account);
         }).exceptionally(ex -> {
-
             log.error("Failed to send account: {}", ex.getMessage(), ex);
-            return null;
+            throw new RuntimeException("Failed to send account", ex);
         });
+        future.join();
         return saved.get();
     }
 

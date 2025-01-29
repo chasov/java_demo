@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.kafka.KafkaProducer;
+import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.repository.ClientRepository;
@@ -53,29 +54,26 @@ public class ClientServiceImpl implements ClientService {
 
     @Override
     public Client registerClient(Client client) {
-        AtomicReference<Client> saved = null;
+        AtomicReference<Client> saved = new AtomicReference<>();
 
         Message<Client> message = MessageBuilder.withPayload(client)
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
                 .build();
 
-
         CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
-        future.thenAccept(sendResult -> {
 
+        future.thenAccept(sendResult -> {
             log.info("Client sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
             ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
             log.info("Message key: {}", record.key());
             log.info("Message value: {}", record.value());
             saved.set(client);
-
         }).exceptionally(ex -> {
-
             log.error("Failed to send client: {}", ex.getMessage(), ex);
-
-            return null;
+            throw new RuntimeException("Failed to send account", ex);
         });
+        future.join();
         return saved.get();
     }
 

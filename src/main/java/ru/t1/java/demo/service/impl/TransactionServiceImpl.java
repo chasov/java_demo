@@ -60,7 +60,7 @@ public class TransactionServiceImpl implements TransactionService {
     @LogDataSourceError
     @Override
     public Transaction registerTransaction(Transaction transaction) {
-        AtomicReference<Transaction> saved = null;
+        AtomicReference<Transaction> saved = new AtomicReference<>();
 
         transaction.setTimestamp(Timestamp.from(Instant.now()));
 
@@ -71,19 +71,16 @@ public class TransactionServiceImpl implements TransactionService {
 
         CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
         future.thenAccept(sendResult -> {
-
             log.info("Transaction sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
             ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
             log.info("Message key: {}", record.key());
             log.info("Message value: {}", record.value());
             saved.set(transaction);
-
         }).exceptionally(ex -> {
             log.error("Failed to send transaction: {}", ex.getMessage(), ex);
-            return null;
+            throw new RuntimeException("Failed to send account", ex);
         });
-        kafkaProducer.sendMessage(message);
-
+        future.join();
         return saved.get();
     }
 
