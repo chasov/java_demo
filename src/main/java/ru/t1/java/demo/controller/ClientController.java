@@ -18,12 +18,11 @@ import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.service.MetricService;
 import ru.t1.java.demo.util.ClientMapper;
 
-import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@LogDataSourceError
 public class ClientController {
 
     private final ClientService clientService;
