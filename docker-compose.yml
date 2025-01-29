@@ -9,4 +9,23 @@ services:
       - "5432:5432"
     environment:
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=0000
+      - POSTGRES_PASSWORD=admin
+  t1_homework:
+    image: postgres:17.2
+    restart: "no"
+    ports:
+      - "5433:5432"
+    volumes:
+      - t1_dorofeev_homework_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: t1_dorofeev_homework
+    healthcheck:
+      test: pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+      retries: 5
+volumes:
+  t1_dorofeev_homework_data:

@@ -4,12 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.aop.HandlingResult;
-import ru.t1.java.demo.aop.LogExecution;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.util.ClientMapper;
@@ -30,10 +29,12 @@ public class ClientServiceImpl implements ClientService {
     void init() {
         try {
             List<Client> clients = parseJson();
-        } catch (IOException e) {
-            log.error("Ошибка во время обработки записей", e);
+            repository.saveAll(clients);
+        }  catch (IOException e) {
+            log.error("Ошибка при загрузке клиентов из JSON", e);
+        } catch (DataIntegrityViolationException e) {
+            log.error("Ошибка при сохранении клиентов в базу данных", e);
         }
-//        repository.saveAll(clients);
     }
 
     @Override
