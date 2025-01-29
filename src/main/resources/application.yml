@@ -36,9 +36,10 @@ t1:
       enable: true
       retries: 3
       enable-idempotence: false
-      retry-backoff-ms: 3000
+      retry-backoff-ms: 1000
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: 0
     topic:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts
@@ -46,5 +47,5 @@ t1:
     listener:
       poll-timeout: 1000
   metric:
-    execution-time-limit: 50
+    execution-time-limit: 7
 

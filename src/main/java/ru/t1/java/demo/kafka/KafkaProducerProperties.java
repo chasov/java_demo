@@ -27,4 +27,7 @@ public class KafkaProducerProperties {
 
     @Value("${t1.kafka.producer.value-serializer}")
     private String valueSerializer;
+
+    @Value("${t1.kafka.producer.acks}")
+    private String acks;
 }

@@ -29,6 +29,7 @@ public class KafkaProducerConfig<T> {
         props.put(ProducerConfig.RETRIES_CONFIG, producerProperties.getRetries());
         props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, producerProperties.getRetryBackoffMs());
         props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, producerProperties.isEnableIdempotence());
+        props.put(ProducerConfig.ACKS_CONFIG, producerProperties.getAcks());
 
         return props;
     }

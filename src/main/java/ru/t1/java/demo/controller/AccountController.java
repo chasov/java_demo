@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.kafka.producer.KafkaAccountProducer;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.Collection;
@@ -18,6 +19,8 @@ import java.util.Collection;
 public class AccountController {
 
     private final AccountService accountService;
+
+    private final KafkaAccountProducer accountProducer;
 
     @GetMapping("/{id}")
     public ResponseEntity<AccountDto> getAccountById(@PathVariable("id") Long id) {
@@ -40,8 +43,16 @@ public class AccountController {
                 .body(newAccount);
     }
 
+    @PostMapping("/send")
+    public ResponseEntity<AccountDto> sendCreateAccountRequest(@RequestBody AccountDto accountDto) {
+        accountProducer.send(accountDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(accountDto);
+    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id, @RequestBody AccountDto updatedAccountDto) {
+    public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id,
+                                                    @RequestBody AccountDto updatedAccountDto) {
         AccountDto accountDto = accountService.update(id, updatedAccountDto);
         return ResponseEntity.ok(accountDto);
     }

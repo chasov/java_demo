@@ -3,6 +3,10 @@ package ru.t1.java.demo.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.dto.TransactionDto;
@@ -15,8 +19,8 @@ import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.util.TransactionMapper;
 
 import java.math.BigDecimal;
-import java.util.Collection;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +32,10 @@ public class TransactionService implements CRUDService<TransactionDto> {
     private final AccountRepository accountRepository;
 
     private final TransactionMapper transactionMapper;
+
+    private final KafkaTemplate<String, Object> template;
+
+    private final String MESSAGE_KEY = String.valueOf(UUID.randomUUID());
 
     /**Transfers money between two accounts
      *
@@ -53,7 +61,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
         );
 
         if (accountFrom.getBalance().longValue() < transaction.getAmount().longValue()) {
-            log.info("There are insufficient funds in the account with ID " + accountFrom.getId());
+            log.warn("There are insufficient funds in the account with ID " + accountFrom.getId());
             throw new TransactionException(
                     "There are insufficient funds in the account with ID " + accountFrom.getId());
         }
@@ -65,6 +73,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
 
         transaction.setAccountFrom(accountFrom);
         transaction.setAccountTo(accountTo);
+        transaction.setCompletedAt(LocalDateTime.now());
 
         log.info("Transaction between {} and {} account completed successfully",
                 accountFrom.getId(), accountTo.getId());
@@ -109,5 +118,28 @@ public class TransactionService implements CRUDService<TransactionDto> {
         );
         transactionRepository.deleteById(transactionId);
         log.info("Transaction with ID: {} deleted successfully!", transactionId);
+    }
+
+    /** Sending message to Kafka
+     *
+     * @param topic - String topicName
+     * @param object - T dtoObject
+     */
+    public void sendMessage(String topic, Object object) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("TransactionDto", TransactionDto.class);
+        headers.put(KafkaHeaders.TOPIC, topic);
+        headers.put(KafkaHeaders.KEY, MESSAGE_KEY);
+        Message<Object> messageWithHeaders = MessageBuilder
+                .withPayload(object)
+                .copyHeaders(headers)
+                .build();
+        try {
+            template.send(messageWithHeaders);
+        } catch (Exception ex) {
+            log.error("Error sending transaction message", ex);
+        } finally {
+            template.flush();
+        }
     }
 }

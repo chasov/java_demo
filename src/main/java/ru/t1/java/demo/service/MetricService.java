@@ -23,7 +23,7 @@ public class MetricService {
             throws SendMessageException, JsonProcessingException {
         MetricDto metricDto = MetricDto.builder()
                 .executionTime(executionTime)
-                .methodName(String.valueOf(joinPoint.getSignature().getName()))
+                .methodName(String.valueOf(joinPoint.getSignature()))
                 .jsonArgs(objectMapper.writeValueAsString(joinPoint.getArgs()))
                 .build();
         try {
