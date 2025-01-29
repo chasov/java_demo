@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
+import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +17,8 @@ import java.util.concurrent.atomic.AtomicLong;
 @Slf4j
 @Aspect
 @Component
-public class TrackingAspect {
+@Order(1)
+public class MetricAspect {
 
     private static final AtomicLong START_TIME = new AtomicLong();
 
@@ -34,17 +36,17 @@ public class TrackingAspect {
     }
 
     @Around("@annotation(ru.t1.java.demo.aop.Track)")
-    public Object logExecTime(ProceedingJoinPoint pJoinPoint) {
+    public Object logExecTime(ProceedingJoinPoint pJoinPoint) throws Throwable {
         log.info("Вызов метода: {}", pJoinPoint.getSignature().toShortString());
         long beforeTime = System.currentTimeMillis();
         Object result = null;
         try {
             result = pJoinPoint.proceed();//Important
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
+        } finally {
+            long afterTime = System.currentTimeMillis();
+            log.info("Время исполнения: {} ms", (afterTime - beforeTime));
         }
-        long afterTime = System.currentTimeMillis();
-        log.info("Время исполнения: {} ms", (afterTime - beforeTime));
+
         return result;
     }
 
