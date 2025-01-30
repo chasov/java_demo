@@ -8,7 +8,7 @@ spring:
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
-    default-schema: t1_demo
+    default-schema: public
     change-log: db/changelog/db.changelog-master.xml
     driver-class-name: org.postgresql.Driver
     driverClassName: org.postgresql.Driver
