@@ -10,7 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.t1.java.demo.aop.WriteLogException;
+import ru.t1.java.demo.aop.annotation.Metric;
+import ru.t1.java.demo.aop.annotation.WriteLogException;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.model.Transaction;
@@ -33,7 +34,7 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper transactionMapper;
     private final AccountMapper accountMapper;
 
-
+    @Metric
     @Override
     public List<TransactionDto> getAllTransactions(Integer limit, Integer page) {
         Pageable pageable = PageRequest.of(page, limit);
@@ -42,6 +43,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
+    @Metric
     @Override
     public List<TransactionDto> getAllTransactions() {
         return transactionRepository.findAll().stream()
@@ -49,6 +51,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
+    @Metric
     @Override
     @Transactional()
     public TransactionDto createTransaction(TransactionDto dto) {
@@ -57,13 +60,16 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.toDto(savedTransaction);
     }
 
-    @Override
+    @Metric
     @WriteLogException
+    @Override
     public Optional<TransactionDto> getTransactionById(Long id) {
         return transactionRepository.findById(id)
                 .map(transactionMapper::toDto);
     }
 
+    @Metric
+    @WriteLogException
     @Override
     @Transactional()
     public TransactionDto updateTransaction(Long id, TransactionDto dto) {
@@ -77,6 +83,8 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.toDto(updatedTransaction);
     }
 
+    @Metric
+    @WriteLogException
     @Override
     @Transactional()
     public TransactionDto deleteTransactionById(Long id) {
@@ -87,8 +95,8 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionMapper.toDto(transaction);
     }
 
-    @PostConstruct
     @WriteLogException
+    @PostConstruct
     void init() {
         try {
             List<Transaction> transactions = parseJson();

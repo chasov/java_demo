@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.ErrorLogRepository;
 
+import java.util.UUID;
+
 @Aspect
 @Component
 @Slf4j
@@ -21,7 +23,7 @@ public class LogDataSourceError {
     private final ErrorLogRepository errorLogRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @AfterThrowing(pointcut = "@annotation(WriteLogException)", throwing = "ex")
+    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.WriteLogException)", throwing = "ex")
     public void logError(Throwable ex) {
         sendErrorToKafka(ex);
     }
@@ -40,10 +42,14 @@ public class LogDataSourceError {
                     .withPayload(sendingMessage)
                     .setHeader("errorType", "DATA_SOURCE")
                     .build();
-            kafkaTemplate.send(topic, kafkaMessage.toString());
+            kafkaTemplate.send(topic,
+                    UUID.randomUUID().toString(),
+                    kafkaMessage.toString());
         } catch (Exception e) {
             log.error("Failed to send error to Kafka: {}", e.getMessage());
             saveErrorLog(ex);
+        } finally {
+            kafkaTemplate.flush();
         }
     }
 

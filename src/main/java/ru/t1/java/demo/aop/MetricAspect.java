@@ -10,8 +10,10 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.aop.annotation.Metric;
 
 import java.util.Arrays;
+import java.util.UUID;
 
 @Aspect
 @Component
@@ -27,13 +29,13 @@ public class MetricAspect {
         long endTime = System.currentTimeMillis();
         long executionTime = endTime - startTime;
 
-        if(executionTime > metric.time()){
+        if (executionTime > metric.time()) {
             sendMetricToKafka(joinPoint, executionTime);
         }
         return result;
     }
 
-    public void sendMetricToKafka(ProceedingJoinPoint joinPoint, long executionTime){
+    public void sendMetricToKafka(ProceedingJoinPoint joinPoint, long executionTime) {
         String topic = "t1_demo_metrics";
         String methodName = joinPoint.getSignature().getName();
         String methodParams = Arrays.toString(joinPoint.getArgs());
@@ -46,9 +48,13 @@ public class MetricAspect {
                     .withPayload(message)
                     .setHeader("errorType", "METRICS")
                     .build();
-            kafkaTemplate.send(topic, kafkaMessage.toString());
+            kafkaTemplate.send(topic,
+                    UUID.randomUUID().toString(),
+                    kafkaMessage.toString());
         } catch (Exception e) {
             log.error("Failed to send metric to Kafka: {}", e.getMessage());
+        } finally {
+            kafkaTemplate.flush();
         }
     }
 }

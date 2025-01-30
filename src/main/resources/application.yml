@@ -4,7 +4,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/t1_demo"
     username: "postgres"
-    password: "0000"
+    password: "postgres"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
@@ -44,6 +44,7 @@ t1:
   kafka:
     bootstrap:
       server: ${KAFKA_SERVER:localhost:9092}
+      socket-connection-setup-timeout-max-ms: 60000
     consumer:
       group-id: t1-demo
       max.poll.records: 10
@@ -55,6 +56,7 @@ t1:
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions
+      t1_demo_metrics: t1_demo_metrics
     listener:
       poll-timeout: 1000
 

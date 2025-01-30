@@ -1,15 +1,17 @@
 package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.t1.java.demo.aop.WriteLogException;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.service.TransactionService;
 
 import java.util.List;
 
+@Slf4j
 @RestController()
 @RequiredArgsConstructor
 @RequestMapping("/transactions")
@@ -36,7 +38,6 @@ public class TransactionController {
         return ResponseEntity.ok(transactionDtoList);
     }
 
-    @WriteLogException
     @GetMapping("/{id}")
     public ResponseEntity<TransactionDto> getTransaction(@PathVariable Long id) {
         return transactionService.getTransactionById(id)
@@ -44,17 +45,27 @@ public class TransactionController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @WriteLogException
     @PatchMapping("/{id}")
     public ResponseEntity<TransactionDto> updateTransaction(@PathVariable Long id, @RequestBody TransactionDto dto) {
-        TransactionDto updatedTransaction = transactionService.updateTransaction(id, dto);
-        return ResponseEntity.ok(updatedTransaction);
+        TransactionDto updatedTransaction = null;
+        try {
+            updatedTransaction = transactionService.updateTransaction(id, dto);
+            return ResponseEntity.ok(updatedTransaction);
+        } catch (TransactionException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 
-    @WriteLogException
     @DeleteMapping("/{id}")
     public ResponseEntity<TransactionDto> deleteTransaction(@PathVariable Long id) {
-        TransactionDto deletedTransaction = transactionService.deleteTransactionById(id);
-        return ResponseEntity.ok(deletedTransaction);
+        TransactionDto deletedTransaction = null;
+        try {
+            deletedTransaction = transactionService.deleteTransactionById(id);
+            return ResponseEntity.ok(deletedTransaction);
+        } catch (TransactionException e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
     }
 }

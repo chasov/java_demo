@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.dto.ClientDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -13,7 +12,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KafkaClientProducer<T extends ClientDto> {
+public class KafkaClientProducer {
 
     private final KafkaTemplate template;
 
@@ -43,5 +42,4 @@ public class KafkaClientProducer<T extends ClientDto> {
             template.flush();
         }
     }
-
 }
