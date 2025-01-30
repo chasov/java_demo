@@ -104,7 +104,6 @@ public class KafkaConfig <T> {
     }
 
     @Bean
-    @Primary
     public KafkaTemplate<String, T> kafkaClientTemplate(ProducerFactory<String, T> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }
