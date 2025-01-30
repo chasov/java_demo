@@ -103,7 +103,7 @@ public class KafkaConfig <T> {
         return handler;
     }
 
-    @Bean("client")
+    @Bean
     @Primary
     public KafkaTemplate<String, T> kafkaClientTemplate(@Qualifier("producerClientFactory") ProducerFactory<String, T> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
@@ -114,7 +114,7 @@ public class KafkaConfig <T> {
     @ConditionalOnProperty(value = "t1.kafka.producer.enable",
             havingValue = "true",
             matchIfMissing = true)
-    public KafkaClientProducer producerClient(@Qualifier("client") KafkaTemplate<String, T> template) {
+    public KafkaClientProducer producerClient(KafkaTemplate<String, T> template) {
         template.setDefaultTopic(clientT1MetricsTopic);
         // murmur2 - default hash
         return new KafkaClientProducer(template);
