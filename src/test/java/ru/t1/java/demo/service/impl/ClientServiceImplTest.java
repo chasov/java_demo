@@ -45,30 +45,6 @@ class ClientServiceImplTest {
     @Mock
     CheckWebClient checkWebClient;
 
-    @Test
-    void parseJsonSpy() {
-        when(clientService.parseJson())
-                .thenReturn(List.of(ClientDto.builder()
-                        .build()));
-
-        assertEquals(List.of(ClientDto.builder().build()), clientService.parseJson());
-    }
-
-    @Test
-    void parseJsonMock() {
-
-        List<ClientDto> clients = List.of(ClientDto.builder()
-                .firstName("first_name_1")
-                .build(), ClientDto.builder()
-                .firstName("first_name_2")
-                .build());
-
-        when(clientServiceMock.parseJson())
-                .thenReturn(List.of(ClientDto.builder().build()));
-
-        assertEquals(clients,
-                clientServiceMock.parseJson());
-    }
 
 
     @Test

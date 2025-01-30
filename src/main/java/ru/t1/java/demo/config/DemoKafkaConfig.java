@@ -22,6 +22,7 @@ import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.FixedBackOff;
 import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.kafka.MessageDeserializer;
+import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.model.dto.ClientDto;
 
 import java.util.HashMap;
@@ -129,5 +130,30 @@ public class DemoKafkaConfig<T> {
         props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, false);
         return new DefaultKafkaProducerFactory<>(props);
     }
+
+    @Bean("dataSourceErrorLogProducer")
+    public KafkaClientProducer<DataSourceErrorLog> dataSourceErrorLogProducer(
+            @Qualifier("dataSourceErrorLogTemplate") KafkaTemplate<String, DataSourceErrorLog> template) {
+        return new KafkaClientProducer<>(template);
+    }
+
+    @Bean("dataSourceErrorLogTemplate")
+    public KafkaTemplate<String, DataSourceErrorLog> dataSourceErrorLogTemplate(
+            @Qualifier("producerDataSourceErrorLogFactory") ProducerFactory<String, DataSourceErrorLog> producerFactory) {
+        return new KafkaTemplate<>(producerFactory);
+    }
+
+    @Bean("producerDataSourceErrorLogFactory")
+    public ProducerFactory<String, DataSourceErrorLog> producerDataSourceErrorLogFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        props.put(ProducerConfig.RETRIES_CONFIG, 3);
+        props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, 1000);
+        props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, false);
+        return new DefaultKafkaProducerFactory<>(props);
+    }
+
 
 }

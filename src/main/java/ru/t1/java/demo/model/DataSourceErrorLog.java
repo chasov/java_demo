@@ -12,7 +12,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "data_source_error_log")
-public class DataSourceErrorLog {
+public class DataSourceErrorLog extends ClientDto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
