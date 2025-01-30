@@ -6,9 +6,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 import ru.t1.java.demo.util.ClientMapper;
@@ -38,6 +37,16 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
+    public List<Client> registerClients(List<Client> clients) {
+        return List.of();
+    }
+
+    @Override
+    public Client registerClient(Client client) {
+        return null;
+    }
+
+    @Override
 //    @LogExecution
 //    @Track
 //    @HandlingResult
@@ -49,5 +58,10 @@ public class ClientServiceImpl implements ClientService {
         return Arrays.stream(clients)
                 .map(ClientMapper::toEntity)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void clearMiddleName(List<ClientDto> dtos) {
+
     }
 }

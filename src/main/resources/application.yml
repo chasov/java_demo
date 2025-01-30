@@ -1,4 +1,15 @@
 spring:
+  kafka:
+    bootstrap-servers: localhost:9092 # Адрес брокеров Kafka
+    consumer:
+      group-id: my-consumer-group # Группа консьюмеров
+      auto-offset-reset: earliest # Начинать с самого старого сообщения
+      enable-auto-commit: false  # Отключаем авто-коммит, используем вручную
+      properties:
+        isolation.level: read_committed # Читаем только подтвержденные сообщения
+    producer:
+      acks: all # Гарантированная доставка
+      retries: 3 # Число повторных попыток
   application:
     name: t1-java-demo
   datasource:

@@ -8,6 +8,7 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import ru.t1.java.demo.kafka.KafkaClientProducer;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 
@@ -18,12 +19,15 @@ import java.time.LocalDateTime;
 public class LogDataSourceErrorAspect {
 
     private final DataSourceErrorLogRepository errorLogRepository;
+    private final KafkaClientProducer<DataSourceErrorLog> kafkaProducer; // Добавили Kafka Producer
+
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public LogDataSourceErrorAspect(DataSourceErrorLogRepository errorLogRepository) {
+    public LogDataSourceErrorAspect(DataSourceErrorLogRepository errorLogRepository, KafkaClientProducer<DataSourceErrorLog> kafkaProducer) {
         this.errorLogRepository = errorLogRepository;
+        this.kafkaProducer = kafkaProducer;
     }
 
     @Around("@within(org.springframework.web.bind.annotation.RestController) || @annotation(LogDataSourceError)")
@@ -40,6 +44,8 @@ public class LogDataSourceErrorAspect {
             errorLog.setLogTime(LocalDateTime.now());
 
             errorLogRepository.save(errorLog);
+            // Отправляем сообщение в Kafka
+            kafkaProducer.sendTo("error_logs_topic", errorLog);
 
             // Переброс исключения
             throw e;

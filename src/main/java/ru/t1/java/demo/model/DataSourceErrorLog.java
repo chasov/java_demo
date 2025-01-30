@@ -3,6 +3,7 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.t1.java.demo.model.dto.ClientDto;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,7 +12,7 @@ import java.util.UUID;
 @Setter
 @Entity
 @Table(name = "data_source_error_log")
-public class DataSourceErrorLog {
+public class DataSourceErrorLog extends ClientDto {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id", nullable = false, unique = true, updatable = false)
