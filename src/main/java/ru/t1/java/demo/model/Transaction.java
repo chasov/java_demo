@@ -5,6 +5,7 @@ import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,6 +24,9 @@ public class Transaction extends AbstractPersistable<UUID>{
 
     @Column(name = "amount", nullable = false)
     private BigDecimal amount;
+
+    @Column(name = "client_id")
+    private Integer clientId;
 
     @Column(name = "transaction_time", nullable = false)
     private String transactionTime;
