@@ -3,6 +3,7 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.enums.AccountType;
 
 import java.math.BigDecimal;
@@ -26,8 +27,15 @@ public class Account extends AbstractPersistable<Long> {
     @Column(name = "balance")
     private BigDecimal balance;
 
+    @Column(name = "frozen_amount")
+    private BigDecimal frozenAmount;
+
     @Column(name = "account_id")
     private Integer accountId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", length = 20)
+    private AccountState state;
 
     @Override
     public Long getId() {

@@ -1,10 +1,9 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+import ru.t1.java.demo.enums.TransactionState;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -29,6 +28,10 @@ public class Transaction extends AbstractPersistable<Long> {
 
     @Column(name = "transaction_id")
     private Integer transactionId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "state", length = 20)
+    private TransactionState state;
 
     @Override
     public Long getId() {
