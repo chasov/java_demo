@@ -4,15 +4,6 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
-    <changeSet id="init" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
-        <rollback/>
-    </changeSet>
-
-    <changeSet id="update-client" author="ECHasov">
-        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
-        <rollback/>
-    </changeSet>
     <changeSet id="create_account" author="dandy (generated)">
         <createTable tableName="account">
             <column name="id" type="UUID">
@@ -58,5 +49,15 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="1731604049310-6" author="e_cha (generated)">
+        <createTable tableName="client">
+            <column name="client_id" type="UUID"/>
+        </createTable>
+    </changeSet>
+
+    <include file="/db/changelog/2024/10/14-01-changelog.xml"/>
+    <include file="db/changelog/2024/10/22-01-changelog.sql"/>
+    <include file="db/changelog/2024/10/22-02-changelog.sql"/>
+    <include file="db/changelog/30-01-changelog.sql"/>
 
 </databaseChangeLog>
