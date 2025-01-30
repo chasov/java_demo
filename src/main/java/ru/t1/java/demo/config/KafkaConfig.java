@@ -105,7 +105,7 @@ public class KafkaConfig <T> {
 
     @Bean
     @Primary
-    public KafkaTemplate<String, T> kafkaClientTemplate(@Qualifier("producerClientFactory") ProducerFactory<String, T> producerPatFactory) {
+    public KafkaTemplate<String, T> kafkaClientTemplate(ProducerFactory<String, T> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }
 
@@ -120,7 +120,7 @@ public class KafkaConfig <T> {
         return new KafkaClientProducer(template);
     }
 
-    @Bean("producerClientFactory")
+    @Bean
     public ProducerFactory<String, T> producerClientFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
