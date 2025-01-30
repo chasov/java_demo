@@ -46,6 +46,7 @@ public class Account extends AbstractPersistable<Long> {
     public void setId(Long id) {
         super.setId(id);
     }
+
 }
 
 

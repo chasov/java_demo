@@ -1,6 +1,7 @@
 package ru.t1.java.demo.util;
 
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.model.Account;
@@ -34,6 +35,7 @@ public class AccountMapper {
                 .clientId(dto.getClientId())
                 .accountType(AccountType.valueOf(dto.getAccountType().toUpperCase()))
                 .balance(dto.getBalance())
+                .state(AccountState.OPEN)
                 .build();
     }
 
