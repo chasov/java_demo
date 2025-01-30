@@ -20,7 +20,7 @@ public class KafkaTransactionConsumer {
 
     private final TransactionService transactionService;
 
-    @KafkaListener(topics = "${t1.kafka.topic.transactions}", groupId = "transaction-consumer-group",
+    @KafkaListener(topics = "${t1.kafka.topic.transactions}", groupId = "${t1.kafka.consumer.transaction-group-id}",
             containerFactory = "kafkaListenerContainerFactoryTransaction")
     public void transactionListener(@Payload List<TransactionDto> messages,
                                     Acknowledgment ack,

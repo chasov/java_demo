@@ -4,16 +4,21 @@ package ru.t1.java.demo.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.support.KafkaHeaders;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
+import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.util.ClientMapper;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -24,9 +29,14 @@ public class ClientService implements CRUDService<ClientDto> {
 
     private final ClientMapper clientMapper;
 
+    private final KafkaTemplate<String, Object> template;
+
+    private final String MESSAGE_KEY = String.valueOf(UUID.randomUUID());
+
 
     @Override
     @LogDataSourceError
+    @Metric
     public ClientDto getById(Long id) {
         log.info("Client getting by ID: {}", id);
         Client client = clientRepository.findById(id)
@@ -89,5 +99,28 @@ public class ClientService implements CRUDService<ClientDto> {
         );
         clientRepository.deleteById(clientId);
         log.info("Client with ID: {} deleted successfully!", clientId);
+    }
+
+    /** Sending message to Kafka
+     *
+     * @param topic - String topicName
+     * @param object - T dtoObject
+     */
+    public void sendMessage(String topic, Object object) {
+        Map<String, Object> headers = new HashMap<>();
+        headers.put("ClientDto", ClientDto.class);
+        headers.put(KafkaHeaders.TOPIC, topic);
+        headers.put(KafkaHeaders.KEY, MESSAGE_KEY);
+        Message<Object> messageWithHeaders = MessageBuilder
+                .withPayload(object)
+                .copyHeaders(headers)
+                .build();
+        try {
+            template.send(messageWithHeaders);
+        } catch (Exception ex) {
+            log.error("Error sending client message", ex);
+        } finally {
+            template.flush();
+        }
     }
 }

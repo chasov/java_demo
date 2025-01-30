@@ -32,6 +32,9 @@ t1:
       enable-auto-commit: false
       auto-offset-reset: "earliest"
       max-partition-fetch-bytes: 300000
+      transaction-group-id: transaction_consumer_group
+      account-group-id: account_consumer_group
+      client-group-id: client_consumer_group
     producer:
       enable: true
       retries: 3
@@ -44,6 +47,7 @@ t1:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
+      clients: t1_demo_clients
     listener:
       poll-timeout: 1000
   metric:

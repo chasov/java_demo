@@ -43,6 +43,12 @@ public class AccountController {
                 .body(newAccount);
     }
 
+    /**
+     * Method and endpoint to create Account with sending message to Kafka
+     *
+     * @param @RequestBody accountDto
+     * @return ResponseEntity accountDto
+     */
     @PostMapping("/send")
     public ResponseEntity<AccountDto> sendCreateAccountRequest(@RequestBody AccountDto accountDto) {
         accountProducer.send(accountDto);

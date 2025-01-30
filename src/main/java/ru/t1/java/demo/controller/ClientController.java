@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.kafka.producer.KafkaClientProducer;
 import ru.t1.java.demo.service.ClientService;
 
 import java.util.Collection;
@@ -17,6 +19,8 @@ import java.util.Collection;
 public class ClientController {
 
     private final ClientService clientService;
+
+    private final KafkaClientProducer clientProducer;
 
     @GetMapping("/{id}")
     public ResponseEntity<ClientDto> getClient(@PathVariable("id") Long clientId) {
@@ -37,6 +41,19 @@ public class ClientController {
         ClientDto newClient = clientService.create(clientDto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(newClient);
+    }
+
+    /**
+     * Method  and endpoint to create Client with sending message to Kafka
+     *
+     * @param @RequestBody clientDto
+     * @return ResponseEntity clientDto
+     */
+    @PostMapping("/send")
+    public ResponseEntity<ClientDto> sendCreateClientRequest(@RequestBody ClientDto clientDto) {
+        clientProducer.send(clientDto);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(clientDto);
     }
 
     @PutMapping("/{id}")

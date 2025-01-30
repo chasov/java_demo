@@ -7,6 +7,7 @@ import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.DataSourceErrorLogDto;
+import ru.t1.java.demo.exception.SendMessageException;
 import ru.t1.java.demo.kafka.producer.KafkaErrorLogProducer;
 import ru.t1.java.demo.service.DataSourceErrorLogService;
 
@@ -34,7 +35,8 @@ public class LogDataSourceAspect {
                 .build();
         try {
             errorLogProducer.send(errorLogDto);
-            //throw new SendMessageException("----ERRROORR----");
+            // to imitate sending error and check catch clause logic
+            //throw new SendMessageException("----ERROR----");
         } catch (Exception e) {
             log.error("Error sending message", e);
             log.info("Saving exception info");

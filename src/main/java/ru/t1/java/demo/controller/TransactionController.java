@@ -42,6 +42,12 @@ public class TransactionController {
                 .body(newTransaction);
     }
 
+    /**
+     * Method and endpoint to create Transaction with sending message to Kafka
+     *
+     * @param @RequestBody transactionDto
+     * @return ResponseEntity transactionDto
+     */
     @PostMapping("/send")
     public ResponseEntity<TransactionDto> sendTransactionRequest(@RequestBody TransactionDto transactionDto) {
         transactionProducer.send(transactionDto);

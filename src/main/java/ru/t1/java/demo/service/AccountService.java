@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
@@ -121,7 +120,7 @@ public class AccountService implements CRUDService<AccountDto> {
      */
     public void sendMessage(String topic, Object object) {
         Map<String, Object> headers = new HashMap<>();
-        headers.put("AccountDto", TransactionDto.class);
+        headers.put("AccountDto", AccountDto.class);
         headers.put(KafkaHeaders.TOPIC, topic);
         headers.put(KafkaHeaders.KEY, MESSAGE_KEY);
         Message<Object> messageWithHeaders = MessageBuilder

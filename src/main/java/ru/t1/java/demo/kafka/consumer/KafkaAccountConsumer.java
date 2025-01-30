@@ -9,9 +9,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.service.AccountService;
-import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
 
@@ -22,9 +20,7 @@ public class KafkaAccountConsumer {
 
     private final AccountService accountService;
 
-    private final AccountMapper accountMapper;
-
-    @KafkaListener(topics = "${t1.kafka.topic.accounts}", groupId = "account-consumer-group",
+    @KafkaListener(topics = "${t1.kafka.topic.accounts}", groupId = "${t1.kafka.consumer.account-group-id}",
             containerFactory = "kafkaListenerContainerFactoryAccount")
     public void accountListener(@Payload List<AccountDto> messages,
                                 Acknowledgment ack,
@@ -40,7 +36,6 @@ public class KafkaAccountConsumer {
                 accountDto.setAccountType(dto.getAccountType());
                 accountDto.setBalance(dto.getBalance());
                 accountDto.setClientId(dto.getClientId());
-
                 accountService.create(accountDto);
                 log.info("Accounts from topic: {} with key: {} saved successfully",
                         topic, key);

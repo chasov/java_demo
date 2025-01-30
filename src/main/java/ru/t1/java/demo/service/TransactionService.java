@@ -9,6 +9,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
+import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.exception.TransactionException;
@@ -48,6 +49,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
     @Transactional
     @Override
     @LogDataSourceError
+    @Metric
     public TransactionDto create(TransactionDto transactionDto) {
         log.info("Starting new transaction");
         Transaction transaction = transactionMapper.toEntity(transactionDto);

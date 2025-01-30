@@ -45,4 +45,13 @@ public class KafkaConsumerProperties {
 
     @Value("${t1.kafka.consumer.value-serializer}")
     private String valueSerializer;
+
+    @Value("${t1.kafka.consumer.transaction-group-id}")
+    private String transactionGroupId;
+
+    @Value("${t1.kafka.consumer.account-group-id}")
+    private String accountGroupId;
+
+    @Value("${t1.kafka.consumer.client-group-id}")
+    private String clientGroupId;
 }
