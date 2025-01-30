@@ -36,6 +36,18 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             </column>
         </createTable>
     </changeSet>
+    <changeSet id="1727699209233-2" author="e_cha (generated)">
+        <createTable tableName="client">
+            <column name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_client"/>
+            </column>
+            <column name="first_name" type="VARCHAR(255)"/>
+            <column name="last_name" type="VARCHAR(255)"/>
+            <column name="middle_name" type="VARCHAR(255)"/>
+            <column name="client_id" type="bigint"/>
+
+        </createTable>
+    </changeSet>
     <changeSet id="1737020631717-5" author="dandy (generated)">
         <createTable tableName="transaction">
             <column name="id" type="UUID">
@@ -50,13 +62,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="1731604049310-6" author="e_cha (generated)">
-        <createTable tableName="client">
-            <column name="client_id" type="UUID"/>
-        </createTable>
-    </changeSet>
 
-    <include file="/db/changelog/2024/10/14-01-changelog.xml"/>
     <include file="db/changelog/2024/10/22-01-changelog.sql"/>
     <include file="db/changelog/2024/10/22-02-changelog.sql"/>
     <include file="db/changelog/30-01-changelog.sql"/>
