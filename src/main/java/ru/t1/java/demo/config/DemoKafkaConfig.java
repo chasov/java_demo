@@ -104,7 +104,7 @@ public class DemoKafkaConfig<T> {
 
     @Bean("client")
     @Primary
-    public KafkaTemplate<String, T> kafkaClientTemplate(@Qualifier("producerClientFactory") ProducerFactory<String, T> producerPatFactory) {
+    public KafkaTemplate<String, ClientDto> kafkaClientTemplate(@Qualifier("producerClientFactory") ProducerFactory<String, ClientDto> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }
 
@@ -119,7 +119,7 @@ public class DemoKafkaConfig<T> {
     }
 
     @Bean("producerClientFactory")
-    public ProducerFactory<String, T> producerClientFactory() {
+    public ProducerFactory<String, ClientDto> producerClientFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, servers);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);

@@ -19,15 +19,17 @@ import java.time.LocalDateTime;
 public class LogDataSourceErrorAspect {
 
     private final DataSourceErrorLogRepository errorLogRepository;
-    private final KafkaClientProducer<DataSourceErrorLog> kafkaProducer; // Добавили Kafka Producer
+    //private final KafkaClientProducer<DataSourceErrorLog> kafkaProducer; // Добавили Kafka Producer
 
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public LogDataSourceErrorAspect(DataSourceErrorLogRepository errorLogRepository, KafkaClientProducer<DataSourceErrorLog> kafkaProducer) {
+    public LogDataSourceErrorAspect(DataSourceErrorLogRepository errorLogRepository
+                                    //,KafkaClientProducer<DataSourceErrorLog> kafkaProducer
+    ) {
         this.errorLogRepository = errorLogRepository;
-        this.kafkaProducer = kafkaProducer;
+        //this.kafkaProducer = kafkaProducer;
     }
 
     @Around("@within(org.springframework.web.bind.annotation.RestController) || @annotation(LogDataSourceError)")
@@ -45,7 +47,7 @@ public class LogDataSourceErrorAspect {
 
             errorLogRepository.save(errorLog);
             // Отправляем сообщение в Kafka
-            kafkaProducer.sendTo("error_logs_topic", errorLog);
+           // kafkaProducer.sendTo("error_logs_topic", errorLog);
 
             // Переброс исключения
             throw e;

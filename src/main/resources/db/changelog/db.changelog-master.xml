@@ -44,6 +44,7 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             <column name="amount" type="DECIMAL">
                 <constraints nullable="false"/>
             </column>
+            <column name="client_id" type="bigint"/>
             <column name="transaction_time" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>

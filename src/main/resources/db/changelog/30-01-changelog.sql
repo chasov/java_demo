@@ -17,14 +17,6 @@ CREATE TABLE role
     CONSTRAINT pk_role PRIMARY KEY (id)
 );
 
--- changeset e_cha:1727702549313-5
-CREATE TABLE transaction
-(
-    id        BIGINT NOT NULL,
-    amount    DECIMAL(19, 2),
-    client_id BIGINT,
-    CONSTRAINT pk_transaction PRIMARY KEY (id)
-);
 
 -- changeset e_cha:1727702549313-6
 CREATE TABLE user_roles
