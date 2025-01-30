@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.aop.Track;
-import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.service.ClientService;
@@ -22,7 +21,6 @@ public class ClientController {
 
  private final LegacyClientService legacyClientService;
 
-    @LogException
     @Track
     @GetMapping(value = "/client")
     @HandlingResult

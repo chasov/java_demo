@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.dto.ClientDto;
+import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.model.Account;

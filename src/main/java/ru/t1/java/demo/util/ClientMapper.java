@@ -34,7 +34,7 @@ public class ClientMapper {
                 .build();
     }
 
-    public ClientDto toDto(Client entity) {
+    public static ClientDto toDto(Client entity) {
         return ClientDto.builder()
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
