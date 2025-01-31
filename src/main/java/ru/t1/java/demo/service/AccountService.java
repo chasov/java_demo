@@ -15,7 +15,7 @@ public interface AccountService {
 
     List<AccountDto> getAllByClientId(Long clientId);
 
-    AccountDto getById(Long accountId);
+    Account getById(Long accountId);
 
     void deleteById(Long accountId);
 

@@ -10,6 +10,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
+import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
@@ -56,6 +57,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account registerAccount(Account account) {
         AtomicReference<Account> saved = new AtomicReference<>();
+
 
         Message<Account> message = MessageBuilder.withPayload(account)
                 .setHeader(KafkaHeaders.TOPIC, topic)
@@ -105,9 +107,9 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public AccountDto getById(Long accountId) {
-        return AccountMapper.toDto(accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountException("Account not found")));
+    public Account getById(Long accountId) {
+        return accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountException("Account not found"));
     }
 
     @LogDataSourceError

@@ -10,16 +10,22 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
+import ru.t1.java.demo.enums.AccountState;
+import ru.t1.java.demo.enums.TransactionState;
 import ru.t1.java.demo.kafka.KafkaProducer;
+import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.dto.AcceptedTransaction;
 import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
+import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
@@ -32,11 +38,14 @@ import java.util.concurrent.atomic.AtomicReference;
 public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
+
+    private final AccountService accountService;
     private final AccountRepository accountRepository;
 
     private final KafkaProducer kafkaProducer;
 
-    @Value("${t1.kafka.topic.client_transaction}")
+
+    @Value("${t1.kafka.topic.transaction_accept}")
     private String topic;
 
     @LogDataSourceError
@@ -47,9 +56,16 @@ public class TransactionServiceImpl implements TransactionService {
 
         for (Transaction transaction : transactions) {
 
-            transactionRepository.save(transaction);
+            AcceptedTransaction acceptedTransaction = checkTransaction(transaction);
 
-            savedTransactions.add(transaction);
+            if (acceptedTransaction != null) {
+                transactionRepository.save(transaction);
+                savedTransactions.add(transaction);
+
+
+                registerTransaction(topic, checkTransaction(acceptedTransaction));
+            }
+
         }
         return savedTransactions
                 .stream()
@@ -57,9 +73,29 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
+    private AcceptedTransaction checkTransaction(Transaction transaction) {
+        Account account = accountService.getById(transaction.getAccountId());
+        if (account.getState().equals(AccountState.OPEN)) {
+            transaction.setState(TransactionState.REQUESTED);
+            BigDecimal balance = account.getBalance().subtract(transaction.getAmount());
+            account.setBalance(balance);
+
+            AcceptedTransaction acceptedTransaction = AcceptedTransaction.builder()
+                    .clientId(account.getClientId())
+                    .accountId(account.getId())
+                    .transactionId(transaction.getTransactionId())
+                    .timestamp(Timestamp.from(Instant.now()))
+                    .transactionAmount(transaction.getAmount())
+                    .accountBalance(balance)
+                    .build();
+            return acceptedTransaction;
+        }
+        return null;
+    }
+
     @LogDataSourceError
     @Override
-    public Transaction registerTransaction(Transaction transaction) {
+    public Transaction registerTransaction(String topic, Transaction transaction) {
         AtomicReference<Transaction> saved = new AtomicReference<>();
 
         transaction.setTimestamp(Timestamp.from(Instant.now()));
@@ -110,9 +146,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public TransactionDto getById(Long transactionId) {
-        return TransactionMapper.toDto(transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new TransactionException("Transaction not found")));
+    public Transaction getById(Long transactionId) {
+        return transactionRepository.findById(transactionId)
+                .orElseThrow(() -> new TransactionException("Transaction not found"));
     }
 
     @LogDataSourceError

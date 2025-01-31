@@ -9,13 +9,13 @@ import java.util.List;
 public interface TransactionService {
     List<Transaction> registerTransactions(List<Transaction> transactions);
 
-    Transaction registerTransaction(Transaction transaction);
+    Transaction registerTransaction(String topic, Transaction transaction);
 
     TransactionDto patchById(Long transactionId, TransactionDto dto);
 
     List<TransactionDto> getAllAccountById(Long transactionId);
 
-    TransactionDto getById(Long transactionId);
+    Transaction getById(Long transactionId);
 
     void deleteById(Long transactionId);
 

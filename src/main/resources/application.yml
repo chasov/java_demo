@@ -43,6 +43,7 @@ t1:
       client_id_registered: t1_demo_client_registered
       account_registration: t1_demo_accounts
       client_transaction: t1_demo_transactions
+      transaction_accept: t1_demo_transaction_accept
 
     listener:
       poll-timeout: 1000

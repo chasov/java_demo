@@ -2,6 +2,7 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.aop.HandlingResult;
@@ -20,6 +21,8 @@ import java.util.List;
 public class TransactionController {
 
     private final TransactionService transactionService;
+    @Value("${t1.kafka.topic.client_transaction}")
+    String topic;
 
     @LogException
     @Metric(maxExecutionTime = 1)
@@ -27,7 +30,7 @@ public class TransactionController {
     @PostMapping("transaction/register")
     public ResponseEntity<Transaction> register(@RequestBody TransactionDto dto) {
         log.info("Registering transaction: {}", dto);
-        Transaction transaction = transactionService.registerTransaction(TransactionMapper.toEntityWithId(dto));
+        Transaction transaction = transactionService.registerTransaction(topic, TransactionMapper.toEntityWithId(dto));
         return ResponseEntity.ok().body(transaction);
     }
 
@@ -56,7 +59,7 @@ public class TransactionController {
     @HandlingResult
     public TransactionDto getById(@PathVariable Long transactionId) {
 
-        return transactionService.getById(transactionId);
+        return TransactionMapper.toDto(transactionService.getById(transactionId));
     }
 
     @LogException
