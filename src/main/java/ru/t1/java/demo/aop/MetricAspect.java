@@ -10,6 +10,7 @@ import org.aspectj.lang.annotation.Before;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.aop.annotation.Track;
 
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -20,20 +21,20 @@ import java.util.concurrent.atomic.AtomicLong;
 @Order(1)
 public class MetricAspect {
 
-    private static final AtomicLong START_TIME = new AtomicLong();
-
-    @Before("@annotation(ru.t1.java.demo.aop.annotation.Track)")
-    public void logExecTime(JoinPoint joinPoint) throws Throwable {
-        log.info("Старт метода: {}", joinPoint.getSignature().toShortString());
-        START_TIME.addAndGet(System.currentTimeMillis());
-    }
-
-    @After("@annotation(ru.t1.java.demo.aop.annotation.Track)")
-    public void calculateTime(JoinPoint joinPoint) {
-        long afterTime = System.currentTimeMillis();
-        log.info("Время исполнения: {} ms", (afterTime - START_TIME.get()));
-        START_TIME.set(0L);
-    }
+//    private static final AtomicLong START_TIME = new AtomicLong();
+//
+//    @Before("@annotation(ru.t1.java.demo.aop.annotation.Track)")
+//    public void logExecTime(JoinPoint joinPoint) throws Throwable {
+//        log.info("Старт метода: {}", joinPoint.getSignature().toShortString());
+//        START_TIME.addAndGet(System.currentTimeMillis());
+//    }
+//
+//    @After("@annotation(ru.t1.java.demo.aop.annotation.Track)")
+//    public void calculateTime(JoinPoint joinPoint) {
+//        long afterTime = System.currentTimeMillis();
+//        log.info("Время исполнения: {} ms", (afterTime - START_TIME.get()));
+//        START_TIME.set(0L);
+//    }
 
     @Around("@annotation(ru.t1.java.demo.aop.annotation.Track)")
     public Object logExecTime(ProceedingJoinPoint pJoinPoint) throws Throwable {
@@ -41,6 +42,8 @@ public class MetricAspect {
         long beforeTime = System.currentTimeMillis();
         Object result = null;
         try {
+            var o = pJoinPoint.getThis();
+            Track track = o.getClass().getAnnotation(Track.class);
             result = pJoinPoint.proceed();//Important
         } finally {
             long afterTime = System.currentTimeMillis();
@@ -49,5 +52,4 @@ public class MetricAspect {
 
         return result;
     }
-
 }

@@ -2,6 +2,7 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.t1.java.demo.aop.annotation.Track;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
@@ -9,6 +10,7 @@ import ru.t1.java.demo.util.AccountMapper;
 
 @RestController
 @RequiredArgsConstructor
+@Track(timeout = 5000)
 public class AccountController {
     private final AccountService service;
 
