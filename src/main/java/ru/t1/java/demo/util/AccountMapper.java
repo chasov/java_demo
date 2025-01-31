@@ -19,9 +19,12 @@ public class AccountMapper {
 
     public static AccountDto toDto(Account entity) {
         return AccountDto.builder()
+                .accountId(entity.getAccountId())
                 .clientId(entity.getClientId())
                 .accountType(String.valueOf(entity.getAccountType()).toLowerCase())
                 .balance(entity.getBalance())
+                .frozenAmount(entity.getFrozenAmount())
+                .state(String.valueOf(entity.getState()).toLowerCase())
                 .build();
     }
 

@@ -16,10 +16,16 @@ public class AccountDto implements Serializable {
 
     private Long clientId;
 
+    private Integer accountId;
+
     @JsonProperty("accountType")
     private String accountType;
 
     @JsonProperty("balance")
     private BigDecimal balance;
+
+    private BigDecimal frozenAmount;
+
+    private String state;
 
 }

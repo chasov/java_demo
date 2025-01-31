@@ -83,8 +83,8 @@ public class AccountServiceImpl implements AccountService {
     @LogDataSourceError
     @Override
     public AccountDto patchById(Long accountId, AccountDto dto) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountException("Account not found"));
+        Account account = accountRepository.findByAccountId(accountId);
+               // .orElseThrow(() -> new AccountException("Account not found"));
         clientRepository.findById(account.getClientId())
                 .orElseThrow(() -> new ClientException("Client not found"));
 
@@ -107,9 +107,9 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public Account getById(Long accountId) {
-        return accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountException("Account not found"));
+    public Account getByAccountId(Long accountId) {
+        return accountRepository.findByAccountId(accountId);
+            //    .orElseThrow(() -> new AccountException("Account not found"));
     }
 
     @LogDataSourceError

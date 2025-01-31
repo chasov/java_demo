@@ -56,7 +56,7 @@ public class AccountController {
     @HandlingResult
     public AccountDto getById(@PathVariable Long accountId) {
 
-        return AccountMapper.toDto(accountService.getById(accountId));
+        return AccountMapper.toDto(accountService.getByAccountId(accountId));
     }
 
     @LogException

@@ -13,6 +13,8 @@ import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.List;
 
 @RestController
@@ -30,6 +32,7 @@ public class TransactionController {
     @PostMapping("transaction/register")
     public ResponseEntity<Transaction> register(@RequestBody TransactionDto dto) {
         log.info("Registering transaction: {}", dto);
+        dto.setTimestamp(Timestamp.from(Instant.now()));
         Transaction transaction = transactionService.registerTransaction(topic, TransactionMapper.toEntityWithId(dto));
         return ResponseEntity.ok().body(transaction);
     }

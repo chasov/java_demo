@@ -4,12 +4,18 @@ import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.dto.TransactionDto;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface TransactionService {
+
+  //  void setTimestamp(Timestamp timestamp);
+
     List<Transaction> registerTransactions(List<Transaction> transactions);
 
-    Transaction registerTransaction(String topic, Transaction transaction);
+     <T> T registerTransaction(String topic, T transaction);
+
+    //Transaction registerTransaction(String topic, Transaction transaction);
 
     TransactionDto patchById(Long transactionId, TransactionDto dto);
 

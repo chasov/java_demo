@@ -56,14 +56,12 @@ public class TransactionServiceImpl implements TransactionService {
 
         for (Transaction transaction : transactions) {
 
-            AcceptedTransaction acceptedTransaction = checkTransaction(transaction);
+            AcceptedTransaction acceptedTransaction = acceptTransaction(transaction);
 
             if (acceptedTransaction != null) {
                 transactionRepository.save(transaction);
+                registerTransaction(topic, acceptedTransaction);
                 savedTransactions.add(transaction);
-
-
-                registerTransaction(topic, checkTransaction(acceptedTransaction));
             }
 
         }
@@ -73,8 +71,8 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
-    private AcceptedTransaction checkTransaction(Transaction transaction) {
-        Account account = accountService.getById(transaction.getAccountId());
+    private AcceptedTransaction acceptTransaction(Transaction transaction) {
+        Account account = accountService.getByAccountId(transaction.getAccountId());
         if (account.getState().equals(AccountState.OPEN)) {
             transaction.setState(TransactionState.REQUESTED);
             BigDecimal balance = account.getBalance().subtract(transaction.getAmount());
@@ -95,12 +93,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public Transaction registerTransaction(String topic, Transaction transaction) {
-        AtomicReference<Transaction> saved = new AtomicReference<>();
+    public <T> T registerTransaction(String topic, T transaction) {
 
-        transaction.setTimestamp(Timestamp.from(Instant.now()));
+        AtomicReference<T> saved = new AtomicReference<>();
 
-        Message<Transaction> message = MessageBuilder.withPayload(transaction)
+        Message<T> message = MessageBuilder.withPayload(transaction)
                 .setHeader(KafkaHeaders.TOPIC, topic)
                 .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
                 .build();
@@ -120,6 +117,33 @@ public class TransactionServiceImpl implements TransactionService {
         return saved.get();
     }
 
+    //    @LogDataSourceError
+//    @Override
+//    public Transaction registerTransaction(String topic, Transaction transaction) {
+//        AtomicReference<Transaction> saved = new AtomicReference<>();
+//
+//        transaction.setTimestamp(Timestamp.from(Instant.now()));
+//
+//        Message<Transaction> message = MessageBuilder.withPayload(transaction)
+//                .setHeader(KafkaHeaders.TOPIC, topic)
+//                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
+//                .build();
+//
+//        CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
+//        future.thenAccept(sendResult -> {
+//            log.info("Transaction sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
+//            ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
+//            log.info("Message key: {}", record.key());
+//            log.info("Message value: {}", record.value());
+//            saved.set(transaction);
+//        }).exceptionally(ex -> {
+//            log.error("Failed to send transaction: {}", ex.getMessage(), ex);
+//            throw new RuntimeException("Failed to send account", ex);
+//        });
+//        future.join();
+//        return saved.get();
+//    }
+//
     @LogDataSourceError
     @Override
     public TransactionDto patchById(Long transactionId, TransactionDto dto) {
