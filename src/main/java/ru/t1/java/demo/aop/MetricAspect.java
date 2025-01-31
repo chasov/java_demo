@@ -1,53 +1,47 @@
 package ru.t1.java.demo.aop;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.springframework.core.annotation.Order;
-import org.springframework.scheduling.annotation.Async;
+import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.atomic.AtomicLong;
+import java.util.Arrays;
 
-@Async
-@Slf4j
 @Aspect
 @Component
-@Order(1)
+@Slf4j
+@RequiredArgsConstructor
 public class MetricAspect {
 
-    private static final AtomicLong START_TIME = new AtomicLong();
+    @Value("${execution.time.ms.threshold}")
+    private Long executionTimeThreshold;
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @Before("@annotation(ru.t1.java.demo.aop.Track)")
-    public void logExecTime(JoinPoint joinPoint) throws Throwable {
-        log.info("Старт метода: {}", joinPoint.getSignature().toShortString());
-        START_TIME.addAndGet(System.currentTimeMillis());
-    }
+    @Pointcut("@annotation(ru.t1.java.demo.aop.Track)")
+    public void trackPointcut() {}
 
-    @After("@annotation(ru.t1.java.demo.aop.Track)")
-    public void calculateTime(JoinPoint joinPoint) {
-        long afterTime = System.currentTimeMillis();
-        log.info("Время исполнения: {} ms", (afterTime - START_TIME.get()));
-        START_TIME.set(0L);
-    }
-
-    @Around("@annotation(ru.t1.java.demo.aop.Track)")
-    public Object logExecTime(ProceedingJoinPoint pJoinPoint) throws Throwable {
-        log.info("Вызов метода: {}", pJoinPoint.getSignature().toShortString());
-        long beforeTime = System.currentTimeMillis();
+    @Around("trackPointcut()")
+    public Object around(ProceedingJoinPoint joinPoint) {
+        long startTime = System.currentTimeMillis();
         Object result = null;
         try {
-            result = pJoinPoint.proceed();//Important
-        } finally {
-            long afterTime = System.currentTimeMillis();
-            log.info("Время исполнения: {} ms", (afterTime - beforeTime));
+            result = joinPoint.proceed();
+        } catch (Throwable e) {
+            log.error("Exception thrown in method: {} Exception: {}", joinPoint.getSignature(), e.getMessage(), e);
         }
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        log.info("Method executed: {} Time taken: {} ms", joinPoint.getSignature(), elapsedTime);
 
+        if (elapsedTime > executionTimeThreshold) {
+            kafkaTemplate.send("t1_demo_metrics", "METRICS",
+                    String.format("Elapsed time: %d ms. Method name: %s. Parameters: %s",
+                            elapsedTime, joinPoint.getSignature(), Arrays.toString(joinPoint.getArgs())));
+        }
         return result;
     }
-
 }

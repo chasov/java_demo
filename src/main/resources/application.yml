@@ -84,3 +84,7 @@ integration:
   resource: /bsc-wire-mock/api/client/check
   retry-count: 3
   retry-backoff: 1000
+execution:
+  time:
+    ms:
+      threshold: 200
