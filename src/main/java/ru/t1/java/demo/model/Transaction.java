@@ -25,4 +25,7 @@ public class Transaction extends AbstractPersistable<UUID> {
     @Column(name = "transaction_time", nullable = false)
     private String transactionTime;
 
+    public Transaction(BigDecimal amount) {
+        this.amount = amount;
+    }
 }

@@ -2,10 +2,7 @@ package ru.t1.java.demo.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import ru.t1.java.demo.model.enums.AccountType;
 
 import java.io.Serializable;
@@ -16,6 +13,8 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@Getter
+@Setter
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AccountDto implements Serializable {
     UUID id;
@@ -23,4 +22,5 @@ public class AccountDto implements Serializable {
     AccountType accountType;
     @JsonProperty("balance")
     BigDecimal balance;
+
 }

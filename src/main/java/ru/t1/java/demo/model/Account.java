@@ -27,4 +27,8 @@ public class Account  extends AbstractPersistable<UUID> {
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
 
+    public Account(AccountType accountType, BigDecimal balance) {
+        this.accountType = accountType;
+        this.balance = balance;
+    }
 }

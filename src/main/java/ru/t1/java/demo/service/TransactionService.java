@@ -87,4 +87,7 @@ public class TransactionService {
             log.error("Ошибка при сохранении в базу данных", e);
         }
     }
+
+    public void save(List<Transaction> transactions) {
+    }
 }

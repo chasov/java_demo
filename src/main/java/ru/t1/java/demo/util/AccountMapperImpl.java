@@ -7,7 +7,17 @@ import ru.t1.java.demo.model.Account;
 @Component
 public class AccountMapperImpl {
 
-    public Account toEntity(AccountDto accountDto) {
+    static public Account toEntity(AccountDto accountDto) {
+        if (accountDto == null) {
+            return null;
+        }
+
+        return Account.builder()
+                .accountType(accountDto.getAccountType())
+                .balance(accountDto.getBalance())
+                .build();
+    }
+     public Account toEntity2(AccountDto accountDto) {
         if (accountDto == null) {
             return null;
         }

@@ -45,7 +45,7 @@ public class AccountService {
         ObjectMapper mapper = new ObjectMapper();
         AccountDto[] accountDtos = mapper.readValue(new File("src/main/resources/MOCK_DATA_ACCOUNT.json"), AccountDto[].class);
         return Arrays.stream(accountDtos)
-                .map(accountMapper::toEntity)
+                .map(accountMapper::toEntity2)
                 .collect(Collectors.toList());
     }
 
@@ -88,5 +88,8 @@ public class AccountService {
         } catch (DataIntegrityViolationException e) {
             log.error("Ошибка при сохранении аккаунтов в базу данных", e);
         }
+    }
+
+    public void save(List<Account> accounts) {
     }
 }
