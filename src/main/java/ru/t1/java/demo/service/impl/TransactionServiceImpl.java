@@ -12,13 +12,13 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.enums.TransactionState;
-import ru.t1.java.demo.kafka.KafkaProducer;
-import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.dto.AcceptedTransaction;
-import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.exception.TransactionException;
+import ru.t1.java.demo.kafka.KafkaProducer;
+import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.dto.AcceptedTransaction;
+import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.AccountService;
@@ -36,9 +36,7 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-
     private final TransactionRepository transactionRepository;
-
     private final AccountService accountService;
     private final AccountRepository accountRepository;
 
@@ -80,8 +78,8 @@ public class TransactionServiceImpl implements TransactionService {
 
             AcceptedTransaction acceptedTransaction = AcceptedTransaction.builder()
                     .clientId(account.getClientId())
-                    .accountId(account.getId())
-                    .transactionId(transaction.getTransactionId())
+                    .accountId(account.getId().toString())
+                    .transactionId(transaction.getTransactionId().toString())
                     .timestamp(Timestamp.from(Instant.now()))
                     .transactionAmount(transaction.getAmount())
                     .accountBalance(balance)
@@ -117,7 +115,7 @@ public class TransactionServiceImpl implements TransactionService {
         return saved.get();
     }
 
-    //    @LogDataSourceError
+//    @LogDataSourceError
 //    @Override
 //    public Transaction registerTransaction(String topic, Transaction transaction) {
 //        AtomicReference<Transaction> saved = new AtomicReference<>();
@@ -143,10 +141,10 @@ public class TransactionServiceImpl implements TransactionService {
 //        future.join();
 //        return saved.get();
 //    }
-//
+
     @LogDataSourceError
     @Override
-    public TransactionDto patchById(Long transactionId, TransactionDto dto) {
+    public TransactionDto patchById(String transactionId, TransactionDto dto) {
         Transaction transaction = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionException("Transaction not found"));
         accountRepository.findById(transaction.getAccountId())
@@ -159,7 +157,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public List<TransactionDto> getAllAccountById(Long accountId) {
+    public List<TransactionDto> getAllAccountById(String accountId) {
         List<Transaction> transactions = transactionRepository.findAllByAccountId(accountId);
         if (transactions.isEmpty()) return Collections.emptyList();
 
@@ -170,14 +168,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public Transaction getById(Long transactionId) {
+    public Transaction getById(String transactionId) {
         return transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionException("Transaction not found"));
     }
 
     @LogDataSourceError
     @Override
-    public void deleteById(Long transactionId) {
+    public void deleteById(String transactionId) {
         transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionException("Transaction not found"));
 

@@ -7,6 +7,7 @@ import ru.t1.java.demo.enums.TransactionState;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,17 +18,17 @@ import java.sql.Timestamp;
 @Table(name = "transaction")
 public class Transaction extends AbstractPersistable<Long> {
 
+    @Column(name = "transaction_id")
+    private UUID transactionId;
+
     @Column(name = "account_id")
-    Long accountId;
+    String accountId;
 
     @Column(name = "amount")
     BigDecimal amount;
 
     @Column(name = "timestamp")
     Timestamp timestamp;
-
-    @Column(name = "transaction_id")
-    private Integer transactionId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state", length = 20)

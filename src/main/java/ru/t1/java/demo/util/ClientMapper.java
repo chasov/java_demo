@@ -2,8 +2,10 @@ package ru.t1.java.demo.util;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.dto.ClientDto;
+
+import java.util.UUID;
 
 @Component
 @Slf4j
@@ -22,7 +24,7 @@ public class ClientMapper {
 
     public static ClientDto toDto(Client entity) {
         return ClientDto.builder()
-                // .id(entity.getId())
+                .clientId(entity.getClientId().toString())
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .middleName(entity.getMiddleName())
@@ -35,9 +37,8 @@ public class ClientMapper {
 //        if (dto.getMiddleName() == null) {
 //            throw new NullPointerException();
 //        }
-        int randomInt = (int) (Math.random() * 100000000);
         return Client.builder()
-                .clientId(randomInt)
+                .clientId(UUID.randomUUID())
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .middleName(dto.getMiddleName())

@@ -10,13 +10,11 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
-import ru.t1.java.demo.enums.AccountState;
-import ru.t1.java.demo.kafka.KafkaProducer;
-import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.exception.AccountException;
-import ru.t1.java.demo.exception.ClientException;
+import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.AccountService;
@@ -82,21 +80,22 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public AccountDto patchById(Long accountId, AccountDto dto) {
-        Account account = accountRepository.findByAccountId(accountId);
-               // .orElseThrow(() -> new AccountException("Account not found"));
-        clientRepository.findById(account.getClientId())
-                .orElseThrow(() -> new ClientException("Client not found"));
+    public AccountDto patchById(String accountId, AccountDto dto) {
+      //  Account account = accountRepository.findByAccountId(accountId);
+        // .orElseThrow(() -> new AccountException("Account not found"));
+        //clientRepository.findById(account.getClientId())
+        //        .orElseThrow(() -> new ClientException("Client not found"));
 
-        account.setAccountType(AccountType.valueOf(dto.getAccountType().toUpperCase(Locale.ROOT)));
-        account.setBalance(dto.getBalance());
+     //   account.setAccountType(AccountType.valueOf(dto.getAccountType().toUpperCase(Locale.ROOT)));
+      //  account.setBalance(dto.getBalance());
 
-        return AccountMapper.toDto(accountRepository.save(account));
+     //   return AccountMapper.toDto(accountRepository.save(account));
+        return null;
     }
 
     @LogDataSourceError
     @Override
-    public List<AccountDto> getAllByClientId(Long clientId) {
+    public List<AccountDto> getAllByClientId(String clientId) {
         List<Account> accounts = accountRepository.findAllByClientId(clientId);
         if (accounts.isEmpty()) return Collections.emptyList();
 
@@ -107,16 +106,18 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public Account getByAccountId(Long accountId) {
-        return accountRepository.findByAccountId(accountId);
-            //    .orElseThrow(() -> new AccountException("Account not found"));
+    public Account getByAccountId(String accountId) {
+    //    return accountRepository.findByAccountId(accountId);
+        //    .orElseThrow(() -> new AccountException("Account not found"));
+        return null;
     }
 
     @LogDataSourceError
     @Override
-    public void deleteById(Long accountId) {
-        accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountException("Account not found"));
+    public void deleteById(String accountId) {
+//        accountRepository.findById(accountId)
+//                .orElseThrow(() -> new AccountException("Account not found"));
+
         accountRepository.deleteById(accountId);
 
     }

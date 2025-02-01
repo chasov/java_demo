@@ -5,9 +5,10 @@ import ru.t1.java.demo.model.Account;
 
 import java.util.List;
 
-public interface AccountRepository extends JpaRepository<Account, Long> {
+public interface AccountRepository extends JpaRepository<Account, String> {
 
-    List<Account> findAllByClientId(Long clientId);
-    Account findByAccountId(Long accountId);
+    List<Account> findAllByClientId(String clientId);
+
+  //  Account findByAccountId(String accountId);
 
 }

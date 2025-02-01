@@ -41,7 +41,7 @@ public class TransactionController {
     @Metric(maxExecutionTime = 1)
     @PatchMapping("/transaction/{transactionId}")
     @HandlingResult
-    public TransactionDto patchById(@PathVariable Long transactionId,
+    public TransactionDto patchById(@PathVariable String transactionId,
                                     @RequestBody TransactionDto dto) {
 
         return transactionService.patchById(transactionId, dto);
@@ -51,7 +51,7 @@ public class TransactionController {
     @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/transactions/{accountId}")
     @HandlingResult
-    public List<TransactionDto> getAllByAccountId(@PathVariable Long accountId) {
+    public List<TransactionDto> getAllByAccountId(@PathVariable String accountId) {
 
         return transactionService.getAllAccountById(accountId);
     }
@@ -60,7 +60,7 @@ public class TransactionController {
     @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/transaction/{transactionId}")
     @HandlingResult
-    public TransactionDto getById(@PathVariable Long transactionId) {
+    public TransactionDto getById(@PathVariable String transactionId) {
 
         return TransactionMapper.toDto(transactionService.getById(transactionId));
     }
@@ -69,7 +69,7 @@ public class TransactionController {
     @Metric(maxExecutionTime = 1)
     @DeleteMapping("/transaction/{transactionId}")
     @HandlingResult
-    public void deleteById(@PathVariable Long transactionId) {
+    public void deleteById(@PathVariable String transactionId) {
 
         transactionService.deleteById(transactionId);
     }

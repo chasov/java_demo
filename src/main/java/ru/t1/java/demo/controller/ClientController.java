@@ -67,7 +67,7 @@ public class ClientController {
     @Track
     @PatchMapping("client/{clientId}")
     @HandlingResult
-    public ClientDto patchById(@PathVariable Long clientId,
+    public ClientDto patchById(@PathVariable String clientId,
                                @RequestBody ClientDto dto) {
         return clientService.patchById(clientId, dto);
     }
@@ -76,7 +76,7 @@ public class ClientController {
     @Track
     @GetMapping(value = "/client/{clientId}")
     @HandlingResult
-    public ClientDto getById(@PathVariable Long clientId) {
+    public ClientDto getById(@PathVariable String clientId) {
         return clientService.getById(clientId);
     }
 
@@ -84,7 +84,7 @@ public class ClientController {
     @Track
     @DeleteMapping("client/{clientId}")
     @HandlingResult
-    public void deleteById(@PathVariable Long clientId) {
+    public void deleteById(@PathVariable String clientId) {
         clientService.deleteById(clientId);
     }
 }

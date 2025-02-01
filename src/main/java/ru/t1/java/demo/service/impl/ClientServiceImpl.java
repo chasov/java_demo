@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.kafka.KafkaProducer;
-import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.repository.ClientRepository;
@@ -28,9 +27,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @Slf4j
 @RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
-
-    private final ClientRepository repository;
     private final KafkaProducer kafkaProducer;
+    private final ClientRepository clientRepository;
 
     @Value("${t1.kafka.topic.client_registration}")
     private String topic;
@@ -41,7 +39,7 @@ public class ClientServiceImpl implements ClientService {
 
         for (Client client : clients) {
 
-            repository.save(client);
+            clientRepository.save(client);
 
             savedClients.add(client);
 
@@ -106,12 +104,9 @@ public class ClientServiceImpl implements ClientService {
         log.info("Done clearing middle name");
     }
 
-    private final KafkaProducer producer;
-    private final ClientRepository clientRepository;
-
     @LogDataSourceError
     @Override
-    public ClientDto patchById(Long clientId, ClientDto dto) {
+    public ClientDto patchById(String clientId, ClientDto dto) {
         Client client = clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientException("Client not found"));
 
@@ -124,14 +119,14 @@ public class ClientServiceImpl implements ClientService {
 
     @LogDataSourceError
     @Override
-    public ClientDto getById(Long clientId) {
+    public ClientDto getById(String clientId) {
         return ClientMapper.toDto(clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientException("Client not found")));
     }
 
     @LogDataSourceError
     @Override
-    public void deleteById(Long clientId) {
+    public void deleteById(String clientId) {
         clientRepository.findById(clientId)
                 .orElseThrow(() -> new ClientException("Client not found"));
         clientRepository.deleteById(clientId);

@@ -69,4 +69,19 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="drop-fk" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/02/01-02-changelog-14.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="change-column-type" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/02/01-02-changelog-15.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add-new-constraint" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/02/01-02-changelog-16.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

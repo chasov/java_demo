@@ -2,9 +2,12 @@ package ru.t1.java.demo.util;
 
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.enums.AccountState;
-import ru.t1.java.demo.model.dto.AccountDto;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.dto.AccountDto;
+
+import java.util.Locale;
+import java.util.UUID;
 
 @Component
 public class AccountMapper {
@@ -19,10 +22,10 @@ public class AccountMapper {
 
     public static AccountDto toDto(Account entity) {
         return AccountDto.builder()
-                .accountId(entity.getAccountId())
+                .accountId(entity.getAccountId().toString())
                 .clientId(entity.getClientId())
-                .accountType(String.valueOf(entity.getAccountType()).toLowerCase())
                 .balance(entity.getBalance())
+                .accountType(String.valueOf(entity.getAccountType()).toLowerCase())
                 .frozenAmount(entity.getFrozenAmount())
                 .state(String.valueOf(entity.getState()).toLowerCase())
                 .build();
@@ -32,13 +35,13 @@ public class AccountMapper {
 //        if (dto.getMiddleName() == null) {
 //            throw new NullPointerException();
 //        }
-        int randomInt = (int) (Math.random() * 100000000);
+
         return Account.builder()
-                .accountId(randomInt)
+                .accountId(UUID.randomUUID())
                 .clientId(dto.getClientId())
                 .accountType(AccountType.valueOf(dto.getAccountType().toUpperCase()))
                 .balance(dto.getBalance())
-                .state(AccountState.OPEN)
+                .state(AccountState.valueOf(dto.getState().toUpperCase(Locale.ROOT)))
                 .build();
     }
 

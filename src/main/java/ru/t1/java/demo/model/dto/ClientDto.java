@@ -28,4 +28,6 @@ public class ClientDto implements Serializable {
     @JsonProperty("middle_name")
     private String middleName;
 
+    private String clientId;
+
 }

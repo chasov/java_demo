@@ -6,6 +6,6 @@ import ru.t1.java.demo.model.Transaction;
 import java.util.List;
 
 
-public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findAllByAccountId(Long accountId);
+public interface TransactionRepository extends JpaRepository<Transaction, String> {
+    List<Transaction> findAllByAccountId(String accountId);
 }

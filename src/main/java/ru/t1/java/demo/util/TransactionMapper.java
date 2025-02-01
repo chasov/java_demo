@@ -5,6 +5,8 @@ import ru.t1.java.demo.enums.TransactionState;
 import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.model.Transaction;
 
+import java.util.UUID;
+
 @Component
 public class TransactionMapper {
 
@@ -28,10 +30,8 @@ public class TransactionMapper {
 //        if (dto.getMiddleName() == null) {
 //            throw new NullPointerException();
 //        }
-
-        int randomInt = (int) (Math.random() * 100000000);
         return Transaction.builder()
-                .transactionId(randomInt)
+                .transactionId(UUID.randomUUID())
                 .accountId(dto.getAccountId())
                 .amount(dto.getAmount())
                 .timestamp(dto.getTimestamp())

@@ -7,6 +7,7 @@ import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.enums.AccountType;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -17,8 +18,11 @@ import java.math.BigDecimal;
 @Table(name = "account")
 public class Account extends AbstractPersistable<Long> {
 
+    @Column(name = "account_id")
+    private UUID accountId;
+
     @Column(name = "client_id")
-    private Long clientId;
+    private String clientId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type", length = 20)
@@ -29,9 +33,6 @@ public class Account extends AbstractPersistable<Long> {
 
     @Column(name = "frozen_amount")
     private BigDecimal frozenAmount;
-
-    @Column(name = "account_id")
-    private Integer accountId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "state", length = 20)

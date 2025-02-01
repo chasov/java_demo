@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Entity
@@ -28,7 +30,7 @@ public class Client extends AbstractPersistable<Long> {
     //    @Column(name = "blocked_whom")
     //    private String blockedWhom;
     @Column(name = "client_id")
-    private Integer clientId;
+    private UUID clientId;
 
     @Override
     public Long getId() {

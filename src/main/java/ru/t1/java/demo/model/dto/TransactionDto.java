@@ -18,8 +18,11 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto implements Serializable {
 
+    @JsonProperty("transactionId")
+    private String transactionId;
+
     @JsonProperty("accountId")
-    private Long accountId;
+    private String accountId;
 
     @JsonProperty("amount")
     private BigDecimal amount;

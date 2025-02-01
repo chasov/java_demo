@@ -35,7 +35,7 @@ public class AccountController {
     @Metric(maxExecutionTime = 1)
     @PatchMapping("account/{accountId}")
     @HandlingResult
-    public AccountDto patchById(@PathVariable Long accountId,
+    public AccountDto patchById(@PathVariable String accountId,
                                 @RequestBody AccountDto dto) {
 
         return accountService.patchById(accountId, dto);
@@ -45,16 +45,16 @@ public class AccountController {
     @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/accounts/{clientId}")
     @HandlingResult
-    public List<AccountDto> getAllByClientId(@PathVariable Long clientId) {
-
-        return accountService.getAllByClientId(clientId);
+    public List<AccountDto> getAllByClientId(@PathVariable String clientId) {
+        return null;
+        // return accountService.getAllByClientId(clientId);
     }
 
     @LogException
     @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/account/{accountId}")
     @HandlingResult
-    public AccountDto getById(@PathVariable Long accountId) {
+    public AccountDto getById(@PathVariable String accountId) {
 
         return AccountMapper.toDto(accountService.getByAccountId(accountId));
     }
@@ -63,7 +63,7 @@ public class AccountController {
     @Metric(maxExecutionTime = 1)
     @DeleteMapping("account/{accountId}")
     @HandlingResult
-    public void deleteById(@PathVariable Long accountId) {
+    public void deleteById(@PathVariable String accountId) {
 
         accountService.deleteById(accountId);
     }

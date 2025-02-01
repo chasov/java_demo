@@ -1,9 +1,6 @@
 package ru.t1.java.demo.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,11 +16,11 @@ import java.sql.Timestamp;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class AcceptedTransaction {
 
-    private Long clientId;
-    private Long accountId;
-    private Integer transactionId;
-    private Timestamp timestamp;
-    private BigDecimal transactionAmount;
+    private String transactionId;
+    private String clientId;
+    private String accountId;
     private BigDecimal accountBalance;
+    private BigDecimal transactionAmount;
+    private Timestamp timestamp;
 
 }
