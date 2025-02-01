@@ -22,7 +22,7 @@ public class Transaction extends AbstractPersistable<Long> {
     private UUID transactionId;
 
     @Column(name = "account_id")
-    String accountId;
+    UUID accountId;
 
     @Column(name = "amount")
     BigDecimal amount;

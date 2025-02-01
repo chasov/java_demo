@@ -84,4 +84,14 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="change-column-type-to-uuid" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/02/01-02-changelog-17.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="add-new-constraints" author="ACharushkin">
+        <sqlFile encoding="utf8" path="/db/changelog/2025/02/01-02-changelog-18.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

@@ -7,15 +7,13 @@ import java.util.List;
 
 public interface TransactionService {
 
-    //  void setTimestamp(Timestamp timestamp);
-
     List<Transaction> registerTransactions(List<Transaction> transactions);
 
     <T> T registerTransaction(String topic, T transaction);
 
     //Transaction registerTransaction(String topic, Transaction transaction);
 
-    TransactionDto patchById(String transactionId, TransactionDto dto);
+    Transaction patchById(String transactionId, TransactionDto dto);
 
     List<TransactionDto> getAllAccountById(String transactionId);
 

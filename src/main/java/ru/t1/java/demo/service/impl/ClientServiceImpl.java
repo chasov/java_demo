@@ -17,7 +17,6 @@ import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.dto.ClientDto;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
-import ru.t1.java.demo.util.ClientMapper;
 
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -46,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
         }
         return savedClients
                 .stream()
-                .sorted(Comparator.comparing(Client::getId))
+                .sorted(Comparator.comparing(Client::getClientId))
                 .toList();
     }
 
@@ -106,30 +105,29 @@ public class ClientServiceImpl implements ClientService {
 
     @LogDataSourceError
     @Override
-    public ClientDto patchById(String clientId, ClientDto dto) {
-        Client client = clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientException("Client not found"));
-
+    public Client patchById(String clientId, ClientDto dto) {
+        Client client = getById(clientId);
         client.setFirstName(dto.getFirstName());
         client.setLastName(dto.getLastName());
         client.setMiddleName(dto.getMiddleName());
 
-        return ClientMapper.toDto(clientRepository.save(client));
+        return clientRepository.save(client);
     }
 
     @LogDataSourceError
     @Override
-    public ClientDto getById(String clientId) {
-        return ClientMapper.toDto(clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientException("Client not found")));
+    public Client getById(String clientId) {
+        UUID uuid = UUID.fromString(clientId);
+        Optional <Client> clientOptional = Optional.ofNullable(clientRepository.findByClientId(uuid));
+        if (clientOptional.isEmpty()) throw new ClientException("Client not found");
+        return clientOptional.get();
     }
 
     @LogDataSourceError
     @Override
     public void deleteById(String clientId) {
-        clientRepository.findById(clientId)
-                .orElseThrow(() -> new ClientException("Client not found"));
-        clientRepository.deleteById(clientId);
+        getById(clientId);
+        clientRepository.deleteByClientId(UUID.fromString(clientId));
     }
 
 }

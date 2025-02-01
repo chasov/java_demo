@@ -28,19 +28,19 @@ public class KafkaTransactionConsumer {
                                 Acknowledgment ack,
                                 @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                                 @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-        log.debug("Client consumer: Обработка новых сообщений");
+        log.debug("Transaction consumer: Обработка новых сообщений");
 
         System.out.println(messageList);
         try {
             log.error("Topic: " + topic);
             log.error("Key: " + key);
             messageList.stream()
-                    .forEach(System.err::println);
+                    .forEach(System.out::println);
 
             transactionService.registerTransactions(messageList);
         } finally {
             ack.acknowledge();
         }
-        log.debug("Client consumer: записи обработаны");
+        log.debug("Transaction consumer: записи обработаны");
     }
 }

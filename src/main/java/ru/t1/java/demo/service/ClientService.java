@@ -14,9 +14,9 @@ public interface ClientService {
 
     void clearMiddleName(List<ClientDto> dtos);
 
-    ClientDto patchById(String clientId, ClientDto dto);
+    Client patchById(String clientId, ClientDto dto);
 
-    ClientDto getById(String clientId);
+    Client getById(String clientId);
 
     void deleteById(String clientId);
 

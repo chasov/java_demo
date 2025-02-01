@@ -11,7 +11,7 @@ public interface AccountService {
 
     Account registerAccount(Account account);
 
-    AccountDto patchById(String accountId, AccountDto dto);
+    Account patchById(String accountId, AccountDto dto);
 
     List<AccountDto> getAllByClientId(String clientId);
 

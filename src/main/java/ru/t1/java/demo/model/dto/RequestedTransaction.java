@@ -8,17 +8,18 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AcceptedTransaction {
+public class RequestedTransaction {
 
-    private String transactionId;
-    private String clientId;
-    private String accountId;
+    private UUID transactionId;
+    private UUID clientId;
+    private UUID accountId;
     private BigDecimal accountBalance;
     private BigDecimal transactionAmount;
     private Timestamp timestamp;

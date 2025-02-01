@@ -34,7 +34,7 @@ public class KafkaClientConsumer {
             log.error("Topic: " + topic);
             log.error("Key: " + key);
             messageList.stream()
-                    .forEach(System.err::println);
+                    .forEach(System.out::println);
             List<Client> clients = messageList.stream()
                     .peek(dto -> dto.setFirstName(key + "@" + dto.getFirstName()))
                     .toList();

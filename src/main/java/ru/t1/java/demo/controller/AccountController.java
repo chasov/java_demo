@@ -38,7 +38,7 @@ public class AccountController {
     public AccountDto patchById(@PathVariable String accountId,
                                 @RequestBody AccountDto dto) {
 
-        return accountService.patchById(accountId, dto);
+        return AccountMapper.toDto(accountService.patchById(accountId, dto));
     }
 
     @LogException
@@ -46,8 +46,7 @@ public class AccountController {
     @GetMapping(value = "/accounts/{clientId}")
     @HandlingResult
     public List<AccountDto> getAllByClientId(@PathVariable String clientId) {
-        return null;
-        // return accountService.getAllByClientId(clientId);
+         return accountService.getAllByClientId(clientId);
     }
 
     @LogException

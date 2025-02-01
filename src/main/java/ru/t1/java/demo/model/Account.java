@@ -22,7 +22,7 @@ public class Account extends AbstractPersistable<Long> {
     private UUID accountId;
 
     @Column(name = "client_id")
-    private String clientId;
+    private UUID clientId;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "account_type", length = 20)

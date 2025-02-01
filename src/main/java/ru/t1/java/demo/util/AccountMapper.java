@@ -14,7 +14,7 @@ public class AccountMapper {
 
     public static Account toEntity(AccountDto dto) {
         return Account.builder()
-                .clientId(dto.getClientId())
+                .clientId(UUID.fromString(dto.getClientId()))
                 .accountType(AccountType.valueOf(dto.getAccountType().toUpperCase()))
                 .balance(dto.getBalance())
                 .build();
@@ -23,7 +23,7 @@ public class AccountMapper {
     public static AccountDto toDto(Account entity) {
         return AccountDto.builder()
                 .accountId(entity.getAccountId().toString())
-                .clientId(entity.getClientId())
+                .clientId(entity.getClientId().toString())
                 .balance(entity.getBalance())
                 .accountType(String.valueOf(entity.getAccountType()).toLowerCase())
                 .frozenAmount(entity.getFrozenAmount())
@@ -38,7 +38,7 @@ public class AccountMapper {
 
         return Account.builder()
                 .accountId(UUID.randomUUID())
-                .clientId(dto.getClientId())
+                .clientId(UUID.fromString(dto.getClientId()))
                 .accountType(AccountType.valueOf(dto.getAccountType().toUpperCase()))
                 .balance(dto.getBalance())
                 .state(AccountState.valueOf(dto.getState().toUpperCase(Locale.ROOT)))

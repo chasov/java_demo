@@ -12,12 +12,11 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.enums.TransactionState;
-import ru.t1.java.demo.exception.AccountException;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.model.dto.AcceptedTransaction;
+import ru.t1.java.demo.model.dto.RequestedTransaction;
 import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
@@ -37,9 +36,8 @@ import java.util.concurrent.atomic.AtomicReference;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
     private final TransactionRepository transactionRepository;
-    private final AccountService accountService;
     private final AccountRepository accountRepository;
-
+    private final AccountService accountService;
     private final KafkaProducer kafkaProducer;
 
 
@@ -54,11 +52,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         for (Transaction transaction : transactions) {
 
-            AcceptedTransaction acceptedTransaction = acceptTransaction(transaction);
+            RequestedTransaction requestedTransaction = requestTransaction(transaction);
 
-            if (acceptedTransaction != null) {
+            if (requestedTransaction != null) {
                 transactionRepository.save(transaction);
-                registerTransaction(topic, acceptedTransaction);
+                registerTransaction(topic, requestedTransaction);
                 savedTransactions.add(transaction);
             }
 
@@ -69,22 +67,24 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
-    private AcceptedTransaction acceptTransaction(Transaction transaction) {
-        Account account = accountService.getByAccountId(transaction.getAccountId());
+    private RequestedTransaction requestTransaction(Transaction transaction) {
+        Account account = accountService.getByAccountId(transaction.getAccountId().toString());
         if (account.getState().equals(AccountState.OPEN)) {
             transaction.setState(TransactionState.REQUESTED);
             BigDecimal balance = account.getBalance().subtract(transaction.getAmount());
             account.setBalance(balance);
 
-            AcceptedTransaction acceptedTransaction = AcceptedTransaction.builder()
+            accountRepository.save(account);
+
+            RequestedTransaction requestedTransaction = RequestedTransaction.builder()
                     .clientId(account.getClientId())
-                    .accountId(account.getId().toString())
-                    .transactionId(transaction.getTransactionId().toString())
+                    .accountId(account.getAccountId())
+                    .transactionId(transaction.getTransactionId())
                     .timestamp(Timestamp.from(Instant.now()))
                     .transactionAmount(transaction.getAmount())
                     .accountBalance(balance)
                     .build();
-            return acceptedTransaction;
+            return requestedTransaction;
         }
         return null;
     }
@@ -115,50 +115,19 @@ public class TransactionServiceImpl implements TransactionService {
         return saved.get();
     }
 
-//    @LogDataSourceError
-//    @Override
-//    public Transaction registerTransaction(String topic, Transaction transaction) {
-//        AtomicReference<Transaction> saved = new AtomicReference<>();
-//
-//        transaction.setTimestamp(Timestamp.from(Instant.now()));
-//
-//        Message<Transaction> message = MessageBuilder.withPayload(transaction)
-//                .setHeader(KafkaHeaders.TOPIC, topic)
-//                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
-//                .build();
-//
-//        CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
-//        future.thenAccept(sendResult -> {
-//            log.info("Transaction sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
-//            ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
-//            log.info("Message key: {}", record.key());
-//            log.info("Message value: {}", record.value());
-//            saved.set(transaction);
-//        }).exceptionally(ex -> {
-//            log.error("Failed to send transaction: {}", ex.getMessage(), ex);
-//            throw new RuntimeException("Failed to send account", ex);
-//        });
-//        future.join();
-//        return saved.get();
-//    }
-
     @LogDataSourceError
     @Override
-    public TransactionDto patchById(String transactionId, TransactionDto dto) {
-        Transaction transaction = transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new TransactionException("Transaction not found"));
-        accountRepository.findById(transaction.getAccountId())
-                .orElseThrow(() -> new AccountException("Account not found"));
-
+    public Transaction patchById(String transactionId, TransactionDto dto) {
+        Transaction transaction = getById(transactionId);
         transaction.setAmount(dto.getAmount());
 
-        return TransactionMapper.toDto(transactionRepository.save(transaction));
+        return transactionRepository.save(transaction);
     }
 
     @LogDataSourceError
     @Override
     public List<TransactionDto> getAllAccountById(String accountId) {
-        List<Transaction> transactions = transactionRepository.findAllByAccountId(accountId);
+        List<Transaction> transactions = transactionRepository.findAllByAccountId(UUID.fromString(accountId));
         if (transactions.isEmpty()) return Collections.emptyList();
 
         return transactions.stream()
@@ -169,17 +138,17 @@ public class TransactionServiceImpl implements TransactionService {
     @LogDataSourceError
     @Override
     public Transaction getById(String transactionId) {
-        return transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new TransactionException("Transaction not found"));
+        UUID uuid = UUID.fromString(transactionId);
+        Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findByTransactionId(uuid));
+        if (transactionOptional.isEmpty()) throw new TransactionException("Transaction not found");
+        return transactionOptional.get();
     }
 
     @LogDataSourceError
     @Override
     public void deleteById(String transactionId) {
-        transactionRepository.findById(transactionId)
-                .orElseThrow(() -> new TransactionException("Transaction not found"));
-
-        transactionRepository.deleteById(transactionId);
+        getById(transactionId);
+        transactionRepository.deleteByTransactionId(UUID.fromString(transactionId));
     }
 
 }

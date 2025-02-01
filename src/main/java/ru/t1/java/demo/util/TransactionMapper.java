@@ -12,7 +12,7 @@ public class TransactionMapper {
 
     public static Transaction toEntity(TransactionDto dto) {
         return Transaction.builder()
-                .accountId(dto.getAccountId())
+                .accountId(UUID.fromString(dto.getAccountId()))
                 .amount(dto.getAmount())
                 .timestamp(dto.getTimestamp())
                 .build();
@@ -20,7 +20,7 @@ public class TransactionMapper {
 
     public static TransactionDto toDto(Transaction entity) {
         return TransactionDto.builder()
-                .accountId(entity.getAccountId())
+                .accountId(entity.getAccountId().toString())
                 .amount(entity.getAmount())
                 .timestamp(entity.getTimestamp())
                 .build();
@@ -32,7 +32,7 @@ public class TransactionMapper {
 //        }
         return Transaction.builder()
                 .transactionId(UUID.randomUUID())
-                .accountId(dto.getAccountId())
+                .accountId(UUID.fromString(dto.getAccountId()))
                 .amount(dto.getAmount())
                 .timestamp(dto.getTimestamp())
                 .build();

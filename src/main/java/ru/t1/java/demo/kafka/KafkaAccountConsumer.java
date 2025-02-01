@@ -26,20 +26,20 @@ public class KafkaAccountConsumer {
                                Acknowledgment ack,
                                @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                                @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-        log.debug("Client consumer: Обработка новых сообщений");
+        log.debug("Account consumer: Обработка новых сообщений");
 
         System.out.println(messageList);
         try {
             log.error("Topic: " + topic);
             log.error("Key: " + key);
             messageList.stream()
-                    .forEach(System.err::println);
+                    .forEach(System.out::println);
 
                     accountService.registerAccounts(messageList);
         } finally {
             ack.acknowledge();
         }
 
-        log.debug("Client consumer: записи обработаны");
+        log.debug("Account consumer: записи обработаны");
     }
 }

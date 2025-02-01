@@ -44,7 +44,7 @@ public class TransactionController {
     public TransactionDto patchById(@PathVariable String transactionId,
                                     @RequestBody TransactionDto dto) {
 
-        return transactionService.patchById(transactionId, dto);
+        return TransactionMapper.toDto(transactionService.patchById(transactionId, dto));
     }
 
     @LogException

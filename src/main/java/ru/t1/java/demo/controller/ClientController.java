@@ -16,12 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class ClientController {
-
     private final ClientService clientService;
     private final ClientMapper clientMapper;
 
@@ -31,7 +29,6 @@ public class ClientController {
     public void parseSource() {
 
     }
-
 
     @LogException
     @Metric(maxExecutionTime = 1)
@@ -64,29 +61,30 @@ public class ClientController {
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @PatchMapping("client/{clientId}")
     @HandlingResult
-    public ClientDto patchById(@PathVariable String clientId,
+    public ClientDto patchById(@PathVariable String  clientId,
                                @RequestBody ClientDto dto) {
-        return clientService.patchById(clientId, dto);
+        return ClientMapper.toDto(clientService.patchById(clientId, dto));
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @GetMapping(value = "/client/{clientId}")
     @HandlingResult
     public ClientDto getById(@PathVariable String clientId) {
-        return clientService.getById(clientId);
+        return ClientMapper.toDto(clientService.getById(clientId));
     }
 
     @LogException
-    @Track
+    @Metric(maxExecutionTime = 1)
     @DeleteMapping("client/{clientId}")
     @HandlingResult
     public void deleteById(@PathVariable String clientId) {
         clientService.deleteById(clientId);
     }
+
 }
 
 
