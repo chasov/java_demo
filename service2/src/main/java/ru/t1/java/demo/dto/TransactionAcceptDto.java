@@ -1,4 +1,4 @@
-package ru.t1.java.transactionProcessing.model.dto;
+package ru.t1.java.demo.dto;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.Data;

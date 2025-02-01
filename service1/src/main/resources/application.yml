@@ -19,11 +19,13 @@ app:
       group-id:
         accounts: accounts-group
         transactions: transactions-group
+        transaction-results: transaction-results-group
     topics:
       metrics: t1_demo_metrics
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
       transaction-accept: t1_demo_transaction_accept
+      transaction-result: t1_demo_transaction_result
   metrics:
     threshold-ms: 2
 

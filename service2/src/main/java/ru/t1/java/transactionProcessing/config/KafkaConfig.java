@@ -16,8 +16,8 @@ import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.t1.java.transactionProcessing.kafka.KafkaResultProducer;
 import ru.t1.java.transactionProcessing.kafka.MessageDeserializer;
-import ru.t1.java.transactionProcessing.model.dto.TransactionAcceptDto;
-import ru.t1.java.transactionProcessing.model.dto.TransactionResultDto;
+import ru.t1.java.demo.dto.TransactionAcceptDto;
+import ru.t1.java.demo.dto.TransactionResultDto;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,7 +62,7 @@ public class KafkaConfig<T> {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, MessageDeserializer.class);
         props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, TransactionAcceptDto.class.getName());
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.t1.java.transactionProcessing.model.dto");
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.t1.java.demo.dto");
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
 
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, MessageDeserializer.class.getName());

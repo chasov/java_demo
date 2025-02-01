@@ -10,6 +10,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 
@@ -57,6 +58,25 @@ public class KafkaConsumer {
             transactions.forEach(transactionService::processTransaction);
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений из топика транзакций: {}", e.getMessage(), e);
+        } finally {
+            ack.acknowledge();
+        }
+    }
+
+    @KafkaListener(
+            id = "${app.kafka.consumer.group-id.transaction-results}",
+            topics = "${app.kafka.topics.transaction-result}",
+            containerFactory = "accountKafkaListenerContainerFactory"
+    )
+    public void listenTransactionResults(@Payload List<TransactionResultDto> resultDtoList,
+                                         Acknowledgment ack,
+                                         @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                                         @Header(KafkaHeaders.RECEIVED_KEY) String key) {
+        try {
+            log.info("Получено {} записей из топика результатов обработки", resultDtoList.size());
+
+        } catch (Exception e) {
+            log.error("Ошибка обработки сообщений из топика результатов обработки: {}", e.getMessage(), e);
         } finally {
             ack.acknowledge();
         }

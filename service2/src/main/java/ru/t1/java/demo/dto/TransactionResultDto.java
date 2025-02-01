@@ -1,4 +1,4 @@
-package ru.t1.java.transactionProcessing.model.dto;
+package ru.t1.java.demo.dto;
 
 import lombok.Data;
 import ru.t1.java.transactionProcessing.model.entity.TransactionEntity;
