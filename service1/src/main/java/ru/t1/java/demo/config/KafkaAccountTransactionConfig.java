@@ -21,7 +21,6 @@ import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.kafka.MessageDeserializer;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -38,7 +37,7 @@ public class KafkaAccountTransactionConfig {
     private String transactionsGroupId;
 
     @Bean
-    public ConsumerFactory<String, List<AccountDto>> accountConsumerFactory() {
+    public ConsumerFactory<String, AccountDto> accountConsumerFactory() {
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, AccountDto>(
                 getConsumerProps(accountsGroupId, "ru.t1.java.demo.dto.AccountDto"));
                 factory.setKeyDeserializer(new StringDeserializer());
@@ -46,7 +45,7 @@ public class KafkaAccountTransactionConfig {
     }
 
     @Bean
-    public ConsumerFactory<String, List<TransactionDto>> transactionConsumerFactory() {
+    public ConsumerFactory<String, TransactionDto> transactionConsumerFactory() {
         DefaultKafkaConsumerFactory factory = new DefaultKafkaConsumerFactory<String, TransactionDto>(
                 getConsumerProps(transactionsGroupId, "ru.t1.java.demo.dto.TransactionDto"));
         factory.setKeyDeserializer(new StringDeserializer());
@@ -54,14 +53,14 @@ public class KafkaAccountTransactionConfig {
     }
 
     @Bean
-    ConcurrentKafkaListenerContainerFactory<String, List<AccountDto>> accountKafkaListenerContainerFactory(
-            @Qualifier("accountConsumerFactory") ConsumerFactory<String, List<AccountDto>> accountConsumerFactory) {
+    ConcurrentKafkaListenerContainerFactory<String, AccountDto> accountKafkaListenerContainerFactory(
+            @Qualifier("accountConsumerFactory") ConsumerFactory<String, AccountDto> accountConsumerFactory) {
         return buildContainerFactory(accountConsumerFactory);
     }
 
     @Bean
-    ConcurrentKafkaListenerContainerFactory<String, List<TransactionDto>> transactionKafkaListenerContainerFactory(
-            @Qualifier("transactionConsumerFactory") ConsumerFactory<String, List<TransactionDto>> transactionConsumerFactory) {
+    ConcurrentKafkaListenerContainerFactory<String, TransactionDto> transactionKafkaListenerContainerFactory(
+            @Qualifier("transactionConsumerFactory") ConsumerFactory<String, TransactionDto> transactionConsumerFactory) {
         return buildContainerFactory(transactionConsumerFactory);
     }
 

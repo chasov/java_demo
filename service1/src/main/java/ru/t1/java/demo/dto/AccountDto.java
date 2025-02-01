@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.enums.AccountStatus;
 
 import java.math.BigDecimal;
 
@@ -23,4 +24,7 @@ public class AccountDto {
     @JsonProperty("account_type")
     private String accountType;
     private BigDecimal balance;
+    private AccountStatus status;
+    @JsonProperty("frozen_amount")
+    private BigDecimal frozenAmount = BigDecimal.ZERO;
 }
