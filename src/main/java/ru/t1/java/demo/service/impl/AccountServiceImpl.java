@@ -7,9 +7,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
-import ru.t1.java.demo.aop.annotation.LogException;
+import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.service.AccountService;
@@ -41,6 +40,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @Transactional
     @LogDataSourceError
+    @Metric
     public AccountDto createAccount(Account account) {
         return accountMapper.toDto(accountRepository.save(account));
     }
@@ -48,6 +48,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @LogDataSourceError
     @Transactional
+    @Metric
     public void deleteAccount(Long accountId) {
         log.debug("Call method deleteClient with id {}", accountId);
         if (accountId == null){
@@ -58,6 +59,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @LogDataSourceError
+    @Metric
     public AccountDto getAccount(Long accountId) {
         Optional<Account> accountOpt = accountRepository.findById(accountId);
         return accountMapper.toDto(accountOpt.orElseThrow(() ->
@@ -65,6 +67,7 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    @Metric
     public List<AccountDto> getAllAccounts() {
         return accountRepository.findAll()
                 .stream()
@@ -75,6 +78,7 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @LogDataSourceError
     @Transactional
+    @Metric
     public AccountDto updateAccount(Long accountId, AccountDto account) {
         if(accountRepository.findById(accountId).isEmpty()){
             throw new NoSuchElementException(String.format("Account with id = %d not exist", accountId));

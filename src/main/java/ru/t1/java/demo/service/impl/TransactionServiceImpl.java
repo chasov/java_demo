@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
+import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ClientException;
@@ -48,6 +49,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     @LogDataSourceError
+    @Metric
     public TransactionDto createTransaction(Transaction transaction) {
         transaction.setTransactionDate(LocalDateTime.now().toString());
         return transactionMapper.toDto(transactionRepository.save(transaction));
@@ -56,6 +58,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     @LogDataSourceError
+    @Metric
     public void deleteTransaction(Long transactionId) {
         log.debug("Call method deleteClient with id {}", transactionId);
         if (transactionId == null){
@@ -66,6 +69,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @LogDataSourceError
+    @Metric
     public TransactionDto getTransaction(Long transactionId) {
         Optional<Transaction> transactionOpt = transactionRepository.findById(transactionId);
 
@@ -74,6 +78,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
+    @Metric
     public List<TransactionDto> getAllTransactions() {
         return transactionRepository
                 .findAll()
@@ -85,6 +90,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     @LogDataSourceError
+    @Metric
     public TransactionDto updateTransaction(Long id, TransactionDto transaction) {
         if (transactionRepository.findById(id).isEmpty()) {
             throw new NoSuchElementException(String.format("Transaction with id = %d not exist", id));
