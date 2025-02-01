@@ -1,17 +1,19 @@
 package ru.t1.java.demo.account.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.account.dto.AccountDto;
 import ru.t1.java.demo.account.model.Account;
 import ru.t1.java.demo.account.repository.AccountRepository;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class AccountService {
 
     @Autowired
@@ -43,12 +45,28 @@ public class AccountService {
         accountRepository.deleteById(account.getId());
     }
 
-    public void save(List<Account> accounts) {
+    public void save(Collection<Account> accounts) {
         Objects.requireNonNull(accounts, "The accounts list must not be null");
-        List<Account> nonNullAccounts = accounts.stream()
+        Set<Account> nonNullAccounts = accounts.stream()
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         accountRepository.saveAll(nonNullAccounts);
+    }
+
+    public Set<Account> dtoToAccount(Collection<AccountDto> accountDtos) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Set<Account> accounts = new HashSet<>();
+        accountDtos.forEach(accountDto -> {
+            try {
+                String json = objectMapper.writeValueAsString(accountDto);
+                Account account = objectMapper.readValue(json, Account.class);
+                accounts.add(account);
+            } catch (Exception e) {
+                log.error("Failed to convert transactionDto", e);
+                e.printStackTrace();
+            }
+        });
+        return accounts;
     }
 
 }

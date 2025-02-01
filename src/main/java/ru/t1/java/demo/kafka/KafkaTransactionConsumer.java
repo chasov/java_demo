@@ -13,8 +13,8 @@ import ru.t1.java.demo.transaction.dto.TransactionDto;
 import ru.t1.java.demo.transaction.model.Transaction;
 import ru.t1.java.demo.transaction.service.TransactionService;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 
 
 @Slf4j
@@ -26,21 +26,30 @@ public class KafkaTransactionConsumer {
     private TransactionService transactionService;
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction}", topics = "t1_demo_transactions", containerFactory = "kafkaListenerContainerFactory")
-    public void listener(@Payload List<TransactionDto> transactionDtos,
+    public void listener(@Payload Collection<TransactionDto> transactionDtos,
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.info("TransactionDtos: Обработка новых сообщений");
         try {
-            log.info("Topic: " + topic);
-            log.info("Key: " + key);
-            List<Transaction> transactions = new ArrayList<>();
-            transactionDtos.forEach(transactionDto -> {
-                transactions.add(new Transaction(transactionDto.getAmount()));
-            });
-            transactionService.save(transactions);
+            log.info("Topic: " + topic + ", Key: " + key);
+            Set<Transaction> transactions = transactionService.dtoToTransaction(transactionDtos);
+            try{
+                if(!transactions.isEmpty()){
+                   transactionService.processAndSendTransactionAccept(transactions);
+                }
+                log.info("Transactions complete send t1_demo_transaction_accept");
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
             log.info("Transactions saved to database");
-        } finally {
+        }
+        catch (Exception e){
+            log.error("Failed to send topic t1_demo_transactions " + e.getMessage());
+            e.printStackTrace();
+        }
+        finally {
             ack.acknowledge();
         }
         log.info("TransactionDtos: записи обработаны");

@@ -14,8 +14,8 @@ import ru.t1.java.demo.account.dto.AccountDto;
 import ru.t1.java.demo.account.model.Account;
 import ru.t1.java.demo.account.service.AccountService;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -33,12 +33,8 @@ public class KafkaAccountConsumer {
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.info("AccountDtos: Обработка новых сообщений");
         try {
-            log.info("Topic: " + topic);
-            log.info("Key: " + key);
-            List<Account> accounts = new ArrayList<>();
-            accountDtos.forEach(accountDto -> {
-                accounts.add(new Account(accountDto.getAccountScoreType(), accountDto.getBalance()));
-            });
+            log.info("Topic: " + topic + "Key: " + key);
+            Set<Account> accounts = accountService.dtoToAccount(accountDtos);
             accountService.save(accounts);
             log.info("Accounts saved to database");
         } finally {

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.t1.java.demo.account.enums.AccountScoreType;
+import ru.t1.java.demo.account.enums.AccountStatus;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -24,11 +25,17 @@ public class Account {
 
     private AccountScoreType accountScoreType;
 
+    private AccountStatus accountStatus;
+
+    private BigDecimal frozenAmount;
+
     @Column(name = "balance", nullable = false)
     private BigDecimal balance;
 
-    public Account(AccountScoreType accountScoreType, BigDecimal balance) {
+    public Account(AccountScoreType accountScoreType, BigDecimal balance, AccountStatus accountStatus, BigDecimal frozenAmount) {
         this.accountScoreType = accountScoreType;
         this.balance = balance;
+        this.accountStatus = accountStatus;
+        this.frozenAmount = frozenAmount;
     }
 }

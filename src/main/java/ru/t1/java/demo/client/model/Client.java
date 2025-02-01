@@ -2,7 +2,6 @@ package ru.t1.java.demo.client.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.data.jpa.domain.AbstractPersistable;
 import ru.t1.java.demo.account.model.Account;
 import ru.t1.java.demo.transaction.model.Transaction;
 
@@ -14,8 +13,11 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "client")
-public class Client extends AbstractPersistable<Long> {
+public class Client {
+
+    @Id
+    @GeneratedValue
+    private UUID id;
 
     @Column(name = "first_name")
     private String firstName;

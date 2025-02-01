@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.t1.java.demo.transaction.enums.TransactionStatus;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -32,9 +33,17 @@ public class Transaction {
     @Column(name = "transactionTime", nullable = false, updatable = false)
     private Timestamp transactionTime;
 
+    private TransactionStatus transactionStatus;
 
-    public Transaction(BigDecimal amount) {
+    private UUID accountUuid;
+
+    public Transaction(BigDecimal amount, TransactionStatus transactionStatus, UUID accountUuid) {
         this.amount = amount;
         this.transactionTime = new Timestamp(new Date().getTime());
+        this.transactionStatus = transactionStatus;
+    }
+
+    public void setTransactionStatus(TransactionStatus transactionStatus) {
+        this.transactionStatus = transactionStatus;
     }
 }

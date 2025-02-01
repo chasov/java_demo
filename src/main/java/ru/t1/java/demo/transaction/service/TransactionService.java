@@ -1,21 +1,41 @@
 package ru.t1.java.demo.transaction.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import ru.t1.java.demo.account.enums.AccountStatus;
+import ru.t1.java.demo.account.model.Account;
+import ru.t1.java.demo.account.repository.AccountRepository;
+import ru.t1.java.demo.transaction.dto.TransactionDto;
+import ru.t1.java.demo.transaction.enums.TransactionStatus;
 import ru.t1.java.demo.transaction.model.Transaction;
+import ru.t1.java.demo.transaction.model.TransactionAccept;
+import ru.t1.java.demo.transaction.model.TransactionResult;
 import ru.t1.java.demo.transaction.repository.TransactionRepository;
 
 import java.math.BigDecimal;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 public class TransactionService {
 
     @Autowired
     private TransactionRepository transactionRepository;
+
+    @Autowired
+    private KafkaTemplate<String, TransactionAccept> kafkaTemplate;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     public Transaction createTransaction(Transaction transaction) {
         if (transaction.getAmount() == null || transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {
@@ -35,12 +55,51 @@ public class TransactionService {
         transactionRepository.deleteById(transaction.getId());
     }
 
-    public void save(List<Transaction> accounts) {
-        Objects.requireNonNull(accounts, "The transaction list must not be null");
-
-        List<Transaction> nonNullAccounts = accounts.stream()
+    public void save(Collection<Transaction> transactions) {
+        Objects.requireNonNull(transactions, "The transaction list must not be null");
+        Set<Transaction> nonNullAccounts = transactions.stream()
                 .filter(Objects::nonNull)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
         transactionRepository.saveAll(nonNullAccounts);
+    }
+
+    @Transactional
+    public void processAndSendTransactionAccept(Collection<Transaction> transaction) {
+        transaction.forEach(this::sendTransaction);
+    }
+
+    private void sendTransaction(Transaction transaction) {
+        Optional<Account> accountOptional = accountRepository.findById(transaction.getId());
+        if(accountOptional.isEmpty()) {
+            throw new RuntimeException("Transaction with uuid: " + transaction.getId() + " not found");
+        }
+        Account account = accountOptional.get();
+        if(account.getAccountStatus() != null && account.getAccountStatus().equals(AccountStatus.OPEN) && transaction.getAmount().compareTo(BigDecimal.ZERO) <= 0) {
+            transaction.setTransactionStatus(TransactionStatus.REQUESTED);
+            save(Collections.singleton(transaction));
+            account.setBalance(transaction.getAmount());
+            accountRepository.save(account);
+            kafkaTemplate.send("t1_demo_transaction_accept", new TransactionAccept(transaction, account));
+        }
+        else{
+            log.error("Error to send transaction:: " + transaction.getId());
+            throw new RuntimeException("Error to send transaction::" + transaction.getId());
+        }
+    }
+
+    public Set<Transaction> dtoToTransaction(Collection<TransactionDto> transactionDtos) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Set<Transaction> transactions = new HashSet<>();
+        transactionDtos.forEach(transactionDto -> {
+            try {
+                String json = objectMapper.writeValueAsString(transactionDto);
+                Transaction transaction = objectMapper.readValue(json, Transaction.class);
+                transactions.add(transaction);
+            } catch (Exception e) {
+                log.error("Failed to convert transactionDto", e);
+                e.printStackTrace();
+            }
+        });
+        return transactions;
     }
 }

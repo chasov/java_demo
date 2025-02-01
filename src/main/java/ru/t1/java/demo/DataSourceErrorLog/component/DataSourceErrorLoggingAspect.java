@@ -15,6 +15,8 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.DataSourceErrorLog.DataSourceErrorLogRepository;
 import ru.t1.java.demo.DataSourceErrorLog.model.DataSourceErrorLog;
 
+import java.util.UUID;
+
 @Aspect
 @Component
 @Slf4j
@@ -24,7 +26,7 @@ public class DataSourceErrorLoggingAspect<T> {
     private DataSourceErrorLogRepository dataSourceErrorLogRepository;
 
     @Autowired
-    private KafkaTemplate<String, T> kafkaTemplate;
+    private KafkaTemplate<String, Message<String>> kafkaTemplate;
 
     @Pointcut("within(ru.t1.java.demo..*)")
     public void logDataSourceErrorPointcut() {
@@ -39,7 +41,7 @@ public class DataSourceErrorLoggingAspect<T> {
                 .setHeader("errorType", "DATA_SOURCE")
                 .build();
         try {
-            kafkaTemplate.send(message);
+            kafkaTemplate.send(UUID.randomUUID().toString(), message);
             log.info("Успешная отправка ошибки в топик:: t1_demo_metrics");
         } catch (Exception e) {
             String stackTrace = getStackTraceAsString(ex);
