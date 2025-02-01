@@ -19,12 +19,12 @@ import java.sql.Timestamp;
 public class Transaction extends AbstractPersistable<Long> {
 
     @Column(name = "account_id")
-    Long accountId;
+    private Long accountId;
 
     @Column(name = "amount")
-    BigDecimal amount;
+    private BigDecimal amount;
 
     @Column(name = "timestamp")
-    Timestamp timestamp;
+    private Timestamp timestamp;
 
 }
