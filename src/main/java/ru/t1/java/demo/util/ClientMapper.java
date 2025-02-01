@@ -12,6 +12,7 @@ public class ClientMapper {
                 .firstName(dto.getFirstName())
                 .lastName(dto.getLastName())
                 .middleName(dto.getMiddleName())
+                .clientId(dto.getClientId())
                 .build();
     }
 
@@ -21,6 +22,7 @@ public class ClientMapper {
                 .firstName(entity.getFirstName())
                 .lastName(entity.getLastName())
                 .middleName(entity.getMiddleName())
+                .clientId(entity.getClientId())
                 .build();
     }
 }

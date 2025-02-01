@@ -21,4 +21,7 @@ public class AccountDto implements Serializable {
     private Long clientId;
     private String accountType;
     private BigDecimal balance;
+    private String status;
+    private String accountId;
+    private BigDecimal frozenAmount;
 }

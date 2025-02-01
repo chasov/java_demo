@@ -6,6 +6,7 @@ import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.repository.ClientRepository;
 
@@ -24,6 +25,9 @@ public class AccountMapper {
                 .client(client)
                 .accountType(AccountType.valueOf(accountDto.getAccountType()))
                 .balance(accountDto.getBalance())
+                .status(AccountStatus.valueOf(accountDto.getStatus()))
+                .accountId(accountDto.getAccountId())
+                .frozenAmount(accountDto.getFrozenAmount())
                 .build();
     }
 
@@ -33,6 +37,9 @@ public class AccountMapper {
                 .clientId(account.getClient().getId())
                 .accountType(account.getAccountType().toString())
                 .balance(account.getBalance())
+                .status(account.getStatus().toString())
+                .accountId(account.getAccountId())
+                .frozenAmount(account.getFrozenAmount())
                 .build();
     }
 }

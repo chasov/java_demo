@@ -6,6 +6,7 @@ import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 
 @Component
@@ -27,6 +28,9 @@ public class TransactionMapper {
                 .accountTo(accountTo)
                 .amount(transactionDto.getAmount())
                 .completedAt(transactionDto.getCompletedAt())
+                .updatedAt(transactionDto.getUpdatedAt())
+                .status(TransactionStatus.valueOf(transactionDto.getStatus()))
+                .transactionId(transactionDto.getTransactionId())
                 .build();
     }
 
@@ -37,6 +41,9 @@ public class TransactionMapper {
                 .accountToId(transaction.getAccountTo().getId())
                 .amount(transaction.getAmount())
                 .completedAt(transaction.getCompletedAt())
+                .updatedAt(transaction.getUpdatedAt())
+                .status(transaction.getStatus().toString())
+                .transactionId(transaction.getTransactionId())
                 .build();
     }
 }

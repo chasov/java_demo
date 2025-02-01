@@ -2,6 +2,12 @@ databaseChangeLog:
   - include:
       file: db/changelog/changeset/18-01-2025-creating-tables-01.sql
   - include:
-      file: db/changelog/changeset/18-01-2025-insert-data-to-clients-02.sql
+      file: db/changelog/changeset/31-01-2025-changing-clients-table-02.sql
   - include:
-      file: db/changelog/changeset/18-01-2025-insert-data-to-accounts-03.sql
+      file: db/changelog/changeset/31-01-2025-changing-accounts-table-03.sql
+  - include:
+      file: db/changelog/changeset/31-01-2025-changing-transactions-table-04.sql
+  - include:
+      file: db/changelog/changeset/31-02-2025-insert-data-to-clients-05.sql
+  - include:
+      file: db/changelog/changeset/31-02-2025-insert-data-to-accounts-06.sql

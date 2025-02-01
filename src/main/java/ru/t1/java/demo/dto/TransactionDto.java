@@ -23,4 +23,7 @@ public class TransactionDto implements Serializable {
     private Long accountToId;
     private BigDecimal amount;
     private LocalDateTime completedAt;
+    private LocalDateTime updatedAt;
+    private String status;
+    private String transactionId;
 }
