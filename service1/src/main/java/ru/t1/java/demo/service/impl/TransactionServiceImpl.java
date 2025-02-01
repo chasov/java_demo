@@ -13,12 +13,14 @@ import ru.t1.java.demo.model.entity.Account;
 import ru.t1.java.demo.model.entity.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.TransactionMapper;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -79,7 +81,7 @@ public class TransactionServiceImpl implements TransactionService {
         Transaction transaction = transactionMapper.toEntity(transactionDto);
         transactionRepository.save(transaction);
 
-        account.setBalance( account.getAccountType() == AccountType.CREDIT
+        account.setBalance(account.getAccountType() == AccountType.CREDIT
                 ? account.getBalance().subtract(transactionDto.getAmount())
                 : account.getBalance().add(transactionDto.getAmount()));
         accountRepository.save(account);
@@ -94,5 +96,43 @@ public class TransactionServiceImpl implements TransactionService {
                 account.getBalance()
         );
         kafkaTemplate.send(transactionAcceptTopic, acceptDto);
+    }
+
+    @Override
+    @Transactional
+    public void updateTransactionStatus(UUID transactionId, TransactionStatus status) {
+        Transaction transaction = transactionRepository.findByTransactionId(transactionId)
+                .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
+        transaction.setStatus(status);
+        transactionRepository.save(transaction);
+    }
+
+    @Override
+    @Transactional
+    public void blockTransaction(UUID transactionId) {
+        Transaction transaction = transactionRepository.findByTransactionId(transactionId)
+                .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
+        transaction.setStatus(TransactionStatus.BLOCKED);
+        transactionRepository.save(transaction);
+
+        Account account = transaction.getAccount();
+        account.setStatus(AccountStatus.BLOCKED);
+        account.setFrozenAmount(account.getFrozenAmount().add(transaction.getAmount()));
+        accountRepository.save(account);
+    }
+
+    @Override
+    @Transactional
+    public void rejectTransaction(UUID transactionId) {
+        Transaction transaction = transactionRepository.findByTransactionId(transactionId)
+                .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
+        transaction.setStatus(TransactionStatus.REJECTED);
+        transactionRepository.save(transaction);
+
+        Account account = transaction.getAccount();
+        account.setBalance(account.getAccountType() == AccountType.CREDIT
+                        ? account.getBalance().add(transaction.getAmount())
+                        : account.getBalance().subtract(transaction.getAmount()));
+        accountRepository.save(account);
     }
 }

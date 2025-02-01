@@ -11,6 +11,7 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.dto.TransactionResultDto;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 
@@ -74,6 +75,21 @@ public class KafkaConsumer {
                                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         try {
             log.info("Получено {} записей из топика результатов обработки", resultDtoList.size());
+            resultDtoList.forEach(resultDto -> {
+                switch (resultDto.getStatus()) {
+                    case ACCEPTED:
+                        transactionService.updateTransactionStatus(resultDto.getTransactionId(), TransactionStatus.ACCEPTED);
+                        break;
+                    case BLOCKED:
+                        transactionService.blockTransaction(resultDto.getTransactionId());
+                        break;
+                    case REJECTED:
+                        transactionService.rejectTransaction(resultDto.getTransactionId());
+                        break;
+                    default:
+                        log.warn("Неизвестный статус транзакции: {}", resultDto.getStatus());
+                }
+            });
 
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений из топика результатов обработки: {}", e.getMessage(), e);
