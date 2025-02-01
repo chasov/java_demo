@@ -16,7 +16,7 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KafkaAccountConsumer {
+public class AccountConsumer {
 
     private final AccountService accountService;
 

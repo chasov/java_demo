@@ -9,7 +9,6 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StopWatch;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.kafka.producer.KafkaDataSourceErrorLogProducer;
 import ru.t1.java.demo.model.dto.DataSourceErrorLogDto;
@@ -28,13 +27,16 @@ public class MetricAspect {
     @Around("@annotation(ru.t1.java.demo.aop.annotation.Metric)")
     public Object measureExecutionTime(ProceedingJoinPoint joinPoint, Metric metric) throws Throwable {
         long threshold = metric.threshold();
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start();
 
-        Object result = joinPoint.proceed();
-
-        stopWatch.stop();
-        long elapsedTime = stopWatch.getTotalTimeMillis();
+        long beforeTime = System.currentTimeMillis();
+        Object result = null;
+        try {
+            result = joinPoint.proceed();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+        long afterTime = System.currentTimeMillis();
+        long elapsedTime = afterTime - beforeTime;
 
         if (elapsedTime > threshold) {
             sendMetricsToKafka(joinPoint, elapsedTime);
