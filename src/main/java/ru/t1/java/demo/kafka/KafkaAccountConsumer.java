@@ -33,7 +33,7 @@ public class KafkaAccountConsumer {
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.info("AccountDtos: Обработка новых сообщений");
         try {
-            log.info("Topic: " + topic + "Key: " + key);
+            log.info("Topic: {}, Key: {}", topic, key);
             Set<Account> accounts = accountService.dtoToAccount(accountDtos);
             accountService.save(accounts);
             log.info("Accounts saved to database");

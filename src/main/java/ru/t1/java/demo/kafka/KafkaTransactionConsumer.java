@@ -32,7 +32,7 @@ public class KafkaTransactionConsumer {
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.info("TransactionDtos: Обработка новых сообщений");
         try {
-            log.info("Topic: " + topic + ", Key: " + key);
+            log.info("Topic: {}, Key: {}", topic, key);
             Set<Transaction> transactions = transactionService.dtoToTransaction(transactionDtos);
             try{
                 if(!transactions.isEmpty()){

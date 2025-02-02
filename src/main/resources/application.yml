@@ -31,6 +31,7 @@ t1:
       group-id-account: t1-demo-account
       group-id-transaction: t1-demo-transaction
       group-id-transaction-accepted: t1-demo-transaction-accepted
+      group-id-transactional-result: t1-demo-transactional-result
       max.poll.records: 10
       session-timeout: 10000
       heartbeat.interval: 3000

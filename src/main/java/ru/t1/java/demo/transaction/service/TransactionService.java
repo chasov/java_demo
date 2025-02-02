@@ -23,6 +23,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 @Slf4j
@@ -65,7 +66,10 @@ public class TransactionService {
 
     @Transactional
     public void processAndSendTransactionAccept(Collection<Transaction> transaction) {
-        transaction.forEach(this::sendTransaction);
+        Set<Transaction> transactions =
+                StreamSupport.stream(transactionRepository.findAllById(transaction.stream().map(Transaction::getId).collect(Collectors.toSet())).spliterator(), false)
+                        .collect(Collectors.toSet());
+        transactions.forEach(this::sendTransaction);
     }
 
     private void sendTransaction(Transaction transaction) {
@@ -101,5 +105,45 @@ public class TransactionService {
             }
         });
         return transactions;
+    }
+
+    @Transactional
+    public void updateTransaction(Collection<TransactionDto> transactionDtos) {
+        Set<Transaction> allTransactions =
+                StreamSupport.stream(
+                        transactionRepository.findAllById(dtoToTransaction(transactionDtos).stream().map(Transaction::getId).collect(Collectors.toSet())).spliterator(), false).collect(Collectors.toSet());
+        transactionDtos.forEach(transactionDto -> {
+            allTransactions.forEach(transaction -> {
+                if(transactionDto.getTransactionalUuid().equals(transaction.getId())){
+                    switch (transactionDto.getStatus()){
+                        case ACCEPTED:
+                            transaction.setTransactionStatus(TransactionStatus.ACCEPTED);
+                            break;
+                        case BLOCKED:
+                            transaction.setTransactionStatus(TransactionStatus.BLOCKED);
+                            Optional<Account> accountOptBlocked = accountRepository.findById(transaction.getAccountUuid());
+                            if (accountOptBlocked.isPresent()) {
+                                Account account = accountOptBlocked.get();
+                                BigDecimal frozenAmount = account.getFrozenAmount();
+                                account.setFrozenAmount(frozenAmount.add(transaction.getAmount()));
+                                account.setAccountStatus(AccountStatus.BLOCKED);
+                                accountRepository.save(account);
+                            }
+                            break;
+                        case REJECTED:
+                            transaction.setTransactionStatus(TransactionStatus.REJECTED);
+                            Optional<Account> accountOptRejected  = accountRepository.findById(transaction.getAccountUuid());
+                            if (accountOptRejected.isPresent()) {
+                                Account account = accountOptRejected.get();
+                                account.setBalance(account.getBalance().subtract(transaction.getAmount()));
+                                accountRepository.save(account);
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            });
+        });
     }
 }
