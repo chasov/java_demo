@@ -29,7 +29,7 @@ public class TransactionMapper {
                 .amount(transactionDto.getAmount())
                 .completedAt(transactionDto.getCompletedAt())
                 .updatedAt(transactionDto.getUpdatedAt())
-                .status(TransactionStatus.valueOf(transactionDto.getStatus()))
+                //.status(TransactionStatus.valueOf(transactionDto.getStatus()))
                 .transactionId(transactionDto.getTransactionId())
                 .build();
     }

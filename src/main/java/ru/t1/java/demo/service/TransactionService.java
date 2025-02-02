@@ -10,11 +10,16 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
+import ru.t1.java.demo.dto.AcceptedTransactionDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
+import ru.t1.java.demo.exception.SendMessageException;
 import ru.t1.java.demo.exception.TransactionException;
+import ru.t1.java.demo.kafka.producer.KafkaTransactionProducer;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.util.TransactionMapper;
@@ -22,6 +27,7 @@ import ru.t1.java.demo.util.TransactionMapper;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,6 +68,17 @@ public class TransactionService implements CRUDService<TransactionDto> {
                         transaction.getAccountTo().getId() + " is not exists")
         );
 
+        System.out.println(accountFrom.getStatus());
+        System.out.println(accountTo.getStatus());
+        System.out.println("---------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@@___________________");
+        if (accountFrom.getStatus() != (AccountStatus.OPEN) || accountTo.getStatus() != (AccountStatus.OPEN)) {
+            log.warn("Transfer between {} and {} accounts are not allowed, because their status is:" +
+                            "{} and {}",
+                    accountFrom.getId(), accountTo.getId(),
+                    accountFrom.getStatus(), accountTo.getStatus());
+            throw new TransactionException("Transfers between pointed accounts are not allowed");
+        }
+
         if (accountFrom.getBalance().longValue() < transaction.getAmount().longValue()) {
             log.warn("There are insufficient funds in the account with ID " + accountFrom.getId());
             throw new TransactionException(
@@ -76,10 +93,23 @@ public class TransactionService implements CRUDService<TransactionDto> {
         transaction.setAccountFrom(accountFrom);
         transaction.setAccountTo(accountTo);
         transaction.setCompletedAt(LocalDateTime.now());
+        transaction.setStatus(TransactionStatus.REQUESTED);
+        transaction.setTransactionId(generateTransactionId());
 
         log.info("Transaction between {} and {} account completed successfully",
                 accountFrom.getId(), accountTo.getId());
 
+        AcceptedTransactionDto acceptedTransactionDto = AcceptedTransactionDto.builder()
+                .clientId(transaction.getAccountFrom().getClient().getClientId())
+                .accountId(transaction.getAccountFrom().getAccountId())
+                .transactionId(generateTransactionId())
+                .createdAt(LocalDateTime.now())
+                .transactionAmount(transaction.getAmount())
+                .accountBalance(transaction.getAccountFrom().getBalance())
+                .build();
+
+        //TODO realize Hw 3_3 and create microservice
+        //transactionProducer.sendAcceptedTransaction(acceptedTransactionDto);
         Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.toDto(savedTransaction);
     }
@@ -129,7 +159,6 @@ public class TransactionService implements CRUDService<TransactionDto> {
      */
     public void sendMessage(String topic, Object object) {
         Map<String, Object> headers = new HashMap<>();
-        headers.put("TransactionDto", TransactionDto.class);
         headers.put(KafkaHeaders.TOPIC, topic);
         headers.put(KafkaHeaders.KEY, MESSAGE_KEY);
         Message<Object> messageWithHeaders = MessageBuilder
@@ -138,10 +167,23 @@ public class TransactionService implements CRUDService<TransactionDto> {
                 .build();
         try {
             template.send(messageWithHeaders);
-        } catch (Exception ex) {
+        } catch (SendMessageException ex) {
             log.error("Error sending transaction message", ex);
         } finally {
             template.flush();
         }
+    }
+
+    private String generateTransactionId() {
+        String transactionId = UUID.randomUUID().toString();
+        List<String> transactionIds = transactionRepository.findAll()
+                .stream()
+                .map(Transaction::getTransactionId)
+                .toList();
+        if (transactionIds.contains(transactionId)) {
+            generateTransactionId();
+        }
+
+        return transactionId;
     }
 }
