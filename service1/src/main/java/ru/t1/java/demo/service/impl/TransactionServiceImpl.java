@@ -44,17 +44,17 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public Transaction getById(UUID id) {
-        return repository.findById(id)
+        return repository.findByTransactionId(id)
                 .orElseThrow(() -> new NoSuchElementException("Transaction with ID " + id + " not found"));
     }
 
-    @Override
-    @Transactional
-    public void delete(UUID id) {
-        Transaction transaction = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Transaction with ID " + id + " not found"));
-        repository.deleteById(id);
-    }
+//    @Override
+//    @Transactional
+//    public void delete(UUID id) {
+//        Transaction transaction = repository.findByTransactionId(id)
+//                .orElseThrow(() -> new NoSuchElementException("Transaction with ID " + id + " not found"));
+//        repository.deleteById(id);
+//    }
 
     @Override
     @Transactional

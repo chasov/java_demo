@@ -45,14 +45,14 @@ public class TransactionController {
         return new ResponseEntity<>(transaction, HttpStatus.OK);
     }
 
-    @LogDataSourceError
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTransaction(@PathVariable UUID id) {
-        Transaction transaction = transactionService.getById(id);
-        if (transaction == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        transactionService.delete(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
+//    @LogDataSourceError
+//    @DeleteMapping("/{id}")
+//    public ResponseEntity<Void> deleteTransaction(@PathVariable UUID id) {
+//        Transaction transaction = transactionService.getById(id);
+//        if (transaction == null) {
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        transactionService.delete(id);
+//        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+//    }
 }

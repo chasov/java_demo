@@ -17,7 +17,7 @@ public interface TransactionService {
 
     Transaction getById(UUID id);
 
-    void delete(UUID id);
+    //void delete(UUID id);
 
     Transaction create(TransactionDto dto);
 
