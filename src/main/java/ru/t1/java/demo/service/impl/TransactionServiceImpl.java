@@ -16,7 +16,7 @@ import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.model.dto.RequestedTransaction;
+import ru.t1.java.demo.model.dto.TransactionRequest;
 import ru.t1.java.demo.model.dto.TransactionDto;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
@@ -43,6 +43,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Value("${t1.kafka.topic.transaction_accept}")
     private String topic;
+
+    @Value("${t1.kafka.topic.transaction_result}")
+    private String resultTopic;
 
     @LogDataSourceError
     @Override
@@ -78,11 +81,11 @@ public class TransactionServiceImpl implements TransactionService {
 
         for (Transaction transaction : transactions) {
 
-            RequestedTransaction requestedTransaction = requestTransaction(transaction);
+            TransactionRequest transactionRequest = requestTransaction(transaction);
 
-            if (requestedTransaction != null) {
+            if (transactionRequest != null) {
                 transactionRepository.save(transaction);
-                registerTransaction(topic, requestedTransaction);
+                registerTransaction(topic, transactionRequest);
                 savedTransactions.add(transaction);
             }
 
@@ -94,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .toList();
     }
 
-    private RequestedTransaction requestTransaction(Transaction transaction) {
+    private TransactionRequest requestTransaction(Transaction transaction) {
         Account account = accountService.getByAccountId(transaction.getAccountId().toString());
         if (account.getState().equals(AccountState.OPEN)) {
             transaction.setState(TransactionState.REQUESTED);
@@ -103,7 +106,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             accountRepository.save(account);
 
-            RequestedTransaction requestedTransaction = RequestedTransaction.builder()
+            TransactionRequest transactionRequest = TransactionRequest.builder()
                     .clientId(account.getClientId())
                     .accountId(account.getAccountId())
                     .transactionId(transaction.getTransactionId())
@@ -111,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
                     .transactionAmount(transaction.getAmount())
                     .accountBalance(balance)
                     .build();
-            return requestedTransaction;
+            return transactionRequest;
         }
         return null;
     }

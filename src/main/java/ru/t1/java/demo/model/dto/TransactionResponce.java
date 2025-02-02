@@ -6,9 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.enums.TransactionState;
 
-import java.math.BigDecimal;
-import java.sql.Timestamp;
 import java.util.UUID;
 
 @Data
@@ -16,24 +15,15 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class RequestedTransaction {
-
-    @JsonProperty("transactionId")
-    private UUID transactionId;
-
-    @JsonProperty("clientId")
-    private UUID clientId;
+public class TransactionResponce {
 
     @JsonProperty("accountId")
     private UUID accountId;
 
-    @JsonProperty("accountBalance")
-    private BigDecimal accountBalance;
+    @JsonProperty("transactionId")
+    private UUID transactionId;
 
-    @JsonProperty("transactionAmount")
-    private BigDecimal transactionAmount;
-
-    @JsonProperty("timestamp")
-    private Timestamp timestamp;
+    @JsonProperty("state")
+    private TransactionState state;
 
 }
