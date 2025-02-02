@@ -46,6 +46,32 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
+    public <T> T registerTransaction(String topic, T transaction) {
+
+        AtomicReference<T> saved = new AtomicReference<>();
+
+        Message<T> message = MessageBuilder.withPayload(transaction)
+                .setHeader(KafkaHeaders.TOPIC, topic)
+                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
+                .build();
+
+        CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
+        future.thenAccept(sendResult -> {
+            log.info("Transaction sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
+            ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
+            log.info("Message key: {}", record.key());
+            log.info("Message value: {}", record.value());
+            saved.set(transaction);
+        }).exceptionally(ex -> {
+            log.error("Failed to send transaction: {}", ex.getMessage(), ex);
+            throw new RuntimeException("Failed to send transaction", ex);
+        });
+        future.join();
+        return saved.get();
+    }
+
+    @LogDataSourceError
+    @Override
     public List<Transaction> registerTransactions(List<Transaction> transactions) {
 
         List<Transaction> savedTransactions = new ArrayList<>();
@@ -87,32 +113,6 @@ public class TransactionServiceImpl implements TransactionService {
             return requestedTransaction;
         }
         return null;
-    }
-
-    @LogDataSourceError
-    @Override
-    public <T> T registerTransaction(String topic, T transaction) {
-
-        AtomicReference<T> saved = new AtomicReference<>();
-
-        Message<T> message = MessageBuilder.withPayload(transaction)
-                .setHeader(KafkaHeaders.TOPIC, topic)
-                .setHeader(KafkaHeaders.KEY, UUID.randomUUID().toString())
-                .build();
-
-        CompletableFuture<SendResult<Object, Object>> future = kafkaProducer.sendMessage(message);
-        future.thenAccept(sendResult -> {
-            log.info("Transaction sent successfully to topic: {}", sendResult.getRecordMetadata().topic());
-            ProducerRecord<Object, Object> record = sendResult.getProducerRecord();
-            log.info("Message key: {}", record.key());
-            log.info("Message value: {}", record.value());
-            saved.set(transaction);
-        }).exceptionally(ex -> {
-            log.error("Failed to send transaction: {}", ex.getMessage(), ex);
-            throw new RuntimeException("Failed to send account", ex);
-        });
-        future.join();
-        return saved.get();
     }
 
     @LogDataSourceError
