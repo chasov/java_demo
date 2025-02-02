@@ -87,6 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
             }
 
         }
+
         return savedTransactions
                 .stream()
                 .sorted(Comparator.comparing(Transaction::getId))
