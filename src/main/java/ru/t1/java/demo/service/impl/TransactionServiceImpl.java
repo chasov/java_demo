@@ -2,6 +2,7 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.exception.account.AccountException;
@@ -25,11 +26,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public TransactionDto conductTransaction(TransactionDto transactionDto) {
         Transaction transaction = transactionMapper.toEntity(transactionDto);
         Account account = accountRepository.findById(transactionDto.getAccountId())
                 .orElseThrow(() -> new AccountException("Account not found"));
 
+        account.setBalance(transactionDto.getAmount());
         transaction.setAccount(account);
         transaction = transactionsRepository.save(transaction);
 
