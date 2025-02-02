@@ -145,5 +145,6 @@ public class TransactionService {
                 }
             });
         });
+        transactionRepository.saveAll(allTransactions);
     }
 }
