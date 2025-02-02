@@ -22,6 +22,7 @@ import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import com.fasterxml.jackson.core.JsonParseException;
 import org.apache.kafka.common.errors.SerializationException;
+import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.java.demo.kafka.MessageDeserializer;
 
 import java.util.HashMap;
@@ -37,6 +38,9 @@ public class KafkaConfig<T> {
     @Value("${t1.kafka.consumer.group-id-transaction}")
     private String transactionGroupId;
 
+    @Value("${t1.kafka.consumer.group-id-transaction-result}")
+    private String transactionResultGroupId;
+
     @Value("${t1.kafka.bootstrap.server}")
     private String servers;
 
@@ -51,6 +55,13 @@ public class KafkaConfig<T> {
     public <T> ConsumerFactory<String, TransactionDto> consumerTransactionListenerFactory() {
         DefaultKafkaConsumerFactory<String, TransactionDto> factory = new DefaultKafkaConsumerFactory<>(
                 consumerFactoryProperty("ru.t1.java.demo.dto.TransactionDto", transactionGroupId));
+        factory.setKeyDeserializer(new StringDeserializer());
+        return factory;
+    }
+
+    public <T> ConsumerFactory<String, TransactionResultDto> consumerTransactionResultListenerFactory() {
+        DefaultKafkaConsumerFactory<String, TransactionResultDto> factory = new DefaultKafkaConsumerFactory<>(
+                consumerFactoryProperty("ru.t1.java.demo.dto.TransactionResultDto", transactionResultGroupId));
         factory.setKeyDeserializer(new StringDeserializer());
         return factory;
     }
@@ -82,6 +93,12 @@ public class KafkaConfig<T> {
     public ConcurrentKafkaListenerContainerFactory<String, TransactionDto> kafkaTransactionListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, TransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factoryBuilder(consumerTransactionListenerFactory(), factory);
+        return factory;
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, TransactionResultDto> kafkaTransactionResultListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, TransactionResultDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factoryBuilder(consumerTransactionResultListenerFactory(), factory);
         return factory;
     }
 

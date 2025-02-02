@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatus;
@@ -95,8 +96,17 @@ public class TransactionServiceImpl implements TransactionService {
                     .build();
             System.out.println("!!!!!!!!!!!acceptdto" + acceptDto);
 
-                kafkaTemplate.send(transactionAcceptTopic, acceptDto);
+            kafkaTemplate.send(transactionAcceptTopic, acceptDto);
 
         }
     }
+
+    @Override
+    @Transactional
+    public void addToData(TransactionResultDto dto) {
+        Transaction transaction = getById(dto.getTransactionId());
+        transaction.setStatus(dto.getStatus());
+        repository.save(transaction);
+    }
+
 }

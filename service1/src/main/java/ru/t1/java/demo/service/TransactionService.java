@@ -2,6 +2,7 @@ package ru.t1.java.demo.service;
 
 import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.java.demo.model.Transaction;
 
 import java.io.IOException;
@@ -23,4 +24,6 @@ public interface TransactionService {
     void registerTransactions(List<Transaction> transactions);
 
     void processing(TransactionDto dto);
+
+    void addToData(TransactionResultDto messageList);
 }

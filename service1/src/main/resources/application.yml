@@ -28,6 +28,8 @@ t1:
       group-id: t1-demo
       group-id-account: account-group
       group-id-transaction: transaction-group
+      group-id-transaction-result: demo-consumer-group
+
     producer:
       enable: true
     topic:
@@ -35,6 +37,7 @@ t1:
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
       transaction-accept: t1_demo_transaction_accept
+      transaction_result: t1_demo_transaction_result
 server:
   port: 8080
 
