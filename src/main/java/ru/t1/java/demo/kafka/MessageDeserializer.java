@@ -22,9 +22,6 @@ public class MessageDeserializer<T> extends JsonDeserializer<T> {
     @Override
     public T deserialize(String topic, Headers headers, byte[] data) {
         try {
-
-//            objectMapper.readValue(getMessage(data), ClientDto.class);
-
             return super.deserialize(topic, headers, data);
         } catch (Exception e) {
             log.warn("Произошла ошибка во время десериализации сообщения {}", new String(data, StandardCharsets.UTF_8), e);

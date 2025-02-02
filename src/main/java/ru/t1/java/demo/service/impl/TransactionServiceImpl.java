@@ -112,4 +112,15 @@ public class TransactionServiceImpl implements TransactionService {
                 .map(transactionMapper::toEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    @LogDataSourceError
+    @Metric
+    public List<TransactionDto> registerTransactions(List<TransactionDto> transactions) {
+        List<Transaction> savedList = transactionRepository.saveAll(transactions.stream()
+                .map(transactionMapper::toEntity)
+                .collect(Collectors.toList()));
+        return savedList.stream().map(transactionMapper::toDto).collect(Collectors.toList());
+    }
 }

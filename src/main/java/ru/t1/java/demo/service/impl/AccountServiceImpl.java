@@ -100,4 +100,15 @@ public class AccountServiceImpl implements AccountService {
                 .map(accountMapper::toEntity)
                 .collect(Collectors.toList());
     }
+
+    @Override
+    @Transactional
+    @LogDataSourceError
+    @Metric
+    public List<AccountDto> registerAccounts(List<AccountDto> accounts) {
+        List<Account> savedList = accountRepository.saveAll(accounts.stream()
+                .map(accountMapper::toEntity)
+                .collect(Collectors.toList()));
+        return savedList.stream().map(accountMapper::toDto).collect(Collectors.toList());
+    }
 }

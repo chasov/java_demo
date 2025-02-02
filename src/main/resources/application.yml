@@ -19,9 +19,11 @@ t1:
   scan-path: ru.t1.java.demo
   kafka:
     bootstrap:
-      server: 127.0.0.1:9098
+      server: 127.0.0.1:9092
     consumer:
       group-id: t1-demo
+      group-id-account: account-group
+      group-id-transaction: transaction-group
       max.poll.records: 10
       session-timeout: 10000
       heartbeat.interval: 3000
@@ -32,5 +34,7 @@ t1:
       client_id_registered: t1_demo_client_registered
       client_transactions: t1_demo_client_transactions
       client_t1_metrics : t1_demo_metrics
+      account_registration : t1_demo_accounts
+      transaction_registration : t1_demo_transactions
     listener:
       poll-timeout: 1000

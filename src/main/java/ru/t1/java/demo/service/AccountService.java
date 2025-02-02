@@ -16,4 +16,5 @@ public interface AccountService {
     List<AccountDto> getAllAccounts();
     AccountDto updateAccount(Long accountId, AccountDto account);
     List<Account> parseJson() throws IOException;
+    List<AccountDto> registerAccounts(List<AccountDto> accounts);
 }

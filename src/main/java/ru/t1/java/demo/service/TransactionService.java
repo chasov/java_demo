@@ -14,4 +14,5 @@ public interface TransactionService {
     List<TransactionDto> getAllTransactions();
     TransactionDto updateTransaction(Long id,TransactionDto transaction);
     List<Transaction> parseJson() throws IOException;
+    List<TransactionDto> registerTransactions(List<TransactionDto> transactions);
 }
