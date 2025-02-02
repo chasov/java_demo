@@ -105,7 +105,17 @@ public class TransactionServiceImpl implements TransactionService {
     @Transactional
     public void addToData(TransactionResultDto dto) {
         Transaction transaction = getById(dto.getTransactionId());
-        transaction.setStatus(dto.getStatus());
+        Account account = accountService.getById(transaction.getAccountId().getId());
+        TransactionStatus status = dto.getStatus();
+
+        if (status == TransactionStatus.REJECTED) {
+            account.setBalance(account.getBalance() + transaction.getAmount());
+        } else if (status == TransactionStatus.BLOCKED) {
+            account.setFrozenAmount(transaction.getAmount());
+            account.setBalance(account.getBalance() - transaction.getAmount());
+        }
+
+        transaction.setStatus(status);
         repository.save(transaction);
     }
 
