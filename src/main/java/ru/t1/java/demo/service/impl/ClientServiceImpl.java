@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -58,6 +59,7 @@ public class ClientServiceImpl implements ClientService {
 
         return Arrays.stream(clients)
                 .map(ClientMapper::toEntity)
+                .peek(client -> client.setClientId(UUID.randomUUID()))
                 .collect(Collectors.toList());
     }
 
@@ -74,6 +76,7 @@ public class ClientServiceImpl implements ClientService {
                     savedClients.add(client);
                 }
             });
+            client.setClientId(UUID.randomUUID());
             savedClients.add(repository.save(client));
         }
 
@@ -91,8 +94,9 @@ public class ClientServiceImpl implements ClientService {
         Optional<CheckResponse> check = checkWebClient.check(client.getId());
         if (check.isPresent()) {
             if (!check.get().getBlocked()) {
-                saved = repository.save(client);
+                client.setClientId(UUID.randomUUID());
                 kafkaClientProducer.send(client.getId());
+                saved = repository.save(client);
             }
         }
         return saved;
@@ -103,8 +107,11 @@ public class ClientServiceImpl implements ClientService {
     @Metric
     public ClientDto registerClient(ClientDto clientDto) {
         Client saved = ClientMapper.toEntity(clientDto);
-        saved = repository.save(saved);
+        saved.setClientId(UUID.randomUUID());
+
         kafkaClientProducer.send(saved.getId());
+        saved = repository.save(saved);
+
         return ClientMapper.toDto(saved);
     }
 

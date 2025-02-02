@@ -17,6 +17,7 @@ import ru.t1.java.demo.service.account.AccountService;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -50,6 +51,7 @@ public class AccountServiceImpl implements AccountService {
                 .orElseThrow(() -> new ClientException("Client not found"));
 
         account.setClient(client);
+        account.setAccountId(UUID.randomUUID());
 
         account = accountRepository.save(account);
 

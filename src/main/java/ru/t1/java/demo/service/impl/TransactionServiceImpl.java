@@ -14,6 +14,8 @@ import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionsRepository;
 import ru.t1.java.demo.service.transaction.TransactionService;
 
+import java.util.UUID;
+
 @Service
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
@@ -31,6 +33,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new AccountException("Account not found"));
 
         transaction.setAccount(account);
+        transaction.setTransactionId(UUID.randomUUID());
         transaction = transactionsRepository.save(transaction);
 
         return transactionMapper.toDto(transaction);

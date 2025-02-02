@@ -15,9 +15,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -32,6 +34,9 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "account_id", nullable = false)
+    private UUID accountId;
+
     @ManyToOne
     @JoinColumn(name = "client_id", nullable = false)
     private Client client;
@@ -40,8 +45,15 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountType type;
 
+    @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private AccountStatus status;
+
     @Column(name = "balance", nullable = false, columnDefinition = "DECIMAL DEFAULT 0")
     private BigDecimal balance;
+
+    @Column(name = "frozen_amount", nullable = false, columnDefinition = "DECIMAL DEFAULT 0")
+    private BigDecimal frozenAmount;
 
     public Account(Client client, AccountType type, BigDecimal balance) {
         this.client = client;

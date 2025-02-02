@@ -6,6 +6,8 @@ import jakarta.persistence.Table;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
+import java.util.UUID;
+
 @Getter
 @Setter
 @Entity
@@ -14,6 +16,9 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 @AllArgsConstructor
 @Table(name = "client")
 public class Client extends AbstractPersistable<Long> {
+
+    @Column(name = "client_id", nullable = false)
+    private UUID clientId;
 
     @Column(name = "first_name")
     private String firstName;
