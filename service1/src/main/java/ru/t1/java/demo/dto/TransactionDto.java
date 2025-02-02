@@ -23,7 +23,7 @@ public class TransactionDto {
     @JsonProperty("transaction_amount")
     private Long amount;
 
-    private LocalDateTime timestamp;
+    private LocalDateTime transactionTime;
 
     private TransactionStatus status;
 

@@ -27,7 +27,7 @@ public class TransactionAcceptDto {
     private Long accountBalance;
     @JsonProperty("transaction_amount")
     private Long transactionAmount;
-    @JsonProperty("timestamp")
-    private LocalDateTime timestamp;
+    @JsonProperty("transaction_time")
+    private LocalDateTime transactionTime;
 
 }

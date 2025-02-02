@@ -27,8 +27,8 @@ public class Transaction  {
     private Account accountId;
     @Column(name = "transaction_amount", nullable = false)
     private Long amount;
-//    @Column(name = "transaction_time", nullable = false)
-//    private LocalDateTime transactionTime = LocalDateTime.now();
+    @Column(name = "transaction_time", nullable = false)
+    private LocalDateTime transactionTime = LocalDateTime.now();
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_status", nullable = false)
     private TransactionStatus status;

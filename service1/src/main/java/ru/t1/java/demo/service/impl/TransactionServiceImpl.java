@@ -2,6 +2,7 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Lazy;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
@@ -78,7 +79,7 @@ public class TransactionServiceImpl implements TransactionService {
         if (account.getStatus().equals(AccountStatus.OPEN)) {
 
             dto.setStatus(TransactionStatus.REQUESTED);
-            dto.setTimestamp(LocalDateTime.now());
+            dto.setTransactionTime(LocalDateTime.now());
 
             Transaction transaction = transactionMapper.toEntity(dto);
 
@@ -90,7 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
                     .clientId(account.getClientId().getClientId())
                     .accountId(account.getAccountId())
                     .transactionId(transaction.getTransactionId())
-                    .timestamp(transaction.getTimestamp())
+                    .transactionTime(transaction.getTransactionTime())
                     .transactionAmount(transaction.getAmount())
                     .accountBalance(account.getBalance())
                     .build();
@@ -116,6 +117,7 @@ public class TransactionServiceImpl implements TransactionService {
         }
 
         transaction.setStatus(status);
+        transaction.setTimestamp(LocalDateTime.now());
         repository.save(transaction);
     }
 
