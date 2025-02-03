@@ -54,11 +54,10 @@ public class TransactionAcceptService {
         try {
             String json = objectMapper.writeValueAsString(transactionDto);
             transactionAccept = objectMapper.readValue(json, TransactionAccept.class);
-        }
-        catch (JsonProcessingException e){
+        } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        if(transactionAccept == null){
+        if (transactionAccept == null) {
             throw new IllegalArgumentException("Invalid map transactionDto -> transactionAccept");
         }
         Instant currentInstant = Instant.now();
@@ -95,7 +94,7 @@ public class TransactionAcceptService {
         transactions.forEach(transaction -> transaction.setTransactionStatus(status));
     }
 
-    private void sendTransactionResultMessage(Collection<Transaction> transactions){
+    private void sendTransactionResultMessage(Collection<Transaction> transactions) {
         Set<TransactionResult> transactionResults = transactionToTransactionResult(transactions);
         kafkaTemplate.send(transactionResultTopic, transactionResults);
     }
@@ -108,8 +107,7 @@ public class TransactionAcceptService {
                 String json = objectMapper.writeValueAsString(transaction);
                 TransactionResult transactionResult = objectMapper.readValue(json, TransactionResult.class);
                 transactionResults.add(transactionResult);
-            }
-            catch (JsonProcessingException e) {
+            } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
         });
