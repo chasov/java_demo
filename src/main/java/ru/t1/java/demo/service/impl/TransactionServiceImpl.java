@@ -18,6 +18,7 @@ import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.dto.TransactionRequest;
 import ru.t1.java.demo.model.dto.TransactionDto;
+import ru.t1.java.accept_transaction.model.dto.TransactionResponse;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.AccountService;
@@ -71,6 +72,36 @@ public class TransactionServiceImpl implements TransactionService {
         });
         future.join();
         return saved.get();
+    }
+
+    @Override
+    public void acceptTransaction(List<TransactionResponse> transactions) {
+        for (TransactionResponse transaction : transactions) {
+            Transaction savedTransaction = transactionRepository.findByTransactionId(transaction.getTransactionId());
+            Account savedAccount = accountRepository.findByAccountId(transaction.getAccountId());
+
+            if (transaction.getState().equals(TransactionState.ACCEPTED)) {
+                savedTransaction.setState(TransactionState.ACCEPTED);
+                transactionRepository.save(savedTransaction);
+                continue;
+            }
+            if (transaction.getState().equals(TransactionState.BLOCKED)) {
+                savedTransaction.setState(TransactionState.BLOCKED);
+                transactionRepository.save(savedTransaction);
+
+                savedAccount.setState(AccountState.BLOCKED);
+                savedAccount.setFrozenAmount(savedTransaction.getAmount());
+                accountRepository.save(savedAccount);
+                continue;
+            }
+            if (transaction.getState().equals(TransactionState.REJECTED)) {
+                savedTransaction.setState(TransactionState.REJECTED);
+                transactionRepository.save(savedTransaction);
+
+                savedAccount.setBalance(savedAccount.getBalance().add(savedTransaction.getAmount()));
+                accountRepository.save(savedAccount);
+            }
+        }
     }
 
     @LogDataSourceError
