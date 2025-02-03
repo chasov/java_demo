@@ -17,6 +17,8 @@ import ru.t1.java.demo.transaction.model.TransactionResult;
 import ru.t1.java.demo.transaction.repository.TransactionRepository;
 
 import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
@@ -59,11 +61,10 @@ public class TransactionAcceptService {
         if(transactionAccept == null){
             throw new IllegalArgumentException("Invalid map transactionDto -> transactionAccept");
         }
-        Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(currentTimestamp);
-        calendar.add(Calendar.MILLISECOND, -thresholdTime);
-        Timestamp windowStart = new Timestamp(calendar.getTimeInMillis());
+        Instant currentInstant = Instant.now();
+        Instant windowStartInstant = currentInstant.minus(Duration.ofMillis(thresholdTime));
+        Timestamp windowStart = Timestamp.from(windowStartInstant);
+        Timestamp currentTimestamp = Timestamp.from(currentInstant);
         Set<Transaction> transactionsInTimeWindow = transactionRepository.findAllByAccountUuidAndTransactionTimeBetween(
                 transactionAccept.getAccountUuid(),
                 windowStart,
