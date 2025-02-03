@@ -15,6 +15,7 @@ import ru.t1.java.transactionProcessing.model.entity.TransactionEntity;
 import ru.t1.java.transactionProcessing.service.TransactionService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -34,22 +35,38 @@ public class TransactionListener {
     public void listenTransaction(@Payload List<TransactionAcceptDto> messageList,
                                   Acknowledgment ack) {
         try {
-            for (TransactionAcceptDto dto : messageList) {
-                TransactionEntity entity = toAcceptEntity(dto);
-                transactionService.saveTransaction(entity);
+            List<TransactionEntity> entities = messageList.stream()
+                    .map(this::toAcceptEntity)
+                    .toList();
 
+            // Сохраняем все транзакции
+            transactionService.saveAllTransactions(entities);
+
+            // Обрабатываем транзакции
+            List<TransactionResultDto> results = new ArrayList<>();
+            entities.forEach(entity -> {
                 int transactionCount = transactionService.countRecentTransactions(entity.getAccountId(), transactionProperties.getInterval());
 
                 if (transactionCount >= transactionProperties.getLimit()) {
                     entity.setStatus("BLOCKED");
+                    // Блокируем все транзакции за период
+                    List<TransactionEntity> blockedTransactions = transactionService.blockTransactionsInPeriod(entity.getAccountId(), transactionProperties.getInterval());
+                    // Добавляем заблокированные транзакции в результаты
+                    results.addAll(blockedTransactions.stream()
+                            .map(TransactionResultDto::new)
+                            .toList());
                 } else if (entity.getBalance().compareTo(BigDecimal.ZERO) < 0) {
                     entity.setStatus("REJECTED");
                 } else {
                     entity.setStatus("ACCEPTED");
                 }
+                results.add(new TransactionResultDto(entity));
+            });
 
-                resultProducer.send(new TransactionResultDto(entity));
-            }
+            // Отправляем результаты в Kafka
+            resultProducer.sendBatch(results);
+        } catch (Exception e) {
+            log.error("Ошибка при обработке транзакций: {}", e.getMessage(), e);
         } finally {
             ack.acknowledge();
         }
@@ -65,4 +82,3 @@ public class TransactionListener {
         return entity;
     }
 }
-

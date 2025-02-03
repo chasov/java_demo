@@ -88,13 +88,19 @@ public class KafkaConsumerConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, false);
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, org.apache.kafka.common.serialization.StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaultType);
-        props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);
+
+        // Вложенные десериализаторы
+//        props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, StringDeserializer.class.getName());
+//        props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, JsonDeserializer.class.getName());
 
         props.put(ErrorHandlingDeserializer.VALUE_DESERIALIZER_CLASS, MessageDeserializer.class.getName());
         props.put(ErrorHandlingDeserializer.KEY_DESERIALIZER_CLASS, MessageDeserializer.class);
+
+        // JsonDeserializer настройки
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, valueDefaultType);
+        props.put(JsonDeserializer.TRUSTED_PACKAGES, "ru.t1.java.demo.dto");
 
         return props;
     }
@@ -114,9 +120,10 @@ public class KafkaConsumerConfig {
     private CommonErrorHandler errorHandler() {
         DefaultErrorHandler handler =
                 new DefaultErrorHandler(new FixedBackOff(1000, 3));
-        handler.addNotRetryableExceptions(IllegalStateException.class);
+        handler.addNotRetryableExceptions(IllegalStateException.class, com.fasterxml.jackson.core.JsonParseException.class);
         handler.setRetryListeners((record, ex, deliveryAttempt) -> {
-            log.error(" RetryListeners message = {}, offset = {} deliveryAttempt = {}", ex.getMessage(), record.offset(), deliveryAttempt);
+            log.error("Ошибка десериализации Kafka: message = {}, offset = {} attempt = {}",
+                    ex.getMessage(), record.offset(), deliveryAttempt);
         });
         return handler;
     }

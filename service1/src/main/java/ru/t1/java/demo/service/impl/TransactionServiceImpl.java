@@ -112,6 +112,11 @@ public class TransactionServiceImpl implements TransactionService {
     public void blockTransaction(UUID transactionId) {
         Transaction transaction = transactionRepository.findByTransactionId(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
+        if (transaction.getStatus().equals(TransactionStatus.BLOCKED)
+                || transaction.getStatus().equals(TransactionStatus.REJECTED)
+                || transaction.getStatus().equals(TransactionStatus.CANCELLED)) {
+            return;
+        }
         transaction.setStatus(TransactionStatus.BLOCKED);
         transactionRepository.save(transaction);
 
@@ -126,6 +131,11 @@ public class TransactionServiceImpl implements TransactionService {
     public void rejectTransaction(UUID transactionId) {
         Transaction transaction = transactionRepository.findByTransactionId(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
+        if (transaction.getStatus().equals(TransactionStatus.BLOCKED)
+                || transaction.getStatus().equals(TransactionStatus.REJECTED)
+                || transaction.getStatus().equals(TransactionStatus.CANCELLED)) {
+            return;
+        }
         transaction.setStatus(TransactionStatus.REJECTED);
         transactionRepository.save(transaction);
 
