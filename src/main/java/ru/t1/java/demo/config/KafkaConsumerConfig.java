@@ -19,6 +19,7 @@ import org.springframework.util.backoff.FixedBackOff;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.java.demo.kafka.KafkaConsumerProperties;
 import ru.t1.java.demo.kafka.MessageDeserializer;
 
@@ -118,6 +119,28 @@ public class KafkaConsumerConfig {
     @Bean
     ConcurrentKafkaListenerContainerFactory<String, ClientDto> kafkaListenerContainerFactoryClient(
             @Qualifier("clientListenerFactory") ConsumerFactory<String, ClientDto> consumerFactory) {
+        return buildKafkaListenerContainerFactory(consumerFactory);
+    }
+
+    /**
+     * TransactionsResult listener settings methods:
+     */
+    @Bean
+    public ConsumerFactory<String, TransactionResultDto> transactionResultListenerFactory() {
+        Map<String, Object> props = new HashMap<>(consumerProperties());
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerProperties.getTransactionGroupId());
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.dto.TransactionDto");
+        DefaultKafkaConsumerFactory<String, TransactionResultDto> factory = new DefaultKafkaConsumerFactory<>(props);
+        factory.setKeyDeserializer(new StringDeserializer());
+
+        return factory;
+    }
+
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, TransactionResultDto>
+    kafkaListenerContainerFactoryTransactionResult(
+            @Qualifier("transactionResultListenerFactory") ConsumerFactory<String,
+                    TransactionResultDto> consumerFactory) {
         return buildKafkaListenerContainerFactory(consumerFactory);
     }
 

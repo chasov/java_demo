@@ -1,3 +1,6 @@
+server:
+  port: 8080
+
 spring:
   application:
     name: t1-java-demo
@@ -35,6 +38,7 @@ t1:
       transaction-group-id: transaction_consumer_group
       account-group-id: account_consumer_group
       client-group-id: client_consumer_group
+      transaction-result-group-id: transaction_result_group
     producer:
       enable: true
       retries: 3
@@ -48,6 +52,7 @@ t1:
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
       transactions-accept: t1_demo_transaction_accept
+      transactions-result: ti_demo_transaction_result
       clients: t1_demo_clients
     listener:
       poll-timeout: 1000

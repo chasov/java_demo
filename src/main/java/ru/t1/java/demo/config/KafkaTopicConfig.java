@@ -18,6 +18,9 @@ public class KafkaTopicConfig {
     @Value("${t1.kafka.topic.transactions}")
     private String transactionTopicName;
 
+    @Value("${t1.kafka.topic.transactions-accept}")
+    private String transactionAcceptTopicName;
+
     @Bean
     public NewTopic metricTopic() {
         return TopicBuilder
@@ -40,6 +43,15 @@ public class KafkaTopicConfig {
     public NewTopic transactionTopic() {
         return TopicBuilder
                 .name(transactionTopicName)
+                .replicas(2)
+                .partitions(3)
+                .build();
+    }
+
+    @Bean
+    public NewTopic TransactionAcceptTopic() {
+        return TopicBuilder
+                .name(transactionAcceptTopicName)
                 .replicas(2)
                 .partitions(3)
                 .build();

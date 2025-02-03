@@ -3,6 +3,7 @@ package ru.t1.java.demo.service;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
@@ -10,12 +11,11 @@ import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
-import ru.t1.java.demo.dto.AcceptedTransactionDto;
+import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.exception.SendMessageException;
 import ru.t1.java.demo.exception.TransactionException;
-import ru.t1.java.demo.kafka.producer.KafkaTransactionProducer;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatus;
@@ -27,7 +27,6 @@ import ru.t1.java.demo.util.TransactionMapper;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -43,6 +42,9 @@ public class TransactionService implements CRUDService<TransactionDto> {
     private final KafkaTemplate<String, Object> template;
 
     private final String MESSAGE_KEY = String.valueOf(UUID.randomUUID());
+
+    @Value("${t1.kafka.topic.transactions-accept}")
+    private String transactionAcceptTopicName;
 
     /**Transfers money between two accounts
      *
@@ -68,9 +70,6 @@ public class TransactionService implements CRUDService<TransactionDto> {
                         transaction.getAccountTo().getId() + " is not exists")
         );
 
-        System.out.println(accountFrom.getStatus());
-        System.out.println(accountTo.getStatus());
-        System.out.println("---------------------@@@@@@@@@@@@@@@@@@@@@@@@@@@@___________________");
         if (accountFrom.getStatus() != (AccountStatus.OPEN) || accountTo.getStatus() != (AccountStatus.OPEN)) {
             log.warn("Transfer between {} and {} accounts are not allowed, because their status is:" +
                             "{} and {}",
@@ -99,7 +98,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
         log.info("Transaction between {} and {} account completed successfully",
                 accountFrom.getId(), accountTo.getId());
 
-        AcceptedTransactionDto acceptedTransactionDto = AcceptedTransactionDto.builder()
+        TransactionAcceptDto transactionAcceptDto = TransactionAcceptDto.builder()
                 .clientId(transaction.getAccountFrom().getClient().getClientId())
                 .accountId(transaction.getAccountFrom().getAccountId())
                 .transactionId(generateTransactionId())
@@ -111,6 +110,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
         //TODO realize Hw 3_3 and create microservice
         //transactionProducer.sendAcceptedTransaction(acceptedTransactionDto);
         Transaction savedTransaction = transactionRepository.save(transaction);
+        sendMessage(transactionAcceptTopicName, transactionAcceptDto);
         return transactionMapper.toDto(savedTransaction);
     }
 

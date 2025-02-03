@@ -40,7 +40,7 @@ public class KafkaTransactionConsumer {
                 transactionDto.setCompletedAt(dto.getCompletedAt());
 
                 transactionService.create(transactionDto);
-                log.info("Transaction from topic: {} with key: {} saved successfully",
+                log.info("Transaction from topic: {} with key: {} processed successfully",
                         topic, key);
             });
         } finally {

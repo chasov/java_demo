@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class AcceptedTransactionDto {
+public class TransactionAcceptDto {
     String clientId;
     String accountId;
     String transactionId;

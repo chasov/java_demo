@@ -54,4 +54,7 @@ public class KafkaConsumerProperties {
 
     @Value("${t1.kafka.consumer.client-group-id}")
     private String clientGroupId;
+
+    @Value("${t1.kafka.consumer.transaction-result-group-id}")
+    private String transactionResultGroupId;
 }
