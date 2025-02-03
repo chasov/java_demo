@@ -1,16 +1,15 @@
 package ru.t1.java.transactionProcessing.model.entity;
 
-import jakarta.persistence.*;
 import lombok.Data;
-import ru.t1.java.transactionProcessing.model.enums.TransactionStatus;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table(name = "transactions")
 @Data
+@RedisHash("Transaction")
 public class TransactionEntity {
 
     private UUID accountId;
@@ -21,6 +20,5 @@ public class TransactionEntity {
     private BigDecimal amount;
     private BigDecimal balance;
 
-    @Enumerated(EnumType.STRING)
-    private TransactionStatus status;
+    private String status;
 }

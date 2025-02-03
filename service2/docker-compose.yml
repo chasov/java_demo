@@ -2,16 +2,7 @@ version: '1.0'
 
 services:
 
-  postgres:
-    image: postgres:11.13
-    container_name: t1_java_transaction_processing
+  redis:
+    image: redis:7.0.12
     ports:
-      - "5433:5432"
-    environment:
-      POSTGRES_DB: t1_transaction_processing
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
-    volumes:
-          - postgres-data:/var/lib/postgresql/data
-volumes:
-  postgres-data:
+      - "6379:6379"

@@ -13,6 +13,6 @@ public class TransactionResultDto {
 
     public TransactionResultDto(TransactionEntity entity) {
         this.transactionId = entity.getTransactionId();
-        this.status = entity.getStatus();
+        this.status = TransactionStatus.valueOf(entity.getStatus().toUpperCase()); // Преобразование строки в enum
     }
 }

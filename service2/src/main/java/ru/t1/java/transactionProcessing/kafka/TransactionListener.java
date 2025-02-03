@@ -1,6 +1,5 @@
 package ru.t1.java.transactionProcessing.kafka;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -8,15 +7,14 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.support.Acknowledgment;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.transactionProcessing.config.TransactionProperties;
 import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.java.transactionProcessing.model.entity.TransactionEntity;
-import ru.t1.java.transactionProcessing.model.enums.TransactionStatus;
-import ru.t1.java.transactionProcessing.model.repository.TransactionRepository;
+import ru.t1.java.transactionProcessing.service.TransactionService;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -24,8 +22,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class TransactionListener {
 
-    private final TransactionRepository transactionRepository;
     private final TransactionProperties transactionProperties;
+    private final TransactionService transactionService;
     @Qualifier("resultProducer")
     private final KafkaResultProducer resultProducer;
 
@@ -36,26 +34,20 @@ public class TransactionListener {
     public void listenTransaction(@Payload List<TransactionAcceptDto> messageList,
                                   Acknowledgment ack) {
         try {
-            List<TransactionEntity> entities = messageList.stream()
-                    .map(dto -> {
-                        TransactionEntity entity = toAcceptEntity(dto);
-                        transactionRepository.save(entity);
-                        return entity;
-                    }).toList();
-            transactionRepository.saveAll(entities);
-            LocalDateTime endTime = LocalDateTime.now();
-            for (TransactionEntity entity: entities) {
-                LocalDateTime startTime = endTime.minusSeconds(transactionProperties.getInterval());
-                int transactionCount = transactionRepository
-                        .countByAccountIdAndTimestampBetween(entity.getAccountId(), startTime, endTime);
+            for (TransactionAcceptDto dto : messageList) {
+                TransactionEntity entity = toAcceptEntity(dto);
+                transactionService.saveTransaction(entity);
+
+                int transactionCount = transactionService.countRecentTransactions(entity.getAccountId(), transactionProperties.getInterval());
+
                 if (transactionCount >= transactionProperties.getLimit()) {
-                    entity.setStatus(TransactionStatus.BLOCKED);
+                    entity.setStatus("BLOCKED");
                 } else if (entity.getBalance().compareTo(BigDecimal.ZERO) < 0) {
-                    entity.setStatus(TransactionStatus.REJECTED);
+                    entity.setStatus("REJECTED");
                 } else {
-                    entity.setStatus(TransactionStatus.ACCEPTED);
+                    entity.setStatus("ACCEPTED");
                 }
-                transactionRepository.save(entity);
+
                 resultProducer.send(new TransactionResultDto(entity));
             }
         } finally {
