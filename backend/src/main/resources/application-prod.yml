@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: t1-java-demo
+  datasource:
+    url: jdbc:postgresql://postgres:5432/t1_demo
+    username: postgres
+    password: 1
+    driver-class-name: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.xml
+    drop-first: true
+  kafka:
+    bootstrap-servers: broker:29092,localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      properties:
+        spring.json.add.type.headers: false
+
+logging:
+  level:
+    ROOT: INFO
+    ru.t1.java.demo.controller.ClientController: DEBUG
+
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+kafka:
+  topic:
+    account: t1_demo_accounts
+    transaction: t1_demo_transactions
+    metrics: t1_demo_metrics
+  group:
+    accounts: group_accounts
+    transactions: group_transactions
