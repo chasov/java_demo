@@ -27,12 +27,11 @@ public class TransactionController {
 
     @Metric
     @PostMapping
-    public ResponseEntity<String> conductTransaction(@RequestBody TransactionDto transaction) {
+    public void conductTransaction(@RequestBody TransactionDto transaction) {
         try {
             kafkaTransactionProducer.send(transaction);
-            return ResponseEntity.ok("Transaction completion message sent successfully.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending transaction: " + e.getMessage());
+            throw new RuntimeException("Error sending transaction");
         }
     }
 
