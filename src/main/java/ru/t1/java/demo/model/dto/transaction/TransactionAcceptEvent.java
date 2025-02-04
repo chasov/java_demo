@@ -1,4 +1,4 @@
-package ru.t1.java.demo.model.dto;
+package ru.t1.java.demo.model.dto.transaction;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -11,20 +11,30 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionDto implements Serializable {
-    private Long id;
+public class TransactionAcceptEvent implements Serializable {
+    @NotNull
+    @JsonProperty("client_id")
+    private UUID clientId;
     @NotNull
     @JsonProperty("account_id")
-    private Long accountId;
+    private UUID accountId;
     @NotNull
-    @JsonProperty("amount")
-    private BigDecimal amount;
+    @JsonProperty("transaction_id")
+    private UUID transactionId;
+    @NotNull
     @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    private LocalDateTime timestamp;
+    @NotNull
+    @JsonProperty("transaction_amount")
+    private BigDecimal transactionAmount;
+    @NotNull
+    @JsonProperty("account_balance")
+    private BigDecimal accountBalance;
 }

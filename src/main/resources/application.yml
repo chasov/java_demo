@@ -17,6 +17,7 @@ spring:
         client-group-id: client-group
         account-group-id: account-group
         transaction-group-id: transaction-group
+        transaction-event-group-id: transaction-event-group
         group-id: t1-demo
         session-timeout-ms: 45000
         max-partition-fetch-bytes: 300000
@@ -30,10 +31,15 @@ spring:
         client_registration: t1_demo_client_registration
         client_id_registered: t1_demo_client_registered
         client_transactions: t1_demo_transactions
+        accept_transactions: t1_demo_transaction_accept
+        result_transactions: t1_demo_transaction_result
         client_accounts: t1_demo_accounts
         error_metric: t1_demo_metrics
       listener:
         poll-timeout: 1000
+
+server:
+  port: 8080
 
 logging:
   level:

@@ -3,7 +3,7 @@ package ru.t1.java.demo.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
-import ru.t1.java.demo.model.dto.AccountDto;
+import ru.t1.java.demo.model.dto.account.AccountDto;
 import ru.t1.java.demo.model.entity.Account;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)

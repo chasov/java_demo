@@ -11,13 +11,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.t1.java.demo.aop.annotation.Metric;
-import ru.t1.java.demo.kafka.producer.KafkaTransactionProducer;
-import ru.t1.java.demo.model.dto.TransactionDto;
+import ru.t1.java.demo.kafka.producer.transaction.KafkaTransactionProducer;
+import ru.t1.java.demo.model.dto.transaction.TransactionDto;
 import ru.t1.java.demo.service.transaction.TransactionService;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/transaction")
+@RequestMapping("/transactions")
 public class TransactionController {
 
     private final TransactionService transactionService;

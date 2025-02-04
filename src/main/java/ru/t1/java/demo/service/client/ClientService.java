@@ -1,6 +1,6 @@
 package ru.t1.java.demo.service.client;
 
-import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.model.dto.client.ClientDto;
 import ru.t1.java.demo.model.entity.Client;
 
 import java.io.IOException;

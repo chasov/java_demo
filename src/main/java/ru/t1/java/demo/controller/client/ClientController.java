@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.t1.java.demo.aop.annotation.Metric;
-import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.model.dto.client.ClientDto;
 import ru.t1.java.demo.service.client.ClientService;
 
 

@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.header.Headers;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.model.dto.client.ClientDto;
 
 import java.nio.charset.StandardCharsets;
 

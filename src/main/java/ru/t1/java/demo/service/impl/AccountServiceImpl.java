@@ -2,14 +2,16 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.exception.client.ClientException;
 import ru.t1.java.demo.exception.account.AccountException;
 import ru.t1.java.demo.mapper.AccountMapper;
-import ru.t1.java.demo.model.dto.AccountDto;
+import ru.t1.java.demo.model.dto.account.AccountDto;
 import ru.t1.java.demo.model.entity.Account;
 import ru.t1.java.demo.model.entity.Client;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.account.AccountService;
@@ -30,9 +32,11 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public List<Account> createAccounts(List<Account> accounts) {
         List<Account> savedAccounts = new ArrayList<>();
         for (Account account : accounts) {
+            account.setStatus(AccountStatus.OPEN);
             savedAccounts.add(accountRepository.save(account));
         }
 
@@ -45,11 +49,13 @@ public class AccountServiceImpl implements AccountService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public AccountDto createAccount(AccountDto accountDto) {
         Account account = accountMapper.toEntity(accountDto);
         Client client = clientRepository.findById(accountDto.getClientId())
                 .orElseThrow(() -> new ClientException("Client not found"));
 
+        account.setStatus(AccountStatus.OPEN);
         account.setClient(client);
         account.setAccountId(UUID.randomUUID());
 
@@ -62,15 +68,29 @@ public class AccountServiceImpl implements AccountService {
     @LogDataSourceError
     @Metric
     public AccountDto getAccount(Long accountId) {
-        Account account = accountRepository.findById(accountId)
-                .orElseThrow(() -> new AccountException("Account not found"));
+        Account account = findAccountById(accountId);
         return accountMapper.toDto(account);
     }
 
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public void deleteAccount(Long accountId) {
-        accountRepository.deleteById(accountId);
+        Account account = findAccountById(accountId);
+
+        account.setStatus(AccountStatus.CLOSED);
+
+        accountRepository.save(account);
+    }
+
+    public Account findAccountById(long id) {
+        return accountRepository.findById(id)
+                .orElseThrow(() -> new AccountException("Account not found"));
+    }
+
+    public Account findAccountByAccountId(UUID accountId) {
+        return accountRepository.findByAccountId(accountId)
+                .orElseThrow(() -> new AccountException("Account not found"));
     }
 }

@@ -1,4 +1,4 @@
-package ru.t1.java.demo.config.kafka;
+package ru.t1.java.demo.config.kafka.client;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -24,8 +24,8 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.util.backoff.FixedBackOff;
-import ru.t1.java.demo.kafka.producer.KafkaClientProducer;
-import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.kafka.producer.client.KafkaClientProducer;
+import ru.t1.java.demo.model.dto.client.ClientDto;
 import ru.t1.java.demo.util.MessageDeserializer;
 
 import java.util.HashMap;
@@ -59,7 +59,7 @@ public class KafkaClientConfig {
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.model.dto.ClientDto");
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.model.dto.client.ClientDto");
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);
         props.put(ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG, sessionTimeout);

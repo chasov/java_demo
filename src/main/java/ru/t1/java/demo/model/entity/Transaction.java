@@ -12,6 +12,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Version;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,4 +62,7 @@ public class Transaction {
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "processed_at")
     private LocalDateTime processedAt;
+
+    @Version
+    private Long version;
 }

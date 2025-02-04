@@ -4,8 +4,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.reactive.function.client.WebClient;
-import ru.t1.java.demo.model.dto.CheckRequest;
-import ru.t1.java.demo.model.dto.CheckResponse;
+import ru.t1.java.demo.model.dto.web.CheckRequest;
+import ru.t1.java.demo.model.dto.web.CheckResponse;
 
 import java.util.Optional;
 

@@ -1,10 +1,10 @@
-package ru.t1.java.demo.kafka.producer;
+package ru.t1.java.demo.kafka.producer.transaction;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.dto.TransactionDto;
+import ru.t1.java.demo.model.dto.transaction.TransactionDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;

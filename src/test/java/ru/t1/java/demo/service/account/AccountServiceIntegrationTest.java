@@ -11,9 +11,9 @@ import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 import ru.t1.java.demo.exception.client.ClientException;
 import ru.t1.java.demo.exception.account.AccountException;
-import ru.t1.java.demo.model.dto.AccountDto;
+import ru.t1.java.demo.model.dto.account.AccountDto;
 import ru.t1.java.demo.model.enums.AccountType;
-import ru.t1.java.demo.model.errorlog.DataSourceErrorLog;
+import ru.t1.java.demo.model.entity.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 
 import java.math.BigDecimal;

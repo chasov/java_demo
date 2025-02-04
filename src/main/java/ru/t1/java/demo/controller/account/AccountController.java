@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.t1.java.demo.aop.annotation.Metric;
-import ru.t1.java.demo.kafka.producer.KafkaAccountProducer;
-import ru.t1.java.demo.model.dto.AccountDto;
+import ru.t1.java.demo.kafka.producer.account.KafkaAccountProducer;
+import ru.t1.java.demo.model.dto.account.AccountDto;
 import ru.t1.java.demo.service.account.AccountService;
 
 @RestController

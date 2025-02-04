@@ -1,10 +1,10 @@
-package ru.t1.java.demo.kafka.producer;
+package ru.t1.java.demo.kafka.producer.account;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.model.dto.account.AccountDto;
 
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -13,34 +13,34 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KafkaClientProducer<T extends ClientDto> {
+public class KafkaAccountProducer<T extends AccountDto> {
 
-    private final KafkaTemplate<String, Long> kafkaClientTemplate;
+    private final KafkaTemplate<String, AccountDto> kafkaAccountTemplate;
 
-    public void send(Long clientId) {
+    public void send(AccountDto account) {
         try {
-            kafkaClientTemplate.sendDefault(UUID.randomUUID().toString(), clientId).get();
+            kafkaAccountTemplate.sendDefault(UUID.randomUUID().toString(), account).get();
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {
-            kafkaClientTemplate.flush();
+            kafkaAccountTemplate.flush();
         }
     }
 
-    public void sendTo(String topic, Long clientId) {
+    public void sendTo(String topic, AccountDto accountDto) {
         try {
-            kafkaClientTemplate.send(topic, clientId).get();
-            kafkaClientTemplate.send(topic,
+            kafkaAccountTemplate.send(topic, accountDto).get();
+            kafkaAccountTemplate.send(topic,
                             1,
                             LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                             UUID.randomUUID().toString(),
-                            clientId)
+                            accountDto)
                     .get();
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {
-            kafkaClientTemplate.flush();
+            kafkaAccountTemplate.flush();
         }
     }
 }

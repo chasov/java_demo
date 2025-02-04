@@ -5,12 +5,13 @@ import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.exception.client.ClientException;
-import ru.t1.java.demo.kafka.producer.KafkaClientProducer;
-import ru.t1.java.demo.model.dto.CheckResponse;
-import ru.t1.java.demo.model.dto.ClientDto;
+import ru.t1.java.demo.kafka.producer.client.KafkaClientProducer;
+import ru.t1.java.demo.model.dto.web.CheckResponse;
+import ru.t1.java.demo.model.dto.client.ClientDto;
 import ru.t1.java.demo.model.entity.Client;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.client.ClientService;
@@ -66,6 +67,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public List<Client> registerClients(List<Client> clients) {
         List<Client> savedClients = new ArrayList<>();
         for (Client client : clients) {
@@ -89,6 +91,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public Client registerClient(Client client) {
         Client saved = null;
         Optional<CheckResponse> check = checkWebClient.check(client.getId());
@@ -105,6 +108,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public ClientDto registerClient(ClientDto clientDto) {
         Client saved = ClientMapper.toEntity(clientDto);
         saved.setClientId(UUID.randomUUID());
@@ -136,6 +140,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     @LogDataSourceError
     @Metric
+    @Transactional
     public void deleteClient(Long clientId) {
         repository.deleteById(clientId);
     }

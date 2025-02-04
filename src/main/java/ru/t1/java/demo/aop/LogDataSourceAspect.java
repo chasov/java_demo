@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.t1.java.demo.kafka.producer.KafkaDataSourceErrorLogProducer;
 import ru.t1.java.demo.mapper.DataSourceErrorLogMapper;
 import ru.t1.java.demo.model.dto.DataSourceErrorLogDto;
-import ru.t1.java.demo.model.errorlog.DataSourceErrorLog;
+import ru.t1.java.demo.model.entity.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 
 @Slf4j
