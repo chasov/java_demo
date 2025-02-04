@@ -71,6 +71,12 @@ public class AccountService implements CRUDService<AccountDto> {
         return accountMapper.toDto(savedAccount);
     }
 
+    public AccountDto saveAccount(AccountDto accountDto) {
+        Account account = accountMapper.toEntity(accountDto);
+        Account savedAccount = accountRepository.save(account);
+        return accountMapper.toDto(savedAccount);
+    }
+
     @Override
     @Transactional
     @LogDataSourceError

@@ -78,16 +78,20 @@ public class TransactionService implements CRUDService<TransactionDto> {
             throw new TransactionException("Transfers between pointed accounts are not allowed");
         }
 
-        if (accountFrom.getBalance().longValue() < transaction.getAmount().longValue()) {
+        //TODO delete:
+/*        if (accountFrom.getBalance().longValue() < transaction.getAmount().longValue()) {
             log.warn("There are insufficient funds in the account with ID " + accountFrom.getId());
             throw new TransactionException(
                     "There are insufficient funds in the account with ID " + accountFrom.getId());
-        }
+        }*/
 
-        accountFrom.setBalance(BigDecimal.valueOf
+/*        accountFrom.setBalance(BigDecimal.valueOf
                 (accountFrom.getBalance().longValue() - transaction.getAmount().longValue()));
         accountTo.setBalance(BigDecimal.valueOf
-                (accountTo.getBalance().longValue() + transaction.getAmount().longValue()));
+                (accountTo.getBalance().longValue() + transaction.getAmount().longValue()));*/
+
+        accountFrom.setBalance(accountFrom.getBalance().subtract(transaction.getAmount()));
+        //accountTo.setBalance(accountTo.getBalance().add(transaction.getAmount()));
 
         transaction.setAccountFrom(accountFrom);
         transaction.setAccountTo(accountTo);
@@ -95,8 +99,9 @@ public class TransactionService implements CRUDService<TransactionDto> {
         transaction.setStatus(TransactionStatus.REQUESTED);
         transaction.setTransactionId(generateTransactionId());
 
-        log.info("Transaction between {} and {} account completed successfully",
-                accountFrom.getId(), accountTo.getId());
+        //TODO delete:
+/*        log.info("Transaction between {} and {} account completed successfully",
+                accountFrom.getId(), accountTo.getId());*/
 
         TransactionAcceptDto transactionAcceptDto = TransactionAcceptDto.builder()
                 .clientId(transaction.getAccountFrom().getClient().getClientId())
@@ -107,10 +112,16 @@ public class TransactionService implements CRUDService<TransactionDto> {
                 .accountBalance(transaction.getAccountFrom().getBalance())
                 .build();
 
-        //TODO realize Hw 3_3 and create microservice
+        //TODO choose between service and producer
         //transactionProducer.sendAcceptedTransaction(acceptedTransactionDto);
         Transaction savedTransaction = transactionRepository.save(transaction);
         sendMessage(transactionAcceptTopicName, transactionAcceptDto);
+        return transactionMapper.toDto(savedTransaction);
+    }
+
+    public TransactionDto saveTransaction(TransactionDto transactionDto) {
+        Transaction transaction = transactionMapper.toEntity(transactionDto);
+        Transaction savedTransaction = transactionRepository.save(transaction);
         return transactionMapper.toDto(savedTransaction);
     }
 

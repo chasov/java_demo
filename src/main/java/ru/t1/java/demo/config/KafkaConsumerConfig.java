@@ -129,7 +129,7 @@ public class KafkaConsumerConfig {
     public ConsumerFactory<String, TransactionResultDto> transactionResultListenerFactory() {
         Map<String, Object> props = new HashMap<>(consumerProperties());
         props.put(ConsumerConfig.GROUP_ID_CONFIG, consumerProperties.getTransactionGroupId());
-        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.dto.TransactionDto");
+        props.put(JsonDeserializer.VALUE_DEFAULT_TYPE, "ru.t1.java.demo.dto.TransactionResultDto");
         DefaultKafkaConsumerFactory<String, TransactionResultDto> factory = new DefaultKafkaConsumerFactory<>(props);
         factory.setKeyDeserializer(new StringDeserializer());
 
