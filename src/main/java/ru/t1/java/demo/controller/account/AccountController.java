@@ -25,12 +25,11 @@ public class AccountController {
 
     @Metric
     @PostMapping
-    public ResponseEntity<String> createAccount(@RequestBody AccountDto account) {
+    public void createAccount(@RequestBody AccountDto account) {
         try {
             kafkaAccountProducer.send(account);
-            return ResponseEntity.ok("Account creation message sent successfully.");
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending account: " + e.getMessage());
+            throw new RuntimeException("Error sending transaction");
         }
     }
 
