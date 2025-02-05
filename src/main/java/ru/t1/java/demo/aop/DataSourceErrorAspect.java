@@ -27,11 +27,9 @@ public class DataSourceErrorAspect {
     @Pointcut("@within(ru.t1.java.demo.aop.annotation.LogDataSourceError)")
     public void classLevelAnnotated() {}
 
-    @Pointcut("execution(* ru.t1.java.demo.repository.*.*(..))")
-    public void repositoryLevel() {}
 
     @AfterThrowing(
-            pointcut = "classLevelAnnotated() /*|| repositoryLevel()*/",
+            pointcut = "classLevelAnnotated()",
             throwing = "e")
     public void handleDataSourceException(JoinPoint joinPoint, Exception e) {
         String errorMessage = e.getMessage();
