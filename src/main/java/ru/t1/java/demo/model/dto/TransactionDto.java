@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionDto implements Serializable {
+public class TransactionDto {
 
     @JsonProperty("transactionId")
     private String transactionId;
