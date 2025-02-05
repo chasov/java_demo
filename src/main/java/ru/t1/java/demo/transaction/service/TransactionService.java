@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
+import org.checkerframework.checker.units.qual.A;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -15,12 +16,9 @@ import ru.t1.java.demo.transaction.dto.TransactionDto;
 import ru.t1.java.demo.transaction.enums.TransactionStatus;
 import ru.t1.java.demo.transaction.model.Transaction;
 import ru.t1.java.demo.transaction.model.TransactionAccept;
-import ru.t1.java.demo.transaction.model.TransactionResult;
 import ru.t1.java.demo.transaction.repository.TransactionRepository;
 
 import java.math.BigDecimal;
-import java.sql.Timestamp;
-import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -29,14 +27,18 @@ import java.util.stream.StreamSupport;
 @Slf4j
 public class TransactionService {
 
-    @Autowired
-    private TransactionRepository transactionRepository;
+    private final TransactionRepository transactionRepository;
+
+    private final KafkaTemplate<String, TransactionAccept> kafkaTemplate;
+
+    private final AccountRepository accountRepository;
 
     @Autowired
-    private KafkaTemplate<String, TransactionAccept> kafkaTemplate;
-
-    @Autowired
-    private AccountRepository accountRepository;
+    public TransactionService(TransactionRepository transactionRepository, KafkaTemplate<String, TransactionAccept> kafkaTemplate, AccountRepository accountRepository) {
+        this.transactionRepository = transactionRepository;
+        this.kafkaTemplate = kafkaTemplate;
+        this.accountRepository = accountRepository;
+    }
 
     public Transaction createTransaction(Transaction transaction) {
         if (transaction.getAmount() == null || transaction.getAmount().compareTo(BigDecimal.ZERO) < 0) {

@@ -15,12 +15,15 @@ import ru.t1.java.demo.transaction.service.TransactionAcceptService;
 import java.util.Collection;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class TransactionAcceptConsumer {
 
+    private final TransactionAcceptService transactionAcceptService;
+
     @Autowired
-    private TransactionAcceptService transactionAcceptService;
+    public TransactionAcceptConsumer(TransactionAcceptService transactionAcceptService) {
+        this.transactionAcceptService = transactionAcceptService;
+    }
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction-accepted}", topics = "t1_demo_transaction_accept", containerFactory = "kafkaListenerContainerFactory")
     public void listener(@Payload Collection<TransactionDto> transactionDtos,

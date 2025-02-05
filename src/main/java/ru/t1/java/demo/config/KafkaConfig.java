@@ -57,6 +57,7 @@ public class KafkaConfig <T> {
         props.put(JsonDeserializer.TYPE_MAPPINGS,
                 "clientDto:ru.t1.java.demo.client.dto.ClientDto," +
                         "accountDto:ru.t1.java.demo.account.dto.AccountDto," +
+                        "transactionDto:ru.t1.java.demo.transaction.dto.TransactionDto," +
                         "transactionDto:ru.t1.java.demo.transaction.dto.TransactionDto");
         props.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         props.put(JsonDeserializer.USE_TYPE_INFO_HEADERS, false);

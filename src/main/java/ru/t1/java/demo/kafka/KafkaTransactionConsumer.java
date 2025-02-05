@@ -1,6 +1,5 @@
 package ru.t1.java.demo.kafka;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
@@ -18,12 +17,15 @@ import java.util.Set;
 
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
 public class KafkaTransactionConsumer {
 
+    private final TransactionService transactionService;
+
     @Autowired
-    private TransactionService transactionService;
+    public KafkaTransactionConsumer(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction}", topics = "t1_demo_transactions", containerFactory = "kafkaListenerContainerFactory")
     public void listener(@Payload Collection<TransactionDto> transactionDtos,
