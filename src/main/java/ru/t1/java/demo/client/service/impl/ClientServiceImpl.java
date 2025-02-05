@@ -42,8 +42,9 @@ public class ClientServiceImpl implements ClientService {
 
         ClientDto[] clients = mapper.readValue(new File("src/main/resources/MOCK_DATA.json"), ClientDto[].class);
 
-        return Arrays.stream(clients)
-                .map(ClientMapper::toEntity)
-                .collect(Collectors.toList());
+//        return Arrays.stream(clients)
+//                .map(ClientMapper::toEntity)
+//                .collect(Collectors.toList());
+        return null;
     }
 }
