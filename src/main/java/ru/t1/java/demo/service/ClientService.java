@@ -14,10 +14,10 @@ public interface ClientService {
 
     void clearMiddleName(List<ClientDto> dtos);
 
-    Client patchById(String clientId, ClientDto dto);
+    Client patchByClientId(String clientId, ClientDto dto);
 
-    Client getById(String clientId);
+    Client findByClientId(String clientId);
 
-    void deleteById(String clientId);
+    void deleteByClientId(String clientId);
 
 }

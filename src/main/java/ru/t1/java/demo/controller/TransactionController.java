@@ -44,7 +44,7 @@ public class TransactionController {
     public TransactionDto patchById(@PathVariable String transactionId,
                                     @RequestBody TransactionDto dto) {
 
-        return TransactionMapper.toDto(transactionService.patchById(transactionId, dto));
+        return TransactionMapper.toDto(transactionService.patchByTransactionId(transactionId, dto));
     }
 
     @LogException
@@ -53,7 +53,7 @@ public class TransactionController {
     @HandlingResult
     public List<TransactionDto> getAllByAccountId(@PathVariable String accountId) {
 
-        return transactionService.getAllAccountById(accountId);
+        return transactionService.findAllAccountsById(accountId);
     }
 
     @LogException
@@ -62,7 +62,7 @@ public class TransactionController {
     @HandlingResult
     public TransactionDto getById(@PathVariable String transactionId) {
 
-        return TransactionMapper.toDto(transactionService.getById(transactionId));
+        return TransactionMapper.toDto(transactionService.findByTransactionId(transactionId));
     }
 
     @LogException
@@ -71,7 +71,7 @@ public class TransactionController {
     @HandlingResult
     public void deleteById(@PathVariable String transactionId) {
 
-        transactionService.deleteById(transactionId);
+        transactionService.deleteByTransactionId(transactionId);
     }
 
 }

@@ -14,12 +14,12 @@ public interface TransactionService {
 
     void acceptTransaction(List<TransactionResponse> transactions );
 
-    Transaction patchById(String transactionId, TransactionDto dto);
+    Transaction patchByTransactionId(String transactionId, TransactionDto dto);
 
-    List<TransactionDto> getAllAccountById(String transactionId);
+    List<TransactionDto> findAllAccountsById(String transactionId);
 
-    Transaction getById(String transactionId);
+    Transaction findByTransactionId(String transactionId);
 
-    void deleteById(String transactionId);
+    void deleteByTransactionId(String transactionId);
 
 }

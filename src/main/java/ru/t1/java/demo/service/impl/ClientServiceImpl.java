@@ -1,6 +1,5 @@
 package ru.t1.java.demo.service.impl;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -77,10 +76,8 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public List<ClientDto> parseJson() {
         log.info("Parsing json");
-        ObjectMapper mapper = new ObjectMapper();
         ClientDto[] clients = new ClientDto[0];
         try {
-//            clients = mapper.readValue(new File("src/main/resources/MOCK_DATA.json"), ClientDto[].class);
             clients = new ClientDto[]{ClientDto.builder()
                     .firstName("first_name_1")
                     .build(),
@@ -88,8 +85,7 @@ public class ClientServiceImpl implements ClientService {
                             .firstName("first_name_2")
                             .build()};
         } catch (Exception e) {
-//            throw new RuntimeException(e);
-            log.warn("Exception: ", e);
+            log.warn("Json exception: ", e);
         }
         log.info("Found {} clients", clients.length);
         return Arrays.asList(clients);
@@ -104,8 +100,8 @@ public class ClientServiceImpl implements ClientService {
 
     @LogDataSourceError
     @Override
-    public Client patchById(String clientId, ClientDto dto) {
-        Client client = getById(clientId);
+    public Client patchByClientId(String clientId, ClientDto dto) {
+        Client client = findByClientId(clientId);
         client.setFirstName(dto.getFirstName());
         client.setLastName(dto.getLastName());
         client.setMiddleName(dto.getMiddleName());
@@ -115,17 +111,21 @@ public class ClientServiceImpl implements ClientService {
 
     @LogDataSourceError
     @Override
-    public Client getById(String clientId) {
-        UUID uuid = UUID.fromString(clientId);
-        Optional<Client> clientOptional = Optional.ofNullable(clientRepository.findByClientId(uuid));
-        if (clientOptional.isEmpty()) throw new ClientException("Client not found");
-        return clientOptional.get();
+    public Client findByClientId(String clientId) {
+        try {
+            UUID uuid = UUID.fromString(clientId);
+            Optional<Client> clientOptional = Optional.ofNullable(clientRepository.findByClientId(uuid));
+            if (clientOptional.isEmpty()) throw new ClientException("Client not found");
+            return clientOptional.get();
+        } catch (IllegalArgumentException e) {
+            throw new ClientException("Invalid UUID format: " + clientId, e);
+        }
     }
 
     @LogDataSourceError
     @Override
-    public void deleteById(String clientId) {
-        getById(clientId);
+    public void deleteByClientId(String clientId) {
+        findByClientId(clientId);
         clientRepository.deleteByClientId(UUID.fromString(clientId));
     }
 

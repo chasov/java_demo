@@ -38,7 +38,7 @@ public class AccountController {
     public AccountDto patchById(@PathVariable String accountId,
                                 @RequestBody AccountDto dto) {
 
-        return AccountMapper.toDto(accountService.patchById(accountId, dto));
+        return AccountMapper.toDto(accountService.patchByAccountId(accountId, dto));
     }
 
     @LogException
@@ -46,7 +46,7 @@ public class AccountController {
     @GetMapping(value = "/accounts/{clientId}")
     @HandlingResult
     public List<AccountDto> getAllByClientId(@PathVariable String clientId) {
-         return accountService.getAllByClientId(clientId);
+         return accountService.findAllByClientId(clientId);
     }
 
     @LogException
@@ -55,7 +55,7 @@ public class AccountController {
     @HandlingResult
     public AccountDto getById(@PathVariable String accountId) {
 
-        return AccountMapper.toDto(accountService.getByAccountId(accountId));
+        return AccountMapper.toDto(accountService.findByAccountId(accountId));
     }
 
     @LogException
@@ -64,7 +64,7 @@ public class AccountController {
     @HandlingResult
     public void deleteById(@PathVariable String accountId) {
 
-        accountService.deleteById(accountId);
+        accountService.deleteByAccountId(accountId);
     }
 
 }

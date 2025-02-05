@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.enums.AccountState;
 import ru.t1.java.demo.enums.TransactionState;
+import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.Account;
@@ -73,8 +74,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void acceptTransaction(List<TransactionResponse> transactions) {
         for (TransactionResponse transaction : transactions) {
-            Transaction savedTransaction = transactionRepository.findByTransactionId(transaction.getTransactionId());
-            Account savedAccount = accountRepository.findByAccountId(transaction.getAccountId());
+            Transaction savedTransaction = findByTransactionId(transaction.getTransactionId().toString());
+            Account savedAccount = accountService.findByAccountId(transaction.getAccountId().toString());
 
             if (transaction.getState().equals(TransactionState.ACCEPTED)) {
                 savedTransaction.setState(TransactionState.ACCEPTED);
@@ -115,17 +116,15 @@ public class TransactionServiceImpl implements TransactionService {
                 registerTransaction(topic, transactionRequest);
                 savedTransactions.add(transaction);
             }
-
         }
-
         return savedTransactions
                 .stream()
-                .sorted(Comparator.comparing(Transaction::getId))
+                .sorted(Comparator.comparing(Transaction::getAccountId))
                 .toList();
     }
 
     private TransactionRequest requestTransaction(Transaction transaction) {
-        Account account = accountService.getByAccountId(transaction.getAccountId().toString());
+        Account account = accountService.findByAccountId(transaction.getAccountId().toString());
         if (account.getState().equals(AccountState.OPEN)) {
             transaction.setState(TransactionState.REQUESTED);
             BigDecimal balance = account.getBalance().subtract(transaction.getAmount());
@@ -133,7 +132,7 @@ public class TransactionServiceImpl implements TransactionService {
 
             accountRepository.save(account);
 
-            TransactionRequest transactionRequest = TransactionRequest.builder()
+            return TransactionRequest.builder()
                     .clientId(account.getClientId())
                     .accountId(account.getAccountId())
                     .transactionId(transaction.getTransactionId())
@@ -141,15 +140,14 @@ public class TransactionServiceImpl implements TransactionService {
                     .transactionAmount(transaction.getAmount())
                     .accountBalance(balance)
                     .build();
-            return transactionRequest;
         }
         return null;
     }
 
     @LogDataSourceError
     @Override
-    public Transaction patchById(String transactionId, TransactionDto dto) {
-        Transaction transaction = getById(transactionId);
+    public Transaction patchByTransactionId(String transactionId, TransactionDto dto) {
+        Transaction transaction = findByTransactionId(transactionId);
         transaction.setAmount(dto.getAmount());
 
         return transactionRepository.save(transaction);
@@ -157,7 +155,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public List<TransactionDto> getAllAccountById(String accountId) {
+    public List<TransactionDto> findAllAccountsById(String accountId) {
         List<Transaction> transactions = transactionRepository.findAllByAccountId(UUID.fromString(accountId));
         if (transactions.isEmpty()) return Collections.emptyList();
 
@@ -168,17 +166,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public Transaction getById(String transactionId) {
+    public Transaction findByTransactionId(String transactionId) {
+        try {
         UUID uuid = UUID.fromString(transactionId);
         Optional<Transaction> transactionOptional = Optional.ofNullable(transactionRepository.findByTransactionId(uuid));
         if (transactionOptional.isEmpty()) throw new TransactionException("Transaction not found");
         return transactionOptional.get();
+        } catch (IllegalArgumentException e) {
+            throw new ClientException("Invalid UUID format: " + transactionId, e);
+        }
     }
 
     @LogDataSourceError
     @Override
-    public void deleteById(String transactionId) {
-        getById(transactionId);
+    public void deleteByTransactionId(String transactionId) {
+        findByTransactionId(transactionId);
         transactionRepository.deleteByTransactionId(UUID.fromString(transactionId));
     }
 

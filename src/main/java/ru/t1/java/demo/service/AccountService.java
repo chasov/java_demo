@@ -10,13 +10,13 @@ public interface AccountService {
 
     Account registerAccount(Account account);
 
-    Account patchById(String accountId, AccountDto dto);
+    Account patchByAccountId(String accountId, AccountDto dto);
 
-    List<AccountDto> getAllByClientId(String clientId);
+    List<AccountDto> findAllByClientId(String clientId);
 
-    Account getByAccountId(String accountId);
+    Account findByAccountId(String accountId);
 
-    void deleteById(String accountId);
+    void deleteByAccountId(String accountId);
 
 }
 

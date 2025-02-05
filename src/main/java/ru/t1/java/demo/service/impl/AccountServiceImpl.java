@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.enums.AccountType;
 import ru.t1.java.demo.exception.AccountException;
+import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.kafka.KafkaProducer;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.dto.AccountDto;
@@ -45,7 +46,7 @@ public class AccountServiceImpl implements AccountService {
         }
         return savedAccounts
                 .stream()
-                .sorted(Comparator.comparing(Account::getId))
+                .sorted(Comparator.comparing(Account::getAccountId))
                 .toList();
     }
 
@@ -78,9 +79,9 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public Account patchById(String accountId, AccountDto dto) {
+    public Account patchByAccountId(String accountId, AccountDto dto) {
 
-        Account account = getByAccountId(accountId);
+        Account account = findByAccountId(accountId);
 
         account.setAccountType(AccountType.valueOf(dto.getAccountType().toUpperCase(Locale.ROOT)));
         account.setBalance(dto.getBalance());
@@ -89,7 +90,7 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public List<AccountDto> getAllByClientId(String clientId) {
+    public List<AccountDto> findAllByClientId(String clientId) {
         List<Account> accounts = accountRepository.findAllByClientId(UUID.fromString(clientId));
         if (accounts.isEmpty()) return Collections.emptyList();
 
@@ -101,17 +102,21 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public Account getByAccountId(String accountId) {
-        UUID uuid = UUID.fromString(accountId);
-        Optional<Account> accountOptional = Optional.ofNullable(accountRepository.findByAccountId(uuid));
-        if (accountOptional.isEmpty()) throw new AccountException("Account not found");
-        return accountOptional.get();
+    public Account findByAccountId(String accountId) {
+        try {
+            UUID uuid = UUID.fromString(accountId);
+            Optional<Account> accountOptional = Optional.ofNullable(accountRepository.findByAccountId(uuid));
+            if (accountOptional.isEmpty()) throw new AccountException("Account not found");
+            return accountOptional.get();
+        } catch (IllegalArgumentException e) {
+            throw new ClientException("Invalid UUID format: " + accountId, e);
+        }
     }
 
     @LogDataSourceError
     @Override
-    public void deleteById(String accountId) {
-        getByAccountId(accountId);
+    public void deleteByAccountId(String accountId) {
+        findByAccountId(accountId);
         accountRepository.deleteByAccountId(UUID.fromString(accountId));
     }
 

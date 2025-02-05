@@ -65,7 +65,7 @@ public class ClientController {
     @HandlingResult
     public ClientDto patchById(@PathVariable String  clientId,
                                @RequestBody ClientDto dto) {
-        return ClientMapper.toDto(clientService.patchById(clientId, dto));
+        return ClientMapper.toDto(clientService.patchByClientId(clientId, dto));
     }
 
     @LogException
@@ -73,7 +73,7 @@ public class ClientController {
     @GetMapping(value = "/client/{clientId}")
     @HandlingResult
     public ClientDto getById(@PathVariable String clientId) {
-        return ClientMapper.toDto(clientService.getById(clientId));
+        return ClientMapper.toDto(clientService.findByClientId(clientId));
     }
 
     @LogException
@@ -81,7 +81,7 @@ public class ClientController {
     @DeleteMapping("client/{clientId}")
     @HandlingResult
     public void deleteById(@PathVariable String clientId) {
-        clientService.deleteById(clientId);
+        clientService.deleteByClientId(clientId);
     }
 
 }
