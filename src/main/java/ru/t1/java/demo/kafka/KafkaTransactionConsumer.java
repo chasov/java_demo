@@ -8,9 +8,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.TransactionService;
 
 import java.util.List;

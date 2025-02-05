@@ -14,8 +14,6 @@ public interface TransactionService {
 
     void acceptTransaction(List<TransactionResponse> transactions );
 
-    //Transaction registerTransaction(String topic, Transaction transaction);
-
     Transaction patchById(String transactionId, TransactionDto dto);
 
     List<TransactionDto> getAllAccountById(String transactionId);

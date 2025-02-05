@@ -74,7 +74,6 @@ public class ClientServiceImpl implements ClientService {
         return saved.get();
     }
 
-
     @Override
     public List<ClientDto> parseJson() {
         log.info("Parsing json");
@@ -118,7 +117,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client getById(String clientId) {
         UUID uuid = UUID.fromString(clientId);
-        Optional <Client> clientOptional = Optional.ofNullable(clientRepository.findByClientId(uuid));
+        Optional<Client> clientOptional = Optional.ofNullable(clientRepository.findByClientId(uuid));
         if (clientOptional.isEmpty()) throw new ClientException("Client not found");
         return clientOptional.get();
     }

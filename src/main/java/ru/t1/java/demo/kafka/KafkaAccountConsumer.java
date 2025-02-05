@@ -23,9 +23,9 @@ public class KafkaAccountConsumer {
             topics = {"t1_demo_accounts"},
             containerFactory = "kafkaListenerContainerFactory")
     public void AccountListener(@Payload List<Account> messageList,
-                               Acknowledgment ack,
-                               @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                               @Header(KafkaHeaders.RECEIVED_KEY) String key) {
+                                Acknowledgment ack,
+                                @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                                @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.debug("Account consumer: Обработка новых сообщений");
 
         System.out.println(messageList);
@@ -35,7 +35,7 @@ public class KafkaAccountConsumer {
             messageList.stream()
                     .forEach(System.out::println);
 
-                    accountService.registerAccounts(messageList);
+            accountService.registerAccounts(messageList);
         } finally {
             ack.acknowledge();
         }

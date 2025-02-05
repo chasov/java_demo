@@ -41,12 +41,8 @@ public class TransactionServiceImpl implements TransactionService {
     private final AccountService accountService;
     private final KafkaProducer kafkaProducer;
 
-
     @Value("${t1.kafka.topic.transaction_accept}")
     private String topic;
-
-    @Value("${t1.kafka.topic.transaction_result}")
-    private String resultTopic;
 
     @LogDataSourceError
     @Override

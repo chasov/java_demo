@@ -38,7 +38,7 @@ public class KafkaClientConsumer {
             List<Client> clients = messageList.stream()
                     .peek(dto -> dto.setFirstName(key + "@" + dto.getFirstName()))
                     .toList();
-                    clientService.registerClients(clients);
+            clientService.registerClients(clients);
         } finally {
             ack.acknowledge();
         }
