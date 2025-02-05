@@ -52,36 +52,38 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public List<Account> getAll() {
-        return repository.findAll();
+    public List<AccountDto> getAll() {
+        return repository.findAll().stream()
+                .map(AccountMapper::toDto).toList();
     }
 
     @Override
     @Transactional
-    public Account getById(UUID id) {
+    public AccountDto getById(UUID id) {
         return repository.findById(id)
+                .map(AccountMapper::toDto)
                 .orElseThrow(() -> new NoSuchElementException("Account with ID " + id + " not found"));
     }
 
     @Override
     @Transactional
     public void delete(UUID id) {
-        Account account = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Account with ID " + id + " not found"));
         repository.deleteById(id);
     }
 
 
     @Override
     @Transactional
-    public Account create(AccountDto dto) {
+    public AccountDto create(AccountDto dto) {
         Account account = AccountMapper.toEntity(dto);
-        return repository.save(account);
+        return AccountMapper.toDto(repository.save(account));
     }
 
     @Override
     @Transactional
-    public void registerAccount(List<Account> accounts) {
+    public void registerAccount(List<AccountDto> accountDtoList) {
+        List<Account> accounts = accountDtoList.stream()
+                .map(AccountMapper::toEntity).toList();
         repository.saveAll(accounts);
     }
 }

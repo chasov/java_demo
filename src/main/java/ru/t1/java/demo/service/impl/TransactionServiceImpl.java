@@ -14,7 +14,10 @@ import ru.t1.java.demo.util.TransactionMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,36 +53,37 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public List<Transaction> getAll() {
-        return repository.findAll();
+    public List<TransactionDto> getAll() {
+        return repository.findAll().stream()
+                .map(TransactionMapper::toDto).toList();
     }
 
     @Override
     @Transactional
-    public Transaction getById(UUID id) {
+    public TransactionDto getById(UUID id) {
         return repository.findById(id)
+                .map(TransactionMapper::toDto)
                 .orElseThrow(() -> new NoSuchElementException("Transaction with ID " + id + " not found"));
     }
 
     @Override
     @Transactional
     public void delete(UUID id) {
-        Transaction transaction = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Transaction with ID " + id + " not found"));
         repository.deleteById(id);
     }
 
     @Override
     @Transactional
-    public Transaction create(TransactionDto dto) {
+    public TransactionDto create(TransactionDto dto) {
         Transaction transaction = TransactionMapper.toEntity(dto);
-        return repository.save(transaction);
+        return TransactionMapper.toDto(repository.save(transaction));
     }
-
 
     @Override
     @Transactional
-    public void registerTransactions(List<Transaction> transactions) {
+    public void registerTransactions(List<TransactionDto> transactionDtoList) {
+        List<Transaction> transactions = transactionDtoList.stream()
+                .map(TransactionMapper::toEntity).toList();
         repository.saveAll(transactions);
     }
 }

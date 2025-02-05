@@ -1,70 +1,68 @@
 package ru.t1.java.demo.aop;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.kafka.KafkaErrorProducer;
 import ru.t1.java.demo.model.DataSourceErrorLog;
 import ru.t1.java.demo.repository.DataSourceErrorLogRepository;
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Component
 @Aspect
+@RequiredArgsConstructor
 public class DataSourceErrorAspect {
 
     private final DataSourceErrorLogRepository repository;
     private final KafkaErrorProducer kafkaErrorProducer;
 
-    public DataSourceErrorAspect(DataSourceErrorLogRepository repository, KafkaErrorProducer kafkaErrorProducer) {
-        this.repository = repository;
-        this.kafkaErrorProducer = kafkaErrorProducer;
-    }
 
+    @Pointcut("@within(ru.t1.java.demo.aop.annotation.LogDataSourceError)")
+    public void classLevelAnnotated() {}
 
-    @Around("@annotation(ru.t1.java.demo.aop.annotation.LogDataSourceError)")
-    public Object logDataSourceError(ProceedingJoinPoint joinPoint) throws Throwable {
+    @Pointcut("execution(* ru.t1.java.demo.repository.*.*(..))")
+    public void repositoryLevel() {}
+
+    @AfterThrowing(
+            pointcut = "classLevelAnnotated() /*|| repositoryLevel()*/",
+            throwing = "e")
+    public void handleDataSourceException(JoinPoint joinPoint, Exception e) {
+        String errorMessage = e.getMessage();
+        String errorType = "DATA_SOURCE";
+
         try {
-            return joinPoint.proceed();
-        } catch (Exception e) {
-
-            String errorMessage = e.getMessage();
-            String errorType = "DATA_SOURCE";
-
-
-            try {
-                kafkaErrorProducer.sendErrorMessage(errorMessage, errorType);
-                log.info("Отправлено сообщение в Kafka: {}", errorMessage);
-
-            } catch (Exception kafkaException) {
-                log.error("Ошибка при отправке в Kafka: {}", kafkaException.getMessage(), kafkaException);
-                logToDatabase(e, joinPoint, errorMessage);
-            }
-
-            throw e;
+            kafkaErrorProducer.sendErrorMessage(errorMessage, errorType);
+            log.info("Сообщение отправлено в Kafka: {}", errorMessage);
+        } catch (Exception kafkaException) {
+            log.error("Ошибка при отправке в Kafka: {}", kafkaException.getMessage(), kafkaException);
+            persistErrorToDatabase(e, joinPoint, errorMessage);
         }
     }
 
-    private void logToDatabase(Exception e, ProceedingJoinPoint joinPoint, String errorMessage) {
+    private void persistErrorToDatabase(Exception e, JoinPoint joinPoint, String errorMessage) {
         try {
             DataSourceErrorLog errorLog = new DataSourceErrorLog();
-            String stackTrace = buildStackTrace(e);
+            String stackTrace = getStackTraceAsString(e);
             errorLog.setStackTrace(stackTrace);
             errorLog.setMessage(errorMessage);
             errorLog.setMethodSignature(joinPoint.getSignature().toString());
             repository.save(errorLog);
-            log.info("Ошибка сохранена в БД: {}", errorMessage);
+            log.info("Ошибка успешно сохранена в БД: {}", errorMessage);
         } catch (Exception dbException) {
             log.error("Ошибка при записи в базу данных: {}", dbException.getMessage(), dbException);
         }
     }
 
-    private String buildStackTrace(Exception e) {
-        StringBuilder stackTraceBuilder = new StringBuilder();
-        for (StackTraceElement element : e.getStackTrace()) {
-            stackTraceBuilder.append(element.toString()).append("\n");
-        }
-        return stackTraceBuilder.toString();
+    private String getStackTraceAsString(Exception e) {
+        return Arrays.stream(e.getStackTrace())
+                .map(StackTraceElement::toString)
+                .collect(Collectors.joining("\n"));
     }
 }

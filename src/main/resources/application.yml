@@ -35,6 +35,7 @@ t1:
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
 
-
+metric:
+  time-threshold: 5
 
 

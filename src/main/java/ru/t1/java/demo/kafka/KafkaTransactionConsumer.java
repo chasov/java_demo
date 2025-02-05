@@ -35,13 +35,8 @@ public class KafkaTransactionConsumer {
         try {
             log.info("Topic: {} , Key: {}", topic, key);
 
-            messageList.stream()
-                    .forEach(System.err::println);
-            List<Transaction> transactions = messageList.stream()
-                    .map(TransactionMapper::toEntity)
-                    .toList();
-
-            transactionService.registerTransactions(transactions);
+            messageList.forEach(msg -> log.info("Received message: {}", msg));
+            transactionService.registerTransactions(messageList);
 
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);

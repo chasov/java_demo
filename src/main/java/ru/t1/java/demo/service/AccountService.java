@@ -11,13 +11,13 @@ public interface AccountService {
 
     List<Account> parseJson() throws IOException;
 
-    List<Account> getAll();
+    List<AccountDto> getAll();
 
-    Account getById(UUID id);
+    AccountDto getById(UUID id);
 
     void delete(UUID id);
 
-    Account create(AccountDto dto);
+    AccountDto create(AccountDto dto);
 
-    void registerAccount(List<Account> accounts);
+    void registerAccount(List<AccountDto> accounts);
 }

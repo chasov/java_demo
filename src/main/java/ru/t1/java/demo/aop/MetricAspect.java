@@ -6,6 +6,7 @@ import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,15 @@ public class MetricAspect {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
+    @Value("${metric.time-threshold}")
+    private long timeThreshold;
+
     @Pointcut("execution(* ru.t1.java.demo.service.impl.*.*(..))")
     public void serviceLayer() {}
 
     @Around("serviceLayer()")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
-        long timeThreshold = 5L;
+        //long timeThreshold = 5L;
 
         long startTime = System.currentTimeMillis();
         log.info("Вызов метода: {}", joinPoint.getSignature().toShortString());

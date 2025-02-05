@@ -11,13 +11,13 @@ public interface TransactionService {
 
     List<Transaction> parseJson() throws IOException;
 
-    List<Transaction> getAll();
+    List<TransactionDto> getAll();
 
-    Transaction getById(UUID id);
+    TransactionDto getById(UUID id);
 
     void delete(UUID id);
 
-    Transaction create(TransactionDto dto);
+    TransactionDto create(TransactionDto dto);
 
-    void registerTransactions(List<Transaction> transactions);
+    void registerTransactions(List<TransactionDto> transactions);
 }

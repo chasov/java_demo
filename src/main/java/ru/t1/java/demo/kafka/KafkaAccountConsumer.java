@@ -37,12 +37,7 @@ public class KafkaAccountConsumer {
             log.info("Topic: {}Key: {}", topic, key);
 
             messageList.forEach(msg -> log.info("Received message: {}", msg));
-
-            List<Account> accounts = messageList.stream()
-                    .map(AccountMapper::toEntity)
-                    .toList();
-
-            accountService.registerAccount(accounts);
+            accountService.registerAccount(messageList);
 
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);
