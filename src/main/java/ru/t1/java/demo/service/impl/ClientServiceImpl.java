@@ -53,7 +53,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public Client registerClient(Client client) {
+    public ClientDto registerClient(Client client) {
         AtomicReference<Client> saved = new AtomicReference<>();
 
         Message<Client> message = MessageBuilder.withPayload(client)
@@ -74,7 +74,7 @@ public class ClientServiceImpl implements ClientService {
             throw new RuntimeException("Failed to send account", ex);
         });
         future.join();
-        return saved.get();
+        return ClientMapper.toDto(saved.get());
     }
 
 

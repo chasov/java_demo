@@ -59,7 +59,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @LogDataSourceError
     @Override
-    public Transaction registerTransaction(Transaction transaction) {
+    public TransactionDto registerTransaction(Transaction transaction) {
         AtomicReference<Transaction> saved = new AtomicReference<>();
 
         transaction.setTimestamp(Timestamp.from(Instant.now()));
@@ -81,7 +81,7 @@ public class TransactionServiceImpl implements TransactionService {
             throw new RuntimeException("Failed to send account", ex);
         });
         future.join();
-        return saved.get();
+        return TransactionMapper.toDto(saved.get());
     }
 
     @LogDataSourceError

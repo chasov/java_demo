@@ -9,7 +9,7 @@ import java.util.List;
 public interface AccountService {
     List<Account> registerAccounts(List<Account> accounts);
 
-    Account registerAccount(Account account);
+    AccountDto registerAccount(Account account);
 
     AccountDto patchById(Long accountId, AccountDto dto);
 

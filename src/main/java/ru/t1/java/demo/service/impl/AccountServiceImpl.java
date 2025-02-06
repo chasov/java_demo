@@ -54,7 +54,7 @@ public class AccountServiceImpl implements AccountService {
 
     @LogDataSourceError
     @Override
-    public Account registerAccount(Account account) {
+    public AccountDto registerAccount(Account account) {
         AtomicReference<Account> saved = new AtomicReference<>();
 
         Message<Account> message = MessageBuilder.withPayload(account)
@@ -75,7 +75,7 @@ public class AccountServiceImpl implements AccountService {
             throw new RuntimeException("Failed to send account", ex);
         });
         future.join();
-        return saved.get();
+        return AccountMapper.toDto(saved.get());
     }
 
     @LogDataSourceError

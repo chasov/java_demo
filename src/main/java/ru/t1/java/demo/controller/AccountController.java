@@ -25,10 +25,10 @@ public class AccountController {
     @Metric(maxExecutionTime = 1)
     @HandlingResult
     @PostMapping("account/register")
-    public ResponseEntity<Account> register(@RequestBody AccountDto dto) {
+    public ResponseEntity<AccountDto> register(@RequestBody AccountDto dto) {
         log.info("Registering account: {}", dto);
-        Account account = accountService.registerAccount(AccountMapper.toEntityWithId(dto));
-        return ResponseEntity.ok().body(account);
+        AccountDto accountDto = accountService.registerAccount(AccountMapper.toEntityWithId(dto));
+        return ResponseEntity.ok().body(accountDto);
     }
 
     @LogException
