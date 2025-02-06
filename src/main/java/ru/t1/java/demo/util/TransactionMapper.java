@@ -22,6 +22,17 @@ public class TransactionMapper {
         Account accountTo = accountRepository.findById(transactionDto.getAccountToId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Client not found with id " + transactionDto.getAccountToId()));
+
+        TransactionStatus status = null;
+        if (transactionDto.getStatus() != null) {
+            try {
+                status = TransactionStatus.valueOf(transactionDto.getStatus());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid transaction status: " + transactionDto.getStatus());
+            }
+        }
+
+
         return Transaction.builder()
                 .id(transactionDto.getId())
                 .accountFrom(accountFrom)
@@ -29,7 +40,7 @@ public class TransactionMapper {
                 .amount(transactionDto.getAmount())
                 .completedAt(transactionDto.getCompletedAt())
                 .updatedAt(transactionDto.getUpdatedAt())
-                //.status(TransactionStatus.valueOf(transactionDto.getStatus()))
+                .status(status)
                 .transactionId(transactionDto.getTransactionId())
                 .build();
     }
@@ -42,7 +53,7 @@ public class TransactionMapper {
                 .amount(transaction.getAmount())
                 .completedAt(transaction.getCompletedAt())
                 .updatedAt(transaction.getUpdatedAt())
-                .status(transaction.getStatus().toString())
+                .status(transaction.getStatus().getName())
                 .transactionId(transaction.getTransactionId())
                 .build();
     }

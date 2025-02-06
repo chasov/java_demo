@@ -10,8 +10,10 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.dto.TransactionResultDto;
+//import ru.t1.java.demo.dto.TransactionResultDto;
+import ru.t1.dto.TransactionResultDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
+import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
@@ -47,19 +49,46 @@ public class KafkaTransactionResultConsumer {
                                     @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                                     @Header(KafkaHeaders.RECEIVED_KEY) String key
     ) {
+        log.info("Topic: {}, Key: {} start proceeding", topic, key);
          try {
              messages.forEach(dto -> {
-                 TransactionResultDto resultDto = TransactionResultDto.builder()
+/*                 TransactionResultDto resultDto = TransactionResultDto.builder()
                          .accountId(dto.getAccountId())
                          .transactionId(dto.getTransactionId())
                          .transactionStatus(dto.getTransactionStatus())
-                         .build();
+                         .build();*/
+                 TransactionResultDto resultDto = new TransactionResultDto();
+                 resultDto.setTransactionId(dto.getTransactionId());
+                 resultDto.setTransactionStatus(dto.getTransactionStatus());
+                 resultDto.setAccountId(dto.getAccountId());
 
 
-                 TransactionDto transactionToSave =
+                 TransactionDto transactionDtoToSave =
                          transactionMapper.toDto(transactionRepository.findTransactionByTransactionId(
-                                 resultDto.getTransactionId()));
-                 AccountDto accountToSave =
+                                 resultDto.getTransactionId()).orElseThrow(
+                                         () -> new ResourceNotFoundException(
+                                                 "Transaction not found with id: " + resultDto.getTransactionId())));
+                 AccountDto accountDtoFromToSave =
+                         accountMapper.toDto(accountRepository.findByAccountId(resultDto.getAccountId()).orElseThrow(
+                                 () -> new ResourceNotFoundException(
+                                         "Account not found with id: " + resultDto.getAccountId())
+                         ));
+
+                 AccountDto accountDtoToToSave = accountMapper.toDto(
+                         accountRepository.findById(transactionDtoToSave.getAccountToId()).orElseThrow(
+                                 () -> new ResourceNotFoundException(
+                                         "Account with given id: " + transactionDtoToSave.getAccountToId()
+                                                 + " is not exists")
+                         ));
+
+
+                 Transaction transactionToSave =
+                         transactionRepository.findTransactionByTransactionId(
+                                 resultDto.getTransactionId()).orElseThrow(
+                                         () -> new ResourceNotFoundException("Transaction not found " +
+                                                 resultDto.getTransactionId())
+                         );
+/*                 AccountDto accountToSave =
                          accountMapper.toDto(accountRepository.findByAccountId(resultDto.getAccountId()));
 
                  AccountDto accountToToSave = accountMapper.toDto(
@@ -69,35 +98,16 @@ public class KafkaTransactionResultConsumer {
                                                  + " is not exists")
                          ));
 
-                 if (resultDto.getTransactionStatus().equals(TransactionStatus.ACCEPTED.toString())) {
-                     transactionToSave.setStatus(resultDto.getTransactionStatus());
-                     transactionService.saveTransaction(transactionToSave);
-                     accountToToSave.setBalance(accountToToSave.getBalance().add(transactionToSave.getAmount()));
-                     accountService.saveAccount(accountToToSave);
-                     log.info("Transaction between {} and {} account completed successfully",
-                             transactionToSave.getAccountFromId(), transactionToSave.getAccountToId());
-                 } else if (resultDto.getTransactionStatus().equals(TransactionStatus.REJECTED.toString())) {
-                     transactionToSave.setStatus(resultDto.getTransactionStatus());
-                     transactionService.saveTransaction(transactionToSave);
+                 transactionToSave.setStatus(TransactionStatus.valueOf(resultDto.getTransactionStatus()));
+                 //transactionService.saveTransaction(transactionToSave);
+                 transactionRepository.save(transactionToSave);*/
 
-                     accountToSave.setBalance(transactionToSave.getAmount().add(accountToSave.getBalance()));
-                     accountService.saveAccount(accountToSave);
-                     log.warn("There are insufficient funds in the account with accountId " +
-                             resultDto.getAccountId());
-                 } else if (resultDto.getTransactionStatus().equals(TransactionStatus.BLOCKED.toString())) {
-                     transactionToSave.setStatus(resultDto.getTransactionStatus());
-                     transactionService.saveTransaction(transactionToSave);
+                 log.error("-----------------FUCKIIING!!!---------------");
 
-/*                     AccountDto accountToSave =
-                             accountMapper.toDto(accountRepository.findByAccountId(resultDto.getAccountId()));*/
-                     accountToSave.setBalance(transactionToSave.getAmount().add(accountToSave.getBalance()));
-                 }
-
+                transactionService.processTransactionResult(resultDto, transactionDtoToSave,
+                        accountDtoToToSave, accountDtoFromToSave);
 
              });
-
-
-
          } finally {
              ack.acknowledge();
          }

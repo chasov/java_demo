@@ -108,6 +108,11 @@
             <artifactId>spring-kafka-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>ru.t1</groupId>
+            <artifactId>common-dtos</artifactId>
+            <version>1.0.0</version>
+        </dependency>
     </dependencies>
 
     <build>

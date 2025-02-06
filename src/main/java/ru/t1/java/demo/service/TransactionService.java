@@ -9,24 +9,32 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import ru.t1.dto.TransactionResultDto;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
-import ru.t1.java.demo.dto.TransactionAcceptDto;
+//import ru.t1.java.demo.dto.TransactionAcceptDto;
+import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.exception.SendMessageException;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.model.Account;
+import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatus;
+import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.util.TransactionMapper;
+import ru.t1.dto.TransactionAcceptDto;
+import ru.t1.java.demo.util.UtilService;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -45,6 +53,10 @@ public class TransactionService implements CRUDService<TransactionDto> {
 
     @Value("${t1.kafka.topic.transactions-accept}")
     private String transactionAcceptTopicName;
+
+    private final UtilService utilService;
+
+    private final AccountService accountService;
 
     /**Transfers money between two accounts
      *
@@ -97,7 +109,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
         transaction.setAccountTo(accountTo);
         transaction.setCompletedAt(LocalDateTime.now());
         transaction.setStatus(TransactionStatus.REQUESTED);
-        transaction.setTransactionId(generateTransactionId());
+        transaction.setTransactionId(generateUniqueTransactionId());
 
         //TODO delete:
 /*        log.info("Transaction between {} and {} account completed successfully",
@@ -106,7 +118,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
         TransactionAcceptDto transactionAcceptDto = TransactionAcceptDto.builder()
                 .clientId(transaction.getAccountFrom().getClient().getClientId())
                 .accountId(transaction.getAccountFrom().getAccountId())
-                .transactionId(generateTransactionId())
+                .transactionId(transaction.getTransactionId())
                 .createdAt(LocalDateTime.now())
                 .transactionAmount(transaction.getAmount())
                 .accountBalance(transaction.getAccountFrom().getBalance())
@@ -145,9 +157,36 @@ public class TransactionService implements CRUDService<TransactionDto> {
     }
 
     @Override
-    @Deprecated
-    public TransactionDto update(Long id, TransactionDto item) {
-        return null;
+    public TransactionDto update(Long id, TransactionDto updatedTransactionDto) {
+        Transaction transaction = transactionRepository.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("Transaction with given id " + id + " is not exists")
+        );
+        log.info("Updating transaction with ID: {}", id);
+        Long accountFromId = updatedTransactionDto.getAccountFromId();
+        Account accountFrom = accountRepository.findById(accountFromId).orElseThrow(
+                () -> new ResourceNotFoundException("Account with given id " + accountFromId + " is not exists")
+        );
+        transaction.setAccountFrom(accountFrom);
+        Long accountToId = updatedTransactionDto.getAccountToId();
+        Account accountTo = accountRepository.findById(accountToId).orElseThrow(
+                () -> new ResourceNotFoundException("Account with given id " + accountToId + " is not exists")
+        );
+        transaction.setAccountTo(accountTo);
+
+        if (updatedTransactionDto.getAmount() != null) {
+            transaction.setAmount(updatedTransactionDto.getAmount());
+        }
+        if (updatedTransactionDto.getStatus() != null) {
+            updatedTransactionDto.setStatus(updatedTransactionDto.getStatus());
+        }
+/*        if (updatedTransactionDto.getTransactionId() != null ) {
+            updatedTransactionDto.setTransactionId(updatedTransactionDto.getTransactionId());
+        }*/
+
+        Transaction updatedTransaction = transactionRepository.save(transaction);
+
+        log.info("Transaction with ID: {} updated successfully!", id);
+        return transactionMapper.toDto(updatedTransaction);
     }
 
     @Override
@@ -185,16 +224,45 @@ public class TransactionService implements CRUDService<TransactionDto> {
         }
     }
 
-    private String generateTransactionId() {
-        String transactionId = UUID.randomUUID().toString();
-        List<String> transactionIds = transactionRepository.findAll()
+    private String generateUniqueTransactionId() {
+        Set<String> existingTransactionIds = new HashSet<>(transactionRepository.findAll()
                 .stream()
                 .map(Transaction::getTransactionId)
-                .toList();
-        if (transactionIds.contains(transactionId)) {
-            generateTransactionId();
-        }
+                .toList());
 
-        return transactionId;
+        return utilService.generateUniqueId(existingTransactionIds);
+    }
+
+    public void processTransactionResult(TransactionResultDto resultDto, TransactionDto transactionToSave,
+                                         AccountDto accountToToSave, AccountDto accountFromToSave) {
+        TransactionStatus status = TransactionStatus.valueOf(resultDto.getTransactionStatus());
+
+        switch (status) {
+            case ACCEPTED:
+                transactionToSave.setStatus(resultDto.getTransactionStatus());
+                saveTransaction(transactionToSave);
+                accountToToSave.setBalance(accountToToSave.getBalance().add(transactionToSave.getAmount()));
+                accountService.update(transactionToSave.getAccountToId(), accountToToSave);
+                log.info("Transaction between {} and {} account completed successfully",
+                        transactionToSave.getAccountFromId(), transactionToSave.getAccountToId());
+                break;
+            case REJECTED:
+                transactionToSave.setStatus(resultDto.getTransactionStatus());
+                saveTransaction(transactionToSave);
+                accountFromToSave.setBalance(accountFromToSave.getBalance().add(transactionToSave.getAmount()));
+                accountService.update(transactionToSave.getAccountFromId(),accountFromToSave);
+                log.warn("There are insufficient funds in the account with accountId {}", resultDto.getAccountId());
+                break;
+            case BLOCKED:
+                transactionToSave.setStatus(resultDto.getTransactionStatus());
+                saveTransaction(transactionToSave);
+                accountFromToSave.setBalance(accountFromToSave.getBalance().add(transactionToSave.getAmount()));
+                accountFromToSave.setFrozenAmount(transactionToSave.getAmount());
+                accountFromToSave.setStatus(String.valueOf(AccountStatus.BLOCKED));
+                accountService.update(transactionToSave.getAccountFromId(), accountFromToSave);
+                break;
+            default:
+                log.error("Unknown transaction status: {}", resultDto.getTransactionStatus());
+        }
     }
 }

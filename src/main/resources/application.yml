@@ -31,7 +31,7 @@ t1:
       heartbeat-interval: 3000
       key-serializer: org.apache.kafka.common.serialization.StringDeserializer
       value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer
-      trusted-packages: "ru.t1.java.demo.*"
+      trusted-packages: "*"
       enable-auto-commit: false
       auto-offset-reset: "earliest"
       max-partition-fetch-bytes: 300000
@@ -52,7 +52,7 @@ t1:
       accounts: t1_demo_accounts
       transactions: t1_demo_transactions
       transactions-accept: t1_demo_transaction_accept
-      transactions-result: ti_demo_transaction_result
+      transactions-result: t1_demo_transaction_result
       clients: t1_demo_clients
     listener:
       poll-timeout: 1000

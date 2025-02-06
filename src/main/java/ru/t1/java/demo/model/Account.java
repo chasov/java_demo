@@ -5,10 +5,8 @@ import lombok.*;
 import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "accounts")
@@ -17,7 +15,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Account implements Serializable {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,7 +38,7 @@ public class Account implements Serializable {
     private AccountStatus status;
 
     @Column(name = "account_id", nullable = false, unique = true)
-    private String accountId = String.valueOf(UUID.randomUUID());
+    private String accountId;
 
     @Column(name = "frozen_amount", nullable = true)
     private BigDecimal frozenAmount;
@@ -48,7 +46,10 @@ public class Account implements Serializable {
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Account account)) return false;
-        return Objects.equals(id, account.id) && Objects.equals(client, account.client) && accountType == account.accountType && Objects.equals(balance, account.balance) && status == account.status && Objects.equals(accountId, account.accountId) && Objects.equals(frozenAmount, account.frozenAmount);
+        return Objects.equals(id, account.id) && Objects.equals(client, account.client) &&
+                accountType == account.accountType && Objects.equals(balance, account.balance) &&
+                status == account.status && Objects.equals(accountId, account.accountId) &&
+                Objects.equals(frozenAmount, account.frozenAmount);
     }
 
     @Override

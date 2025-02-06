@@ -14,10 +14,13 @@ import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.util.AccountMapper;
+import ru.t1.java.demo.util.UtilService;
 
 import java.util.*;
 
@@ -35,6 +38,8 @@ public class AccountService implements CRUDService<AccountDto> {
     private final KafkaTemplate<String, Object> template;
 
     private final String MESSAGE_KEY = String.valueOf(UUID.randomUUID());
+
+    private final UtilService utilService;
 
     @Override
     @LogDataSourceError
@@ -66,6 +71,8 @@ public class AccountService implements CRUDService<AccountDto> {
                 () -> new ResourceNotFoundException("Client with given id " + clientId + " is not exists")
         );
         account.setClient(client);
+        account.setAccountId(generateUniqueAccountId());
+        account.setStatus(AccountStatus.OPEN);
         Account savedAccount = accountRepository.save(account);
         log.info("Account with ID: {} created successfully!", savedAccount.getId());
         return accountMapper.toDto(savedAccount);
@@ -91,12 +98,22 @@ public class AccountService implements CRUDService<AccountDto> {
                         " account with id " + accountId)
         );
         account.setClient(client);
+        account.setId(accountId);
 
         if (updatedAccountDto.getAccountType() != null) {
             account.setAccountType(AccountType.valueOf(updatedAccountDto.getAccountType()));
         }
         if (updatedAccountDto.getBalance() != null) {
             account.setBalance(updatedAccountDto.getBalance());
+        }
+/*        if (updatedAccountDto.getAccountId() != null) {
+            account.setAccountId(updatedAccountDto.getAccountId());
+        }*/
+        if (updatedAccountDto.getStatus() != null) {
+            account.setStatus(AccountStatus.valueOf(updatedAccountDto.getStatus()));
+        }
+        if (updatedAccountDto.getFrozenAmount() != null ) {
+            account.setFrozenAmount(updatedAccountDto.getFrozenAmount());
         }
 
         Account updatedAccount = accountRepository.save(account);
@@ -140,5 +157,14 @@ public class AccountService implements CRUDService<AccountDto> {
         } finally {
             template.flush();
         }
+    }
+
+    private String generateUniqueAccountId() {
+        Set<String> existingAccountIds = new HashSet<>(accountRepository.findAll()
+                .stream()
+                .map(Account::getAccountId)
+                .toList());
+
+        return utilService.generateUniqueId(existingAccountIds);
     }
 }

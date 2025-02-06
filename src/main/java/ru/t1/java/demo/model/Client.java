@@ -3,9 +3,7 @@ package ru.t1.java.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "clients")
@@ -14,7 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Client implements Serializable {
+public class Client {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,12 +29,14 @@ public class Client implements Serializable {
     private String middleName;
 
     @Column(name = "client_id", nullable = false, unique = true)
-    private String clientId = String.valueOf(UUID.randomUUID());
+    private String clientId;
 
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Client client)) return false;
-        return Objects.equals(id, client.id) && Objects.equals(firstName, client.firstName) && Objects.equals(lastName, client.lastName) && Objects.equals(middleName, client.middleName) && Objects.equals(clientId, client.clientId);
+        return Objects.equals(id, client.id) && Objects.equals(firstName, client.firstName) &&
+                Objects.equals(lastName, client.lastName) && Objects.equals(middleName, client.middleName) &&
+                Objects.equals(clientId, client.clientId);
     }
 
     @Override

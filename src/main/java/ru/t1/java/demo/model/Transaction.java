@@ -6,11 +6,9 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Objects;
-import java.util.UUID;
 
 @Entity
 @Table(name = "transactions")
@@ -19,7 +17,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Transaction implements Serializable {
+public class Transaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -50,7 +48,7 @@ public class Transaction implements Serializable {
     private TransactionStatus status;
 
     @Column(name = "transaction_id", nullable = false, unique = true)
-    private String transactionId = String.valueOf(UUID.randomUUID());
+    private String transactionId;
 
     @Override
     public boolean equals(Object object) {

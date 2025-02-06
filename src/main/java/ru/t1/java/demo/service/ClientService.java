@@ -15,8 +15,10 @@ import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Client;
+import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.util.ClientMapper;
+import ru.t1.java.demo.util.UtilService;
 
 import java.util.*;
 
@@ -32,6 +34,8 @@ public class ClientService implements CRUDService<ClientDto> {
     private final KafkaTemplate<String, Object> template;
 
     private final String MESSAGE_KEY = String.valueOf(UUID.randomUUID());
+
+    private final UtilService utilService;
 
 
     @Override
@@ -59,6 +63,7 @@ public class ClientService implements CRUDService<ClientDto> {
     public ClientDto create(ClientDto clientDto) {
         log.info("Creating new client");
         Client client = clientMapper.toEntity(clientDto);
+        client.setClientId(generateUniqueClientId());
         Client savedClient = clientRepository.save(client);
         log.info("Client with ID: {} created successfully!", savedClient.getId());
         return clientMapper.toDto(savedClient);
@@ -80,6 +85,9 @@ public class ClientService implements CRUDService<ClientDto> {
         }
         if (updatedClientDto.getLastName() != null) {
             client.setLastName(updatedClientDto.getLastName());
+        }
+        if (updatedClientDto.getClientId() != null) {
+            client.setClientId(updatedClientDto.getClientId());
         }
 
         Client updatedClient = clientRepository.save(client);
@@ -122,5 +130,14 @@ public class ClientService implements CRUDService<ClientDto> {
         } finally {
             template.flush();
         }
+    }
+
+    private String generateUniqueClientId() {
+        Set<String> existingTransactionIds = new HashSet<>(clientRepository.findAll()
+                .stream()
+                .map(Client::getClientId)
+                .toList());
+
+        return utilService.generateUniqueId(existingTransactionIds);
     }
 }

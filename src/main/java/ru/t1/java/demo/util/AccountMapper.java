@@ -8,6 +8,7 @@ import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.ClientRepository;
 
 @Component
@@ -20,12 +21,22 @@ public class AccountMapper {
         Client client = clientRepository.findById(accountDto.getClientId())
                 .orElseThrow(() -> new ResourceNotFoundException(
                         "Client not found with id: " + accountDto.getClientId()));
+
+        AccountStatus status = null;
+        if (accountDto.getStatus() != null) {
+            try {
+                status = AccountStatus.valueOf(accountDto.getStatus());
+            } catch (IllegalArgumentException e) {
+                throw new IllegalArgumentException("Invalid transaction status: " + accountDto.getStatus());
+            }
+        }
+
         return Account.builder()
                 .id(accountDto.getId())
                 .client(client)
                 .accountType(AccountType.valueOf(accountDto.getAccountType()))
                 .balance(accountDto.getBalance())
-                .status(AccountStatus.valueOf(accountDto.getStatus()))
+                .status(status)
                 .accountId(accountDto.getAccountId())
                 .frozenAmount(accountDto.getFrozenAmount())
                 .build();
