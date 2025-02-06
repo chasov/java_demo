@@ -22,9 +22,7 @@ public class DataSourceExceptionAspect {
     public void logExceptionDataSource(JoinPoint joinPoint, Exception e) {
 
         try {
-            System.err.println("ASPECT EXCEPTION ANNOTATION: DataSource exception: " + joinPoint.getSignature().getName());
-            log.info("В результате выполнения метода {}", joinPoint.getSignature().toShortString());
-
+            log.info("ASPECT EXCEPTION ANNOTATION: DataSource exception: " + joinPoint.getSignature().getName());
             errorService.sendDataSourceErrorLog(joinPoint, e);
         } finally {
             log.error("Ошибка при логировании исключения DataSource");
