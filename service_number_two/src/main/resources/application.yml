@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: service_number_two
+t1:
+  kafka:
+    bootstrap-server: ${KAFKA_SERVER:localhost:29092}
+    consumer:
+      group-id: t1_demo3
+    max-poll-records: 10
+    session-timeout-ms: 10000
+    heartbeat-interval-ms: 3000
+    max-pool-interval-ms: 300000
+    max-partition-bytes: 300000
+    producer:
+      topic:
+        transactionIn: t1_demo_transaction_accept
+        transactionFrom: t1_demo_transaction_result
+  redis:
+    host: localhost
+    port: 6379
+    cache-ttl: 30000
+    cache-count: 5

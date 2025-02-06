@@ -1,4 +1,4 @@
-version: '3.0'
+version: '3.8'
 
 services:
 
@@ -35,6 +35,30 @@ services:
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
       KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+
+  redis:
+    image: redis:latest
+    container_name: t1_java_demo_redis
+    ports:
+      - "6379:6379"
+
+  service_number_one:
+    build:
+      context: ./service_number_one
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8080"
+    depends_on:
+      - postgres
+
+  service_number_two:
+    build:
+      context: ./service_number_two
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    depends_on:
+      - redis
 
 volumes:
   postgres_data:
