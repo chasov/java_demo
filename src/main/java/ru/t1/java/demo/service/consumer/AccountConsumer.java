@@ -25,7 +25,7 @@ public class AccountConsumer {
             accountService.saveAccount(accountDto);
         } catch (Exception e) {
             System.out.println("Error: " + e);
-        }// По какой-то причине JsonDeserializer не может сделать свою работу, поэтому немного говнокода чтобы превратить строку в дто
+        }
 
     }
 }

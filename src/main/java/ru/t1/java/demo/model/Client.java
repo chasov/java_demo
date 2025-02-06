@@ -1,10 +1,10 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
+
+import java.util.List;
 
 @Getter
 @Setter

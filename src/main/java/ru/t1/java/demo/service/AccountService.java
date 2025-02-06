@@ -30,7 +30,7 @@ public class AccountService {
 //            }
 //            List<AccountDto> accounts = mapper.readValue(inputStream, new TypeReference<>() {});
 //            accounts.forEach(accountDto -> accountRepository.save(AccountMapper.toEntity(accountDto)));
-//            System.out.println("Mock data initialized successfully.");
+//            System.out.println("Mock data initialized successfully in Account");
 //        } catch (Exception e) {
 //            e.printStackTrace();
 //            System.err.println("Failed to initialize mock data: " + e.getMessage());
@@ -48,13 +48,29 @@ public class AccountService {
     }
     @Transactional
     public void deleteAccountById(Long id) {
-        Account account = accountRepository.findById(id).orElse(null);
-        if (account != null) {
-            accountRepository.delete(account);
-        }
+        accountRepository.findById(id).ifPresent(accountRepository::delete);
     }
     @Transactional
     public Optional<Account> findAccountById(Long accountId) {
         return accountRepository.findById(accountId);
+    }
+
+
+    @Transactional
+    public void changeAmount(Account account, Double amount) {
+        account.setBalance(account.getBalance() + amount);
+        accountRepository.save(account);
+    }
+
+    @Transactional
+    public void changeStatus(Account account, String blocked) {
+        account.setStatus(Account.AccountStatus.valueOf(blocked));
+        accountRepository.save(account);
+    }
+    @Transactional
+    public void correctAmount(Account account, Double amount) {
+        account.setBalance(account.getBalance() - amount);
+        account.setFrozenAmount(account.getFrozenAmount() + amount);
+        accountRepository.save(account);
     }
 }

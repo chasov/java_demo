@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: timeout_blocker
+  kafka:
+    bootstrap-servers: localhost:29092,localhost:39092,localhost:49092
+    streams:
+      application-id: transaction-stream-app
+      properties:
+        default:
+          key:
+            serde: org.apache.kafka.common.serialization.Serdes$LongSerde
+          value:
+            serde: org.springframework.kafka.support.serializer.JsonSerde
+account:
+  block:
+    time-window-ms: 6000
+    count: 5

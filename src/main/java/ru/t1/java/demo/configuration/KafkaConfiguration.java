@@ -13,15 +13,52 @@ import org.springframework.kafka.core.*;
 import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
+import ru.t1.java.demo.dto.AcceptedTransactionMessage;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.service.event.AccountEvent;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 public class KafkaConfiguration {
+
+    @Bean
+    public NewTopic createMetricsTopic(){
+        return TopicBuilder
+                .name("t1_demo_metrics")
+                .partitions(3)
+                .replicas(3)
+                .build();
+    }
+
+    @Bean
+    public NewTopic createAccountsTopic(){
+        return TopicBuilder
+                .name("t1_demo_accounts")
+                .partitions(3)
+                .replicas(3)
+                .build();
+    }
+
+    @Bean
+    public NewTopic createTransactionsTopic(){
+        return TopicBuilder
+                .name("t1_demo_transactions")
+                .partitions(3)
+                .replicas(3)
+                .build();
+    }
+
+    @Bean
+    public NewTopic createTransactionsAcceptTopic(){
+        return TopicBuilder
+                .name("t1_demo_transactions_accept")
+                .partitions(3)
+                .replicas(3)
+                .build();
+    }
+
     @Bean
     public ProducerFactory<String, String> dataSourceErrorLogProducerFactory(){
         Map<String, Object> properties = new HashMap<>();
@@ -36,14 +73,13 @@ public class KafkaConfiguration {
         return new KafkaTemplate<>(dataSourceErrorLogProducerFactory());
     }
 
-
     @Bean
     public ProducerFactory<String, AccountDto> accountProducerFactory(){
         Map<String, Object> properties = new HashMap<>();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        properties.put(ProducerConfig.ACKS_CONFIG, "all");
+        properties.put(ProducerConfig.ACKS_CONFIG, "1");
         return new DefaultKafkaProducerFactory<>(properties);
     }
     @Bean
@@ -57,12 +93,27 @@ public class KafkaConfiguration {
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        properties.put(ProducerConfig.ACKS_CONFIG, "all");
+        properties.put(ProducerConfig.ACKS_CONFIG, "1");
         return new DefaultKafkaProducerFactory<>(properties);
     }
     @Bean
     public KafkaTemplate<String, TransactionDto> transactionKafkaTemplate(){
         return new KafkaTemplate<>(transactionProducerFactory());
+    }
+
+    @Bean
+    public ProducerFactory<String, AcceptedTransactionMessage> acceptedKafkaFactory(){
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        properties.put(ProducerConfig.ACKS_CONFIG, "1");
+        return new DefaultKafkaProducerFactory<>(properties);
+    }
+
+    @Bean
+    public KafkaTemplate<String, AcceptedTransactionMessage> acceptedKafkaTemplate(){
+        return new KafkaTemplate<>(acceptedKafkaFactory());
     }
 
     @Bean
@@ -95,7 +146,6 @@ public class KafkaConfiguration {
         properties.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
         properties.put(ProducerConfig.ACKS_CONFIG, "1");
         properties.put(ConsumerConfig.GROUP_ID_CONFIG, "account-consumer");
-        properties.put(JsonDeserializer.VALUE_DEFAULT_TYPE, AccountEvent.class);
         return new DefaultKafkaConsumerFactory<>(properties);
     }
     @Bean
@@ -105,15 +155,24 @@ public class KafkaConfiguration {
         return factory;
     }
 
-
-
     @Bean
-    public NewTopic createMetricsTopic(){
-        return TopicBuilder
-                .name("t1_demo_metrics")
-                .partitions(3)
-                .replicas(3)
-                .build();
+    ConsumerFactory<String, Object> transactionResultConsumerFactory(){
+        Map<String, Object> properties = new HashMap<>();
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:29092,localhost:39092,localhost:49092");
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        properties.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        properties.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class);
+        properties.put(JsonDeserializer.TRUSTED_PACKAGES, "*");
+        properties.put(ProducerConfig.ACKS_CONFIG, "1");
+        properties.put(ConsumerConfig.GROUP_ID_CONFIG, "transaction-result-consumer");
+        return new DefaultKafkaConsumerFactory<>(properties);
+    }
+    @Bean
+    ConcurrentKafkaListenerContainerFactory<String, Object> transactionResultKafkaListenerContainerFactory(){
+        ConcurrentKafkaListenerContainerFactory<String, Object> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(transactionResultConsumerFactory());
+        return factory;
     }
 
 

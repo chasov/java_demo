@@ -2,18 +2,14 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.t1.java.demo.annotation.LogDataSourceError;
 import ru.t1.java.demo.annotation.Metric;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.producer.AccountProducer;
-import ru.t1.java.demo.util.AccountMapper;
 
-import javax.security.auth.login.AccountNotFoundException;
 import java.util.List;
 
 @RestController

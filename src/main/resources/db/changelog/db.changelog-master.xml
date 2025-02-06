@@ -34,4 +34,9 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="alter-transaction-and-account-table" author="Kirill Lapin">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/05-02-changelog-07.sql"/>
+        <rollback/>
+    </changeSet>
+
 </databaseChangeLog>

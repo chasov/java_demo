@@ -6,17 +6,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
 @Setter
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
+@NoArgsConstructor
 public class TransactionDto implements Serializable {
     @JsonProperty("amount")
     private Double amount;
@@ -30,17 +31,22 @@ public class TransactionDto implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private Date transactionTime;
 
-    public TransactionDto(@JsonProperty("amount")Double amount,
-                          @JsonProperty("client_id")Long clientId,
-                          @JsonProperty("transaction_time")Date transactionTime) {
+    @JsonProperty("status")
+    private String status;
+
+    @JsonProperty("account_id")
+    private Long accountId;
+
+    public TransactionDto(@JsonProperty("amount") Double amount,
+                          @JsonProperty("client_id") Long clientId,
+                          @JsonProperty("transaction_time") Date transactionTime,
+                          @JsonProperty("status") String status,
+                          @JsonProperty("account_id") Long accountId) {
         this.amount = amount;
         this.clientId = clientId;
         this.transactionTime = transactionTime;
+        this.status = status;
+        this.accountId = accountId;
     }
 
-    public TransactionDto() {
-        this.amount = 0.0;
-        this.clientId = 0L;
-        this.transactionTime = Date.from(Instant.now());
-    }
 }
