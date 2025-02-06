@@ -12,11 +12,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
-public class AccountController {
+public class AccountManagementController {
 
     private final AccountService accountService;
 
-    @GetMapping
+    @GetMapping("/all")
     public List<AccountDto> getAllAccounts() {
         return accountService.getAllAccounts();
     }
@@ -26,7 +26,7 @@ public class AccountController {
         return accountService.getAccountById(id);
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public AccountDto createAccount(@RequestBody AccountDto accountDto) {
         return accountService.createAccount(accountDto);
     }
