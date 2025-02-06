@@ -1,0 +1,32 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
+
+    <changeSet id="init" author="ECHasov">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="update-client" author="ECHasov">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="create-other-tables" author="D.Dorofeev">
+        <sqlFile path="/db/changelog/2025/01/17-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+    <changeSet id="load-accounts-and-transactions-data" author="D.Dorofeev">
+        <sqlFile path="/db/changelog/data/accounts_and_transactions.sql"/>
+        <rollback/>
+    </changeSet>
+    
+    <changeSet id="adding-unique-ids-and-state-fields" author="D.Dorofeev">
+        <sqlFile path="db/changelog/2025/01/27-01-changelog-01.sql"/>
+        <rollback/>
+    </changeSet>
+
+</databaseChangeLog>

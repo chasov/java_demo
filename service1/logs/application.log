@@ -1,0 +1,854 @@
+2025-02-07T00:00:39.884+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] ru.t1.java.demo.T1JavaDemoApplication    : Starting T1JavaDemoApplication using Java 17.0.14 with PID 16484 (D:\Work\t1_homework1\service1\target\classes started by dandy in D:\Work\t1_homework1\service1)
+2025-02-07T00:00:39.896+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] ru.t1.java.demo.T1JavaDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-02-07T00:00:39.969+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2025-02-07T00:00:39.969+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2025-02-07T00:00:41.356+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-07T00:00:41.529+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 165 ms. Found 4 JPA repository interfaces.
+2025-02-07T00:00:42.080+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.113+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.122+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.125+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'jdbcConnectionDetails' of type [org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.144+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.169+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.jpa-org.springframework.boot.autoconfigure.orm.jpa.JpaProperties' of type [org.springframework.boot.autoconfigure.orm.jpa.JpaProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.175+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.jpa.hibernate-org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties' of type [org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.182+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.184+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'hikariPoolDataSourceMetadataProvider' of type [org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda$694/0x0000013ccb4ab130] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.195+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration' of type [org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.208+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.213+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'transactionExecutionListeners' of type [org.springframework.boot.autoconfigure.transaction.ExecutionListenersTransactionManagerCustomizer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.217+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties' of type [org.springframework.boot.autoconfigure.transaction.TransactionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.221+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'platformTransactionManagerCustomizers' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.233+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration$LiquibaseConfiguration' of type [org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration$LiquibaseConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.245+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.liquibase-org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties' of type [org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.255+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'liquibaseConnectionDetails' of type [org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration$PropertiesLiquibaseConnectionDetails] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:42.312+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-02-07T00:00:42.519+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@26cabb8a
+2025-02-07T00:00:42.520+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-02-07T00:00:42.715+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.database                       : Set default schema name to public
+2025-02-07T00:00:43.227+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.changelog                      : Reading from public.databasechangelog
+2025-02-07T00:00:43.271+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.ui                             : Database is up to date, no changesets to execute
+2025-02-07T00:00:43.273+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.changelog                      : Reading from public.databasechangelog
+2025-02-07T00:00:43.281+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : UPDATE SUMMARY
+2025-02-07T00:00:43.282+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Run:                          0
+2025-02-07T00:00:43.282+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Previously run:               5
+2025-02-07T00:00:43.282+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Filtered out:                 0
+2025-02-07T00:00:43.282+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : -------------------------------
+2025-02-07T00:00:43.282+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Total change sets:            5
+2025-02-07T00:00:43.283+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Update summary generated
+2025-02-07T00:00:43.309+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.lockservice                    : Successfully released change log lock
+2025-02-07T00:00:43.311+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.command                        : Command execution complete
+2025-02-07T00:00:43.313+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'liquibase' of type [liquibase.integration.spring.SpringLiquibase] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.322+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.sql.init.DataSourceInitializationConfiguration' of type [org.springframework.boot.autoconfigure.sql.init.DataSourceInitializationConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.328+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.sql.init-org.springframework.boot.autoconfigure.sql.init.SqlInitializationProperties' of type [org.springframework.boot.autoconfigure.sql.init.SqlInitializationProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.335+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'dataSourceScriptDatabaseInitializer' of type [org.springframework.boot.autoconfigure.sql.init.SqlDataSourceScriptDatabaseInitializer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.344+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$DataSourceInitializerConfiguration' of type [org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$DataSourceInitializerConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.353+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.batch-org.springframework.boot.autoconfigure.batch.BatchProperties' of type [org.springframework.boot.autoconfigure.batch.BatchProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.370+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'batchDataSourceInitializer' of type [org.springframework.boot.autoconfigure.batch.BatchDataSourceScriptDatabaseInitializer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.373+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.devtools.autoconfigure.DevToolsDataSourceAutoConfiguration' of type [org.springframework.boot.devtools.autoconfigure.DevToolsDataSourceAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.376+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'inMemoryDatabaseShutdownExecutor' of type [org.springframework.boot.devtools.autoconfigure.DevToolsDataSourceAutoConfiguration$NonEmbeddedInMemoryDatabaseShutdownExecutor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.389+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'jpaVendorAdapter' of type [org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.398+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'entityManagerFactoryBuilder' of type [org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.412+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'persistenceManagedTypes' of type [org.springframework.orm.jpa.persistenceunit.SimplePersistenceManagedTypes] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:43.450+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-02-07T00:00:43.531+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-02-07T00:00:43.575+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-02-07T00:00:43.982+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-02-07T00:00:45.123+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-02-07T00:00:45.126+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-02-07T00:00:45.131+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'entityManagerFactory' of type [org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:45.144+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'entityManagerFactory' of type [jdk.proxy3.$Proxy161] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:45.163+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'transactionManager' of type [org.springframework.orm.jpa.JpaTransactionManager] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:00:45.184+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$SpringBootBatchConfiguration' of type [org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$SpringBootBatchConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [jobRegistryBeanPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-02-07T00:00:45.612+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-02-07T00:00:45.627+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-02-07T00:00:45.627+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.28]
+2025-02-07T00:00:45.693+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-02-07T00:00:45.694+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 5724 ms
+2025-02-07T00:00:47.891+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-02-07T00:00:49.185+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2025-02-07T00:00:49.625+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2025-02-07T00:00:49.794+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-02-07T00:00:49.839+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-accounts-group-1
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = accounts-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+
+2025-02-07T00:00:49.890+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-02-07T00:00:49.988+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.deserializer.key.delegate.class]' were supplied but are not used yet.
+2025-02-07T00:00:49.990+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-02-07T00:00:49.990+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-02-07T00:00:49.990+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1738857649989
+2025-02-07T00:00:49.997+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Subscribed to topic(s): t1_demo_accounts
+2025-02-07T00:00:50.004+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-transactions-group-2
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = transactions-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+
+2025-02-07T00:00:50.005+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-02-07T00:00:50.017+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.deserializer.key.delegate.class]' were supplied but are not used yet.
+2025-02-07T00:00:50.019+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-02-07T00:00:50.019+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-02-07T00:00:50.019+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1738857650019
+2025-02-07T00:00:50.020+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Subscribed to topic(s): t1_demo_transactions
+2025-02-07T00:00:50.023+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.clients.consumer.ConsumerConfig    : ConsumerConfig values: 
+	allow.auto.create.topics = true
+	auto.commit.interval.ms = 5000
+	auto.include.jmx.reporter = true
+	auto.offset.reset = earliest
+	bootstrap.servers = [localhost:9092]
+	check.crcs = true
+	client.dns.lookup = use_all_dns_ips
+	client.id = consumer-transaction-results-group-3
+	client.rack = 
+	connections.max.idle.ms = 540000
+	default.api.timeout.ms = 60000
+	enable.auto.commit = false
+	enable.metrics.push = true
+	exclude.internal.topics = true
+	fetch.max.bytes = 52428800
+	fetch.max.wait.ms = 500
+	fetch.min.bytes = 1
+	group.id = transaction-results-group
+	group.instance.id = null
+	group.protocol = classic
+	group.remote.assignor = null
+	heartbeat.interval.ms = 3000
+	interceptor.classes = []
+	internal.leave.group.on.close = true
+	internal.throw.on.fetch.stable.offset.unsupported = false
+	isolation.level = read_uncommitted
+	key.deserializer = class org.apache.kafka.common.serialization.StringDeserializer
+	max.partition.fetch.bytes = 1048576
+	max.poll.interval.ms = 300000
+	max.poll.records = 500
+	metadata.max.age.ms = 300000
+	metric.reporters = []
+	metrics.num.samples = 2
+	metrics.recording.level = INFO
+	metrics.sample.window.ms = 30000
+	partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+	receive.buffer.bytes = 65536
+	reconnect.backoff.max.ms = 1000
+	reconnect.backoff.ms = 50
+	request.timeout.ms = 30000
+	retry.backoff.max.ms = 1000
+	retry.backoff.ms = 100
+	sasl.client.callback.handler.class = null
+	sasl.jaas.config = null
+	sasl.kerberos.kinit.cmd = /usr/bin/kinit
+	sasl.kerberos.min.time.before.relogin = 60000
+	sasl.kerberos.service.name = null
+	sasl.kerberos.ticket.renew.jitter = 0.05
+	sasl.kerberos.ticket.renew.window.factor = 0.8
+	sasl.login.callback.handler.class = null
+	sasl.login.class = null
+	sasl.login.connect.timeout.ms = null
+	sasl.login.read.timeout.ms = null
+	sasl.login.refresh.buffer.seconds = 300
+	sasl.login.refresh.min.period.seconds = 60
+	sasl.login.refresh.window.factor = 0.8
+	sasl.login.refresh.window.jitter = 0.05
+	sasl.login.retry.backoff.max.ms = 10000
+	sasl.login.retry.backoff.ms = 100
+	sasl.mechanism = GSSAPI
+	sasl.oauthbearer.clock.skew.seconds = 30
+	sasl.oauthbearer.expected.audience = null
+	sasl.oauthbearer.expected.issuer = null
+	sasl.oauthbearer.jwks.endpoint.refresh.ms = 3600000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.max.ms = 10000
+	sasl.oauthbearer.jwks.endpoint.retry.backoff.ms = 100
+	sasl.oauthbearer.jwks.endpoint.url = null
+	sasl.oauthbearer.scope.claim.name = scope
+	sasl.oauthbearer.sub.claim.name = sub
+	sasl.oauthbearer.token.endpoint.url = null
+	security.protocol = PLAINTEXT
+	security.providers = null
+	send.buffer.bytes = 131072
+	session.timeout.ms = 45000
+	socket.connection.setup.timeout.max.ms = 30000
+	socket.connection.setup.timeout.ms = 10000
+	ssl.cipher.suites = null
+	ssl.enabled.protocols = [TLSv1.2, TLSv1.3]
+	ssl.endpoint.identification.algorithm = https
+	ssl.engine.factory.class = null
+	ssl.key.password = null
+	ssl.keymanager.algorithm = SunX509
+	ssl.keystore.certificate.chain = null
+	ssl.keystore.key = null
+	ssl.keystore.location = null
+	ssl.keystore.password = null
+	ssl.keystore.type = JKS
+	ssl.protocol = TLSv1.3
+	ssl.provider = null
+	ssl.secure.random.implementation = null
+	ssl.trustmanager.algorithm = PKIX
+	ssl.truststore.certificates = null
+	ssl.truststore.location = null
+	ssl.truststore.password = null
+	ssl.truststore.type = JKS
+	value.deserializer = class org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+
+2025-02-07T00:00:50.024+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.c.t.i.KafkaMetricsCollector        : initializing Kafka metrics collector
+2025-02-07T00:00:50.035+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.clients.consumer.ConsumerConfig    : These configurations '[spring.deserializer.key.delegate.class]' were supplied but are not used yet.
+2025-02-07T00:00:50.036+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka version: 3.7.1
+2025-02-07T00:00:50.036+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka commitId: e2494e6ffb89f828
+2025-02-07T00:00:50.036+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.kafka.common.utils.AppInfoParser     : Kafka startTimeMs: 1738857650035
+2025-02-07T00:00:50.037+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Subscribed to topic(s): t1_demo_transaction_result
+2025-02-07T00:00:50.060+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] ru.t1.java.demo.T1JavaDemoApplication    : Started T1JavaDemoApplication in 11.647 seconds (process running for 13.145)
+2025-02-07T00:00:50.072+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] o.s.b.a.b.JobLauncherApplicationRunner   : Running default command line with: []
+2025-02-07T00:00:50.435+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Cluster ID: iq7hN5NNSP2yj44QeSHE9w
+2025-02-07T00:00:50.436+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Cluster ID: iq7hN5NNSP2yj44QeSHE9w
+2025-02-07T00:00:50.436+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] org.apache.kafka.clients.Metadata        : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Cluster ID: iq7hN5NNSP2yj44QeSHE9w
+2025-02-07T00:00:50.437+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-02-07T00:00:50.437+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-02-07T00:00:50.437+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Discovered group coordinator localhost:9092 (id: 2147483646 rack: null)
+2025-02-07T00:00:50.442+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] (Re-)joining group
+2025-02-07T00:00:50.443+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] (Re-)joining group
+2025-02-07T00:00:50.443+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] (Re-)joining group
+2025-02-07T00:00:50.477+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Request joining group due to: need to re-join with the given member-id: consumer-accounts-group-1-60f10ef0-5c0f-457b-88e7-04eae3b2e805
+2025-02-07T00:00:50.477+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Request joining group due to: need to re-join with the given member-id: consumer-transactions-group-2-09fc7faf-88dd-4b47-85d3-2679958d3d98
+2025-02-07T00:00:50.477+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Request joining group due to: need to re-join with the given member-id: consumer-transaction-results-group-3-fb5fb36c-25ff-46b2-b4b8-a84669e8f3e1
+2025-02-07T00:00:50.477+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] (Re-)joining group
+2025-02-07T00:00:50.477+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] (Re-)joining group
+2025-02-07T00:00:50.477+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] (Re-)joining group
+2025-02-07T00:00:50.483+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Successfully joined group with generation Generation{generationId=3, memberId='consumer-accounts-group-1-60f10ef0-5c0f-457b-88e7-04eae3b2e805', protocol='range'}
+2025-02-07T00:00:50.484+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Successfully joined group with generation Generation{generationId=3, memberId='consumer-transaction-results-group-3-fb5fb36c-25ff-46b2-b4b8-a84669e8f3e1', protocol='range'}
+2025-02-07T00:00:50.484+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Successfully joined group with generation Generation{generationId=3, memberId='consumer-transactions-group-2-09fc7faf-88dd-4b47-85d3-2679958d3d98', protocol='range'}
+2025-02-07T00:00:50.499+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Finished assignment for group at generation 3: {consumer-transactions-group-2-09fc7faf-88dd-4b47-85d3-2679958d3d98=Assignment(partitions=[t1_demo_transactions-0])}
+2025-02-07T00:00:50.499+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Finished assignment for group at generation 3: {consumer-accounts-group-1-60f10ef0-5c0f-457b-88e7-04eae3b2e805=Assignment(partitions=[t1_demo_accounts-0])}
+2025-02-07T00:00:50.499+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Finished assignment for group at generation 3: {consumer-transaction-results-group-3-fb5fb36c-25ff-46b2-b4b8-a84669e8f3e1=Assignment(partitions=[t1_demo_transaction_result-0])}
+2025-02-07T00:00:50.509+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Successfully synced group in generation Generation{generationId=3, memberId='consumer-accounts-group-1-60f10ef0-5c0f-457b-88e7-04eae3b2e805', protocol='range'}
+2025-02-07T00:00:50.509+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Successfully synced group in generation Generation{generationId=3, memberId='consumer-transaction-results-group-3-fb5fb36c-25ff-46b2-b4b8-a84669e8f3e1', protocol='range'}
+2025-02-07T00:00:50.509+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Successfully synced group in generation Generation{generationId=3, memberId='consumer-transactions-group-2-09fc7faf-88dd-4b47-85d3-2679958d3d98', protocol='range'}
+2025-02-07T00:00:50.509+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Notifying assignor about the new Assignment(partitions=[t1_demo_transactions-0])
+2025-02-07T00:00:50.509+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Notifying assignor about the new Assignment(partitions=[t1_demo_accounts-0])
+2025-02-07T00:00:50.509+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Notifying assignor about the new Assignment(partitions=[t1_demo_transaction_result-0])
+2025-02-07T00:00:50.513+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Adding newly assigned partitions: t1_demo_transactions-0
+2025-02-07T00:00:50.513+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Adding newly assigned partitions: t1_demo_transaction_result-0
+2025-02-07T00:00:50.513+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Adding newly assigned partitions: t1_demo_accounts-0
+2025-02-07T00:00:50.529+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Found no committed offset for partition t1_demo_transactions-0
+2025-02-07T00:00:50.529+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Found no committed offset for partition t1_demo_transaction_result-0
+2025-02-07T00:00:50.529+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Found no committed offset for partition t1_demo_accounts-0
+2025-02-07T00:00:50.564+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Resetting offset for partition t1_demo_accounts-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}.
+2025-02-07T00:00:50.565+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Resetting offset for partition t1_demo_transaction_result-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}.
+2025-02-07T00:00:50.565+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.SubscriptionState    : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Resetting offset for partition t1_demo_transactions-0 to position FetchPosition{offset=0, offsetEpoch=Optional.empty, currentLeader=LeaderAndEpoch{leader=Optional[localhost:9092 (id: 1 rack: null)], epoch=0}}.
+2025-02-07T00:00:50.569+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : transactions-group: partitions assigned: [t1_demo_transactions-0]
+2025-02-07T00:00:50.569+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : accounts-group: partitions assigned: [t1_demo_accounts-0]
+2025-02-07T00:00:50.569+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : transaction-results-group: partitions assigned: [t1_demo_transaction_result-0]
+2025-02-07T00:00:50.625+08:00  INFO 16484 --- [t1-java-demo] [RMI TCP Connection(1)-10.8.0.230] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-07T00:00:50.626+08:00  INFO 16484 --- [t1-java-demo] [RMI TCP Connection(1)-10.8.0.230] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-02-07T00:00:50.630+08:00  INFO 16484 --- [t1-java-demo] [RMI TCP Connection(1)-10.8.0.230] o.s.web.servlet.DispatcherServlet        : Completed initialization in 4 ms
+2025-02-07T00:05:07.632+08:00  INFO 16484 --- [t1-java-demo] [File Watcher] rtingClassPathChangeChangedEventListener : Restarting due to 1 class path change (0 additions, 0 deletions, 1 modification)
+2025-02-07T00:05:07.645+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Revoke previously assigned partitions t1_demo_transactions-0
+2025-02-07T00:05:07.645+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Revoke previously assigned partitions t1_demo_transaction_result-0
+2025-02-07T00:05:07.646+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] k.c.c.i.ConsumerRebalanceListenerInvoker : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Revoke previously assigned partitions t1_demo_accounts-0
+2025-02-07T00:05:07.646+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : accounts-group: partitions revoked: [t1_demo_accounts-0]
+2025-02-07T00:05:07.646+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : transactions-group: partitions revoked: [t1_demo_transactions-0]
+2025-02-07T00:05:07.646+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : transaction-results-group: partitions revoked: [t1_demo_transaction_result-0]
+2025-02-07T00:05:07.647+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Member consumer-transactions-group-2-09fc7faf-88dd-4b47-85d3-2679958d3d98 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2025-02-07T00:05:07.647+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Member consumer-accounts-group-1-60f10ef0-5c0f-457b-88e7-04eae3b2e805 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2025-02-07T00:05:07.647+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Member consumer-transaction-results-group-3-fb5fb36c-25ff-46b2-b4b8-a84669e8f3e1 sending LeaveGroup request to coordinator localhost:9092 (id: 2147483646 rack: null) due to the consumer unsubscribed from all topics
+2025-02-07T00:05:07.647+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.647+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.647+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.648+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Request joining group due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.648+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Request joining group due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.648+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Request joining group due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.648+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Unsubscribed all topics or patterns and assigned partitions
+2025-02-07T00:05:07.648+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Unsubscribed all topics or patterns and assigned partitions
+2025-02-07T00:05:07.648+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.LegacyKafkaConsumer  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Unsubscribed all topics or patterns and assigned partitions
+2025-02-07T00:05:07.651+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.651+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.651+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Resetting generation and member id due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.651+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-accounts-group-1, groupId=accounts-group] Request joining group due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.651+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transactions-group-2, groupId=transactions-group] Request joining group due to: consumer pro-actively leaving the group
+2025-02-07T00:05:07.651+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.k.c.c.internals.ConsumerCoordinator  : [Consumer clientId=consumer-transaction-results-group-3, groupId=transaction-results-group] Request joining group due to: consumer pro-actively leaving the group
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics scheduler closed
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.metrics.JmxReporter
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Closing reporter org.apache.kafka.common.telemetry.internals.ClientTelemetryReporter
+2025-02-07T00:05:08.023+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2025-02-07T00:05:08.024+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.apache.kafka.common.metrics.Metrics    : Metrics reporters closed
+2025-02-07T00:05:08.042+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-transaction-results-group-3 unregistered
+2025-02-07T00:05:08.042+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-transactions-group-2 unregistered
+2025-02-07T00:05:08.043+08:00  INFO 16484 --- [t1-java-demo] [transactions-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : transactions-group: Consumer stopped
+2025-02-07T00:05:08.043+08:00  INFO 16484 --- [t1-java-demo] [transaction-results-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : transaction-results-group: Consumer stopped
+2025-02-07T00:05:08.043+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.a.kafka.common.utils.AppInfoParser     : App info kafka.consumer for consumer-accounts-group-1 unregistered
+2025-02-07T00:05:08.043+08:00  INFO 16484 --- [t1-java-demo] [accounts-group-0-C-1] o.s.k.l.KafkaMessageListenerContainer    : accounts-group: Consumer stopped
+2025-02-07T00:05:08.655+08:00  INFO 16484 --- [t1-java-demo] [Thread-5] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-02-07T00:05:08.661+08:00  INFO 16484 --- [t1-java-demo] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-02-07T00:05:08.678+08:00  INFO 16484 --- [t1-java-demo] [Thread-5] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-02-07T00:05:08.820+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] ru.t1.java.demo.T1JavaDemoApplication    : Starting T1JavaDemoApplication using Java 17.0.14 with PID 16484 (D:\Work\t1_homework1\service1\target\classes started by dandy in D:\Work\t1_homework1\service1)
+2025-02-07T00:05:08.821+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] ru.t1.java.demo.T1JavaDemoApplication    : No active profile set, falling back to 1 default profile: "default"
+2025-02-07T00:05:09.426+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-07T00:05:09.446+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 19 ms. Found 4 JPA repository interfaces.
+2025-02-07T00:05:09.590+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.601+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.datasource-org.springframework.boot.autoconfigure.jdbc.DataSourceProperties' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.608+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration$PooledDataSourceConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.611+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'jdbcConnectionDetails' of type [org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.625+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'dataSource' of type [com.zaxxer.hikari.HikariDataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.650+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.jpa-org.springframework.boot.autoconfigure.orm.jpa.JpaProperties' of type [org.springframework.boot.autoconfigure.orm.jpa.JpaProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.656+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.jpa.hibernate-org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties' of type [org.springframework.boot.autoconfigure.orm.jpa.HibernateProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.662+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration' of type [org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.664+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'hikariPoolDataSourceMetadataProvider' of type [org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration$HikariPoolDataSourceMetadataProviderConfiguration$$Lambda$694/0x0000013ccb4ab130] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.672+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration' of type [org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.683+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizationAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.687+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'transactionExecutionListeners' of type [org.springframework.boot.autoconfigure.transaction.ExecutionListenersTransactionManagerCustomizer] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.691+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.transaction-org.springframework.boot.autoconfigure.transaction.TransactionProperties' of type [org.springframework.boot.autoconfigure.transaction.TransactionProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.693+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'platformTransactionManagerCustomizers' of type [org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.696+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration$LiquibaseConfiguration' of type [org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration$LiquibaseConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.703+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'spring.liquibase-org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties' of type [org.springframework.boot.autoconfigure.liquibase.LiquibaseProperties] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.710+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'liquibaseConnectionDetails' of type [org.springframework.boot.autoconfigure.liquibase.LiquibaseAutoConfiguration$PropertiesLiquibaseConnectionDetails] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). Is this bean getting eagerly injected into a currently created BeanPostProcessor [jobRegistryBeanPostProcessor]? Check the corresponding BeanPostProcessor declaration and its dependencies.
+2025-02-07T00:05:09.717+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Starting...
+2025-02-07T00:05:09.806+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.pool.HikariPool        : HikariPool-2 - Added connection org.postgresql.jdbc.PgConnection@55f1bf05
+2025-02-07T00:05:09.806+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Start completed.
+2025-02-07T00:05:09.830+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.database                       : Set default schema name to public
+2025-02-07T00:05:09.961+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.changelog                      : Reading from public.databasechangelog
+2025-02-07T00:05:09.986+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.lockservice                    : Successfully acquired change log lock
+2025-02-07T00:05:09.986+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.command                        : Using deploymentId: 8857909986
+2025-02-07T00:05:09.988+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.changelog                      : Reading from public.databasechangelog
+2025-02-07T00:05:09.999+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.ui                             : Running Changeset: db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev
+2025-02-07T00:05:10.041+08:00 ERROR 16484 --- [t1-java-demo] [restartedMain] liquibase.changelog                      : ChangeSet db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev encountered an exception.
+
+liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at liquibase.executor.jvm.JdbcExecutor$ExecuteStatementCallback.doInStatement(JdbcExecutor.java:473) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.executor.jvm.JdbcExecutor.execute(JdbcExecutor.java:80) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.executor.jvm.JdbcExecutor.execute(JdbcExecutor.java:182) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.executor.AbstractExecutor.execute(AbstractExecutor.java:141) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.database.AbstractJdbcDatabase.executeStatements(AbstractJdbcDatabase.java:1176) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeSet.execute(ChangeSet.java:764) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.visitor.UpdateVisitor.executeAcceptedChange(UpdateVisitor.java:119) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.visitor.UpdateVisitor.visit(UpdateVisitor.java:68) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeLogIterator$2.lambda$run$0(ChangeLogIterator.java:133) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeLogIterator$2.run(ChangeLogIterator.java:122) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:256) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:260) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeLogIterator.run(ChangeLogIterator.java:89) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.core.AbstractUpdateCommandStep.lambda$run$0(AbstractUpdateCommandStep.java:112) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.core.AbstractUpdateCommandStep.run(AbstractUpdateCommandStep.java:110) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.core.UpdateCommandStep.run(UpdateCommandStep.java:105) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.CommandScope.execute(CommandScope.java:219) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.lambda$update$0(Liquibase.java:245) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.runInScope(Liquibase.java:1436) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.update(Liquibase.java:234) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.update(Liquibase.java:212) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.performUpdate(SpringLiquibase.java:297) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:249) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:256) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:242) ~[liquibase-core-4.27.0.jar:na]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:225) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1323) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1284) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:486) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:341) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:334) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.orm.jpa.EntityManagerFactoryUtils.findEntityManagerFactory(EntityManagerFactoryUtils.java:120) ~[spring-orm-6.1.12.jar:6.1.12]
+	at org.springframework.orm.jpa.JpaTransactionManager.setBeanFactory(JpaTransactionManager.java:333) ~[spring-orm-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods(AbstractAutowireCapableBeanFactory.java:1827) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1794) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:806) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.3.jar:3.3.3]
+	at ru.t1.java.demo.T1JavaDemoApplication.main(T1JavaDemoApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.3.3.jar:3.3.3]
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: отношение "account" уже существует
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:341) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:326) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:302) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:297) ~[postgresql-42.7.3.jar:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar:na]
+	at liquibase.executor.jvm.JdbcExecutor$ExecuteStatementCallback.doInStatement(JdbcExecutor.java:467) ~[liquibase-core-4.27.0.jar:na]
+	... 107 common frames omitted
+
+2025-02-07T00:05:10.055+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : UPDATE SUMMARY
+2025-02-07T00:05:10.055+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Run:                          0
+2025-02-07T00:05:10.055+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Previously run:               2
+2025-02-07T00:05:10.055+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Filtered out:                 0
+2025-02-07T00:05:10.055+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : -------------------------------
+2025-02-07T00:05:10.055+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Total change sets:            2
+2025-02-07T00:05:10.056+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.util                           : Update summary generated
+2025-02-07T00:05:10.058+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.command                        : Update command encountered an exception.
+2025-02-07T00:05:10.059+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.lockservice                    : Successfully released change log lock
+2025-02-07T00:05:10.062+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.command                        : Logging exception.
+2025-02-07T00:05:10.062+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.ui                             : ERROR: Exception Details
+2025-02-07T00:05:10.062+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.ui                             : ERROR: Exception Primary Class:  PSQLException
+2025-02-07T00:05:10.062+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.ui                             : ERROR: Exception Primary Reason:  ОШИБКА: отношение "account" уже существует
+2025-02-07T00:05:10.062+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.ui                             : ERROR: Exception Primary Source:  PostgreSQL 17.2
+2025-02-07T00:05:10.062+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] liquibase.command                        : Command execution complete
+2025-02-07T00:05:10.063+08:00  WARN 16484 --- [t1-java-demo] [restartedMain] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$SpringBootBatchConfiguration': Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionManager' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+2025-02-07T00:05:10.064+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown initiated...
+2025-02-07T00:05:10.177+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-2 - Shutdown completed.
+2025-02-07T00:05:10.194+08:00  INFO 16484 --- [t1-java-demo] [restartedMain] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-02-07T00:05:10.226+08:00 ERROR 16484 --- [t1-java-demo] [restartedMain] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration$SpringBootBatchConfiguration': Unsatisfied dependency expressed through constructor parameter 2: Error creating bean with name 'transactionManager' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.PostProcessorRegistrationDelegate.registerBeanPostProcessors(PostProcessorRegistrationDelegate.java:277) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.registerBeanPostProcessors(AbstractApplicationContext.java:806) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:609) ~[spring-context-6.1.12.jar:6.1.12]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.3.jar:3.3.3]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.3.jar:3.3.3]
+	at ru.t1.java.demo.T1JavaDemoApplication.main(T1JavaDemoApplication.java:12) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:50) ~[spring-boot-devtools-3.3.3.jar:3.3.3]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'transactionManager' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:607) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 33 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'liquibase' defined in class path resource [org/springframework/boot/autoconfigure/liquibase/LiquibaseAutoConfiguration$LiquibaseConfiguration.class]: liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1806) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:313) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:225) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1323) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveNamedBean(DefaultListableBeanFactory.java:1284) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveBean(DefaultListableBeanFactory.java:486) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:341) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.getBean(DefaultListableBeanFactory.java:334) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.orm.jpa.EntityManagerFactoryUtils.findEntityManagerFactory(EntityManagerFactoryUtils.java:120) ~[spring-orm-6.1.12.jar:6.1.12]
+	at org.springframework.orm.jpa.JpaTransactionManager.setBeanFactory(JpaTransactionManager.java:333) ~[spring-orm-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeAwareMethods(AbstractAutowireCapableBeanFactory.java:1827) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1794) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:600) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 43 common frames omitted
+Caused by: liquibase.exception.UnexpectedLiquibaseException: liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:259) ~[liquibase-core-4.27.0.jar:na]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1853) ~[spring-beans-6.1.12.jar:6.1.12]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1802) ~[spring-beans-6.1.12.jar:6.1.12]
+	... 61 common frames omitted
+Caused by: liquibase.exception.CommandExecutionException: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at liquibase.command.CommandScope.execute(CommandScope.java:257) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.lambda$update$0(Liquibase.java:245) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.runInScope(Liquibase.java:1436) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.update(Liquibase.java:234) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Liquibase.update(Liquibase.java:212) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.performUpdate(SpringLiquibase.java:297) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.lambda$afterPropertiesSet$0(SpringLiquibase.java:249) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:256) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.integration.spring.SpringLiquibase.afterPropertiesSet(SpringLiquibase.java:242) ~[liquibase-core-4.27.0.jar:na]
+	... 63 common frames omitted
+Caused by: liquibase.exception.LiquibaseException: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at liquibase.changelog.ChangeLogIterator.run(ChangeLogIterator.java:151) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.core.AbstractUpdateCommandStep.lambda$run$0(AbstractUpdateCommandStep.java:112) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.core.AbstractUpdateCommandStep.run(AbstractUpdateCommandStep.java:110) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.core.UpdateCommandStep.run(UpdateCommandStep.java:105) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.command.CommandScope.execute(CommandScope.java:219) ~[liquibase-core-4.27.0.jar:na]
+	... 79 common frames omitted
+Caused by: liquibase.exception.MigrationFailedException: Migration failed for changeset db/changelog/db.changelog-master.xml::create-other-tables::D.Dorofeev:
+     Reason: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at liquibase.changelog.ChangeSet.execute(ChangeSet.java:808) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.visitor.UpdateVisitor.executeAcceptedChange(UpdateVisitor.java:119) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.visitor.UpdateVisitor.visit(UpdateVisitor.java:68) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeLogIterator$2.lambda$run$0(ChangeLogIterator.java:133) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeLogIterator$2.run(ChangeLogIterator.java:122) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.lambda$child$0(Scope.java:190) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:199) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:189) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:168) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:256) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.Scope.child(Scope.java:260) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeLogIterator.run(ChangeLogIterator.java:89) ~[liquibase-core-4.27.0.jar:na]
+	... 87 common frames omitted
+Caused by: liquibase.exception.DatabaseException: ОШИБКА: отношение "account" уже существует [Failed SQL: (0) CREATE TABLE account (
+    id BIGSERIAL PRIMARY KEY,
+    client_id BIGINT NOT NULL,
+    account_type VARCHAR(50) NOT NULL,
+    balance NUMERIC(10,2) NOT NULL DEFAULT 0.00
+)]
+	at liquibase.executor.jvm.JdbcExecutor$ExecuteStatementCallback.doInStatement(JdbcExecutor.java:473) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.executor.jvm.JdbcExecutor.execute(JdbcExecutor.java:80) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.executor.jvm.JdbcExecutor.execute(JdbcExecutor.java:182) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.executor.AbstractExecutor.execute(AbstractExecutor.java:141) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.database.AbstractJdbcDatabase.executeStatements(AbstractJdbcDatabase.java:1176) ~[liquibase-core-4.27.0.jar:na]
+	at liquibase.changelog.ChangeSet.execute(ChangeSet.java:764) ~[liquibase-core-4.27.0.jar:na]
+	... 102 common frames omitted
+Caused by: org.postgresql.util.PSQLException: ОШИБКА: отношение "account" уже существует
+	at org.postgresql.core.v3.QueryExecutorImpl.receiveErrorResponse(QueryExecutorImpl.java:2725) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.core.v3.QueryExecutorImpl.processResults(QueryExecutorImpl.java:2412) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.core.v3.QueryExecutorImpl.execute(QueryExecutorImpl.java:371) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeInternal(PgStatement.java:502) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:419) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:341) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeCachedSql(PgStatement.java:326) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.executeWithFlags(PgStatement.java:302) ~[postgresql-42.7.3.jar:42.7.3]
+	at org.postgresql.jdbc.PgStatement.execute(PgStatement.java:297) ~[postgresql-42.7.3.jar:42.7.3]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:94) ~[HikariCP-5.1.0.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-5.1.0.jar:na]
+	at liquibase.executor.jvm.JdbcExecutor$ExecuteStatementCallback.doInStatement(JdbcExecutor.java:467) ~[liquibase-core-4.27.0.jar:na]
+	... 107 common frames omitted
+

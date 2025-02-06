@@ -1,0 +1,17 @@
+spring:
+  data:
+    redis:
+      host: localhost
+      port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: transaction-accept-group
+      auto-offset-reset: earliest
+    topics:
+      transaction-accept: "t1_demo_transaction_accept"
+      transaction-result: "t1_demo_transaction_result"
+app:
+  transaction:
+    limit: 5  # Количество транзакций (N)
+    interval: 7200  # Интервал времени в секундах (T)
