@@ -50,10 +50,10 @@ public class Account {
     @Enumerated(EnumType.STRING)
     private AccountStatus status;
 
-    @Column(name = "balance", nullable = false, columnDefinition = "DECIMAL DEFAULT 0")
+    @Column(name = "balance", columnDefinition = "DECIMAL DEFAULT 0")
     private BigDecimal balance;
 
-    @Column(name = "frozen_amount", nullable = false, columnDefinition = "DECIMAL DEFAULT 0")
+    @Column(name = "frozen_amount", columnDefinition = "DECIMAL DEFAULT 0")
     private BigDecimal frozenAmount;
 
     @Version

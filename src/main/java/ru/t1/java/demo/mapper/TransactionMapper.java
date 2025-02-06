@@ -9,9 +9,11 @@ import ru.t1.java.demo.model.entity.Transaction;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TransactionMapper {
 
-    @Mapping(source = "account.id", target = "accountId")
+    @Mapping(source = "fromAccount.id", target = "fromAccountId")
+    @Mapping(source = "toAccount.id", target = "toAccountId")
     TransactionDto toDto(Transaction transaction);
 
-    @Mapping(target = "account", ignore = true)
+    @Mapping(target = "fromAccount", ignore = true)
+    @Mapping(target = "toAccount", ignore = true)
     Transaction toEntity(TransactionDto transactionDto);
 }

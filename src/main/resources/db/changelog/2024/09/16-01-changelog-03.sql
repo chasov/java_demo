@@ -10,10 +10,12 @@ CREATE TABLE account
 CREATE TABLE transactions
 (
     id BIGINT PRIMARY KEY GENERATED ALWAYS AS IDENTITY UNIQUE,
-    account_id BIGINT,
+    from_account_id BIGINT NOT NULL,
+    to_account_id BIGINT NOT NULL,
     amount DECIMAL NOT NULL,
     created_at timestamptz DEFAULT current_timestamp,
-    CONSTRAINT fk_account_id FOREIGN KEY (account_id) REFERENCES account (id)
+    CONSTRAINT fk_from_account_id FOREIGN KEY (from_account_id) REFERENCES account (id),
+    CONSTRAINT fk_to_account_id FOREIGN KEY (to_account_id) REFERENCES account (id)
 );
 
 CREATE TABLE data_source_error_log

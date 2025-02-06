@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.t1.java.demo.model.entity.Client;
 
-import java.io.Serializable;
 
 /**
  * DTO for {@link Client}
@@ -19,7 +18,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class ClientDto implements Serializable {
+public class ClientDto {
     private Long id;
     @NotNull
     @JsonProperty("first_name")

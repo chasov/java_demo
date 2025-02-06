@@ -9,7 +9,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
-import java.io.Serializable;
 import java.util.UUID;
 
 @Data
@@ -17,10 +16,13 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionResultEvent implements Serializable {
+public class TransactionResultEvent {
     @NotNull
-    @JsonProperty("account_id")
-    private UUID accountId;
+    @JsonProperty("to_account_id")
+    private UUID toAccountId;
+    @NotNull
+    @JsonProperty("from_account_id")
+    private UUID fromAccountId;
     @NotNull
     @JsonProperty("transaction_id")
     private UUID transactionId;

@@ -43,8 +43,12 @@ public class Transaction {
     private UUID transactionId;
 
     @ManyToOne
-    @JoinColumn(name = "account_id", nullable = false)
-    private Account account;
+    @JoinColumn(name = "from_account_id", nullable = false)
+    private Account fromAccount;
+
+    @ManyToOne
+    @JoinColumn(name = "to_account_id", nullable = false)
+    private Account toAccount;
 
     @Column(name = "amount", nullable = false, columnDefinition = "DECIMAL NOT NULL")
     private BigDecimal amount;

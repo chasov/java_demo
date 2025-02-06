@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,23 +17,26 @@ import java.util.UUID;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionAcceptEvent implements Serializable {
+public class TransactionAcceptEvent {
     @NotNull
     @JsonProperty("client_id")
     private UUID clientId;
     @NotNull
-    @JsonProperty("account_id")
-    private UUID accountId;
+    @JsonProperty("from_account_id")
+    private UUID fromAccountId;
+    @NotNull
+    @JsonProperty("to_account_id")
+    private UUID toAccountId;
     @NotNull
     @JsonProperty("transaction_id")
     private UUID transactionId;
     @NotNull
     @JsonProperty("created_at")
-    private LocalDateTime timestamp;
+    private LocalDateTime createdAt;
     @NotNull
     @JsonProperty("transaction_amount")
     private BigDecimal transactionAmount;
     @NotNull
-    @JsonProperty("account_balance")
-    private BigDecimal accountBalance;
+    @JsonProperty("from_account_balance")
+    private BigDecimal fromAccountBalance;
 }

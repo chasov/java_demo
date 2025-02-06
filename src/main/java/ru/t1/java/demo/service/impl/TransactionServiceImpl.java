@@ -39,12 +39,13 @@ public class TransactionServiceImpl implements TransactionService {
     @Metric
     @Transactional
     public TransactionDto conductTransaction(TransactionDto transactionDto) {
-        Account account = accountService.findAccountById(transactionDto.getAccountId());
+        Account toAccount = accountService.findAccountById(transactionDto.getToAccountId());
+        Account fromAccount = accountService.findAccountById(transactionDto.getFromAccountId());
 
-        if (account.getStatus() == AccountStatus.OPEN) {
-            Transaction transaction = createTransaction(transactionDto, account);
+        if (toAccount.getStatus() == AccountStatus.OPEN && fromAccount.getStatus() == AccountStatus.OPEN) {
+            Transaction transaction = createTransaction(transactionDto, toAccount, fromAccount);
             transaction = transactionsRepository.save(transaction);
-            sendTransactionAcceptEvent(transaction, account);
+            sendTransactionAcceptEvent(transaction, toAccount, fromAccount);
 
             return transactionMapper.toDto(transaction);
         }
@@ -80,6 +81,7 @@ public class TransactionServiceImpl implements TransactionService {
         switch (transactionResultEvent.getStatus()) {
             case ACCEPTED:
                 updateAndSaveTransactionAfterProcess(transactionResultEvent);
+                processAcceptedTransaction(transactionResultEvent);
                 break;
             case BLOCKED:
                 updateAndSaveTransactionAfterProcess(transactionResultEvent);
@@ -87,7 +89,6 @@ public class TransactionServiceImpl implements TransactionService {
                 break;
             case REJECTED:
                 updateAndSaveTransactionAfterProcess(transactionResultEvent);
-                processRejectedTransaction(transactionResultEvent);
                 break;
         }
     }
@@ -104,49 +105,61 @@ public class TransactionServiceImpl implements TransactionService {
 
     private void updateAndSaveTransactionAfterProcess(TransactionResultEvent event) {
         Transaction transaction = findTransactionByTransactionId(event.getTransactionId());
+
         transaction.setStatus(event.getStatus());
         transaction.setProcessedAt(LocalDateTime.now());
+
         transactionsRepository.save(transaction);
+    }
+
+    private void processAcceptedTransaction(TransactionResultEvent event) {
+        Transaction transaction = findTransactionByTransactionId(event.getTransactionId());
+
+        Account toAccount = accountService.findAccountByAccountId(event.getToAccountId());
+        Account fromAccount = accountService.findAccountByAccountId(event.getFromAccountId());
+
+        toAccount.setBalance(toAccount.getBalance().add(transaction.getAmount()));
+        fromAccount.setBalance(fromAccount.getBalance().subtract(transaction.getAmount()));
+
+        accountRepository.save(toAccount);
+        accountRepository.save(fromAccount);
     }
 
     private void processBlockedTransaction(TransactionResultEvent event) {
         Transaction transaction = findTransactionByTransactionId(event.getTransactionId());
-        Account account = accountService.findAccountByAccountId(event.getAccountId());
+
+        Account account = accountService.findAccountByAccountId(event.getToAccountId());
+
         account.setStatus(AccountStatus.BLOCKED);
         account.setBalance(account.getBalance().subtract(transaction.getAmount()));
         account.setFrozenAmount(account.getFrozenAmount().add(transaction.getAmount()));
+
         accountRepository.save(account);
     }
 
-    private void processRejectedTransaction(TransactionResultEvent event) {
-        Transaction transaction = findTransactionByTransactionId(event.getTransactionId());
-        Account account = accountService.findAccountByAccountId(event.getAccountId());
-        account.setBalance(account.getBalance().subtract(transaction.getAmount()));
-        accountRepository.save(account);
-    }
-
-    private Transaction createTransaction(TransactionDto transactionDto, Account account) {
+    private Transaction createTransaction(TransactionDto transactionDto, Account toAccount, Account fromAccount) {
         Transaction transaction = transactionMapper.toEntity(transactionDto);
         transaction.setStatus(TransactionStatus.REQUESTED);
         transaction.setTransactionId(UUID.randomUUID());
-        account.setBalance(transactionDto.getAmount());
-        transaction.setAccount(account);
+        transaction.setFromAccount(fromAccount);
+        transaction.setToAccount(toAccount);
         return transaction;
     }
 
-    private TransactionAcceptEvent prepareTransactionAcceptEvent(Transaction transaction, Account account) {
+    private TransactionAcceptEvent prepareTransactionAcceptEvent(Transaction transaction, Account toAccount, Account fromAccount) {
         return TransactionAcceptEvent.builder()
-                .clientId(account.getClient().getClientId())
-                .accountId(account.getAccountId())
+                .clientId(fromAccount.getClient().getClientId())
+                .fromAccountId(fromAccount.getAccountId())
+                .toAccountId(toAccount.getAccountId())
                 .transactionId(transaction.getTransactionId())
-                .timestamp(transaction.getCreatedAt())
+                .createdAt(transaction.getCreatedAt())
                 .transactionAmount(transaction.getAmount())
-                .accountBalance(account.getBalance())
+                .fromAccountBalance(fromAccount.getBalance())
                 .build();
     }
 
-    private void sendTransactionAcceptEvent(Transaction transaction, Account account) {
-        TransactionAcceptEvent event = prepareTransactionAcceptEvent(transaction, account);
+    private void sendTransactionAcceptEvent(Transaction transaction, Account toAccount, Account fromAccount) {
+        TransactionAcceptEvent event = prepareTransactionAcceptEvent(transaction, toAccount, fromAccount);
         kafkaTransactionAcceptProducer.send(event);
     }
 }

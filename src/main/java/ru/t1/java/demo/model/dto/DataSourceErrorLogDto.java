@@ -8,14 +8,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class DataSourceErrorLogDto implements Serializable {
+public class DataSourceErrorLogDto {
     private Long id;
     @NotNull
     @JsonProperty("stack_trace")

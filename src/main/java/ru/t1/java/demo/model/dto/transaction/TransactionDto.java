@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,11 +16,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class TransactionDto implements Serializable {
+public class TransactionDto {
     private Long id;
     @NotNull
-    @JsonProperty("account_id")
-    private Long accountId;
+    @JsonProperty("from_account_id")
+    private Long fromAccountId;
+    @NotNull
+    @JsonProperty("to_account_id")
+    private Long toAccountId;
     @NotNull
     @JsonProperty("amount")
     private BigDecimal amount;

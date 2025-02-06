@@ -16,6 +16,7 @@ import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.account.AccountService;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -58,6 +59,7 @@ public class AccountServiceImpl implements AccountService {
         account.setStatus(AccountStatus.OPEN);
         account.setClient(client);
         account.setAccountId(UUID.randomUUID());
+        account.setFrozenAmount(BigDecimal.ZERO);
 
         account = accountRepository.save(account);
 
