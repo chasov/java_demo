@@ -52,11 +52,10 @@ public class ClientController {
     @Metric(maxExecutionTime = 1)
     @HandlingResult
     @PostMapping("/register")
-    public ResponseEntity<Client> register(@RequestBody ClientDto clientDto) {
+    public ResponseEntity<ClientDto> register(@RequestBody ClientDto clientDto) {
         log.info("Registering client: {}", clientDto);
-        Client client = clientService.registerClient(clientMapper.toEntityWithId(clientDto));
-        log.info("Client registered: {}", client.getId());
-        return ResponseEntity.ok().body(client);
+        ClientDto clientdto = clientService.registerClient(clientMapper.toEntityWithId(clientDto));
+        return ResponseEntity.ok().body(clientDto);
     }
 
     @LogException

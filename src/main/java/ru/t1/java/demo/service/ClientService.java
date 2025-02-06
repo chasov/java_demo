@@ -8,7 +8,7 @@ import java.util.List;
 public interface ClientService {
     List<Client> registerClients(List<Client> clients);
 
-    Client registerClient(Client client);
+    ClientDto registerClient(Client client);
 
     List<ClientDto> parseJson();
 

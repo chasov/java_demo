@@ -8,7 +8,7 @@ import java.util.List;
 public interface AccountService {
     List<Account> registerAccounts(List<Account> accounts);
 
-    Account registerAccount(Account account);
+    AccountDto registerAccount(Account account);
 
     Account patchByAccountId(String accountId, AccountDto dto);
 

@@ -30,11 +30,11 @@ public class TransactionController {
     @Metric(maxExecutionTime = 1)
     @HandlingResult
     @PostMapping("transaction/register")
-    public ResponseEntity<Transaction> register(@RequestBody TransactionDto dto) {
+    public ResponseEntity<TransactionDto> register(@RequestBody TransactionDto dto) {
         log.info("Registering transaction: {}", dto);
         dto.setTimestamp(Timestamp.from(Instant.now()));
         Transaction transaction = transactionService.registerTransaction(topic, TransactionMapper.toEntityWithId(dto));
-        return ResponseEntity.ok().body(transaction);
+        return ResponseEntity.ok().body(TransactionMapper.toDto(transaction));
     }
 
     @LogException
