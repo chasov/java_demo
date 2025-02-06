@@ -61,7 +61,6 @@ public class ClientService implements CRUDService<ClientDto> {
     @Transactional
     @LogDataSourceError
     public ClientDto create(ClientDto clientDto) {
-        log.info("Creating new client");
         Client client = clientMapper.toEntity(clientDto);
         client.setClientId(generateUniqueClientId());
         Client savedClient = clientRepository.save(client);

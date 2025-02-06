@@ -71,7 +71,6 @@ public class TransactionService implements CRUDService<TransactionDto> {
     @LogDataSourceError
     @Metric
     public TransactionDto create(TransactionDto transactionDto) {
-        log.info("Starting new transaction");
         Transaction transaction = transactionMapper.toEntity(transactionDto);
         Account accountFrom = accountRepository.findById(transaction.getAccountFrom().getId()).orElseThrow(
                 () -> new ResourceNotFoundException("Account with given id " +
@@ -90,30 +89,13 @@ public class TransactionService implements CRUDService<TransactionDto> {
             throw new TransactionException("Transfers between pointed accounts are not allowed");
         }
 
-        //TODO delete:
-/*        if (accountFrom.getBalance().longValue() < transaction.getAmount().longValue()) {
-            log.warn("There are insufficient funds in the account with ID " + accountFrom.getId());
-            throw new TransactionException(
-                    "There are insufficient funds in the account with ID " + accountFrom.getId());
-        }*/
-
-/*        accountFrom.setBalance(BigDecimal.valueOf
-                (accountFrom.getBalance().longValue() - transaction.getAmount().longValue()));
-        accountTo.setBalance(BigDecimal.valueOf
-                (accountTo.getBalance().longValue() + transaction.getAmount().longValue()));*/
-
         accountFrom.setBalance(accountFrom.getBalance().subtract(transaction.getAmount()));
-        //accountTo.setBalance(accountTo.getBalance().add(transaction.getAmount()));
 
         transaction.setAccountFrom(accountFrom);
         transaction.setAccountTo(accountTo);
         transaction.setCompletedAt(LocalDateTime.now());
         transaction.setStatus(TransactionStatus.REQUESTED);
         transaction.setTransactionId(generateUniqueTransactionId());
-
-        //TODO delete:
-/*        log.info("Transaction between {} and {} account completed successfully",
-                accountFrom.getId(), accountTo.getId());*/
 
         TransactionAcceptDto transactionAcceptDto = TransactionAcceptDto.builder()
                 .clientId(transaction.getAccountFrom().getClient().getClientId())
@@ -176,12 +158,6 @@ public class TransactionService implements CRUDService<TransactionDto> {
         if (updatedTransactionDto.getAmount() != null) {
             transaction.setAmount(updatedTransactionDto.getAmount());
         }
-        if (updatedTransactionDto.getStatus() != null) {
-            updatedTransactionDto.setStatus(updatedTransactionDto.getStatus());
-        }
-/*        if (updatedTransactionDto.getTransactionId() != null ) {
-            updatedTransactionDto.setTransactionId(updatedTransactionDto.getTransactionId());
-        }*/
 
         Transaction updatedTransaction = transactionRepository.save(transaction);
 

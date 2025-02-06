@@ -42,7 +42,6 @@ public class DataSourceErrorLogService implements CRUDService<DataSourceErrorLog
 
     @Override
     public DataSourceErrorLogDto create(DataSourceErrorLogDto errorLogDto) {
-        log.info("Creating new errorLog");
         DataSourceErrorLog errorLog = dataSourceErrorLogMapper.toEntity(errorLogDto);
         DataSourceErrorLog savedErrorLog = sourceErrorLogRepository.save(errorLog);
         log.info("ErrorLog with ID: {} saved successfully", savedErrorLog.getId());

@@ -15,16 +15,9 @@ public class KafkaTransactionProducer {
     @Value("${t1.kafka.topic.transactions}")
     private String transactionTopicName;
 
-/*    @Value("${t1.kafka.topic.transactions-accept}")
-    private String transactionAcceptTopicName;*/
-
     private final TransactionService transactionService;
 
     public void send(TransactionDto transactionDto) {
         transactionService.sendMessage(transactionTopicName, transactionDto);
     }
-
-/*    public void sendTransactionAccept(TransactionAcceptDto transactionAcceptDto) {
-        transactionService.sendMessage(transactionAcceptTopicName, transactionAcceptDto);
-    }*/
 }

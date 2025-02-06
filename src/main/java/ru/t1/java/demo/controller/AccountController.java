@@ -4,7 +4,6 @@ package ru.t1.java.demo.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.kafka.producer.KafkaAccountProducer;
@@ -23,24 +22,19 @@ public class AccountController {
     private final KafkaAccountProducer accountProducer;
 
     @GetMapping("/{id}")
-    public ResponseEntity<AccountDto> getAccountById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(
-                accountService.getById(id)
-        );
+    public AccountDto getAccountById(@PathVariable("id") Long id) {
+        return accountService.getById(id);
     }
 
     @GetMapping
-    public ResponseEntity<Collection<AccountDto>> getAllAccounts() {
-        return ResponseEntity.ok(
-                accountService.getAll()
-        );
+    public Collection<AccountDto> getAllAccounts() {
+        return accountService.getAll();
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> createAccount(@RequestBody AccountDto accountDto) {
-        AccountDto newAccount = accountService.create(accountDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(newAccount);
+    @ResponseStatus(HttpStatus.CREATED)
+    public AccountDto createAccount(@RequestBody AccountDto accountDto) {
+        return accountService.create(accountDto);
     }
 
     /**
@@ -50,22 +44,21 @@ public class AccountController {
      * @return ResponseEntity accountDto
      */
     @PostMapping("/send")
-    public ResponseEntity<AccountDto> sendCreateAccountRequest(@RequestBody AccountDto accountDto) {
+    public AccountDto sendCreateAccountRequest(@RequestBody AccountDto accountDto) {
         accountProducer.send(accountDto);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(accountDto);
+        return accountDto;
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<AccountDto> updateAccount(@PathVariable("id") Long id,
+    @ResponseStatus(HttpStatus.OK)
+    public AccountDto updateAccount(@PathVariable("id") Long id,
                                                     @RequestBody AccountDto updatedAccountDto) {
-        AccountDto accountDto = accountService.update(id, updatedAccountDto);
-        return ResponseEntity.ok(accountDto);
+        return accountService.update(id, updatedAccountDto);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteAccount(@PathVariable("id") Long accountId) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteAccount(@PathVariable("id") Long accountId) {
         accountService.delete(accountId);
-        return ResponseEntity.ok("Account with id " + accountId + "deleted successfully!");
     }
 }

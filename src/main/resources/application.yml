@@ -46,6 +46,9 @@ t1:
       retry-backoff-ms: 1000
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      batch-size-config: 16384
+      linger-ms-config: 10
+      max-in-flight-request-per-second: 5
       acks: 0
     topic:
       metrics: t1_demo_metrics

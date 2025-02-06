@@ -1,6 +1,7 @@
 package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.DataSourceErrorLogDto;
@@ -16,22 +17,18 @@ public class DataSourceErrorLogController {
     private final DataSourceErrorLogService errorLogService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<DataSourceErrorLogDto> getErrorLogById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(
-                errorLogService.getById(id)
-        );
+    public DataSourceErrorLogDto getErrorLogById(@PathVariable("id") Long id) {
+        return errorLogService.getById(id);
     }
 
     @GetMapping()
-    public ResponseEntity<Collection<DataSourceErrorLogDto>> getAllErrorLogs() {
-        return ResponseEntity.ok(
-                errorLogService.getAll()
-        );
+    public Collection<DataSourceErrorLogDto> getAllErrorLogs() {
+        return errorLogService.getAll();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteErrorLog(@PathVariable("id") Long id) {
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteErrorLog(@PathVariable("id") Long id) {
         errorLogService.delete(id);
-        return ResponseEntity.ok("ErrorLog with ID: " + id + " deleted successfully!");
     }
 }

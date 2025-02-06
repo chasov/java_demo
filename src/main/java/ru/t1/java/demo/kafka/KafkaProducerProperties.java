@@ -30,4 +30,13 @@ public class KafkaProducerProperties {
 
     @Value("${t1.kafka.producer.acks}")
     private String acks;
+
+    @Value("${t1.kafka.producer.batch-size-config}")
+    private String batchSize;
+
+    @Value("${t1.kafka.producer.linger-ms-config}")
+    private String lingerMs;
+
+    @Value("${t1.kafka.producer.max-in-flight-request-per-second}")
+    private String maxInFlightRequestPerSecond;
 }

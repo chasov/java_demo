@@ -10,14 +10,11 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
-//import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.dto.TransactionResultDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
-import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.AccountMapper;
 import ru.t1.java.demo.util.TransactionMapper;
@@ -37,8 +34,6 @@ public class KafkaTransactionResultConsumer {
 
     private final AccountMapper accountMapper;
 
-    private final AccountService accountService;
-
     private final AccountRepository accountRepository;
 
     @KafkaListener(topics = "${t1.kafka.topic.transactions-result}",
@@ -52,16 +47,11 @@ public class KafkaTransactionResultConsumer {
         log.info("Topic: {}, Key: {} start proceeding", topic, key);
          try {
              messages.forEach(dto -> {
-/*                 TransactionResultDto resultDto = TransactionResultDto.builder()
+                 TransactionResultDto resultDto = TransactionResultDto.builder()
                          .accountId(dto.getAccountId())
                          .transactionId(dto.getTransactionId())
                          .transactionStatus(dto.getTransactionStatus())
-                         .build();*/
-                 TransactionResultDto resultDto = new TransactionResultDto();
-                 resultDto.setTransactionId(dto.getTransactionId());
-                 resultDto.setTransactionStatus(dto.getTransactionStatus());
-                 resultDto.setAccountId(dto.getAccountId());
-
+                         .build();
 
                  TransactionDto transactionDtoToSave =
                          transactionMapper.toDto(transactionRepository.findTransactionByTransactionId(
@@ -80,37 +70,19 @@ public class KafkaTransactionResultConsumer {
                                          "Account with given id: " + transactionDtoToSave.getAccountToId()
                                                  + " is not exists")
                          ));
-
-
                  Transaction transactionToSave =
                          transactionRepository.findTransactionByTransactionId(
                                  resultDto.getTransactionId()).orElseThrow(
                                          () -> new ResourceNotFoundException("Transaction not found " +
                                                  resultDto.getTransactionId())
                          );
-/*                 AccountDto accountToSave =
-                         accountMapper.toDto(accountRepository.findByAccountId(resultDto.getAccountId()));
-
-                 AccountDto accountToToSave = accountMapper.toDto(
-                         accountRepository.findById(transactionToSave.getAccountToId()).orElseThrow(
-                                 () -> new ResourceNotFoundException(
-                                         "Account with given id: " + transactionToSave.getAccountToId()
-                                                 + " is not exists")
-                         ));
-
-                 transactionToSave.setStatus(TransactionStatus.valueOf(resultDto.getTransactionStatus()));
-                 //transactionService.saveTransaction(transactionToSave);
-                 transactionRepository.save(transactionToSave);*/
-
-                 log.error("-----------------FUCKIIING!!!---------------");
 
                 transactionService.processTransactionResult(resultDto, transactionDtoToSave,
                         accountDtoToToSave, accountDtoFromToSave);
-
+                log.info("Topic: {}, Key: {} start proceeding", topic, key);
              });
          } finally {
              ack.acknowledge();
          }
-
     }
 }

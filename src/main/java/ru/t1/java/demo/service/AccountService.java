@@ -14,7 +14,6 @@ import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatus;
 import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.repository.AccountRepository;
@@ -64,7 +63,6 @@ public class AccountService implements CRUDService<AccountDto> {
     @Transactional
     @LogDataSourceError
     public AccountDto create(AccountDto accountDto) {
-        log.info("Creating new account");
         Account account = accountMapper.toEntity(accountDto);
         Long clientId = accountDto.getClientId();
         Client client = clientRepository.findById(clientId).orElseThrow(
@@ -106,9 +104,6 @@ public class AccountService implements CRUDService<AccountDto> {
         if (updatedAccountDto.getBalance() != null) {
             account.setBalance(updatedAccountDto.getBalance());
         }
-/*        if (updatedAccountDto.getAccountId() != null) {
-            account.setAccountId(updatedAccountDto.getAccountId());
-        }*/
         if (updatedAccountDto.getStatus() != null) {
             account.setStatus(AccountStatus.valueOf(updatedAccountDto.getStatus()));
         }

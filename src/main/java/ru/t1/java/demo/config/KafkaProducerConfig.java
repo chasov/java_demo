@@ -30,6 +30,10 @@ public class KafkaProducerConfig<T> {
         props.put(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, producerProperties.getRetryBackoffMs());
         props.put(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, producerProperties.isEnableIdempotence());
         props.put(ProducerConfig.ACKS_CONFIG, producerProperties.getAcks());
+        props.put(ProducerConfig.BATCH_SIZE_CONFIG, producerProperties.getBatchSize());
+        props.put(ProducerConfig.LINGER_MS_CONFIG, producerProperties.getLingerMs());
+        props.put(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION,
+                producerProperties.getMaxInFlightRequestPerSecond());
 
         return props;
     }
