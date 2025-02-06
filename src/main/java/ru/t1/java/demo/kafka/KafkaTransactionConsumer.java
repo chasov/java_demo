@@ -8,6 +8,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
+import ru.t1.java.demo.dto.ResponseTransactionDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.service.TransactionService;
 
@@ -16,7 +17,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-
 public class KafkaTransactionConsumer {
     private final TransactionService transactionService;
 
@@ -33,7 +33,7 @@ public class KafkaTransactionConsumer {
         try {
             log.error("Topic : {}", topic);
             log.error("Key : {}", key);
-            List<TransactionDto> list = transactionService.registerTransactions(messageList);
+            List<ResponseTransactionDto> list = transactionService.validateAndProcessTransaction(messageList);
             log.info("Сообщения {} сохранены в базу",list.toString());
         } finally {
             ack.acknowledge();

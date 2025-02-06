@@ -11,6 +11,8 @@ public class TransactionMapper {
                 .id(dto.getId())
                 .amount(dto.getAmount())
                 .transactionDate(dto.getTransactionDate())
+                .accountId(dto.getAccountId())
+                .status(dto.getStatus())
                 .build();
     }
 
@@ -19,6 +21,8 @@ public class TransactionMapper {
                 .id(entity.getId())
                 .amount(entity.getAmount())
                 .transactionDate(entity.getTransactionDate())
+                .accountId(entity.getAccountId())
+                .status(entity.getStatus())
                 .build();
     }
 }

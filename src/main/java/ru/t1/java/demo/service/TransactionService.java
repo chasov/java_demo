@@ -1,7 +1,7 @@
 package ru.t1.java.demo.service;
 
+import ru.t1.java.demo.dto.ResponseTransactionDto;
 import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.Transaction;
 
 import java.io.IOException;
@@ -15,4 +15,5 @@ public interface TransactionService {
     TransactionDto updateTransaction(Long id,TransactionDto transaction);
     List<Transaction> parseJson() throws IOException;
     List<TransactionDto> registerTransactions(List<TransactionDto> transactions);
+    List<ResponseTransactionDto> validateAndProcessTransaction(List<TransactionDto> transactions);
 }

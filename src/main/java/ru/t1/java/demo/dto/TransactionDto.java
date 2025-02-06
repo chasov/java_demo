@@ -6,10 +6,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 /**
  * DTO for {@link Transaction}
@@ -25,4 +24,9 @@ public class TransactionDto {
     private BigDecimal amount;
     @JsonProperty(value = "transaction_date")
     private String transactionDate;
+    @JsonProperty(value = "transaction_status")
+    private TransactionStatus status;
+    @JsonProperty(value = "account_id")
+    private Long accountId;
+
 }

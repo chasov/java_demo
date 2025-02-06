@@ -13,8 +13,6 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class MessageDeserializer<T> extends JsonDeserializer<T> {
 
-//    private final ObjectMapper objectMapper;
-
     private static String getMessage(byte[] data) {
         return new String(data, StandardCharsets.UTF_8);
     }

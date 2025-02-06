@@ -34,13 +34,10 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-//    @LogExecution
-//    @Track
-//    @HandlingResult
     public List<Client> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 
-        ClientDto[] clients = mapper.readValue(new File("src/main/resources/MOCK_DATA.json"), ClientDto[].class);
+        ClientDto[] clients = mapper.readValue(new File("src/main/resources/MOCK_DATA_CLIENT.json"), ClientDto[].class);
 
         return Arrays.stream(clients)
                 .map(ClientMapper::toEntity)

@@ -31,17 +31,9 @@ public class ClientController {
     }
 
     @LogException
-//    @Track
     @GetMapping(value = "/client")
-//    @HandlingResult
     public void doSomething() throws IOException, InterruptedException {
-//        try {
-//            clientService.parseJson();
         throw new ClientException();
-//        } catch (Exception e) {
-//            log.info("Catching exception from ClientController");
-//            throw new ClientException();
-//        }
     }
 
     @PutMapping("/update")

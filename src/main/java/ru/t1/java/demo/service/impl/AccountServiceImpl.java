@@ -88,9 +88,6 @@ public class AccountServiceImpl implements AccountService {
         return accountMapper.toDto(saved);
     }
     @Override
-//    @LogExecution
-//    @Track
-//    @HandlingResult
     public List<Account> parseJson() throws IOException {
         ObjectMapper mapper = new ObjectMapper();
 

@@ -24,6 +24,7 @@ t1:
       group-id: t1-demo
       group-id-account: account-group
       group-id-transaction: transaction-group
+      group-id-accept : transaction-group-accept
       max.poll.records: 10
       session-timeout: 10000
       heartbeat.interval: 3000
@@ -36,5 +37,6 @@ t1:
       client_t1_metrics : t1_demo_metrics
       account_registration : t1_demo_accounts
       transaction_registration : t1_demo_transactions
+      transaction_accept : t1_demo_transaction_accept
     listener:
       poll-timeout: 1000
