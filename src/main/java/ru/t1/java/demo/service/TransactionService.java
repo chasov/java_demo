@@ -12,29 +12,22 @@ import org.springframework.stereotype.Service;
 import ru.t1.dto.TransactionResultDto;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
-//import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.ResourceNotFoundException;
 import ru.t1.java.demo.exception.SendMessageException;
 import ru.t1.java.demo.exception.TransactionException;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatus;
-import ru.t1.java.demo.model.enums.AccountType;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.util.TransactionMapper;
 import ru.t1.dto.TransactionAcceptDto;
 import ru.t1.java.demo.util.UtilService;
-
-
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -106,8 +99,6 @@ public class TransactionService implements CRUDService<TransactionDto> {
                 .accountBalance(transaction.getAccountFrom().getBalance())
                 .build();
 
-        //TODO choose between service and producer
-        //transactionProducer.sendAcceptedTransaction(acceptedTransactionDto);
         Transaction savedTransaction = transactionRepository.save(transaction);
         sendMessage(transactionAcceptTopicName, transactionAcceptDto);
         return transactionMapper.toDto(savedTransaction);

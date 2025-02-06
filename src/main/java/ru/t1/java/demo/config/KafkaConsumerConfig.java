@@ -19,7 +19,6 @@ import org.springframework.util.backoff.FixedBackOff;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.dto.TransactionDto;
-//import ru.t1.java.demo.dto.TransactionResultDto;
 import ru.t1.dto.TransactionResultDto;
 import ru.t1.java.demo.kafka.KafkaConsumerProperties;
 import ru.t1.java.demo.kafka.MessageDeserializer;

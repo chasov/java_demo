@@ -53,7 +53,10 @@ public class Transaction {
     @Override
     public boolean equals(Object object) {
         if (!(object instanceof Transaction that)) return false;
-        return Objects.equals(id, that.id) && Objects.equals(accountFrom, that.accountFrom) && Objects.equals(accountTo, that.accountTo) && Objects.equals(amount, that.amount) && Objects.equals(completedAt, that.completedAt) && Objects.equals(updatedAt, that.updatedAt) && status == that.status && Objects.equals(transactionId, that.transactionId);
+        return Objects.equals(id, that.id) && Objects.equals(accountFrom, that.accountFrom) &&
+                Objects.equals(accountTo, that.accountTo) && Objects.equals(amount, that.amount) &&
+                Objects.equals(completedAt, that.completedAt) && Objects.equals(updatedAt, that.updatedAt) &&
+                status == that.status && Objects.equals(transactionId, that.transactionId);
     }
 
     @Override

@@ -2,7 +2,6 @@ package ru.t1.java.demo.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.DataSourceErrorLogDto;
 import ru.t1.java.demo.service.DataSourceErrorLogService;
