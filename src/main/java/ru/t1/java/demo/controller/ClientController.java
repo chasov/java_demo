@@ -8,9 +8,9 @@ import ru.t1.java.demo.aop.LogDataSourceError;
 import ru.t1.java.demo.aop.Track;
 import ru.t1.java.demo.aop.LogException;
 import ru.t1.java.demo.exception.ClientException;
-import ru.t1.java.demo.service.ClientService;
+import ru.t1.java.demo.service1.ClientService;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.service.LegacyClientService;
+import ru.t1.java.demo.service1.LegacyClientService;
 
 import java.io.IOException;
 import java.util.Optional;

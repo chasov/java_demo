@@ -9,7 +9,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.ClientDto;
-import ru.t1.java.demo.service.ClientService;
+import ru.t1.java.demo.service1.ClientService;
 
 import java.util.List;
 

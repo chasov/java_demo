@@ -4,6 +4,8 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
 http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
 
+
+
     <changeSet id="init" author="ECHasov">
         <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-01.sql"/>
         <rollback/>
@@ -13,10 +15,11 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <sqlFile encoding="utf8" path="/db/changelog/2024/09/16-01-changelog-02.sql"/>
         <rollback/>
     </changeSet>
+
     <changeSet id="create_account" author="SISHRAK0">
         <createTable tableName="account">
             <column name="id" type="UUID">
-                    <constraints nullable="false" primaryKey="true" primaryKeyName="pk-acc"/>
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk-acc"/>
             </column>
             <column name="account_type" type="VARCHAR(255)">
                 <constraints nullable="false"/>
@@ -26,19 +29,21 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             </column>
         </createTable>
     </changeSet>
+
     <changeSet id="transaction" author="SISHRAK0">
         <createTable tableName="transaction">
             <column name="id" type="UUID">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="pk_transaction"/>
             </column>
             <column name="amount" type="DECIMAL">
-              <constraints nullable="false"/>
+                <constraints nullable="false"/>
             </column>
             <column name="transaction_time" type="VARCHAR(255)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
+
     <changeSet id="data_source_error_log" author="SISHRAK0">
         <createTable tableName="data_source_error_log">
             <column name="id" type="UUID">
@@ -58,4 +63,94 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
             </column>
         </createTable>
     </changeSet>
+
+
+
+    <!-- 1. Добавляем недостающие поля в таблицу account -->
+<!--    <changeSet id="add_account_new_fields" author="SISHRAK0">-->
+<!--        <addColumn tableName="account">-->
+<!--            &lt;!&ndash; Уникальный бизнес-идентификатор счёта &ndash;&gt;-->
+<!--            <column name="account_id" type="VARCHAR(255)">-->
+<!--                <constraints  unique="true"/>-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--        <addColumn tableName="account">-->
+<!--            &lt;!&ndash; Статус [ARRESTED, BLOCKED, CLOSED, OPEN] &ndash;&gt;-->
+<!--            <column name="status" type="VARCHAR(255)">-->
+<!--                <constraints/>-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--        <addColumn tableName="account">-->
+<!--            &lt;!&ndash; Замороженная сумма &ndash;&gt;-->
+<!--            <column name="frozen_amount" type="DECIMAL(19,2)">-->
+<!--                <constraints />-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--    </changeSet>-->
+
+<!--    &lt;!&ndash; 2. Добавляем недостающие поля в таблицу transaction &ndash;&gt;-->
+<!--    <changeSet id="add_transaction_new_fields" author="SISHRAK0">-->
+<!--        <addColumn tableName="transaction">-->
+<!--            &lt;!&ndash; Уникальный business ID транзакции &ndash;&gt;-->
+<!--            <column name="transaction_id" type="VARCHAR(255)">-->
+<!--                <constraints/>-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--        <addColumn tableName="transaction">-->
+<!--            &lt;!&ndash; Хранение точного времени (TIMESTAMP/DateTime) &ndash;&gt;-->
+<!--            <column name="timestamp" type="TIMESTAMP">-->
+<!--                <constraints/>-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--        <addColumn tableName="transaction">-->
+<!--            &lt;!&ndash; Статус [ACCEPTED, REJECTED, BLOCKED, CANCELLED, REQUESTED] &ndash;&gt;-->
+<!--            <column name="status" type="VARCHAR(255)">-->
+<!--                <constraints />-->
+<!--            </column>-->
+<!--        </addColumn>-->
+<!--    </changeSet>-->
+
+    <!-- 3. Добавляем недостающее поле client_id в таблицу client -->
+<!--    <changeSet id="add_client_id" author="SISHRAK0">-->
+<!--        <update tableName="client">-->
+<!--            <column name="client_id" type="VARCHAR(255)">-->
+<!--                <constraints />-->
+<!--            </column>-->
+<!--        </update>-->
+<!--    </changeSet>-->
+    <changeSet id="add_new_nullable_columns" author="SISHRAK0">
+        <addColumn tableName="account">
+            <column name="account_id" type="VARCHAR(255)"/>
+        </addColumn>
+        <update tableName="account">
+            <column name="status" type="VARCHAR(255)"/>
+        </update>
+        <update tableName="account">
+            <column name="frozen_amount" type="DECIMAL(19,2)"/>
+        </update>
+
+        <update tableName="transaction">
+            <column name="transaction_id" type="VARCHAR(255)"/>
+        </update>
+        <update tableName="transaction">
+            <column name="timestamp" type="TIMESTAMP"/>
+        </update>
+        <update tableName="transaction">
+            <column name="status" type="VARCHAR(255)"/>
+        </update>
+
+
+    </changeSet>
+    <changeSet id="123123123" author="SISHRAK0">
+        <update tableName="client">
+            <column name="client_id" type="BIGINT"/>
+        </update>
+
+    </changeSet>
+    <changeSet id="234" author="SISHRAK0">
+        <update tableName="transaction">
+            <column name="timestamp" type="VARCHAR(255)"/>
+        </update>
+    </changeSet>
+
 </databaseChangeLog>

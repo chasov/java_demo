@@ -7,7 +7,7 @@ import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.service.AccountService;
+import ru.t1.java.demo.service1.AccountService;
 import ru.t1.java.demo.util.AccountMapperImpl;
 
 

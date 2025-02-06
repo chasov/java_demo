@@ -24,4 +24,6 @@ public class Client extends AbstractPersistable<Long> {
     @Column(name = "middle_name")
     private String middleName;
 
+    @Column(name = "client_id")
+    private Long clientId;
 }

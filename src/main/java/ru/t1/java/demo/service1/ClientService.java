@@ -1,4 +1,4 @@
-package ru.t1.java.demo.service;
+package ru.t1.java.demo.service1;
 
 import ru.t1.java.demo.model.Client;
 

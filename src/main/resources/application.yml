@@ -9,7 +9,13 @@ spring:
   liquibase:
     enabled: true
     change-log: db/changelog/db.changelog-master.xml
-
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  transaction:
+    result:
+      max-count: 3
+      time-window-ms: 60000
 logging:
   level:
     ROOT: INFO

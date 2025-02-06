@@ -14,7 +14,9 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResultDto;
 
 import java.util.Map;
 
@@ -47,6 +49,43 @@ public class KafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, AccountDto> accountKafkaListenerContainerFactory() {
         return createKafkaListenerContainerFactory("account-consumer", AccountDto.class);
     }
+    @Bean
+    public KafkaTemplate<String, TransactionAcceptDto> transactionAcceptKafkaTemplate() {
+        return new KafkaTemplate<>(createProducerFactory(String.class, TransactionAcceptDto.class, StringSerializer.class, JsonSerializer.class));
+    }
+
+    @Bean
+    public KafkaTemplate<String, TransactionResultDto> transactionResultKafkaTemplate() {
+        return new KafkaTemplate<>(createProducerFactory(String.class, TransactionResultDto.class, StringSerializer.class, JsonSerializer.class));
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, TransactionResultDto> transactionResultKafkaListenerContainerFactory() {
+        return createKafkaListenerContainerFactory("transaction-result-consumer", TransactionResultDto.class);
+    }
+
+
+    private <T> ConsumerFactory<String, T> consumerFactory(Class<T> clazz, String groupId) {
+        JsonDeserializer<T> deserializer = new JsonDeserializer<>(clazz);
+        deserializer.addTrustedPackages("*");
+        return new DefaultKafkaConsumerFactory<>(Map.of(
+                ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BOOTSTRAP_SERVERS,
+                ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class,
+                ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, JsonDeserializer.class,
+                ConsumerConfig.GROUP_ID_CONFIG, groupId
+        ), new StringDeserializer(), deserializer);
+    }
+
+    @Bean
+    public <T> ProducerFactory<String, T> producerFactory(Class<T> clazz) {
+        return new DefaultKafkaProducerFactory<>(Map.of(
+                org.apache.kafka.clients.producer.ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KAFKA_BOOTSTRAP_SERVERS,
+                org.apache.kafka.clients.producer.ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringDeserializer.class,
+                org.apache.kafka.clients.producer.ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, org.springframework.kafka.support.serializer.JsonSerializer.class
+        ));
+    }
+
+
 
     @Bean
     public NewTopic createMetricsTopic() {

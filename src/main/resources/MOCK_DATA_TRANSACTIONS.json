@@ -1,27 +1,18 @@
 [
   {
     "id": "c14f37e5-131a-4ffb-960b-550d558f7b02",
+    "transaction_id": "123",
     "amount": 512.73,
-    "transaction_time": "2024-03-06T17:16:31"
+    "transaction_time": "2024-03-06T17:16:31",
+    "timestamp": "2024-03-06T17:16:31",
+    "status": "ACCEPTED"
   },
   {
     "id": "a88f42b7-4a4f-4260-b3f0-9835f837bda1",
+    "transaction_id": "12",
     "amount": 1340.50,
-    "transaction_time": "2024-03-07T10:12:00"
-  },
-  {
-    "id": "9fbd8bb1-c9c4-4095-9b39-4f4c2294b7f4",
-    "amount": 230.15,
-    "transaction_time": "2024-03-08T09:20:12"
-  },
-  {
-    "id": "bca7bc96-4d67-467f-9110-c93e7e22f2f0",
-    "amount": 876.99,
-    "transaction_time": "2024-03-09T14:45:54"
-  },
-  {
-    "id": "43e9c0d2-c6e7-46a1-bd0c-7fd4a2f2ea7e",
-    "amount": 1450.60,
-    "transaction_time": "2024-03-10T11:30:01"
+    "transaction_time": "2024-03-07T10:12:00",
+    "timestamp": "2024-03-07T10:12:00",
+    "status": "REQUESTED"
   }
 ]

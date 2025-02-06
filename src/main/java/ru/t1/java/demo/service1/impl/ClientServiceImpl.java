@@ -1,4 +1,4 @@
-package ru.t1.java.demo.service.impl;
+package ru.t1.java.demo.service1.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.annotation.PostConstruct;
@@ -8,9 +8,8 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.model.Client;
-import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.ClientRepository;
-import ru.t1.java.demo.service.ClientService;
+import ru.t1.java.demo.service1.ClientService;
 import ru.t1.java.demo.util.ClientMapper;
 
 import java.io.File;
