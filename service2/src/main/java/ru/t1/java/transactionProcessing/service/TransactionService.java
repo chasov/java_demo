@@ -1,10 +1,9 @@
 package ru.t1.java.transactionProcessing.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.retry.annotation.Backoff;
-import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import ru.t1.java.transactionProcessing.model.entity.TransactionEntity;
 
@@ -19,22 +18,17 @@ import java.util.UUID;
 public class TransactionService {
 
     private final RedisTemplate<String, String> redisTemplate;
+    @Value("${app.transaction.interval}")
+    private int timeout;
 
     private static final String TRANSACTION_PREFIX = "transactions:";
-
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 1000))
-    public void saveTransaction(TransactionEntity transaction) {
-        String key = TRANSACTION_PREFIX + transaction.getAccountId();
-        redisTemplate.opsForZSet().add(key, transaction.getTransactionId().toString(), transaction.getTimestamp().toEpochSecond(ZoneOffset.UTC));
-        redisTemplate.expire(key, 7200, java.util.concurrent.TimeUnit.SECONDS); // TTL = 2 часа
-    }
 
     public void saveAllTransactions(List<TransactionEntity> transactions) {
         redisTemplate.executePipelined((RedisCallback<Object>) connection -> {
             for (TransactionEntity transaction : transactions) {
                 String key = TRANSACTION_PREFIX + transaction.getAccountId();
                 connection.zAdd(key.getBytes(), transaction.getTimestamp().toEpochSecond(ZoneOffset.UTC), transaction.getTransactionId().toString().getBytes());
-                connection.expire(key.getBytes(), 7200); // TTL = 2 часа
+                connection.expire(key.getBytes(), timeout); // TTL = интервалу времени для проверки количества транзакций, дольше хранить смысла не вижу
             }
             return null;
         });
@@ -53,6 +47,10 @@ public class TransactionService {
         long now = LocalDateTime.now().toEpochSecond(ZoneOffset.UTC);
         long startTime = now - intervalSeconds;
         Set<String> transactionIds = redisTemplate.opsForZSet().rangeByScore(key, startTime, now);
+
+        if (transactionIds == null) {
+            throw new IllegalStateException("Redis returned null for key: " + key);
+        }
 
         return transactionIds.stream()
                 .map(id -> {

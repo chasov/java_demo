@@ -103,6 +103,9 @@ public class TransactionServiceImpl implements TransactionService {
     public void updateTransactionStatus(UUID transactionId, TransactionStatus status) {
         Transaction transaction = transactionRepository.findByTransactionId(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
+        if (!transaction.getStatus().equals(TransactionStatus.REQUESTED)) {
+            return;
+        }
         transaction.setStatus(status);
         transactionRepository.save(transaction);
     }
@@ -112,9 +115,8 @@ public class TransactionServiceImpl implements TransactionService {
     public void blockTransaction(UUID transactionId) {
         Transaction transaction = transactionRepository.findByTransactionId(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
-        if (transaction.getStatus().equals(TransactionStatus.BLOCKED)
-                || transaction.getStatus().equals(TransactionStatus.REJECTED)
-                || transaction.getStatus().equals(TransactionStatus.CANCELLED)) {
+        if (!(transaction.getStatus().equals(TransactionStatus.REQUESTED)
+                || transaction.getStatus().equals(TransactionStatus.ACCEPTED))) {
             return;
         }
         transaction.setStatus(TransactionStatus.BLOCKED);
@@ -131,9 +133,7 @@ public class TransactionServiceImpl implements TransactionService {
     public void rejectTransaction(UUID transactionId) {
         Transaction transaction = transactionRepository.findByTransactionId(transactionId)
                 .orElseThrow(() -> new RuntimeException("Transaction not found with id: " + transactionId));
-        if (transaction.getStatus().equals(TransactionStatus.BLOCKED)
-                || transaction.getStatus().equals(TransactionStatus.REJECTED)
-                || transaction.getStatus().equals(TransactionStatus.CANCELLED)) {
+        if (!transaction.getStatus().equals(TransactionStatus.REQUESTED)) {
             return;
         }
         transaction.setStatus(TransactionStatus.REJECTED);
