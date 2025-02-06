@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: t1-java-demo
+  datasource:
+    url: "jdbc:postgresql://localhost:5432/t1_demo"
+    username: "postgres"
+    password: "password"
+    driverClassName: org.postgresql.Driver
+  liquibase:
+    enabled: true
+    change-log: db/changelog/db.changelog-master.xml
+
+app:
+  kafka:
+    producer:
+      enable: true
+    bootstrap-server: ${KAFKA_SERVER:localhost:9092}
+    consumer:
+      group-id:
+        accounts: accounts-group
+        transactions: transactions-group
+        transaction-results: transaction-results-group
+    topics:
+      metrics: t1_demo_metrics
+      accounts: t1_demo_accounts
+      transactions: t1_demo_transactions
+      transaction-accept: t1_demo_transaction_accept
+      transaction-result: t1_demo_transaction_result
+  metrics:
+    threshold-ms: 2
+
+
+logging:
+  level:
+    ROOT: ${LOG_LEVEL:INFO}
+    ru.t1.java.demo: INFO
+    ru.t1.java.demo.controller.ClientController: DEBUG
+  file:
+    name: logs/application.log
+t1:
+  scan-path: ru.t1.java.demo
