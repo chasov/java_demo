@@ -37,6 +37,8 @@ public class DemoKafkaConsumerConfig {
 
     @Value("${t1.kafka.consumer.group-id.accounts-group-id}")
     private String accountsGroupId;
+    @Value("${t1.kafka.consumer.group-id.transactional-result-id}")
+    private String transactionalResultGroupId;
 
     @Value("${t1.kafka.consumer.session-timeout-ms}")
     private String sessionTimeout;
@@ -95,7 +97,7 @@ public class DemoKafkaConsumerConfig {
     @Bean
     public ConsumerFactory<String, TransactionResultDTO> consumerTransactionalResponseListenerFactory() {
         Map<String, Object> props =
-                consumerListenerFactory("sss");
+                consumerListenerFactory(transactionalResultGroupId);
         DefaultKafkaConsumerFactory<String, TransactionResultDTO> factory
                 = new DefaultKafkaConsumerFactory<>(props);
         factory.setKeyDeserializer(new StringDeserializer());
