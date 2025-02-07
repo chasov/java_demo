@@ -1,6 +1,7 @@
 package ru.t1.java.demo.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -8,6 +9,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.AccountDto;
@@ -26,6 +28,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class AccountService implements CRUDService<AccountDto> {
 
     private final AccountRepository accountRepository;
@@ -62,7 +65,7 @@ public class AccountService implements CRUDService<AccountDto> {
     @Override
     @Transactional
     @LogDataSourceError
-    public AccountDto create(AccountDto accountDto) {
+    public AccountDto create(@Valid AccountDto accountDto) {
         Account account = accountMapper.toEntity(accountDto);
         Long clientId = accountDto.getClientId();
         Client client = clientRepository.findById(clientId).orElseThrow(
@@ -85,7 +88,7 @@ public class AccountService implements CRUDService<AccountDto> {
     @Override
     @Transactional
     @LogDataSourceError
-    public AccountDto update(Long accountId, AccountDto updatedAccountDto) {
+    public AccountDto update(@Valid Long accountId, @Valid  AccountDto updatedAccountDto) {
         Account account = accountRepository.findById(accountId).orElseThrow(
                 () -> new ResourceNotFoundException("Account with given id " + accountId + " is not exists")
         );

@@ -2,6 +2,7 @@ package ru.t1.java.demo.service;
 
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -9,6 +10,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.dto.ClientDto;
@@ -23,6 +25,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class ClientService implements CRUDService<ClientDto> {
 
     private final ClientRepository clientRepository;
@@ -58,7 +61,7 @@ public class ClientService implements CRUDService<ClientDto> {
     @Override
     @Transactional
     @LogDataSourceError
-    public ClientDto create(ClientDto clientDto) {
+    public ClientDto create(@Valid ClientDto clientDto) {
         Client client = clientMapper.toEntity(clientDto);
         client.setClientId(generateUniqueClientId());
         Client savedClient = clientRepository.save(client);
@@ -69,7 +72,7 @@ public class ClientService implements CRUDService<ClientDto> {
     @Override
     @Transactional
     @LogDataSourceError
-    public ClientDto update(Long clientId, ClientDto updatedClientDto) {
+    public ClientDto update(@Valid Long clientId, @Valid ClientDto updatedClientDto) {
         Client client = clientRepository.findById(clientId).orElseThrow(
                 () -> new ResourceNotFoundException("Client with given id " + clientId + " is not exists")
         );

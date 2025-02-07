@@ -1,6 +1,7 @@
 package ru.t1.java.demo.service;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,6 +10,7 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 import ru.t1.dto.TransactionResultDto;
 import ru.t1.java.demo.aop.annotation.LogDataSourceError;
 import ru.t1.java.demo.aop.annotation.Metric;
@@ -32,6 +34,7 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 @Slf4j
+@Validated
 public class TransactionService implements CRUDService<TransactionDto> {
 
     private final TransactionRepository transactionRepository;
@@ -63,7 +66,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
     @Override
     @LogDataSourceError
     @Metric
-    public TransactionDto create(TransactionDto transactionDto) {
+    public TransactionDto create(@Valid TransactionDto transactionDto) {
         Transaction transaction = transactionMapper.toEntity(transactionDto);
         Account accountFrom = accountRepository.findById(transaction.getAccountFrom().getId()).orElseThrow(
                 () -> new ResourceNotFoundException("Account with given id " +
@@ -130,7 +133,7 @@ public class TransactionService implements CRUDService<TransactionDto> {
     }
 
     @Override
-    public TransactionDto update(Long id, TransactionDto updatedTransactionDto) {
+    public TransactionDto update(@Valid Long id, @Valid TransactionDto updatedTransactionDto) {
         Transaction transaction = transactionRepository.findById(id).orElseThrow(
                 () -> new ResourceNotFoundException("Transaction with given id " + id + " is not exists")
         );
