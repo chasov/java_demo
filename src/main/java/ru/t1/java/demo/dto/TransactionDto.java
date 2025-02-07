@@ -13,6 +13,9 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * DTO for {@link ru.t1.java.demo.model.Transaction}
+ */
 @Getter
 @Setter
 @Builder

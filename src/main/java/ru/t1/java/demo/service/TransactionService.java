@@ -1,18 +1,14 @@
 package ru.t1.java.demo.service;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.annotation.PostConstruct;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionDto;
+import ru.t1.java.demo.dto.TransactionResponseDto;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.repository.TransactionRepository;
-import ru.t1.java.demo.util.AccountMapper;
 import ru.t1.java.demo.util.TransactionMapper;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,12 +16,18 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class TransactionService {
     private final TransactionRepository transactionRepository;
-    public List<Transaction> findAllTransactions() {
-        return transactionRepository.findAll();
+
+    @Transactional
+    public List<TransactionResponseDto> findAllTransactions() {
+        return transactionRepository.findAll().stream().map(TransactionMapper::toResponseDto).toList();
     }
+
+    @Transactional
     public Optional<Transaction> findTransactionById(Long id) {
         return transactionRepository.findById(id);
     }
+
+    @Transactional
     public Transaction saveTransaction(TransactionDto transactionDto) {
         return transactionRepository.save(TransactionMapper.toEntity(transactionDto));
     }

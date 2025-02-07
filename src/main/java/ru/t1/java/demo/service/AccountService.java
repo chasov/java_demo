@@ -7,10 +7,12 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.AccountResponseDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.util.AccountMapper;
 
+import javax.security.auth.login.AccountNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
@@ -38,13 +40,13 @@ public class AccountService {
 //    }
 
     @Transactional
-    public List<Account> findAllAccounts() {
-        return accountRepository.findAll();
+    public List<AccountResponseDto> findAllAccounts() {
+        return accountRepository.findAll().stream().map(AccountMapper::toResponseDto).toList();
     }
 
     @Transactional
-    public Account saveAccount(AccountDto account) {
-        return accountRepository.save(AccountMapper.toEntity(account));
+    public void saveAccount(AccountDto account) {
+        accountRepository.save(AccountMapper.toEntity(account));
     }
     @Transactional
     public void deleteAccountById(Long id) {
@@ -54,7 +56,8 @@ public class AccountService {
         }
     }
     @Transactional
-    public Optional<Account> findAccountById(Long accountId) {
-        return accountRepository.findById(accountId);
+    public AccountDto findAccountById(Long accountId) throws AccountNotFoundException {
+        return AccountMapper.toDto(accountRepository.findById(accountId)
+                .orElseThrow(() -> new AccountNotFoundException("Account with id " + accountId + " cannot be found")));
     }
 }
