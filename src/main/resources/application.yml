@@ -4,7 +4,7 @@ spring:
   datasource:
     url: "jdbc:postgresql://localhost:5432/t1_demo"
     username: "postgres"
-    password: "0000"
+    password: "postgres"
     driverClassName: org.postgresql.Driver
   liquibase:
     enabled: true
@@ -14,6 +14,74 @@ logging:
   level:
     ROOT: ${LOG_LEVEL:INFO}
     ru.t1.java.demo.controller.ClientController: DEBUG
+    org.apache.kafka: INFO
+    org.hibernate.SQL: INFO
+
+management:
+  metrics:
+    tags:
+      appName: @project.build.finalName@
+      application: @project.name@
+      appVersion: @project.version@
+  endpoints:
+    enabled-by-default: true
+    web.exposure.include: health,prometheus,metrics,info,kafka
+  endpoint:
+    health:
+      enabled: true
+      show-details: always
+      probes:
+        group:
+          readiness:
+            include: db
+    shutdown.enabled: true
+    restart.enabled: true
+    prometheus.enabled: true
+    logfile.enabled: true
 
 t1:
   scan-path: ru.t1.java.demo
+  kafka:
+    bootstrap:
+      server: ${KAFKA_SERVER:localhost:9092}
+      socket-connection-setup-timeout-max-ms: 60000
+    consumer:
+      group-id: t1-demo
+      max.poll.records: 10
+      session-timeout: 10000
+      heartbeat.interval: 3000
+    producer:
+      enable: true
+    topic:
+      client_registration: t1_demo_client_registration
+      client_id_registered: t1_demo_client_registered
+      t1_client_transactions: t1_demo_client_transactions
+      t1_demo_metrics: t1_demo_metrics
+      t1_demo_transaction_accept: t1_demo_transaction_accept
+      t1_demo_transaction_result: t1_demo_transaction_result
+
+    fraud:
+      detection:
+        timeWindowMs: 60000
+        maxTransactions: 3
+
+    listener:
+      poll-timeout: 1000
+
+  track:
+    errors-to-track: JsonParseException, IOException
+    kafka:
+      enabled: ${TRACK_KAFKA_LOG_ENABLED:true}
+      bootstrap-server: localhost:9092
+      data-source-error-topic: t1_demo_data_source_error
+      time-limit-exceed: t1_demo_time_limit_exceed
+    db:
+      enabled: false
+    time-limit-exceed: 1000
+    log-level: DEBUG
+
+  integration:
+    url: http://localhost:1398
+    resource: /bsc-wire-mock/api/client/check
+    retry-count: 3
+    retry-backoff: 1000
