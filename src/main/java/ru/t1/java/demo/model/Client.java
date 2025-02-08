@@ -1,8 +1,6 @@
 package ru.t1.java.demo.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
@@ -23,6 +21,9 @@ public class Client extends AbstractPersistable<Long> {
 
     @Column(name = "middle_name")
     private String middleName;
+
+    @Column(name = "client_id")
+    private Integer clientId;
 
     @Override
     public Long getId() {

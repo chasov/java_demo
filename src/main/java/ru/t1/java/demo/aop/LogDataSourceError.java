@@ -23,11 +23,8 @@ public class LogDataSourceError {
     private final ErrorLogRepository errorLogRepository;
     private final KafkaTemplate<String, String> kafkaTemplate;
 
-    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.WriteLogException)", throwing = "ex")
-    public void logError(Throwable ex) {
-        sendErrorToKafka(ex);
-    }
 
+    @AfterThrowing(pointcut = "@annotation(ru.t1.java.demo.aop.annotation.WriteLogException)", throwing = "ex")
     private void sendErrorToKafka(Throwable ex) {
         String topic = "t1_demo_metrics";
         String message = ex.getMessage();

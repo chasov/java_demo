@@ -10,7 +10,6 @@ import ru.t1.java.demo.aop.annotation.LogException;
 import ru.t1.java.demo.exception.ClientException;
 import ru.t1.java.demo.service.ClientService;
 
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,11 +22,9 @@ public class ClientController {
     @Track
     @GetMapping(value = "/client")
     @HandlingResult
-    public void doSomething() throws IOException, InterruptedException {
+    public void doSomething() {
         try {
             clientService.parseJson();
-//        Thread.sleep(3000L);
-//        throw new ClientException();
         } catch (Exception e) {
             log.info("Catching exception from ClientController");
             throw new ClientException();

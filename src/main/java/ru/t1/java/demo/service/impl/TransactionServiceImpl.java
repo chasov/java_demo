@@ -14,7 +14,7 @@ import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.aop.annotation.WriteLogException;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.exception.TransactionException;
-import ru.t1.java.demo.model.Transaction;
+import ru.t1.java.demo.model.transaction.Transaction;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.AccountMapper;
@@ -96,7 +96,6 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @WriteLogException
-    @PostConstruct
     void init() {
         try {
             List<Transaction> transactions = parseJson();

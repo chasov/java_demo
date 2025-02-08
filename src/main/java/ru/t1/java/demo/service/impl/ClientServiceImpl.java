@@ -25,7 +25,6 @@ public class ClientServiceImpl implements ClientService {
     private final ClientRepository repository;
     private final ClientMapper clientMapper;
 
-//    @PostConstruct
     void init() {
         try {
             List<Client> clients = parseJson();

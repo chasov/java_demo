@@ -55,8 +55,16 @@ t1:
     topic:
       client_registration: t1_demo_client_registration
       client_id_registered: t1_demo_client_registered
-      client_transactions: t1_demo_client_transactions
+      t1_client_transactions: t1_demo_client_transactions
       t1_demo_metrics: t1_demo_metrics
+      t1_demo_transaction_accept: t1_demo_transaction_accept
+      t1_demo_transaction_result: t1_demo_transaction_result
+
+    fraud:
+      detection:
+        timeWindowMs: 60000
+        maxTransactions: 3
+
     listener:
       poll-timeout: 1000
 

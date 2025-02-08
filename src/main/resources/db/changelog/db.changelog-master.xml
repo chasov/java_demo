@@ -44,5 +44,10 @@ http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.5.xsd">
         <rollback/>
     </changeSet>
 
+    <changeSet id="update-entities" author="AGayazov">
+        <sqlFile encoding="utf8" path="/db/changelog/2024/09/31-01-changelog-09.sql"/>
+        <rollback/>
+    </changeSet>
+
 
 </databaseChangeLog>
