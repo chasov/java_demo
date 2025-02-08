@@ -4,6 +4,7 @@ import com.zmo.springboot.service3.dto.TransactionAcceptDto;
 import com.zmo.springboot.service3.dto.TransactionResultDto;
 import com.zmo.springboot.service3.dto.TransactionStatus;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Component;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
 @Component
@@ -26,8 +26,12 @@ public class KafkaConsumer {
     private final KafkaTemplate<String, TransactionResultDto> kafkaTemplate;
     private final Map<UUID, List<LocalDateTime>> transactionHistory = new HashMap<>();
 
-    private static final int N = 5; // Количество транзакций
-    private static final Duration T = Duration.ofMinutes(10); // Временной интервал
+
+    @Value("${transaction.limit}")
+    private Long N;
+
+    @Value("${transaction.interval}")
+    private Long interval;
 
     public KafkaConsumer(KafkaTemplate<String, TransactionResultDto> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
@@ -57,11 +61,13 @@ public class KafkaConsumer {
         ack.acknowledge();
     }
 
-    private  TransactionStatus processTransaction(TransactionAcceptDto dto) {
-        LocalDateTime now = dto.getTimestamp();
+    private TransactionStatus processTransaction(TransactionAcceptDto dto) {
+        LocalDateTime now = LocalDateTime.now();
+
         UUID accountId = dto.getAccountId();
 
-        // Проверяем лимиты частоты транзакций
+        Duration T = Duration.ofMinutes(interval);
+
         transactionHistory.putIfAbsent(accountId, new ArrayList<>());
         List<LocalDateTime> timestamps = transactionHistory.get(accountId);
         timestamps.removeIf(time -> time.isBefore(now.minus(T))); // Удаляем старые транзакции
@@ -72,7 +78,6 @@ public class KafkaConsumer {
             return TransactionStatus.BLOCKED;
         }
 
-        // Проверяем баланс
         if (dto.getTransactionAmount() > dto.getAccountBalance()) {
             log.warn("Недостаточно средств на счете: AccountID={}, Balance={}, Amount={}",
                     accountId, dto.getAccountBalance(), dto.getTransactionAmount());

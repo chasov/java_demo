@@ -27,7 +27,7 @@ public class AccountMapper {
                 .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + dto.getClientId()));
 
         return Account.builder()
-                .id(dto.getId())
+                .accountId(dto.getAccountId())
                 .clientId(client)
                 .accountType(AccountType.valueOf(dto.getAccountType()))
                 .balance(dto.getBalance())
@@ -37,7 +37,7 @@ public class AccountMapper {
     public  AccountDto toDto(Account entity) {
 
         return AccountDto.builder()
-                .id(entity.getId())
+                .accountId(entity.getAccountId())
                 .clientId(entity.getClientId().getId())
                 .accountType(entity.getAccountType().name())
                 .balance(entity.getBalance())

@@ -1,13 +1,13 @@
 
 spring:
   jackson:
-    date-format: "yyyy-MM-dd'T'HH:mm:ss" # Формат для LocalDateTime
+    date-format: "yyyy-MM-dd'T'HH:mm:ss"
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092 # Адрес Kafka брокера
-      group-id: demo-consumer-group    # Идентификатор группы потребителей
-      auto-offset-reset: earliest      # Стратегия обработки сообщений с несуществующими смещениями (можно использовать earliest или latest)
-      enable-auto-commit: true         # Включить автоматическое подтверждение сообщений
+      bootstrap-servers: localhost:9092
+      group-id: demo-consumer-group
+      auto-offset-reset: earliest
+      enable-auto-commit: true
     topic:
       transaction_result: t1_demo_transaction_result
     producer:
@@ -17,5 +17,5 @@ server:
   port: 8081
 
 transaction:
-  limit: 5           # Лимит транзакций
-  timeframe: 60000      # Время в минутах для отслеживания транзакций
+  limit: 5
+  interval: 1

@@ -12,6 +12,7 @@ import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.UUID;
 
 @Service
 @Slf4j
@@ -24,42 +25,44 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     @Transactional
-    public List<Account> getAll() {
-        return repository.findAll();
+    public List<AccountDto> getAll() {
+        return repository.findAll().stream()
+                .map(accountMapper::toDto).toList();
     }
 
     @Override
     @Transactional
-    public Account getById(Long id) {
-        return repository.findById(id)
+    public AccountDto getById(UUID id) {
+        return repository.findByAccountId(id)
+                .map(accountMapper::toDto)
                 .orElseThrow(() -> new NoSuchElementException("Account with ID " + id + " not found"));
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        Account account = repository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Account with ID " + id + " not found"));
-        repository.deleteById(id);
+    public void delete(UUID id) {
+        repository.deleteByAccountId(id);
     }
 
 
     @Override
     @Transactional
-    public Account create(AccountDto dto) {
+    public AccountDto create(AccountDto dto) {
         Account account = accountMapper.toEntity(dto);
-        return repository.save(account);
+        return accountMapper.toDto(repository.save(account));
     }
 
     @Override
     @Transactional
-    public void save(Account account){
-        repository.save(account);
-    }
-
-    @Override
-    @Transactional
-    public void registerAccount(List<Account> accounts) {
+    public void registerAccount(List<AccountDto> accountDtoList) {
+        List<Account> accounts = accountDtoList.stream()
+                .map(accountMapper::toEntity).toList();
         repository.saveAll(accounts);
+    }
+
+    @Override
+    @Transactional
+    public void save(Account account) {
+        repository.save(account);
     }
 }

@@ -10,7 +10,6 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.service.TransactionService;
-import ru.t1.java.demo.util.TransactionMapper;
 
 import java.util.List;
 
@@ -20,7 +19,6 @@ import java.util.List;
 public class KafkaTransactionConsumer {
 
     private final TransactionService transactionService;
-    private final TransactionMapper transactionMapper;
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction}",
             topics = "${t1.kafka.topic.transactions}",

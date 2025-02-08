@@ -10,5 +10,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
 
     Optional<Transaction> findByTransactionId(UUID transactionId);
 
-    //void deleteById(UUID id);
+    void deleteByTransactionId(UUID transactionId);
 }

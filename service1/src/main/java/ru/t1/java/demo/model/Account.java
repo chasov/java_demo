@@ -40,6 +40,6 @@ public class Account  {
     @Column(name = "account_status", nullable = false)
     private AccountStatus status;
 
-    @Column(nullable = false)
+    @Column(name = "frozen_amount", nullable = false)
     private Long frozenAmount;
 }

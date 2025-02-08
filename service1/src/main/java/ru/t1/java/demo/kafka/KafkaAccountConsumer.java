@@ -22,7 +22,6 @@ import java.util.List;
 public class KafkaAccountConsumer {
 
     private final AccountService accountService;
-    private final AccountMapper accountMapper;
 
     @KafkaListener(id = "${t1.kafka.consumer.group-id-account}",
             topics = "${t1.kafka.topic.accounts}",
@@ -40,11 +39,8 @@ public class KafkaAccountConsumer {
 
             messageList.forEach(msg -> log.info("Received message: {}", msg));
 
-            List<Account> accounts = messageList.stream()
-                    .map(accountMapper::toEntity)
-                    .toList();
 
-            accountService.registerAccount(accounts);
+            accountService.registerAccount(messageList);
 
         } catch (Exception e) {
             log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -17,9 +18,10 @@ import java.time.LocalDateTime;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class TransactionDto {
 
-    private Long id;
+    @JsonProperty("transaction_id")
+    private UUID transactionId;
     @JsonProperty("account_id")
-    private Long accountId;
+    private UUID accountId;
     @JsonProperty("transaction_amount")
     private Long amount;
 
