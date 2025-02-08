@@ -2,10 +2,10 @@ package ru.t1.java.demo.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.dto.TransactionAcceptDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.dto.TransactionResultDto;
@@ -19,8 +19,6 @@ import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 import ru.t1.java.demo.util.AccountMapper;
 import ru.t1.java.demo.util.TransactionMapper;
-import org.springframework.beans.factory.annotation.Value;
-
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -34,7 +32,6 @@ public class TransactionServiceImpl implements TransactionService {
 
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
-    private final AccountMapper accountMapper;
     private final AccountService accountService;
     private final KafkaTemplate<String, TransactionAcceptDto> kafkaTemplate;
     @Value("${t1.kafka.topic.transaction-accept}")
@@ -128,11 +125,10 @@ public class TransactionServiceImpl implements TransactionService {
 
         if (status == TransactionStatus.REJECTED) {
             account.setBalance(account.getBalance() + transaction.getAmount());
-            log.info("Баланс аккаунта {} изменен", dto.getAccountId());
+
         } else if (status == TransactionStatus.BLOCKED) {
             account.setFrozenAmount(account.getFrozenAmount() + transaction.getAmount());
             account.setBalance(account.getBalance() + transaction.getAmount());
-            log.info("Баланс аккаунта {} изменен", dto.getAccountId());
         }
 
         transaction.setStatus(status);

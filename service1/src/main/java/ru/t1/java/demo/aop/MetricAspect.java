@@ -1,5 +1,6 @@
 package ru.t1.java.demo.aop;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -14,10 +15,11 @@ import java.util.Arrays;
 @Slf4j
 @Aspect
 @Component
+@RequiredArgsConstructor
 public class MetricAspect {
 
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+
+    private final KafkaTemplate<String, String> kafkaTemplate;
 
     @Pointcut("execution(* ru.t1.java.demo.service.impl.*.*(..))")
     public void serviceLayer() {}

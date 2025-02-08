@@ -6,6 +6,7 @@ import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Client;
 import ru.t1.java.demo.model.enums.AccountType;
+import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.ClientRepository;
 import ru.t1.java.demo.service.ClientService;
 
@@ -20,9 +21,7 @@ public class AccountMapper {
 
     public  Account toEntity(AccountDto dto) {
 
-        if (dto == null) {
-            throw new NullPointerException();
-        }
+
         Client client = clientService.findById(dto.getClientId())
                 .orElseThrow(() -> new IllegalArgumentException("Client not found with id: " + dto.getClientId()));
 
