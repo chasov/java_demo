@@ -1,0 +1,4 @@
+<modules>
+    <module>fraud-detection-service</module>
+    <module>backend</module>
+</modules>
