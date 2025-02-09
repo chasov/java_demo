@@ -11,6 +11,6 @@ public interface AccountService {
     AccountDto createAccount(AccountDto accountDto);
     AccountDto getAccount(Long accountId);
     void deleteAccount(Long accountId);
-    Account findAccountById(long id);
-    Account findAccountByAccountId(UUID accountId);
+    AccountDto findAccountById(long id);
+    AccountDto findAccountByAccountId(UUID accountId);
 }

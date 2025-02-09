@@ -92,7 +92,7 @@ public class ClientServiceImpl implements ClientService {
     @LogDataSourceError
     @Metric
     @Transactional
-    public Client registerClient(Client client) {
+    public ClientDto registerClient(Client client) {
         Client saved = null;
         Optional<CheckResponse> check = checkWebClient.check(client.getId());
         if (check.isPresent()) {
@@ -102,7 +102,7 @@ public class ClientServiceImpl implements ClientService {
                 saved = repository.save(client);
             }
         }
-        return saved;
+        return ClientMapper.toDto(saved);
     }
 
     @Override

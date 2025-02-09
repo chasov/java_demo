@@ -19,7 +19,7 @@ public class KafkaTransactionAcceptProducer<T extends TransactionAcceptEvent> {
 
     public void send(TransactionAcceptEvent event) {
         try {
-            kafkaTransactionAcceptTemplate.sendDefault(UUID.randomUUID().toString(), event).get();
+            kafkaTransactionAcceptTemplate.sendDefault(UUID.randomUUID().toString(), event);
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -30,13 +30,12 @@ public class KafkaTransactionAcceptProducer<T extends TransactionAcceptEvent> {
 
     public void sendTo(String topic, TransactionAcceptEvent event) {
         try {
-            kafkaTransactionAcceptTemplate.send(topic, event).get();
+            kafkaTransactionAcceptTemplate.send(topic, event);
             kafkaTransactionAcceptTemplate.send(topic,
                             1,
                             LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                             UUID.randomUUID().toString(),
-                            event)
-                    .get();
+                            event);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {

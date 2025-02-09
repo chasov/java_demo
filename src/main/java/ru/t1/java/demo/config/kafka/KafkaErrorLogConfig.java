@@ -29,7 +29,6 @@ public class KafkaErrorLogConfig {
     private String errorMetricTopic;
 
     @Bean
-    @Primary
     public KafkaTemplate<String, DataSourceErrorLogDto> kafkaErrorLogTemplate(@Qualifier("producerErrorLogFactory") ProducerFactory<String, DataSourceErrorLogDto> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }

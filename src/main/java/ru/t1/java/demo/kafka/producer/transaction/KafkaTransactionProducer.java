@@ -19,7 +19,7 @@ public class KafkaTransactionProducer<T extends TransactionDto> {
 
     public void send(TransactionDto transactionDto) {
         try {
-            kafkaTransactionTemplate.sendDefault(UUID.randomUUID().toString(), transactionDto).get();
+            kafkaTransactionTemplate.sendDefault(UUID.randomUUID().toString(), transactionDto);
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -30,13 +30,12 @@ public class KafkaTransactionProducer<T extends TransactionDto> {
 
     public void sendTo(String topic, TransactionDto transactionDto) {
         try {
-            kafkaTransactionTemplate.send(topic, transactionDto).get();
+            kafkaTransactionTemplate.send(topic, transactionDto);
             kafkaTransactionTemplate.send(topic,
                             1,
                             LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                             UUID.randomUUID().toString(),
-                            transactionDto)
-                    .get();
+                            transactionDto);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {

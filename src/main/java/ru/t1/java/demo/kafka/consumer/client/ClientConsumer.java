@@ -34,8 +34,7 @@ public class ClientConsumer {
 
 
         try {
-            log.debug("Topic: " + topic);
-            log.debug("Key: " + key);
+            log.debug("Topic: {}, Key: {}", topic, key);
 
             if (key == null) {
                 key = UUID.randomUUID().toString();

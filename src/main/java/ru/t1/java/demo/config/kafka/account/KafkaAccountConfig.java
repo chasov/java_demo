@@ -106,7 +106,6 @@ public class KafkaAccountConfig {
     }
 
     @Bean
-    @Primary
     public KafkaTemplate<String, AccountDto> kafkaAccountTemplate(@Qualifier("producerAccountsFactory") ProducerFactory<String, AccountDto> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }

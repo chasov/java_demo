@@ -19,7 +19,7 @@ public class KafkaAccountProducer<T extends AccountDto> {
 
     public void send(AccountDto account) {
         try {
-            kafkaAccountTemplate.sendDefault(UUID.randomUUID().toString(), account).get();
+            kafkaAccountTemplate.sendDefault(UUID.randomUUID().toString(), account);
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -30,13 +30,12 @@ public class KafkaAccountProducer<T extends AccountDto> {
 
     public void sendTo(String topic, AccountDto accountDto) {
         try {
-            kafkaAccountTemplate.send(topic, accountDto).get();
+            kafkaAccountTemplate.send(topic, accountDto);
             kafkaAccountTemplate.send(topic,
                             1,
                             LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                             UUID.randomUUID().toString(),
-                            accountDto)
-                    .get();
+                            accountDto);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {

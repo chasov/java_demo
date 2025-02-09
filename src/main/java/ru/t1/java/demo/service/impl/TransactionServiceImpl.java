@@ -8,7 +8,9 @@ import ru.t1.java.demo.aop.annotation.Metric;
 import ru.t1.java.demo.exception.account.AccountException;
 import ru.t1.java.demo.exception.transaction.TransactionException;
 import ru.t1.java.demo.kafka.producer.transaction.KafkaTransactionAcceptProducer;
+import ru.t1.java.demo.mapper.AccountMapper;
 import ru.t1.java.demo.mapper.TransactionMapper;
+import ru.t1.java.demo.model.dto.account.AccountDto;
 import ru.t1.java.demo.model.dto.transaction.TransactionAcceptEvent;
 import ru.t1.java.demo.model.dto.transaction.TransactionDto;
 import ru.t1.java.demo.model.dto.transaction.TransactionResultEvent;
@@ -28,6 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
 
+    private final AccountMapper accountMapper;
     private final AccountRepository accountRepository;
     private final TransactionsRepository transactionsRepository;
     private final TransactionMapper transactionMapper;
@@ -39,8 +42,11 @@ public class TransactionServiceImpl implements TransactionService {
     @Metric
     @Transactional
     public TransactionDto conductTransaction(TransactionDto transactionDto) {
-        Account toAccount = accountService.findAccountById(transactionDto.getToAccountId());
-        Account fromAccount = accountService.findAccountById(transactionDto.getFromAccountId());
+        AccountDto toAccountDto = accountService.findAccountById(transactionDto.getToAccountId());
+        AccountDto fromAccountDto = accountService.findAccountById(transactionDto.getFromAccountId());
+
+        Account toAccount = accountMapper.toEntity(toAccountDto);
+        Account fromAccount = accountMapper.toEntity(fromAccountDto);
 
         if (toAccount.getStatus() == AccountStatus.OPEN && fromAccount.getStatus() == AccountStatus.OPEN) {
             Transaction transaction = createTransaction(transactionDto, toAccount, fromAccount);
@@ -115,8 +121,11 @@ public class TransactionServiceImpl implements TransactionService {
     private void processAcceptedTransaction(TransactionResultEvent event) {
         Transaction transaction = findTransactionByTransactionId(event.getTransactionId());
 
-        Account toAccount = accountService.findAccountByAccountId(event.getToAccountId());
-        Account fromAccount = accountService.findAccountByAccountId(event.getFromAccountId());
+        AccountDto toAccountDto = accountService.findAccountByAccountId(event.getToAccountId());
+        AccountDto fromAccountDto = accountService.findAccountByAccountId(event.getFromAccountId());
+
+        Account toAccount = accountMapper.toEntity(toAccountDto);
+        Account fromAccount = accountMapper.toEntity(fromAccountDto);
 
         toAccount.setBalance(toAccount.getBalance().add(transaction.getAmount()));
         fromAccount.setBalance(fromAccount.getBalance().subtract(transaction.getAmount()));
@@ -128,7 +137,8 @@ public class TransactionServiceImpl implements TransactionService {
     private void processBlockedTransaction(TransactionResultEvent event) {
         Transaction transaction = findTransactionByTransactionId(event.getTransactionId());
 
-        Account account = accountService.findAccountByAccountId(event.getToAccountId());
+        AccountDto accountDto = accountService.findAccountByAccountId(event.getToAccountId());
+        Account account = accountMapper.toEntity(accountDto);
 
         account.setStatus(AccountStatus.BLOCKED);
         account.setBalance(account.getBalance().subtract(transaction.getAmount()));

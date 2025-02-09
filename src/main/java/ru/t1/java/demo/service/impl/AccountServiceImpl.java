@@ -70,8 +70,7 @@ public class AccountServiceImpl implements AccountService {
     @LogDataSourceError
     @Metric
     public AccountDto getAccount(Long accountId) {
-        Account account = findAccountById(accountId);
-        return accountMapper.toDto(account);
+        return findAccountById(accountId);
     }
 
     @Override
@@ -79,20 +78,25 @@ public class AccountServiceImpl implements AccountService {
     @Metric
     @Transactional
     public void deleteAccount(Long accountId) {
-        Account account = findAccountById(accountId);
+        AccountDto accountDto = findAccountById(accountId);
+        Account account = accountMapper.toEntity(accountDto);
 
         account.setStatus(AccountStatus.CLOSED);
 
         accountRepository.save(account);
     }
 
-    public Account findAccountById(long id) {
-        return accountRepository.findById(id)
+    public AccountDto findAccountById(long id) {
+        Account account = accountRepository.findById(id)
                 .orElseThrow(() -> new AccountException("Account not found"));
+
+        return accountMapper.toDto(account);
     }
 
-    public Account findAccountByAccountId(UUID accountId) {
-        return accountRepository.findByAccountId(accountId)
+    public AccountDto findAccountByAccountId(UUID accountId) {
+        Account account = accountRepository.findByAccountId(accountId)
                 .orElseThrow(() -> new AccountException("Account not found"));
+
+        return accountMapper.toDto(account);
     }
 }

@@ -106,7 +106,6 @@ public class KafkaTransactionConfig {
     }
 
     @Bean
-    @Primary
     public KafkaTemplate<String, TransactionDto> kafkaTransactionTemplate(@Qualifier("producerTransactionsFactory") ProducerFactory<String, TransactionDto> producerPatFactory) {
         return new KafkaTemplate<>(producerPatFactory);
     }

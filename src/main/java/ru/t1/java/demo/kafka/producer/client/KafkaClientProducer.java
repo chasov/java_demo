@@ -19,7 +19,7 @@ public class KafkaClientProducer<T extends ClientDto> {
 
     public void send(Long clientId) {
         try {
-            kafkaClientTemplate.sendDefault(UUID.randomUUID().toString(), clientId).get();
+            kafkaClientTemplate.sendDefault(UUID.randomUUID().toString(), clientId);
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -30,13 +30,12 @@ public class KafkaClientProducer<T extends ClientDto> {
 
     public void sendTo(String topic, Long clientId) {
         try {
-            kafkaClientTemplate.send(topic, clientId).get();
+            kafkaClientTemplate.send(topic, clientId);
             kafkaClientTemplate.send(topic,
                             1,
                             LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                             UUID.randomUUID().toString(),
-                            clientId)
-                    .get();
+                            clientId);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {

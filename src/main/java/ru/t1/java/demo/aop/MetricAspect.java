@@ -25,21 +25,25 @@ public class MetricAspect {
     private final KafkaDataSourceErrorLogProducer<DataSourceErrorLogDto> kafkaDataSourceErrorLogProducer;
 
     @Around("@annotation(ru.t1.java.demo.aop.annotation.Metric)")
-    public Object measureExecutionTime(ProceedingJoinPoint joinPoint, Metric metric) throws Throwable {
+    public Object measureExecutionTime(ProceedingJoinPoint joinPoint, Metric metric) {
         long threshold = metric.threshold();
 
         long beforeTime = System.currentTimeMillis();
         Object result = null;
+        boolean isSuccessful = false;
         try {
             result = joinPoint.proceed();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
-        long afterTime = System.currentTimeMillis();
-        long elapsedTime = afterTime - beforeTime;
+            isSuccessful = true;
+        } catch (Throwable e) {
+            log.error("Error while executing method {}: {}", joinPoint.getSignature().getName(), e.getMessage());
+            throw new RuntimeException(e);
+        } finally {
+            long afterTime = System.currentTimeMillis();
+            long elapsedTime = afterTime - beforeTime;
 
-        if (elapsedTime > threshold) {
-            sendMetricsToKafka(joinPoint, elapsedTime);
+            if (isSuccessful && elapsedTime > threshold) {
+                sendMetricsToKafka(joinPoint, elapsedTime);
+            }
         }
 
         return result;

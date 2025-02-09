@@ -19,7 +19,7 @@ public class KafkaDataSourceErrorLogProducer<T extends DataSourceErrorLogDto> {
 
     public void send(DataSourceErrorLogDto dataSourceErrorLogDto) {
         try {
-            kafkaErrorLogTemplate.sendDefault(UUID.randomUUID().toString(), dataSourceErrorLogDto).get();
+            kafkaErrorLogTemplate.sendDefault(UUID.randomUUID().toString(), dataSourceErrorLogDto);
 
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -30,13 +30,12 @@ public class KafkaDataSourceErrorLogProducer<T extends DataSourceErrorLogDto> {
 
     public void sendTo(String topic, String header, DataSourceErrorLogDto dataSourceErrorLogDto) {
         try {
-            kafkaErrorLogTemplate.send(topic, header, dataSourceErrorLogDto).get();
+            kafkaErrorLogTemplate.send(topic, header, dataSourceErrorLogDto);
             kafkaErrorLogTemplate.send(topic,
                             1,
                             LocalDateTime.now().toEpochSecond(ZoneOffset.of("+03:00")),
                             UUID.randomUUID().toString(),
-                            dataSourceErrorLogDto)
-                    .get();
+                            dataSourceErrorLogDto);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         } finally {
