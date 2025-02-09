@@ -4,7 +4,7 @@ spring:
   redis:
     connection:
       factory:
-        host: localhost
+        host: redis
         port: 6379
   kafka:
     bootstrap-servers: localhost:9092
@@ -23,12 +23,9 @@ server:
   port: 8081
 kafka:
   topic:
-    account: t1_demo_accounts
-    transaction: t1_demo_transactions
     transactionAccept: t1_demo_transaction_accept
     transactionResult: t1_demo_transaction_result
   group:
-    accounts: group_accounts
     transactions: group_transactions
 
 transactions:

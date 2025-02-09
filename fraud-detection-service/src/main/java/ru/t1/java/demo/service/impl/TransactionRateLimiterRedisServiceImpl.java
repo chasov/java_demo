@@ -7,32 +7,32 @@ import org.springframework.stereotype.Service;
 import ru.t1.java.demo.dto.FraudServiceTransactionDto;
 import ru.t1.java.demo.service.TransactionRateLimiterRedisService;
 
-
 @RequiredArgsConstructor
 @Service
 public class TransactionRateLimiterRedisServiceImpl implements TransactionRateLimiterRedisService {
 
     private final StringRedisTemplate stringRedisTemplate;
+
     @Value("${transactions.periodSeconds}")
-    private long periodSeconds;
+    private long periodSeconds; // Период в секундах
+
     @Value("${transactions.maxTransactions}")
-    private  int maxTransactions;
+    private int maxTransactions; // Максимальное количество транзакций
 
     @Override
-    public boolean isBlocked(FraudServiceTransactionDto fraudServiceTransactionDto) {
-        
-        String key = "transaction:"+
-                fraudServiceTransactionDto.getClientId()+
-                fraudServiceTransactionDto.getAccountId();
+    public boolean isRateLimitExceeded(FraudServiceTransactionDto fraudServiceTransactionDto) {
+        String key = String.format("transaction:%s:%s",
+                fraudServiceTransactionDto.getClientId(),
+                fraudServiceTransactionDto.getAccountId());
 
-        long timestamp = System.currentTimeMillis();
+        long currentTime = System.currentTimeMillis();
 
-        stringRedisTemplate.opsForZSet().removeRangeByScore(key,0,timestamp-(periodSeconds*1000));
+        stringRedisTemplate.opsForZSet().removeRangeByScore(key, 0, currentTime - (periodSeconds * 1000));
 
-        Long count = stringRedisTemplate.opsForZSet().zCard(key);
+        long count = stringRedisTemplate.opsForZSet().zCard(key);
 
-        if (count == null || count < maxTransactions) {
-            stringRedisTemplate.opsForZSet().add(key, String.valueOf(timestamp), timestamp);
+        if (count < maxTransactions) {
+            stringRedisTemplate.opsForZSet().add(key, String.valueOf(currentTime), currentTime);
             return false;
         }
 

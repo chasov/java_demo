@@ -1,7 +1,6 @@
 package ru.t1.java.demo.service;
 
 
-import ru.t1.java.demo.dto.fraud_serviceDto.FraudServiceTransactionDto;
 import ru.t1.java.demo.dto.fraud_serviceDto.TransactionResultAfterFraudServiceDto;
 import ru.t1.java.demo.dto.transaction_serviceDto.TransactionDto;
 import ru.t1.java.demo.model.Transaction;
@@ -20,6 +19,8 @@ public interface TransactionService {
     void deleteTransaction(Long id);
 
     void processTransaction(TransactionDto transactionDto);
+
     void processTransactionAfterFraud(TransactionResultAfterFraudServiceDto transactionResultAfterFraudServiceDto);
-    List<Transaction> getNLastTransactions(long accountId ,int n);
+
+    List<Transaction> getNLastTransactions(long accountId, int n);
 }

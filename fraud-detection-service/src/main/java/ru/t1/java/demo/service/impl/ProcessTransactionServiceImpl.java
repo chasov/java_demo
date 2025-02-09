@@ -24,19 +24,19 @@ public class ProcessTransactionServiceImpl implements ProcessTransactionService 
     private int maxTransactions;
 
 
-    public void processTransaction(FraudServiceTransactionDto fraudServiceTransactionDto){
+    public void processTransaction(FraudServiceTransactionDto fraudServiceTransactionDto) {
         TransactionResultAfterFraudServiceDto transactionResultAfterFraudServiceDto = TransactionResultAfterFraudServiceDto.builder()
                 .transactionId(fraudServiceTransactionDto.getTransactionId())
                 .accountId(fraudServiceTransactionDto.getAccountId())
                 .build();
-        if (transactionRateLimiterRedisService.isBlocked(fraudServiceTransactionDto)) {
+        if (transactionRateLimiterRedisService.isRateLimitExceeded(fraudServiceTransactionDto)) {
             log.info("Transaction is Blocked: {}", fraudServiceTransactionDto);
             transactionResultAfterFraudServiceDto.setTransactionStatus(TransactionStatusEnum.BLOCKED.toString());
             transactionResultAfterFraudServiceDto.setCountTransactionForBlocked(maxTransactions);
-        }else if (fraudServiceTransactionDto.getBalance().compareTo(BigDecimal.ZERO) < 0) {
+        } else if (fraudServiceTransactionDto.getBalance().compareTo(BigDecimal.ZERO) < 0) {
             log.info("Transaction rejected: {}", fraudServiceTransactionDto);
             transactionResultAfterFraudServiceDto.setTransactionStatus(TransactionStatusEnum.REJECTED.toString());
-        }else{
+        } else {
             log.info("Transaction approve: {}", fraudServiceTransactionDto);
             transactionResultAfterFraudServiceDto.setTransactionStatus(TransactionStatusEnum.ACCEPTED.toString());
         }

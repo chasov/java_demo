@@ -6,7 +6,6 @@ import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityNotFoundException;
 import ru.t1.java.demo.aop.annotations.LogDataSourceError;
 import ru.t1.java.demo.config.KafkaMessageProducer;
-import ru.t1.java.demo.dto.fraud_serviceDto.FraudServiceTransactionDto;
 import ru.t1.java.demo.dto.fraud_serviceDto.TransactionResultAfterFraudServiceDto;
 import ru.t1.java.demo.dto.transaction_serviceDto.TransactionDto;
 import ru.t1.java.demo.mapper.TransactionMapper;
@@ -14,13 +13,11 @@ import ru.t1.java.demo.model.Account;
 import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.AccountStatusEnum;
 import ru.t1.java.demo.model.enums.TransactionStatusEnum;
-import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.repository.TransactionRepository;
 import ru.t1.java.demo.service.AccountService;
 import ru.t1.java.demo.service.TransactionService;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,7 +25,6 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class TransactionServiceImpl implements TransactionService {
-    private final AccountRepository accountRepository;
 
     private final TransactionRepository transactionRepository;
     private final TransactionMapper transactionMapper;
@@ -77,7 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
             log.info("Transaction saved: {}", transaction);
 
             Account account = transaction.getAccount();
-            account.setBalance(account.getBalance().subtract(transaction.getAmount()));
+            account.setBalance(account.getBalance().add(transaction.getAmount()));
             accountService.updateAccount(account.getId(), account);
             kafkaMessageProducer.sendTransactionAcceptedTopic(transactionMapper.toFraudServiceDto(transaction));
         } else {
@@ -94,12 +90,12 @@ public class TransactionServiceImpl implements TransactionService {
             for (Transaction transaction : transactions) {
                 if (transaction.getTransactionStatus().equals(TransactionStatusEnum.ACCEPTED)) {
                     account.setFrozenAmount(account.getFrozenAmount().add(transaction.getAmount()));
-                    account.setBalance(account.getBalance().add(transaction.getAmount()));
+                    account.setBalance(account.getBalance().add(positiveProcessing(transaction.getAmount())));
                 } else if (transaction.getTransactionStatus().equals(TransactionStatusEnum.REQUESTED)) {
-                    if(account.getBalance().compareTo(BigDecimal.ZERO)>=0){
+                    if (account.getBalance().compareTo(BigDecimal.ZERO) >= 0) {
                         account.setFrozenAmount(account.getFrozenAmount().add(transaction.getAmount()));
                     }
-                    account.setBalance(account.getBalance().add(transaction.getAmount()));
+                    account.setBalance(account.getBalance().add(positiveProcessing(transaction.getAmount())));
                 }
                 transaction.setTransactionStatus(TransactionStatusEnum.BLOCKED);
                 updateTransaction(transaction.getId(), transaction);
@@ -113,17 +109,21 @@ public class TransactionServiceImpl implements TransactionService {
             Account account = accountService.getAccountById(transactionResultAfterFraudServiceDto.getAccountId());
             Transaction transaction = getTransactionById(transactionResultAfterFraudServiceDto.getTransactionId());
             transaction.setTransactionStatus(TransactionStatusEnum.REJECTED);
-            account.setBalance(account.getBalance().add(transaction.getAmount()));
+            account.setBalance(account.getBalance().add(positiveProcessing(transaction.getAmount())));
             updateTransaction(transaction.getId(), transaction);
             accountService.updateAccount(account.getId(), account);
-            //проверь лучше баланс в фрауд сервисе епта
-            log.info("Transaction rejected,accoun balance updated");
+            log.info("Transaction rejected,account balance updated");
         } else if (transactionResultAfterFraudServiceDto.getTransactionStatus().equals(TransactionStatusEnum.ACCEPTED.toString())) {
             Transaction transaction = getTransactionById(transactionResultAfterFraudServiceDto.getTransactionId());
             transaction.setTransactionStatus(TransactionStatusEnum.ACCEPTED);
             updateTransaction(transaction.getId(), transaction);
             log.info("Transaction completed successfully.");
         }
+    }
+
+    private BigDecimal positiveProcessing(BigDecimal amount) {
+        amount = BigDecimal.ZERO.subtract(amount);
+        return amount;
     }
 
     @Override

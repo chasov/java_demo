@@ -12,9 +12,9 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
-  java_app:
+  transaction-service:
     build:
-      context: ./backend
+      context: ./transaction-service
       dockerfile: Dockerfile
     ports:
       - "8001:8080"
@@ -23,6 +23,20 @@ services:
     depends_on:
       - postgres
     restart: unless-stopped
+
+  fraud-service:
+    build:
+      context: ./fraud-detection-service
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+    depends_on:
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
 
   zookeeper:
     image: confluentinc/cp-zookeeper:5.5.0
@@ -73,12 +87,17 @@ services:
 
   redis:
     image: redis:7.2
-    container_name: redis-service
     restart: always
     ports:
       - "6379:6379"
     volumes:
       - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
 
 volumes:
   postgres_data:

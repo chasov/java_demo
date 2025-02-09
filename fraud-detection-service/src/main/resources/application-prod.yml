@@ -1,11 +1,10 @@
 spring:
   application:
     name: demo
-  redis:
-    connection:
-      factory:
-        host: localhost
-        port: 6379
+  data:
+    redis:
+      host: redis
+      port: 6379
   kafka:
     bootstrap-servers: broker:29092,localhost:9092
     producer:
@@ -22,14 +21,11 @@ logging:
 
 kafka:
   topic:
-    account: t1_demo_accounts
-    transaction: t1_demo_transactions
     transactionAccept: t1_demo_transaction_accept
     transactionResult: t1_demo_transaction_result
   group:
-    accounts: group_accounts
     transactions: group_transactions
 
 transactions:
-  periodSeconds: 100000
-  maxTransactions: 1
+  periodSeconds: 10
+  maxTransactions: 2

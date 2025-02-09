@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
-import ru.t1.java.demo.model.enums.TransactionStatusEnum;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

@@ -5,17 +5,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
-import ru.t1.java.demo.config.KafkaMessageProducer;
 import ru.t1.java.demo.dto.fraud_serviceDto.TransactionResultAfterFraudServiceDto;
 import ru.t1.java.demo.dto.transaction_serviceDto.TransactionDto;
-import ru.t1.java.demo.mapper.TransactionMapper;
-import ru.t1.java.demo.model.Transaction;
-import ru.t1.java.demo.model.enums.AccountStatusEnum;
 import ru.t1.java.demo.service.TransactionService;
-import ru.t1.java.demo.service.impl.TransactionServiceImpl;
 
 @Component
 @Slf4j

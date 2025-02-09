@@ -7,8 +7,9 @@ RUN mvn clean package -Dmaven.test.skip=true
 
 FROM openjdk:17-jdk-slim
 
-WORKDIR /app
+WORKDIR /fraud-service
 
-COPY --from=build target/t1-java-demo-0.0.1-SNAPSHOT.jar ./java-app.jar
+COPY --from=build target/demo-0.0.1-SNAPSHOT.jar ./java-app.jar
+
 
 ENTRYPOINT ["java", "-jar", "./java-app.jar"]

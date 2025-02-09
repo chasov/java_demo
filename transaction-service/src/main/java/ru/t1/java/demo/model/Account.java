@@ -2,7 +2,6 @@ package ru.t1.java.demo.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -35,14 +34,14 @@ public class Account {
 
     private BigDecimal balance;
 
-    @Column(nullable = false,name = "account_status")
+    @Column(nullable = false, name = "account_status")
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private AccountStatusEnum accountStatus = AccountStatusEnum.OPEN;
 
     @Column(nullable = false)
     @Builder.Default
-    private BigDecimal frozenAmount= BigDecimal.valueOf(0);
+    private BigDecimal frozenAmount = BigDecimal.valueOf(0);
 
 /*    @OneToMany(mappedBy = "account",cascade = CascadeType.ALL,orphanRemoval = true)
     private List<Transaction> transactions;*/

@@ -24,5 +24,5 @@ public class TransactionResultAfterFraudServiceDto {
     String transactionStatus;
 
     @Builder.Default
-    int countTransactionForBlocked=0;
+    int countTransactionForBlocked = 0;
 }

@@ -29,7 +29,7 @@ public class KafkaClientConsumer {
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
-        log.debug("Client consumer: Обработка новых сообщений");
+        log.debug("Client consumer: processing new messages");
 
 
         try {
@@ -49,6 +49,6 @@ public class KafkaClientConsumer {
         }
 
 
-        log.debug("Client consumer: записи обработаны");
+        log.debug("Client consumer: records processed");
     }
 }

@@ -1,7 +1,6 @@
 package ru.t1.java.demo.config;
 
 import org.apache.kafka.clients.admin.NewTopic;
-import org.apache.kafka.common.protocol.types.Field;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +25,7 @@ public class KafkaConfig {
 
     @Value("${kafka.topic.transactionResult}")
     private String transactionResultTopic;
+
     @Bean
     public NewTopic metricsTopic() {
         return TopicBuilder.name(metricTopic).build();
@@ -42,7 +42,12 @@ public class KafkaConfig {
     }
 
     @Bean
-    public NewTopic transactionAcceptTopic(){ return TopicBuilder.name(transactionAcceptTopic).build();}
+    public NewTopic transactionAcceptTopic() {
+        return TopicBuilder.name(transactionAcceptTopic).build();
+    }
+
     @Bean
-    public NewTopic transactionResultTopic(){ return TopicBuilder.name(transactionResultTopic).build();}
+    public NewTopic transactionResultTopic() {
+        return TopicBuilder.name(transactionResultTopic).build();
+    }
 }
