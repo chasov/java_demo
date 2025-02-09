@@ -22,7 +22,7 @@ public interface TransactionService {
 
     void registerTransactions(List<TransactionDto> transactions);
 
-    void addToData(TransactionResultDto dto);
+    void updateTransactionStatus(TransactionResultDto dto);
 
     void processing(TransactionDto dto);
 }

@@ -87,6 +87,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new NoSuchElementException("Account with ID " + dto.getAccountId() + " not found"));
 
         if (account.getStatus().equals(AccountStatus.OPEN)) {
+            log.info("Аккаунт с ID={} открыт. Обработка транзакции.", dto.getAccountId());
 
             dto.setStatus(TransactionStatus.REQUESTED);
             dto.setTransactionTime(LocalDateTime.now());
@@ -106,8 +107,8 @@ public class TransactionServiceImpl implements TransactionService {
                     .transactionAmount(transaction.getAmount())
                     .accountBalance(account.getBalance())
                     .build();
-            System.out.println("!!!!!!!!!!!acceptdto" + acceptDto);
 
+            log.info("Отправка транзакции в Kafka для AccountID={} с TransactionID={}", dto.getAccountId(), transaction.getTransactionId());
             kafkaTemplate.send(transactionAcceptTopic, acceptDto);
 
         }
@@ -115,7 +116,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public void addToData(TransactionResultDto dto) {
+    public void updateTransactionStatus(TransactionResultDto dto) {
         Transaction transaction = transactionRepository.findByTransactionId(dto.getTransactionId())
                 .orElseThrow(() -> new NoSuchElementException("Transaction with ID " + dto.getTransactionId() + " not found"));
         Account account = accountRepository.findByAccountId(dto.getAccountId())

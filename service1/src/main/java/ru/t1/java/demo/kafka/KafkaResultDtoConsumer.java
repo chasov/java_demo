@@ -26,19 +26,22 @@ public class KafkaResultDtoConsumer {
             topics = "${t1.kafka.topic.transaction_result}",
             containerFactory = "kafkaTransactionResultListenerContainerFactory")
     public void listener(@Payload
-                         TransactionResultDto dto,
+                         List<TransactionResultDto> messageList,
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.info("TransactionResult consumer: Обработка новых сообщений");
 
-        log.info("Topic: {} , Key: {}", topic, key);
-        System.out.println("!!!!!!!!!!!!!!!!!" + dto);
+        try {
+            log.info("Topic: {} , Key: {}", topic, key);
+            messageList.forEach(transactionService::updateTransactionStatus);
+        } catch (Exception e) {
+            log.error("Ошибка обработки сообщений из топика аккаунтов: {}", e.getMessage(), e);
 
-        transactionService.addToData(dto);
-
-        ack.acknowledge();
-        log.info("TransactionResult consumer: записи обработаны");
+        } finally {
+            ack.acknowledge();
+            log.info("TransactionResult consumer: записи обработаны");
+        }
 
     }
 }

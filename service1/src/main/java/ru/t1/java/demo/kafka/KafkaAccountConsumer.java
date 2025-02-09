@@ -33,13 +33,8 @@ public class KafkaAccountConsumer {
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
         log.info("Account consumer: Обработка новых сообщений");
 
-
         try {
             log.info("Topic: {}Key: {}", topic, key);
-
-            messageList.forEach(msg -> log.info("Received message: {}", msg));
-
-
             accountService.registerAccount(messageList);
 
         } catch (Exception e) {
