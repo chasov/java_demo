@@ -9,10 +9,12 @@ import ru.t1.java.demo.model.Transaction;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 /**
  * DTO for {@link Transaction}
  */
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +25,7 @@ public class TransactionDto {
     @JsonProperty(value = "amount")
     private BigDecimal amount;
     @JsonProperty(value = "transaction_date")
-    private String transactionDate;
+    private LocalDateTime transactionDate;
     @JsonProperty(value = "transaction_status")
     private TransactionStatus status;
     @JsonProperty(value = "account_id")

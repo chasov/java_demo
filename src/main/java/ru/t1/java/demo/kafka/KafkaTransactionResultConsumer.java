@@ -17,14 +17,14 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 @Component
-public class KafkaTransactionConsumer {
+public class KafkaTransactionResultConsumer {
     private final TransactionService transactionService;
 
-    @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction}",
-            topics = "${t1.kafka.topic.transaction_registration}",
-            containerFactory = "kafkaTransactionListenerContainerFactory")
+    @KafkaListener(id = "${t1.kafka.consumer.group-id-result}",
+            topics = "${t1.kafka.topic.transaction_result}",
+            containerFactory = "kafkaTransactionForAcceptListenerContainerFactory")
     public void listener(@Payload
-                         List<TransactionDto> messageList,
+                         List<ResponseTransactionDto> messageList,
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
@@ -33,7 +33,7 @@ public class KafkaTransactionConsumer {
         try {
             log.error("Topic : {}", topic);
             log.error("Key : {}", key);
-            List<ResponseTransactionDto> list = transactionService.validateAndProcessTransaction(messageList);
+            List<TransactionDto> list = transactionService.saveResultTransactions(messageList);
             log.info("Сообщения {} сохранены в базу",list.toString());
         } finally {
             ack.acknowledge();

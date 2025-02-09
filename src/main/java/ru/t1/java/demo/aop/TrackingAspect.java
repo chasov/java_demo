@@ -39,7 +39,7 @@ public class TrackingAspect {
         long beforeTime = System.currentTimeMillis();
         Object result = null;
         try {
-            result = pJoinPoint.proceed();//Important
+            result = pJoinPoint.proceed();
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }

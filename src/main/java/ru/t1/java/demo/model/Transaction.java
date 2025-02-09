@@ -5,6 +5,7 @@ import lombok.*;
 import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -21,7 +22,7 @@ public class Transaction  {
     @Column(name = "amount")
     private BigDecimal amount;
     @Column(name = "transaction_date")
-    private String transactionDate;
+    private LocalDateTime transactionDate;
     @Enumerated(EnumType.STRING)
     @Column(name = "transaction_status")
     private TransactionStatus status;

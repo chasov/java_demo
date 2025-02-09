@@ -5,8 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.t1.java.demo.model.enums.TransactionStatus;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+
 
 @Data
 @AllArgsConstructor
@@ -17,7 +20,8 @@ public class ResponseTransactionDto {
     Long clientId;
     Long accountId;
     Long transactionId;
-    String timestamp;
+    LocalDateTime timestamp;
     BigDecimal amount;
     BigDecimal balance;
+    TransactionStatus status;
 }

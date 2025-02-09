@@ -26,6 +26,8 @@ public class Account {
     private AccountType accountType;
     @Column(name = "balance")
     private BigDecimal balance;
+    @Column(name = "frozen_balance")
+    private BigDecimal frozenBalance = BigDecimal.ZERO;
     @Enumerated(EnumType.STRING)
     @Column(name = "account_status")
     private AccountStatus accountStatus;

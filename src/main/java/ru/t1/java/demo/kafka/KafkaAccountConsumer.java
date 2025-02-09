@@ -10,9 +10,7 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.AccountDto;
-import ru.t1.java.demo.dto.ClientDto;
 import ru.t1.java.demo.service.AccountService;
-import ru.t1.java.demo.util.AccountMapper;
 
 import java.util.List;
 

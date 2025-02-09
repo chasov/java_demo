@@ -27,6 +27,8 @@ public class AccountDto {
     private AccountType accountType;
     @JsonProperty(value = "balance")
     private BigDecimal balance;
+    @JsonProperty("frozen_balance")
+    private BigDecimal frozenBalance;
     @JsonProperty(value = "account_status")
     private AccountStatus accountStatus;
     @JsonProperty(value = "client_id")

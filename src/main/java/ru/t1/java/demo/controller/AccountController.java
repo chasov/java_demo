@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.repository.AccountRepository;
 import ru.t1.java.demo.service.AccountService;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package ru.t1.java.demo.kafka;
+package ru.t1.java.demo.acceptTransactions.kafka;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,31 +9,28 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 import ru.t1.java.demo.dto.ResponseTransactionDto;
-import ru.t1.java.demo.dto.TransactionDto;
-import ru.t1.java.demo.service.TransactionService;
+import ru.t1.java.demo.acceptTransactions.TransactionValidateService;
 
 import java.util.List;
 
 @Slf4j
-@RequiredArgsConstructor
 @Component
-public class KafkaTransactionConsumer {
-    private final TransactionService transactionService;
+@RequiredArgsConstructor
+public class KafkaAcceptTransactionConsumer {
+    private final TransactionValidateService transactionService;
 
-    @KafkaListener(id = "${t1.kafka.consumer.group-id-transaction}",
-            topics = "${t1.kafka.topic.transaction_registration}",
-            containerFactory = "kafkaTransactionListenerContainerFactory")
+    @KafkaListener(id = "${t1.kafka.consumer.group-id-accept}",
+            topics = "${t1.kafka.topic.transaction_accept}",
+            containerFactory = "kafkaTransactionForAcceptListenerContainerFactory")
     public void listener(@Payload
-                         List<TransactionDto> messageList,
+                         List<ResponseTransactionDto> messageList,
                          Acknowledgment ack,
                          @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                          @Header(KafkaHeaders.RECEIVED_KEY) String key) {
 
-        log.debug("Transaction consumer: Обработка новых сообщений");
+        log.debug("Client consumer: Обработка новых сообщений");
         try {
-            log.error("Topic : {}", topic);
-            log.error("Key : {}", key);
-            List<ResponseTransactionDto> list = transactionService.validateAndProcessTransaction(messageList);
+            List<ResponseTransactionDto> list = transactionService.processTransactions(messageList);
             log.info("Сообщения {} сохранены в базу",list.toString());
         } finally {
             ack.acknowledge();

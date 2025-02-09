@@ -1,11 +1,8 @@
 package ru.t1.java.demo.service;
 
-import org.springframework.data.domain.Page;
 import ru.t1.java.demo.dto.AccountDto;
 import ru.t1.java.demo.model.Account;
-import ru.t1.java.demo.model.Client;
 
-import java.awt.print.Pageable;
 import java.io.IOException;
 import java.util.List;
 

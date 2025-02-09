@@ -2,6 +2,11 @@ version: '1.0'
 
 services:
 
+  redis:
+    image: redis:7.0.12
+    ports:
+      - "6379:6379"
+
   postgres:
     image: postgres:11.13
     container_name: t1_java_demo

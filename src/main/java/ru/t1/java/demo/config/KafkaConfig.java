@@ -17,6 +17,7 @@ import org.springframework.kafka.support.serializer.ErrorHandlingDeserializer;
 import org.springframework.kafka.support.serializer.JsonDeserializer;
 import org.springframework.util.backoff.FixedBackOff;
 import ru.t1.java.demo.dto.AccountDto;
+import ru.t1.java.demo.dto.ResponseTransactionDto;
 import ru.t1.java.demo.dto.TransactionDto;
 import ru.t1.java.demo.kafka.MessageDeserializer;
 
@@ -33,6 +34,9 @@ public class KafkaConfig {
     @Value("${t1.kafka.consumer.group-id-transaction}")
     private String transactionGroupId;
 
+    @Value("${t1.kafka.consumer.group-id-accept}")
+    private String transactionForAcceptGroupId;
+
     @Value("${t1.kafka.bootstrap.server}")
     private String servers;
 
@@ -46,6 +50,12 @@ public class KafkaConfig {
     public <T> ConsumerFactory<String, TransactionDto> consumerTransactionListenerFactory() {
         DefaultKafkaConsumerFactory<String, TransactionDto> factory = new DefaultKafkaConsumerFactory<>(
                 consumerFactoryProperty("ru.t1.java.demo.dto.TransactionDto", transactionGroupId));
+        factory.setKeyDeserializer(new StringDeserializer());
+        return factory;
+    }
+    public <T> ConsumerFactory<String, ResponseTransactionDto> consumerTransactionForAcceptListenerFactory() {
+        DefaultKafkaConsumerFactory<String, ResponseTransactionDto> factory = new DefaultKafkaConsumerFactory<>(
+                consumerFactoryProperty("ru.t1.java.demo.dto.ResponseTransactionDto", transactionForAcceptGroupId));
         factory.setKeyDeserializer(new StringDeserializer());
         return factory;
     }
@@ -77,6 +87,12 @@ public class KafkaConfig {
     public ConcurrentKafkaListenerContainerFactory<String, TransactionDto> kafkaTransactionListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, TransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factoryBuilder(consumerTransactionListenerFactory(), factory);
+        return factory;
+    }
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ResponseTransactionDto> kafkaTransactionForAcceptListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ResponseTransactionDto> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factoryBuilder(consumerTransactionForAcceptListenerFactory(), factory);
         return factory;
     }
 
